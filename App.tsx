@@ -5,16 +5,17 @@ import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import SplashScreen from 'react-native-splash-screen';
 
 import LangProvider, { LangModeProvider } from './src/lang/LangProvider';
-import Overview from './views/authenticated/overview/Overview';
 import { colors } from './src/styles';
+import { RootStackParamList } from './views/navigation/Navigation'
+
+import Overview from './views/authenticated/overview/Overview';
+import OnBoarding from './views/auth/onboarding/OnBoarding';
+import Routes from './views/navigation';
 
 
 
 
 function App() {
-
-  const Stack = createNativeStackNavigator();
-
   useEffect(() => {
     SplashScreen.hide();
   }, []);
@@ -27,14 +28,7 @@ function App() {
       />
       <LangModeProvider>
         <LangProvider>
-          <NavigationContainer>
-            <Stack.Navigator>
-              <Stack.Screen
-                name='Overview'
-                component={Overview}
-              />
-            </Stack.Navigator>
-          </NavigationContainer>
+          <Routes />
         </LangProvider>
       </LangModeProvider>
     </>
