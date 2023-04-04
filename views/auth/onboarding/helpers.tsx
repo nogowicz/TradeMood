@@ -86,9 +86,7 @@ export function preparePages({
             ),
             submitButtonAction: handleNextPage,
             action: (
-                <IconButton
-                    onPress={handleBack}
-                >
+                <IconButton onPress={handleBack}>
                     <GoBack />
                 </IconButton>
             ),
@@ -117,11 +115,9 @@ export function preparePages({
                     id='views.auth.onboarding.up-to-date.join'
                 />
             ),
-            submitButtonAction: handleNextPage,
+            submitButtonAction: () => navigation.navigate(SCREENS.AUTH.WELCOME.ID),
             action: (
-                <IconButton
-                    onPress={handleBack}
-                >
+                <IconButton onPress={handleBack}>
                     <GoBack />
                 </IconButton>
             ),

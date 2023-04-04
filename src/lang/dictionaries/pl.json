@@ -9,5 +9,11 @@
 	"views.auth.onboarding.skip": "Pomiń",
 	"views.auth.onboarding.up-to-date.join": "Dołącz",
 	"views.auth.onboarding.up-to-date.subtitle": "Otrzymuj codzienne powiadomienia i analizy, aby wiedzieć, jakie są trendy na rynku.",
-	"views.auth.onboarding.up-to-date.title": "Bądź na bieżąco z nastrojami na rynku finansowym"
+	"views.auth.onboarding.up-to-date.title": "Bądź na bieżąco z nastrojami na rynku finansowym",
+	"views.auth.welcome.first-part-text": "Otrzymuj najświeższe informacje o rynku finansowym:",
+	"views.auth.welcome.later": "Później",
+	"views.auth.welcome.login": "Zaloguj",
+	"views.auth.welcome.second-part-text": " Zaloguj się lub utwórz konto ",
+	"views.auth.welcome.signup": "Zarejestruj",
+	"views.auth.welcome.third-part-text": "aby otrzymywać najświeższe informacje o nastrojach rynkowych i innych istotnych wydarzeniach rynkowych."
 }

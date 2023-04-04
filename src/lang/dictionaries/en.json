@@ -9,5 +9,11 @@
 	"views.auth.onboarding.skip": "Skip",
 	"views.auth.onboarding.up-to-date.join": "Join",
 	"views.auth.onboarding.up-to-date.subtitle": "Receive daily notifications and analysis to know what the trends are on the market.",
-	"views.auth.onboarding.up-to-date.title": "Stay up-to-date with the sentiment of the financial market"
+	"views.auth.onboarding.up-to-date.title": "Stay up-to-date with the sentiment of the financial market",
+	"views.auth.welcome.first-part-text": "Get the latest information about the financial market:",
+	"views.auth.welcome.later": "Later",
+	"views.auth.welcome.login": "Login",
+	"views.auth.welcome.second-part-text": " Log in or create an account ",
+	"views.auth.welcome.signup": "Sign Up",
+	"views.auth.welcome.third-part-text": "to receive the latest information about market sentiment and other significant market events."
 }
