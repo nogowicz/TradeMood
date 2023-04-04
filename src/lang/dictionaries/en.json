@@ -1,3 +1,13 @@
 {
-    "hello": "hello"
+	"hello": "hello",
+	"views.auth.onboarding.all-in-one.get-started": "Get Started",
+	"views.auth.onboarding.all-in-one.subtitle": "Our app provides you with all the most important information about the sentiment of the financial market in one place.",
+	"views.auth.onboarding.all-in-one.title": "Don't waste time searching through hundreds of financial pages",
+	"views.auth.onboarding.learn-about.continue": "Continue",
+	"views.auth.onboarding.learn-about.subtitle": "See what experts are saying and what the forecasts are for the next few days, weeks, and months.",
+	"views.auth.onboarding.learn-about.title": "Learn about the sentiment of the financial market",
+	"views.auth.onboarding.skip": "Skip",
+	"views.auth.onboarding.up-to-date.join": "Join",
+	"views.auth.onboarding.up-to-date.subtitle": "Receive daily notifications and analysis to know what the trends are on the market.",
+	"views.auth.onboarding.up-to-date.title": "Stay up-to-date with the sentiment of the financial market"
 }

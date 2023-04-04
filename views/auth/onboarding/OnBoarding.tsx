@@ -1,32 +1,59 @@
-import { SafeAreaView, StyleSheet, View, Button } from 'react-native'
+import { Dispatch, SetStateAction, useState } from 'react';
+import {
+    FlexAlignType,
+    SafeAreaView,
+    StyleSheet,
+    View,
+} from 'react-native'
 
 import type { NativeStackNavigationProp } from '@react-navigation/native-stack';
-import { spacing } from '../../../src/styles';
+import { colors, spacing } from '../../../src/styles';
 import { RootStackParamList } from '../../navigation/Navigation';
-import { SCREENS } from '../../navigation/constants';
 
-type OnBoardingScreenNavigationProp = NativeStackNavigationProp<RootStackParamList, 'ONBOARDING'>;
+
+import Panel from './panel';
+import { preparePages } from './helpers';
+
+export type OnBoardingScreenNavigationProp = NativeStackNavigationProp<RootStackParamList, 'ONBOARDING'>;
+
+
+
+type PageType = {
+    id: string;
+    title: JSX.Element;
+    icon: JSX.Element;
+    subTitle: JSX.Element;
+    submitButtonLabel: JSX.Element;
+    submitButtonAction: Dispatch<SetStateAction<number>>;
+    action: JSX.Element;
+    actionPosition: FlexAlignType;
+};
+
+export type PagesArrayType = PageType[];
 
 type OnBoardingProps = {
     navigation: OnBoardingScreenNavigationProp;
 }
 
 export default function OnBoarding({ navigation }: OnBoardingProps) {
-    return (
-        <SafeAreaView>
-            <View>
-                <Button
-                    title='Go to Login'
-                    onPress={() => {
-                        navigation.navigate(SCREENS.AUTH.LOGIN.ID)
-                    }}
-                />
+    const [page, setPage] = useState(0);
 
-                <Button
-                    title='Go to Signup'
-                    onPress={() => {
-                        navigation.navigate(SCREENS.AUTH.SIGN_UP.ID)
-                    }}
+    function handleNextPage() {
+        setPage(prevPage => prevPage + 1);
+    }
+    function handleBack() {
+        setPage(prevPage => prevPage - 1);
+    }
+
+    const pages: PagesArrayType = preparePages({ navigation, handleBack, handleNextPage })
+
+    return (
+        <SafeAreaView style={styles.root}>
+            <View style={styles.container}>
+                <Panel
+                    {...pages[page]}
+                    page={page}
+                    pages={pages}
                 />
             </View>
         </SafeAreaView>
@@ -39,8 +66,10 @@ const styles = StyleSheet.create({
     },
     container: {
         flex: 1,
-        paddingHorizontal: spacing.SCALE_18,
+        paddingHorizontal: spacing.SCALE_20,
         paddingVertical: spacing.SCALE_18,
         justifyContent: 'space-between',
+        backgroundColor: colors.LIGHT_COLORS.BACKGROUND,
     },
+
 });
