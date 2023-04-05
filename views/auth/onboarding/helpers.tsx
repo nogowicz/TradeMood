@@ -56,7 +56,7 @@ export function preparePages({
                             id='views.auth.onboarding.skip'
                         />
                     }
-                    onPress={() => navigation.navigate(SCREENS.AUTH.LOGIN.ID)}
+                    onPress={() => navigation.navigate(SCREENS.AUTH.WELCOME.ID)}
                 />
             ),
             actionPosition: 'flex-end' as FlexAlignType

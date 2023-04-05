@@ -10,14 +10,18 @@ import { FormattedMessage } from 'react-intl';
 
 import { RootStackParamList } from '@views/navigation/Navigation';
 import { colors, spacing, typography } from 'styles';
+import { useContext } from 'react';
+import { AuthContext } from '@views/navigation/AuthProvider';
 
-import TextButton from 'components/buttons/text-button/TextButton';
 
+import TextButton from 'components/buttons/text-button';
 import GoBack from 'assets/icons/Go-back.svg';
 import LargeLogo from 'assets/logo/logo-bigger.svg'
-import SubmitButton from 'components/buttons/submit-button/SubmitButton';
+import SubmitButton from 'components/buttons/submit-button';
 import { SCREENS } from '@views/navigation/constants';
 import OutlinedButton from 'components/buttons/outlined-button';
+
+
 
 type WelcomeScreenNavigationProp = NativeStackScreenProps<RootStackParamList, 'Welcome'>;
 
@@ -26,6 +30,8 @@ type WelcomeProps = {
 }
 
 export default function Welcome({ navigation }: WelcomeProps) {
+    const { signInAnonymously } = useContext(AuthContext);
+
     return (
         <SafeAreaView style={styles.root}>
             <View style={styles.container}>
@@ -40,7 +46,7 @@ export default function Welcome({ navigation }: WelcomeProps) {
                                 id='views.auth.welcome.later'
                             />
                         }
-                        onPress={() => console.log("Navigating to user screen")}
+                        onPress={() => signInAnonymously()}
                     />
                 </View>
                 <View style={styles.iconButton}>

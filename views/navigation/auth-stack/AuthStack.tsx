@@ -9,6 +9,7 @@ import Welcome from '../../auth/welcome';
 
 export default function AuthStack() {
     const Stack = createNativeStackNavigator();
+
     return (
         <Stack.Navigator
             initialRouteName={SCREENS.AUTH.ONBOARDING.ID}
