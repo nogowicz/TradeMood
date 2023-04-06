@@ -15,5 +15,8 @@
 	"views.auth.welcome.login": "Zaloguj",
 	"views.auth.welcome.second-part-text": " Zaloguj się lub utwórz konto ",
 	"views.auth.welcome.signup": "Zarejestruj",
-	"views.auth.welcome.third-part-text": "aby otrzymywać najświeższe informacje o nastrojach rynkowych i innych istotnych wydarzeniach rynkowych."
+	"views.auth.welcome.third-part-text": "aby otrzymywać najświeższe informacje o nastrojach rynkowych i innych istotnych wydarzeniach rynkowych.",
+	"views.auth.signup.signup": "Zarejestruj Się",
+	"views.auth.signup.subtitle-first-part": "Cześć! Podaj nam swoje dane, abyśmy mogli spersonalizować Twoją aplikację.",
+	"views.auth.signup.submit-button-continue": "Kontynuuj"
 }

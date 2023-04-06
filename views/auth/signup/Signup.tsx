@@ -1,9 +1,16 @@
 import { NativeStackScreenProps } from '@react-navigation/native-stack';
-import { View, Text } from 'react-native'
+import {
+    SafeAreaView,
+    Text,
+    StyleSheet,
+    View
+} from 'react-native'
 import { RootStackParamList } from '../../navigation/Navigation';
 import { useContext } from 'react';
 import { AuthContext } from '@views/navigation/AuthProvider';
 import SubmitButton from 'components/buttons/submit-button/SubmitButton';
+import { spacing } from 'styles';
+import SignupPanel from './signup-panel/SignupPanel';
 
 type SignupScreenNavigationProp = NativeStackScreenProps<RootStackParamList, 'Signup'>;
 
@@ -15,12 +22,26 @@ export default function Signup({ navigation }: SignupProps) {
     const { register } = useContext(AuthContext);
 
     return (
-        <View>
-            <Text>SignupScreen</Text>
-            <SubmitButton
-                label='Register'
-                onPress={() => register('xxx@xx.com', 'haslomaslo')}
-            />
-        </View>
+        <SafeAreaView style={styles.root}>
+            <View style={styles.container}>
+                <SignupPanel />
+            </View>
+
+        </SafeAreaView>
     );
 };
+
+const styles = StyleSheet.create({
+    root: {
+        height: '100%',
+    },
+    container: {
+        flex: 1,
+        paddingHorizontal: spacing.SCALE_18,
+        paddingVertical: spacing.SCALE_18,
+        justifyContent: 'space-between',
+    },
+    actionContainer: {
+        alignItems: 'flex-end',
+    },
+});

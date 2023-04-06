@@ -15,5 +15,8 @@
 	"views.auth.welcome.login": "Login",
 	"views.auth.welcome.second-part-text": " Log in or create an account ",
 	"views.auth.welcome.signup": "Sign Up",
-	"views.auth.welcome.third-part-text": "to receive the latest information about market sentiment and other significant market events."
+	"views.auth.welcome.third-part-text": "to receive the latest information about market sentiment and other significant market events.",
+	"views.auth.signup.signup": "Sign Up",
+	"views.auth.signup.subtitle-first-part": "Hi there! Please provide us with your information so we can personalize your experience.",
+	"views.auth.signup.submit-button-continue": "Continue"
 }
