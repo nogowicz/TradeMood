@@ -18,5 +18,6 @@
 	"views.auth.welcome.third-part-text": "to receive the latest information about market sentiment and other significant market events.",
 	"views.auth.signup.signup": "Sign Up",
 	"views.auth.signup.subtitle-first-part": "Hi there! Please provide us with your information so we can personalize your experience.",
-	"views.auth.signup.submit-button-continue": "Continue"
+	"views.auth.signup.submit-button-continue": "Continue",
+	"views.auth.signup.subtitle-second-part": "Add profile picture (optional): You can add a profile picture to personalize your account."
 }

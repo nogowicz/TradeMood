@@ -51,8 +51,12 @@ export default function IconButton({
 const styles = StyleSheet.create({
     container: {
         borderWidth: 1,
+        width: 42,
+        height: 42,
+        justifyContent: 'center',
+        alignItems: 'center',
         borderColor: colors.LIGHT_COLORS.LIGHT_HINT,
-        borderRadius: spacing.SCALE_20,
+        borderRadius: 42 / 2,
         padding: spacing.SCALE_8,
     }
 });

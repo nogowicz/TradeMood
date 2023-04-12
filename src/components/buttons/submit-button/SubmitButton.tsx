@@ -15,7 +15,8 @@ type SubmitButtonProps = {
     label: ReactNode,
     activeOpacity?: number,
     onPress: Dispatch<SetStateAction<number>> | (any),
-    isChevronDisplayed?: boolean
+    isChevronDisplayed?: boolean,
+    disabled?: boolean,
 }
 
 export default function SubmitButton({
@@ -23,12 +24,13 @@ export default function SubmitButton({
     activeOpacity = 0.75,
     onPress,
     isChevronDisplayed = false,
+    disabled = false
 }: SubmitButtonProps) {
     return (
         <TouchableOpacity
             activeOpacity={activeOpacity}
-            onPress={onPress}
-            style={styles.container}
+            onPress={disabled ? null : onPress}
+            style={[styles.container, disabled ? styles.disabled : {}]}
         >
             <View style={styles.actionLeftContainer} />
             <Text style={[styles.label]}>{label}</Text>
@@ -63,5 +65,8 @@ const styles = StyleSheet.create({
     actionRightContainer: {
         flex: 1,
         alignItems: 'flex-end',
-    }
+    },
+    disabled: {
+        opacity: 0.75
+    },
 });

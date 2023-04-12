@@ -1,30 +1,60 @@
-import { NativeStackScreenProps } from '@react-navigation/native-stack';
+import { NativeStackNavigationProp } from '@react-navigation/native-stack';
 import {
     SafeAreaView,
-    Text,
     StyleSheet,
     View
 } from 'react-native'
 import { RootStackParamList } from '../../navigation/Navigation';
-import { useContext } from 'react';
+import { Dispatch, SetStateAction, useContext, useState } from 'react';
 import { AuthContext } from '@views/navigation/AuthProvider';
-import SubmitButton from 'components/buttons/submit-button/SubmitButton';
-import { spacing } from 'styles';
+import { colors, spacing } from 'styles';
 import SignupPanel from './signup-panel/SignupPanel';
+import { prepareSignupPages } from './helpers';
 
-type SignupScreenNavigationProp = NativeStackScreenProps<RootStackParamList, 'Signup'>;
+type SignupPageType = {
+    id: string;
+    action: JSX.Element;
+    logo: JSX.Element;
+    title: JSX.Element;
+    subTitle: JSX.Element;
+    mainContent: JSX.Element;
+    buttonLabel: JSX.Element;
+    buttonAction: Dispatch<SetStateAction<number>> | any;
+};
+
+export type SignupPagesArrayType = SignupPageType[];
+
+
+export type SignupScreenNavigationProp = NativeStackNavigationProp<RootStackParamList, 'SIGN_UP'>;
 
 type SignupProps = {
-    navigation: SignupScreenNavigationProp['navigation']
+    navigation: SignupScreenNavigationProp
 }
+
 
 export default function Signup({ navigation }: SignupProps) {
     const { register } = useContext(AuthContext);
+    const [page, setPage] = useState(0);
+
+    function handleNextPage() {
+        setPage(prevPage => prevPage + 1);
+    }
+    function handleBack() {
+        setPage(prevPage => prevPage - 1);
+    }
+
+    const pages: SignupPagesArrayType = prepareSignupPages({ navigation, handleBack, handleNextPage });
+
 
     return (
         <SafeAreaView style={styles.root}>
             <View style={styles.container}>
-                <SignupPanel />
+                <SignupPanel
+                    {...pages[page]}
+                    page={page}
+                    pages={pages}
+
+                />
             </View>
 
         </SafeAreaView>
@@ -40,6 +70,7 @@ const styles = StyleSheet.create({
         paddingHorizontal: spacing.SCALE_18,
         paddingVertical: spacing.SCALE_18,
         justifyContent: 'space-between',
+        backgroundColor: colors.LIGHT_COLORS.BACKGROUND,
     },
     actionContainer: {
         alignItems: 'flex-end',

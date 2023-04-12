@@ -3,107 +3,68 @@ import {
     StyleSheet,
     Text,
 } from 'react-native';
+import { Dispatch, SetStateAction } from 'react';
 
-import { FormattedMessage } from 'react-intl';
 import { colors, spacing, typography } from 'styles';
-import { Controller, useForm } from 'react-hook-form';
-import { yupResolver } from "@hookform/resolvers/yup";
-import { schema } from '../signUpValidationSchema';
-
-import GoBack from 'assets/icons/Go-back.svg';
-import SmallLogo from 'assets/logo/logo-smaller.svg';
-import IconButton from 'components/buttons/icon-button';
-import Person from 'assets/icons/Person.svg';
-
 
 import SubmitButton from 'components/buttons/submit-button';
-import TextField from 'components/text-field';
+import { SignupPagesArrayType } from '../Signup';
+import Pagination from 'components/pagination/Pagination';
 
-export default function SignupPanel() {
 
-    const { control, handleSubmit, formState: { errors } } = useForm({
-        resolver: yupResolver(schema)
-    });
+type SignupPanelProps = {
+    id: string;
+    action: JSX.Element;
+    logo: JSX.Element;
+    title: JSX.Element;
+    subTitle: JSX.Element;
+    mainContent: JSX.Element;
+    buttonLabel: JSX.Element;
+    buttonAction: Dispatch<SetStateAction<number>>;
+    page: number;
+    pages: SignupPagesArrayType;
+}
 
+export default function SignupPanel({
+    id,
+    action,
+    logo,
+    title,
+    subTitle,
+    mainContent,
+    buttonLabel,
+    buttonAction,
+    page,
+    pages
+}: SignupPanelProps) {
     return (
         <>
             <View>
                 <View style={styles.actionContainer}>
                     <View style={styles.actionContainerComponent} >
-                        <IconButton onPress={() => { }}>
-                            <GoBack />
-                        </IconButton>
+                        {action}
                     </View>
-                    <SmallLogo />
+                    {logo}
                     <View style={styles.actionContainerComponent} />
                 </View>
                 <View style={styles.textContainer}>
                     <Text style={styles.title}>
-                        <FormattedMessage
-                            defaultMessage='Sign Up'
-                            id='views.auth.signup.signup'
-                        />
+                        {title}
                     </Text>
                     <Text style={styles.subTitle}>
-                        <FormattedMessage
-                            defaultMessage='Hi there! Please provide us with your information so we can personalize your experience.'
-                            id='views.auth.signup.subtitle-first-part'
-                        />
+                        {subTitle}
                     </Text>
                 </View>
-                <View style={styles.textFieldsContainer}>
-                    <Controller
-                        name='First Name'
-                        rules={{
-                            required: true,
-                        }}
-                        defaultValue=''
-                        control={control}
-                        render={({ field: { onChange, onBlur, value } }) => {
-                            return (
-                                <TextField
-                                    label='First Name'
-                                    placeholder='John'
-                                    value={value}
-                                    onBlur={onBlur}
-                                    onChangeText={onChange}
-                                    error={errors.firstName}
-                                >
-                                    <Person />
-                                </TextField>
-
-                            )
-                        }}
-                    />
-                    <Controller
-                        name='Last Name'
-                        defaultValue=''
-                        control={control}
-                        render={({ field: { onChange, onBlur, value } }) => (
-                            <TextField
-                                label='Last Name'
-                                placeholder='Doe'
-                                value={value}
-                                onBlur={onBlur}
-                                onChangeText={onChange}
-                                error={errors.lastName}
-                            >
-                                <Person />
-                            </TextField>
-                        )}
-                    />
+                <View style={styles.mainContent}>
+                    {mainContent}
                 </View>
+                <Pagination activePage={page} pages={pages} />
             </View>
             <View>
                 <SubmitButton
                     isChevronDisplayed
-                    label={
-                        <FormattedMessage
-                            defaultMessage='Continue'
-                            id='views.auth.signup.submit-button-continue'
-                        />
-                    }
-                    onPress={() => { }}
+                    label={buttonLabel}
+                    onPress={buttonAction}
                 />
             </View>
         </>
@@ -116,7 +77,7 @@ const styles = StyleSheet.create({
         justifyContent: 'space-between',
     },
     actionContainerComponent: {
-        flex: 1 / 3
+        flex: 1 / 5
     },
     textContainer: {
         justifyContent: 'center',
@@ -137,7 +98,7 @@ const styles = StyleSheet.create({
         color: colors.LIGHT_COLORS.TERTIARY,
         textAlign: 'center',
     },
-    textFieldsContainer: {
+    mainContent: {
         marginBottom: spacing.SCALE_20,
     }
 });

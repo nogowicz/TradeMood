@@ -3,9 +3,10 @@ import React from 'react'
 import { View, StyleSheet } from 'react-native'
 import { colors, spacing } from '../../styles';
 import { PagesArrayType } from '../../../views/auth/onboarding/OnBoarding';
+import { SignupPagesArrayType } from '@views/auth/signup/Signup';
 
 type PaginationProps = {
-    pages: PagesArrayType
+    pages: PagesArrayType | SignupPagesArrayType,
     activePage: number
 }
 
