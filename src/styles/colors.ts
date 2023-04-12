@@ -5,4 +5,5 @@ export const LIGHT_COLORS = {
   QUATERNARY: '#FAFAFA',
   BACKGROUND: '#FFFFFF',
   HINT: '#828282',
+  LIGHT_HINT: '#EAEAEA',
 };

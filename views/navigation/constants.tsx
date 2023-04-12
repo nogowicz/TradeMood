@@ -9,6 +9,9 @@ export const SCREENS = {
     ONBOARDING: {
       ID: 'ONBOARDING',
     },
+    WELCOME: {
+      ID: 'WELCOME',
+    },
   },
 
   HOME: {

@@ -1,18 +1,26 @@
 import { ReactNode, createContext, useState } from "react";
+import auth, { FirebaseAuthTypes } from '@react-native-firebase/auth';
 
-type User = {
-    name: string;
-    email: string;
-}
+
 
 type AuthContextType = {
-    user: User | null;
-    setUser: React.Dispatch<React.SetStateAction<User | null>>;
+    user: FirebaseAuthTypes.User | null;
+    setUser: React.Dispatch<React.SetStateAction<FirebaseAuthTypes.User | null>>;
+    login: (email: string, password: string) => Promise<void>;
+    register: (email: string, password: string) => Promise<void>;
+    logout: () => Promise<void>;
+    resetPassword: (email: string) => Promise<void>;
+    signInAnonymously: () => Promise<void>;
 }
 
 export const AuthContext = createContext<AuthContextType>({
     user: null,
-    setUser: () => { }
+    setUser: () => { },
+    login: async () => { },
+    register: async () => { },
+    logout: async () => { },
+    resetPassword: async () => { },
+    signInAnonymously: async () => { },
 });
 
 
@@ -23,13 +31,46 @@ type AuthProviderProps = {
 
 
 export function AuthProvider({ children }: AuthProviderProps) {
-    const [user, setUser] = useState<User | null>(null);
-
-    console.log('AuthProvider user:', user);
+    const [user, setUser] = useState<FirebaseAuthTypes.User | null>(null);
 
     return <AuthContext.Provider
         value={{
             user,
-            setUser
+            setUser,
+            login: async (email: string, password: string) => {
+                try {
+                    await auth().signInWithEmailAndPassword(email, password);
+                } catch (error) {
+                    console.log(error);
+                }
+            },
+            register: async (email: string, password: string) => {
+                try {
+                    await auth().createUserWithEmailAndPassword(email, password);
+                } catch (error) {
+                    console.log(error);
+                }
+            },
+            logout: async () => {
+                try {
+                    await auth().signOut();
+                } catch (error) {
+                    console.log(error);
+                }
+            },
+            resetPassword: async (email: string) => {
+                try {
+                    await auth().sendPasswordResetEmail(email);
+                } catch (error) {
+                    console.log(error);
+                }
+            },
+            signInAnonymously: async () => {
+                try {
+                    await auth().signInAnonymously();
+                } catch (error) {
+                    console.log(error);
+                }
+            }
         }}>{children}</AuthContext.Provider>
 }
