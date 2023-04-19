@@ -20,17 +20,22 @@ import { spacing } from "styles";
 type PrepareSignupPagesType = {
     navigation: SignupScreenNavigationProp,
     handleBack: Dispatch<SetStateAction<number>>,
-    handleNextPage: Dispatch<SetStateAction<number>>
+    handleNextPage: Dispatch<SetStateAction<number>>,
+    handlePageWithError: Function,
 }
 
 export function prepareSignupPages({
     navigation,
     handleBack,
     handleNextPage,
+    handlePageWithError,
 }: PrepareSignupPagesType) {
+
     const { control, handleSubmit, formState: { errors } } = useForm({
         resolver: yupResolver(schema)
     });
+
+    const onSubmit = (data: any) => console.log(data);
 
     return [
         {
@@ -58,7 +63,7 @@ export function prepareSignupPages({
             mainContent: (
                 <>
                     <Controller
-                        name='First Name'
+                        name='firstName'
                         rules={{
                             required: true,
                         }}
@@ -68,11 +73,10 @@ export function prepareSignupPages({
                             return (
                                 <TextField
                                     label='First Name'
-                                    maxLength={25}
                                     placeholder='John'
                                     value={value}
                                     onBlur={onBlur}
-                                    onChangeText={(value: string) => onChange(value)}
+                                    onChangeText={onChange}
                                     error={errors.firstName}
                                 >
                                     <Person />
@@ -83,18 +87,17 @@ export function prepareSignupPages({
                     />
 
                     <Controller
-                        name='Last Name'
+                        name='lastName'
                         defaultValue=''
                         control={control}
                         render={({ field: { onChange, onBlur, value } }) => {
                             return (
                                 <TextField
                                     label='Last Name'
-                                    maxLength={25}
                                     placeholder='Doe'
                                     value={value}
                                     onBlur={onBlur}
-                                    onChangeText={(value: string) => onChange(value)}
+                                    onChangeText={onChange}
                                     error={errors.lastName}
                                 >
                                     <Person />
@@ -110,11 +113,8 @@ export function prepareSignupPages({
                     id='views.auth.signup.submit-button-continue'
                 />
             ),
-            buttonAction: (
-                handleSubmit((data) => {
-                    console.log(data)
-                })
-            )
+            buttonAction: handleNextPage
+
 
         },
         {
@@ -143,6 +143,7 @@ export function prepareSignupPages({
                 <View style={{
                     alignItems: 'center',
                     marginTop: spacing.SCALE_90,
+                    marginBottom: spacing.SCALE_40
                 }}>
                     <AddPhoto />
                 </View>

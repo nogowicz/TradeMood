@@ -2,8 +2,14 @@ import {
     View,
     StyleSheet,
     Text,
+    Keyboard
 } from 'react-native';
-import { Dispatch, SetStateAction } from 'react';
+import {
+    Dispatch,
+    SetStateAction,
+    useEffect,
+    useState,
+} from 'react';
 
 import { colors, spacing, typography } from 'styles';
 
@@ -37,6 +43,29 @@ export default function SignupPanel({
     page,
     pages
 }: SignupPanelProps) {
+
+    const [isKeyboardVisible, setKeyboardVisible] = useState(false);
+
+    useEffect(() => {
+        const keyboardDidShowListener = Keyboard.addListener(
+            'keyboardDidShow',
+            () => {
+                setKeyboardVisible(true); // or some other action
+            }
+        );
+        const keyboardDidHideListener = Keyboard.addListener(
+            'keyboardDidHide',
+            () => {
+                setKeyboardVisible(false); // or some other action
+            }
+        );
+
+        return () => {
+            keyboardDidHideListener.remove();
+            keyboardDidShowListener.remove();
+        };
+    }, []);
+
     return (
         <>
             <View>
@@ -58,7 +87,8 @@ export default function SignupPanel({
                 <View style={styles.mainContent}>
                     {mainContent}
                 </View>
-                <Pagination activePage={page} pages={pages} />
+                {isKeyboardVisible ? null :
+                    <Pagination activePage={page} pages={pages} />}
             </View>
             <View>
                 <SubmitButton
@@ -89,7 +119,7 @@ const styles = StyleSheet.create({
         fontSize: typography.FONT_SIZE_24,
         color: colors.LIGHT_COLORS.TERTIARY,
         textAlign: 'center',
-        marginVertical: spacing.SCALE_12
+        marginVertical: spacing.SCALE_4
     },
     subTitle: {
         ...typography.FONT_REGULAR,
@@ -99,7 +129,7 @@ const styles = StyleSheet.create({
         textAlign: 'center',
     },
     mainContent: {
-        marginBottom: spacing.SCALE_20,
+        marginBottom: spacing.SCALE_4,
     }
 });
 
