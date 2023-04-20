@@ -24,5 +24,6 @@
 	"views.auth.signup.last-name": "Nazwisko",
 	"views.auth.signup.email": "Email",
 	"views.auth.signup.password": "Hasło",
-	"views.auth.signup.confirm-password": "Potwierdź Hasło"
+	"views.auth.signup.confirm-password": "Potwierdź Hasło",
+	"views.auth.signup.submit-button-signup": "Zarejestruj"
 }

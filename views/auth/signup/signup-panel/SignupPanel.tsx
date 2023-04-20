@@ -157,7 +157,7 @@ const styles = StyleSheet.create({
         fontSize: typography.FONT_SIZE_24,
         color: colors.LIGHT_COLORS.TERTIARY,
         textAlign: 'center',
-        marginVertical: spacing.SCALE_4
+        marginTop: spacing.SCALE_4
     },
     subTitle: {
         ...typography.FONT_REGULAR,

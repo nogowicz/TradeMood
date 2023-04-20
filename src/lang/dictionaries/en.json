@@ -24,5 +24,6 @@
 	"views.auth.signup.last-name": "Last Name",
 	"views.auth.signup.email": "Email",
 	"views.auth.signup.password": "Password",
-	"views.auth.signup.confirm-password": "Confirm Password"
+	"views.auth.signup.confirm-password": "Confirm Password",
+	"views.auth.signup.submit-button-signup": "Sign Up"
 }

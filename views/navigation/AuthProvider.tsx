@@ -7,7 +7,7 @@ type AuthContextType = {
     user: FirebaseAuthTypes.User | null;
     setUser: React.Dispatch<React.SetStateAction<FirebaseAuthTypes.User | null>>;
     login: (email: string, password: string) => Promise<void>;
-    register: (email: string, password: string) => Promise<void>;
+    register: (email: string, password: string, firstName: string, lastName: string) => Promise<void>;
     logout: () => Promise<void>;
     resetPassword: (email: string) => Promise<void>;
     signInAnonymously: () => Promise<void>;
@@ -44,9 +44,16 @@ export function AuthProvider({ children }: AuthProviderProps) {
                     console.log(error);
                 }
             },
-            register: async (email: string, password: string) => {
+            register: async (email: string, password: string, firstName: string, lastName: string) => {
                 try {
-                    await auth().createUserWithEmailAndPassword(email, password);
+                    await auth().createUserWithEmailAndPassword(email, password)
+                        .then((userCredential) => {
+                            const user = userCredential.user;
+                            user.updateProfile({
+                                displayName: `${firstName} ${lastName}`,
+                            });
+                            user.sendEmailVerification();
+                        })
                 } catch (error) {
                     console.log(error);
                 }
