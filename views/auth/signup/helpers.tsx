@@ -1,4 +1,4 @@
-import { Dispatch, SetStateAction } from "react"
+import { Dispatch, SetStateAction, useContext, useEffect, useRef } from "react"
 import { SignupScreenNavigationProp } from "./Signup"
 import IconButton from "components/buttons/icon-button";
 
@@ -6,31 +6,60 @@ import IconButton from "components/buttons/icon-button";
 import GoBack from 'assets/icons/Go-back.svg';
 import SmallLogo from 'assets/logo/logo-smaller.svg';
 import Person from 'assets/icons/Person.svg';
+import Email from 'assets/icons/Email.svg';
+import Password from 'assets/icons/Password.svg';
 import AddPhoto from 'assets/signup-screen/AddPhoto.svg';
 
 import { FormattedMessage } from "react-intl";
-import { Controller, useForm } from "react-hook-form";
+import { Controller, FieldValues, SubmitHandler, useForm } from "react-hook-form";
 import TextField from "components/text-field";
 import { yupResolver } from "@hookform/resolvers/yup";
 import { schema } from "./signUpValidationSchema";
-import { View } from "react-native";
+import { Alert, View } from "react-native";
 import { spacing } from "styles";
+import { AuthContext } from "@views/navigation/AuthProvider";
 
 
 type PrepareSignupPagesType = {
     navigation: SignupScreenNavigationProp,
     handleBack: Dispatch<SetStateAction<number>>,
-    handleNextPage: Dispatch<SetStateAction<number>>
+    handleNextPage: Dispatch<SetStateAction<number>>,
+    handlePageWithError: Function,
 }
 
 export function prepareSignupPages({
     navigation,
     handleBack,
     handleNextPage,
+    handlePageWithError,
 }: PrepareSignupPagesType) {
+
+    const { register, logout } = useContext(AuthContext);
     const { control, handleSubmit, formState: { errors } } = useForm({
         resolver: yupResolver(schema)
     });
+
+
+    const onSubmit: SubmitHandler<FieldValues> = async ({ firstName, lastName, email, password, confirmPassword }) => {
+        try {
+            await register(email, password, firstName, lastName);
+        } catch (error) {
+            Alert.alert('err')
+            console.log(error);
+        }
+    };
+
+    if (errors) {
+        useEffect(() => {
+            if (errors.firstName || errors.lastName) {
+                handlePageWithError(0);
+            } else if (errors.email || errors.password || errors.confirmPassword) {
+                handlePageWithError(2);
+            }
+        }, [errors]);
+    }
+
+
 
     return [
         {
@@ -56,9 +85,9 @@ export function prepareSignupPages({
                 />
             ),
             mainContent: (
-                <>
+                <View>
                     <Controller
-                        name='First Name'
+                        name='firstName'
                         rules={{
                             required: true,
                         }}
@@ -67,12 +96,16 @@ export function prepareSignupPages({
                         render={({ field: { onChange, onBlur, value } }) => {
                             return (
                                 <TextField
-                                    label='First Name'
-                                    maxLength={25}
+                                    label={(
+                                        <FormattedMessage
+                                            defaultMessage='First Name'
+                                            id='views.auth.signup.first-name'
+                                        />
+                                    )}
                                     placeholder='John'
                                     value={value}
                                     onBlur={onBlur}
-                                    onChangeText={(value: string) => onChange(value)}
+                                    onChangeText={onChange}
                                     error={errors.firstName}
                                 >
                                     <Person />
@@ -83,18 +116,22 @@ export function prepareSignupPages({
                     />
 
                     <Controller
-                        name='Last Name'
+                        name='lastName'
                         defaultValue=''
                         control={control}
                         render={({ field: { onChange, onBlur, value } }) => {
                             return (
                                 <TextField
-                                    label='Last Name'
-                                    maxLength={25}
+                                    label={(
+                                        <FormattedMessage
+                                            defaultMessage='Last Name'
+                                            id='views.auth.signup.last-name'
+                                        />
+                                    )}
                                     placeholder='Doe'
                                     value={value}
                                     onBlur={onBlur}
-                                    onChangeText={(value: string) => onChange(value)}
+                                    onChangeText={onChange}
                                     error={errors.lastName}
                                 >
                                     <Person />
@@ -102,7 +139,7 @@ export function prepareSignupPages({
                             )
                         }}
                     />
-                </>
+                </View>
             ),
             buttonLabel: (
                 <FormattedMessage
@@ -110,11 +147,8 @@ export function prepareSignupPages({
                     id='views.auth.signup.submit-button-continue'
                 />
             ),
-            buttonAction: (
-                handleSubmit((data) => {
-                    console.log(data)
-                })
-            )
+            buttonAction: handleNextPage
+
 
         },
         {
@@ -143,6 +177,7 @@ export function prepareSignupPages({
                 <View style={{
                     alignItems: 'center',
                     marginTop: spacing.SCALE_90,
+                    marginBottom: spacing.SCALE_40
                 }}>
                     <AddPhoto />
                 </View>
@@ -155,6 +190,118 @@ export function prepareSignupPages({
             ),
             buttonAction: handleNextPage
 
-        }
+        },
+        {
+            id: 'credentials',
+            action: (
+                <IconButton onPress={handleBack}>
+                    <GoBack />
+                </IconButton>
+            ),
+            logo: (
+                <SmallLogo />
+            ),
+            title: (
+                <FormattedMessage
+                    defaultMessage='Sign Up'
+                    id='views.auth.signup.signup'
+                />
+            ),
+            subTitle: (<></>),
+            mainContent: (
+                <>
+                    <Controller
+                        name='email'
+                        rules={{
+                            required: true,
+                        }}
+                        defaultValue=''
+                        control={control}
+                        render={({ field: { onChange, onBlur, value } }) => {
+                            return (
+                                <TextField
+                                    label={(
+                                        <FormattedMessage
+                                            defaultMessage='Email'
+                                            id='views.auth.signup.email'
+                                        />
+                                    )}
+                                    placeholder='johndoe@trademood.com'
+                                    value={value}
+                                    onBlur={onBlur}
+                                    onChangeText={onChange}
+                                    error={errors.email}
+                                >
+                                    <Email />
+                                </TextField>
+
+                            )
+                        }}
+                    />
+
+                    <Controller
+                        name='password'
+                        defaultValue=''
+                        control={control}
+                        render={({ field: { onChange, onBlur, value } }) => {
+                            return (
+                                <TextField
+                                    label={(
+                                        <FormattedMessage
+                                            defaultMessage='Password'
+                                            id='views.auth.signup.password'
+                                        />
+                                    )}
+                                    placeholder='********'
+                                    value={value}
+                                    onBlur={onBlur}
+                                    onChangeText={onChange}
+                                    error={errors.password}
+                                    password
+                                >
+                                    <Password />
+                                </TextField>
+                            )
+                        }}
+                    />
+
+
+                    <Controller
+                        name='confirmPassword'
+                        defaultValue=''
+                        control={control}
+                        render={({ field: { onChange, onBlur, value } }) => {
+                            return (
+                                <TextField
+                                    label={(
+                                        <FormattedMessage
+                                            defaultMessage='Confirm Password'
+                                            id='views.auth.signup.confirm-password'
+                                        />
+                                    )}
+                                    placeholder='********'
+                                    value={value}
+                                    onBlur={onBlur}
+                                    onChangeText={onChange}
+                                    error={errors.confirmPassword}
+                                    password
+                                >
+                                    <Password />
+                                </TextField>
+                            )
+                        }}
+                    />
+                </>
+            ),
+            buttonLabel: (
+                <FormattedMessage
+                    defaultMessage='Sign up'
+                    id='views.auth.signup.submit-button-signup'
+                />
+            ),
+            buttonAction: handleSubmit(onSubmit)
+
+
+        },
     ];
 }

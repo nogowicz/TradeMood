@@ -19,5 +19,11 @@
 	"views.auth.signup.signup": "Zarejestruj Się",
 	"views.auth.signup.subtitle-first-part": "Cześć! Podaj nam swoje dane, abyśmy mogli spersonalizować Twoją aplikację.",
 	"views.auth.signup.submit-button-continue": "Kontynuuj",
-	"views.auth.signup.subtitle-second-part": "Dodaj zdjęcie profilowe (opcjonalnie): Możesz dodać zdjęcie profilowe, aby spersonalizować swoje konto."
+	"views.auth.signup.subtitle-second-part": "Dodaj zdjęcie profilowe (opcjonalnie): Możesz dodać zdjęcie profilowe, aby spersonalizować swoje konto.",
+	"views.auth.signup.first-name": "Imię",
+	"views.auth.signup.last-name": "Nazwisko",
+	"views.auth.signup.email": "Email",
+	"views.auth.signup.password": "Hasło",
+	"views.auth.signup.confirm-password": "Potwierdź Hasło",
+	"views.auth.signup.submit-button-signup": "Zarejestruj"
 }

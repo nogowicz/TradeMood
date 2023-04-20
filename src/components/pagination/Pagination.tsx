@@ -24,7 +24,8 @@ const styles = StyleSheet.create({
     container: {
         flexDirection: 'row',
         justifyContent: 'center',
-        gap: spacing.SCALE_20 / 2
+        gap: spacing.SCALE_20 / 2,
+        marginVertical: spacing.SCALE_20,
     },
     dot: {
         width: spacing.SCALE_8,

@@ -43,7 +43,12 @@ export default function Signup({ navigation }: SignupProps) {
         setPage(prevPage => prevPage - 1);
     }
 
-    const pages: SignupPagesArrayType = prepareSignupPages({ navigation, handleBack, handleNextPage });
+    function handlePageWithError(page: number) {
+        setPage(page);
+    }
+
+
+    const pages: SignupPagesArrayType = prepareSignupPages({ navigation, handleBack, handleNextPage, handlePageWithError });
 
 
     return (
