@@ -16,7 +16,7 @@ import { colors, constants, spacing, typography } from 'styles';
 
 type TextFieldProps = {
     style?: ViewStyle
-    label?: string,
+    label?: ReactNode,
     value: string,
     children: ReactNode,
     onBlur?: () => void,

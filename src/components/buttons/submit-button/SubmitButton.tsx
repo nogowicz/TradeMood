@@ -51,6 +51,7 @@ const styles = StyleSheet.create({
         paddingVertical: spacing.SCALE_12,
         paddingHorizontal: spacing.SCALE_18,
         borderRadius: constants.BORDER_RADIUS.BUTTON,
+        marginVertical: spacing.SCALE_8,
     },
     label: {
         ...typography.FONT_BOLD,

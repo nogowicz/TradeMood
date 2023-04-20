@@ -19,5 +19,10 @@
 	"views.auth.signup.signup": "Sign Up",
 	"views.auth.signup.subtitle-first-part": "Hi there! Please provide us with your information so we can personalize your experience.",
 	"views.auth.signup.submit-button-continue": "Continue",
-	"views.auth.signup.subtitle-second-part": "Add profile picture (optional): You can add a profile picture to personalize your account."
+	"views.auth.signup.subtitle-second-part": "Add profile picture (optional): You can add a profile picture to personalize your account.",
+	"views.auth.signup.first-name": "First Name",
+	"views.auth.signup.last-name": "Last Name",
+	"views.auth.signup.email": "Email",
+	"views.auth.signup.password": "Password",
+	"views.auth.signup.confirm-password": "Confirm Password"
 }

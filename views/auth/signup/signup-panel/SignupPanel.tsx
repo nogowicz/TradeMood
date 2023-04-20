@@ -2,12 +2,14 @@ import {
     View,
     StyleSheet,
     Text,
-    Keyboard
+    Keyboard,
+    Animated
 } from 'react-native';
 import {
     Dispatch,
     SetStateAction,
     useEffect,
+    useRef,
     useState,
 } from 'react';
 
@@ -43,20 +45,23 @@ export default function SignupPanel({
     page,
     pages
 }: SignupPanelProps) {
-
+    const scaleValue = useRef(new Animated.Value(1)).current;
+    const translateYValue = useRef(new Animated.Value(0)).current;
     const [isKeyboardVisible, setKeyboardVisible] = useState(false);
-
+    const animationDuration = 400;
     useEffect(() => {
         const keyboardDidShowListener = Keyboard.addListener(
             'keyboardDidShow',
             () => {
                 setKeyboardVisible(true); // or some other action
+                handleKeyboardOut();
             }
         );
         const keyboardDidHideListener = Keyboard.addListener(
             'keyboardDidHide',
             () => {
                 setKeyboardVisible(false); // or some other action
+                handleKeyboardIn();
             }
         );
 
@@ -66,6 +71,35 @@ export default function SignupPanel({
         };
     }, []);
 
+    const handleKeyboardIn = () => {
+        Animated.parallel([
+            Animated.timing(scaleValue, {
+                toValue: 1,
+                duration: animationDuration,
+                useNativeDriver: true,
+            }),
+            Animated.timing(translateYValue, {
+                toValue: 0,
+                duration: animationDuration,
+                useNativeDriver: true,
+            }),
+        ]).start();
+    };
+
+    const handleKeyboardOut = () => {
+        Animated.parallel([
+            Animated.timing(scaleValue, {
+                toValue: 0.5,
+                duration: animationDuration,
+                useNativeDriver: true,
+            }),
+            Animated.timing(translateYValue, {
+                toValue: -70,
+                duration: animationDuration,
+                useNativeDriver: true,
+            }),
+        ]).start();
+    };
     return (
         <>
             <View>
@@ -73,30 +107,35 @@ export default function SignupPanel({
                     <View style={styles.actionContainerComponent} >
                         {action}
                     </View>
-                    {logo}
+                    <Animated.View style={{ transform: [{ scale: scaleValue }, { translateY: translateYValue }] }}>
+                        {logo}
+                    </Animated.View>
                     <View style={styles.actionContainerComponent} />
                 </View>
-                <View style={styles.textContainer}>
-                    <Text style={styles.title}>
-                        {title}
-                    </Text>
-                    <Text style={styles.subTitle}>
-                        {subTitle}
-                    </Text>
-                </View>
-                <View style={styles.mainContent}>
-                    {mainContent}
-                </View>
+                <Animated.View style={[styles.textContainer, { transform: [{ translateY: translateYValue }] }]}>
+                    <Animated.View style={styles.textContainer}>
+                        <Text style={styles.title}>
+                            {title}
+                        </Text>
+                        <Text style={styles.subTitle}>
+                            {subTitle}
+                        </Text>
+                    </Animated.View>
+                    <View style={styles.mainContent}>
+                        {mainContent}
+                    </View>
+                </Animated.View>
                 {isKeyboardVisible ? null :
                     <Pagination activePage={page} pages={pages} />}
             </View>
-            <View>
+
+            <Animated.View style={[{ transform: [{ translateY: translateYValue }] }]}>
                 <SubmitButton
                     isChevronDisplayed
                     label={buttonLabel}
                     onPress={buttonAction}
                 />
-            </View>
+            </Animated.View>
         </>
     )
 }
@@ -111,7 +150,6 @@ const styles = StyleSheet.create({
     },
     textContainer: {
         justifyContent: 'center',
-        marginHorizontal: spacing.SCALE_20,
     },
     title: {
         ...typography.FONT_BOLD,
