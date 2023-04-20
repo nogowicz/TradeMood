@@ -5,6 +5,7 @@ import {
     TextInputProps,
     StyleSheet,
     Text,
+    TouchableOpacity,
 } from 'react-native';
 import {
     ReactNode,
@@ -13,6 +14,9 @@ import {
 
 
 import { colors, constants, spacing, typography } from 'styles';
+
+import PasswordVisible from 'assets/icons/Password-visible.svg';
+import PasswordInvisible from 'assets/icons/Password-invisible.svg';
 
 type TextFieldProps = {
     style?: ViewStyle
@@ -26,8 +30,8 @@ type TextFieldProps = {
     placeholder?: string,
     error?: any,
     props?: TextInputProps,
-    secureTextEntry?: boolean
-    autoCapitalize?: any
+    autoCapitalize?: any,
+    password?: boolean,
 }
 
 export default function TextField({
@@ -38,9 +42,11 @@ export default function TextField({
     action,
     placeholder,
     error,
+    password = false,
     ...props
 }: TextFieldProps) {
     const [focus, setFocus] = useState(false);
+    const [secureTextEntry, setSecureTextEntry] = useState(true);
     return (
         <View style={styles.root}>
             {(actionLabel || label) && (
@@ -59,7 +65,18 @@ export default function TextField({
                     onFocus={() => setFocus(true)}
                     onBlur={() => setFocus(false)}
                     style={[styles.textInput]}
+                    secureTextEntry={(password && secureTextEntry)}
                 />
+                {password ?
+                    <TouchableOpacity
+                        onPress={() => setSecureTextEntry(!secureTextEntry)}
+                        activeOpacity={0.7}
+                    >
+                        {secureTextEntry ?
+                            <PasswordVisible /> : <PasswordInvisible />}
+                    </TouchableOpacity>
+                    : null
+                }
             </View>
             {error && <Text style={styles.errorLabel}>{error?.message}</Text>}
         </View>
@@ -77,6 +94,7 @@ const styles = StyleSheet.create({
         borderRadius: constants.BORDER_RADIUS.INPUT,
         paddingHorizontal: spacing.SCALE_12,
         paddingVertical: spacing.SCALE_4,
+        justifyContent: 'space-between',
     },
     containerWithError: {
 
@@ -104,8 +122,8 @@ const styles = StyleSheet.create({
         fontWeight: typography.FONT_WEIGHT_BOLD,
         fontSize: typography.FONT_SIZE_16,
         marginHorizontal: spacing.SCALE_12,
-        width: '100%',
         color: colors.LIGHT_COLORS.TERTIARY,
+        flex: 1,
     },
     focus: {
         borderColor: colors.LIGHT_COLORS.PRIMARY,

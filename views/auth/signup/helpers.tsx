@@ -257,6 +257,7 @@ export function prepareSignupPages({
                                     onBlur={onBlur}
                                     onChangeText={onChange}
                                     error={errors.password}
+                                    password
                                 >
                                     <Password />
                                 </TextField>
@@ -283,6 +284,7 @@ export function prepareSignupPages({
                                     onBlur={onBlur}
                                     onChangeText={onChange}
                                     error={errors.confirmPassword}
+                                    password
                                 >
                                     <Password />
                                 </TextField>
