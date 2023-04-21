@@ -5,16 +5,16 @@ import IconButton from "components/buttons/icon-button";
 
 import GoBack from 'assets/icons/Go-back.svg';
 import SmallLogo from 'assets/logo/logo-smaller.svg';
-import Person from 'assets/icons/Person.svg';
 import Email from 'assets/icons/Email.svg';
 import Password from 'assets/icons/Password.svg';
+import Person from 'assets/icons/Person.svg';
 import AddPhoto from 'assets/signup-screen/AddPhoto.svg';
 
 import { FormattedMessage } from "react-intl";
 import { Controller, FieldValues, SubmitHandler, useForm } from "react-hook-form";
 import TextField from "components/text-field";
 import { yupResolver } from "@hookform/resolvers/yup";
-import { schema } from "./signUpValidationSchema";
+import { schema } from '../validationSchema';
 import { Alert, View } from "react-native";
 import { spacing } from "styles";
 import { AuthContext } from "@views/navigation/AuthProvider";
