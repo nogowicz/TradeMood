@@ -25,5 +25,8 @@
 	"views.auth.signup.email": "Email",
 	"views.auth.signup.password": "Hasło",
 	"views.auth.signup.confirm-password": "Potwierdź Hasło",
-	"views.auth.signup.submit-button-signup": "Zarejestruj"
+	"views.auth.signup.submit-button-signup": "Zarejestruj",
+	"views.auth.login.login": "Zaloguj",
+	"views.auth.login.subtitle": "Cześć! Miło cię widzieć. Zaloguj się, aby kontynuować.",
+	"views.auth.login.submit-button": "Zaloguj"
 }
