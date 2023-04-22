@@ -22,7 +22,7 @@ import Password from 'assets/icons/Password.svg';
 import { FormattedMessage } from 'react-intl';
 import { Controller, FieldValues, SubmitHandler, useForm } from 'react-hook-form';
 import { yupResolver } from '@hookform/resolvers/yup';
-import { schema } from '../validationSchema';
+import { schema } from './validationSchema'
 import TextField from 'components/text-field';
 
 type LoginScreenNavigationProp = NativeStackScreenProps<RootStackParamList, 'Login'>;

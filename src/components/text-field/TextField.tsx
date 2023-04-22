@@ -9,6 +9,7 @@ import {
 } from 'react-native';
 import {
     ReactNode,
+    useEffect,
     useState
 } from 'react';
 
@@ -17,6 +18,7 @@ import { colors, constants, spacing, typography } from 'styles';
 
 import PasswordVisible from 'assets/icons/Password-visible.svg';
 import PasswordInvisible from 'assets/icons/Password-invisible.svg';
+import { FormattedMessage } from 'react-intl';;
 
 type TextFieldProps = {
     style?: ViewStyle
@@ -47,6 +49,42 @@ export default function TextField({
 }: TextFieldProps) {
     const [focus, setFocus] = useState(false);
     const [secureTextEntry, setSecureTextEntry] = useState(true);
+    const [defaultMessage, setDefaultMessage] = useState('')
+    const [id, setId] = useState('views.auth.errors-first-name-too-long');
+
+
+    useEffect(() => {
+        if (error) {
+            setDefaultMessage(error.message)
+            if (error.message === "Your first name is too long") {
+                setId("views.auth.errors-first-name-too-long");
+            } else if (error.message === "Please enter valid first name") {
+                setId("views.auth.errors-first-name-invalid");
+            } else if (error.message === "Please provide your first name") {
+                setId("views.auth.errors-first-name-empty");
+            } else if (error.message === "Your last name is too long") {
+                setId("views.auth.errors-last-name-too-long");
+            } else if (error.message === "Please enter valid last name") {
+                setId("views.auth.errors-last-name-invalid");
+            } else if (error.message === "Please provide your last name") {
+                setId("views.auth.errors-last-name-empt");
+            } else if (error.message === "Email is not valid") {
+                setId("views.auth.errors-email-invalid");
+            } else if (error.message === "Please provide your email") {
+                setId("views.auth.errors-email-empty");
+            } else if (error.message === "Password must be at lest 6 characters") {
+                setId("views.auth.errors-password-too-short");
+            } else if (error.message === "Please provide your password") {
+                setId("views.auth.errors-password-empty");
+            } else if (error.message === "Password must match") {
+                setId("views.auth.errors-confirm-password-empty");
+            }
+
+        }
+    }, [error]);
+
+
+
     return (
         <View style={styles.root}>
             {(actionLabel || label) && (
@@ -78,7 +116,15 @@ export default function TextField({
                     : null
                 }
             </View>
-            {error && <Text style={styles.errorLabel}>{error?.message}</Text>}
+            {error &&
+                <Text style={styles.errorLabel}>
+                    {error &&
+                        <FormattedMessage
+                            defaultMessage={defaultMessage}
+                            id={`${id}`}
+                        />
+                    }
+                </Text>}
         </View>
     );
 }
