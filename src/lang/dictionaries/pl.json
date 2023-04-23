@@ -42,5 +42,6 @@
   "views.auth.errors-password-empty": "Podaj swoje hasło",
   "views.auth.errors-confirm-password-too-short": "Hasło musi mieć co najmniej 6 znaków",
   "views.auth.errors-confirm-password-empty": "Hasła nie są takie same",
-  "views.auth.errors-confirm-password-different": "Hasła nie są takie same"
+  "views.auth.errors-confirm-password-different": "Hasła nie są takie same",
+  "views.auth.errors-basic-error": "Dane są niepoprawne"
 }

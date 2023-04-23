@@ -42,5 +42,6 @@
   "views.auth.errors-password-empty": "Please provide your password",
   "views.auth.errors-confirm-password-too-short": "Password must be at lest 6 characters",
   "views.auth.errors-confirm-password-empty": "Password must match",
-  "views.auth.errors-confirm-password-different": "Password must match"
+  "views.auth.errors-confirm-password-different": "Password must match",
+  "views.auth.errors-basic-error": "Credentials are invalid"
 }

@@ -50,7 +50,7 @@ export default function TextField({
     const [focus, setFocus] = useState(false);
     const [secureTextEntry, setSecureTextEntry] = useState(true);
     const [defaultMessage, setDefaultMessage] = useState('')
-    const [id, setId] = useState('views.auth.errors-first-name-too-long');
+    const [id, setId] = useState('views.auth.errors-basic-error');
 
 
     useEffect(() => {
@@ -78,6 +78,8 @@ export default function TextField({
                 setId("views.auth.errors-password-empty");
             } else if (error.message === "Password must match") {
                 setId("views.auth.errors-confirm-password-empty");
+            } else {
+                setId("views.auth.errors-basic-error");
             }
 
         }
