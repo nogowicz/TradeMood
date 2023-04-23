@@ -14,7 +14,7 @@ import { FormattedMessage } from "react-intl";
 import { Controller, FieldValues, SubmitHandler, useForm } from "react-hook-form";
 import TextField from "components/text-field";
 import { yupResolver } from "@hookform/resolvers/yup";
-import { schema } from '../validationSchema';
+import { schema } from './validationSchema';
 import { Alert, View } from "react-native";
 import { spacing } from "styles";
 import { AuthContext } from "@views/navigation/AuthProvider";
