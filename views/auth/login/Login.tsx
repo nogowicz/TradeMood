@@ -33,35 +33,46 @@ type LoginProps = {
 
 export default function Login({ navigation }: LoginProps) {
     const { login } = useContext(AuthContext);
-    const { control, handleSubmit, formState: { errors } } = useForm({
+    const { control, handleSubmit, setError, formState: { errors } } = useForm({
         resolver: yupResolver(schema)
     });
 
     const onSubmit: SubmitHandler<FieldValues> = async ({ email, password }) => {
         try {
             await login(email, password);
-        } catch (error) {
-            Alert.alert('err')
-            console.log(error);
+        } catch (error: any) {
+            console.log(error)
+            if (error.code === 'auth/user-not-found') {
+                setError('email', { message: 'User not found' });
+            } else if (error.code === 'auth/wrong-password') {
+                setError('password', { message: 'Password is incorrect' });
+            } else if (error.code === 'auth/user-disabled') {
+                setError('email', { message: 'This account has been disabled' });
+            } else if (error.code === 'auth/invalid-email') {
+                setError('email', { message: 'Email is not valid' });
+            }
+            else {
+                setError('email', { message: 'Credentials are invalid' });
+                setError('password', { message: 'Credentials are invalid' });
+            }
         }
+
     }
 
     const scaleValue = useRef(new Animated.Value(1)).current;
     const translateYValue = useRef(new Animated.Value(0)).current;
-    const [isKeyboardVisible, setKeyboardVisible] = useState(false);
+
     const animationDuration = 400;
     useEffect(() => {
         const keyboardDidShowListener = Keyboard.addListener(
             'keyboardDidShow',
             () => {
-                setKeyboardVisible(true); // or some other action
                 handleKeyboardOut();
             }
         );
         const keyboardDidHideListener = Keyboard.addListener(
             'keyboardDidHide',
             () => {
-                setKeyboardVisible(false); // or some other action
                 handleKeyboardIn();
             }
         );
@@ -149,6 +160,7 @@ export default function Login({ navigation }: LoginProps) {
                                                     id='views.auth.signup.email'
                                                 />
                                             )}
+                                            name='emailLogin'
                                             placeholder='johndoe@trademood.com'
                                             value={value}
                                             onBlur={onBlur}
@@ -176,6 +188,7 @@ export default function Login({ navigation }: LoginProps) {
                                                 />
                                             )}
                                             placeholder='********'
+                                            name='passwordLogin'
                                             value={value}
                                             onBlur={onBlur}
                                             onChangeText={onChange}

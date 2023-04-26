@@ -1,16 +1,13 @@
 import React, { useEffect } from 'react';
 import { StatusBar } from 'react-native'
-import { NavigationContainer } from '@react-navigation/native';
-import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import SplashScreen from 'react-native-splash-screen';
-
 import LangProvider, { LangModeProvider } from './src/lang/LangProvider';
 import { colors } from './src/styles';
-import { RootStackParamList } from './views/navigation/Navigation'
-
-import Overview from './views/authenticated/overview/Overview';
-import OnBoarding from './views/auth/onboarding/OnBoarding';
 import Routes from './views/navigation';
+import { Provider } from 'react-redux';
+import { store } from './src/store/store';
+
+
 
 
 
@@ -28,7 +25,9 @@ function App() {
       />
       <LangModeProvider>
         <LangProvider>
-          <Routes />
+          <Provider store={store}>
+            <Routes />
+          </Provider>
         </LangProvider>
       </LangModeProvider>
     </>
