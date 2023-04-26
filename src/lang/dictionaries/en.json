@@ -46,5 +46,7 @@
   "views.auth.errors-confirm-password-too-short": "Password must be at lest 6 characters",
   "views.auth.errors-confirm-password-empty": "Password must match",
   "views.auth.errors-confirm-password-different": "Password must match",
-  "views.auth.errors-basic-error": "Credentials are invalid"
+  "views.auth.errors-basic-error": "Credentials are invalid",
+  "views.auth.errors-weak-password": "Password is too weak",
+  "views.auth.errors-internal-error": "Internal error, please try again later"
 }
