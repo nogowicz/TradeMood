@@ -23,14 +23,13 @@ import { FormattedMessage } from 'react-intl';
 
 type TextFieldProps = {
     style?: ViewStyle;
-    name: string;
     label?: ReactNode;
     value: string;
     children: ReactNode;
     onBlur?: () => void;
     onChangeText: (value: any) => void;
-    actionLabel?: string;
-    action?: () => any;
+    actionLabel?: ReactNode;
+    action?: () => void;
     placeholder?: string;
     error?: any;
     props?: TextInputProps;
@@ -40,7 +39,6 @@ type TextFieldProps = {
 
 export default function TextField({
     style,
-    name,
     label,
     children,
     actionLabel,
@@ -111,7 +109,14 @@ export default function TextField({
             {(actionLabel || label) && (
                 <View style={styles.actionContainer}>
                     <Text style={styles.label}>{label}</Text>
-                    {actionLabel && <Text style={styles.action}>{actionLabel}</Text>}
+                    {actionLabel &&
+                        <TouchableOpacity
+                            activeOpacity={0.7}
+                            onPress={action}
+                        >
+                            <Text style={styles.action}>{actionLabel}</Text>
+                        </TouchableOpacity>
+                    }
                 </View>
             )}
             <View style={[styles.container, focus ? styles.focus : {}, (error) ? styles.error : {}, (error) ? styles.containerWithError : {}]}>
@@ -182,7 +187,7 @@ const styles = StyleSheet.create({
         fontSize: typography.FONT_SIZE_14,
         ...typography.FONT_BOLD,
         fontWeight: 'bold',
-        color: colors.LIGHT_COLORS.PRIMARY,
+        color: colors.LIGHT_COLORS.TERTIARY,
     },
     textInput: {
         ...typography.FONT_BOLD,

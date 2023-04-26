@@ -57,11 +57,7 @@ export function AuthProvider({ children }: AuthProviderProps) {
                 }
             },
             resetPassword: async (email: string) => {
-                try {
-                    await auth().sendPasswordResetEmail(email);
-                } catch (error) {
-                    console.log(error);
-                }
+                await auth().sendPasswordResetEmail(email);
             },
             signInAnonymously: async () => {
                 try {
