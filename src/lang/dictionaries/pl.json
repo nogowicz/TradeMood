@@ -43,8 +43,14 @@
   "views.auth.errors-password-too-short": "Hasło musi mieć co najmniej 6 znaków",
   "views.auth.errors-password-empty": "Podaj swoje hasło",
   "views.auth.errors-wrong-password": "Hasło jest niepoprawne",
-  "views.auth.errors-confirm-password-too-short": "Hasło musi mieć co najmniej 6 znaków",
-  "views.auth.errors-confirm-password-empty": "Hasła nie są takie same",
+  "views.auth.errors-confirm-password-empty": "Pole nie może być puste",
   "views.auth.errors-confirm-password-different": "Hasła nie są takie same",
-  "views.auth.errors-basic-error": "Dane są niepoprawne"
+  "views.auth.errors-basic-error": "Dane są niepoprawne",
+  "views.auth.errors-weak-password": "Hasło nie za słabe",
+  "views.auth.errors-internal-error": "Błąd wewnętrzny, spróbuj ponownie później",
+  "views.auth.login.forgot-password": "Nie pamiętasz hasła?",
+  "views.auth.forgot-password-subtitle": "Podaj nam swój adres e-mail, a wyślemy Ci link potrzebny do utworzenia nowego hasła.",
+  "views.auth.forgot-password-title": "Reset Hasła",
+  "views.auth.forgot-password-send": "Wyślij",
+  "views.auth.forgot-password-message": "Link do zmiany hasła został wysłany na twój adres email."
 }

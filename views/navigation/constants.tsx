@@ -6,6 +6,9 @@ export const SCREENS = {
     LOGIN: {
       ID: 'LOGIN',
     },
+    FORGOT_PASSWORD: {
+      ID: 'FORGOT_PASSWORD',
+    },
     ONBOARDING: {
       ID: 'ONBOARDING',
     },

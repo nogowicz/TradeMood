@@ -1,10 +1,11 @@
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
 
 import { SCREENS } from '../constants';
-import OnBoarding from '../../auth/onboarding';
-import Login from '../../auth/login';
-import Signup from '../../auth/signup';
-import Welcome from '../../auth/welcome';
+import OnBoarding from '@views/auth/onboarding';
+import Login from '@views/auth/login';
+import Signup from '@views/auth/signup';
+import Welcome from '@views//auth/welcome';
+import ForgotPassword from '@views/auth/forgot-password';
 
 
 export default function AuthStack() {
@@ -26,6 +27,11 @@ export default function AuthStack() {
             <Stack.Screen
                 name={SCREENS.AUTH.LOGIN.ID}
                 component={Login}
+            />
+
+            <Stack.Screen
+                name={SCREENS.AUTH.FORGOT_PASSWORD.ID}
+                component={ForgotPassword}
             />
 
             <Stack.Screen

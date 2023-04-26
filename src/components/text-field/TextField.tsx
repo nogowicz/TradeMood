@@ -23,14 +23,13 @@ import { FormattedMessage } from 'react-intl';
 
 type TextFieldProps = {
     style?: ViewStyle;
-    name: string;
     label?: ReactNode;
     value: string;
     children: ReactNode;
     onBlur?: () => void;
     onChangeText: (value: any) => void;
-    actionLabel?: string;
-    action?: () => any;
+    actionLabel?: ReactNode;
+    action?: () => void;
     placeholder?: string;
     error?: any;
     props?: TextInputProps;
@@ -40,7 +39,6 @@ type TextFieldProps = {
 
 export default function TextField({
     style,
-    name,
     label,
     children,
     actionLabel,
@@ -73,22 +71,29 @@ export default function TextField({
                 setId("views.auth.errors-last-name-empt");
             } else if (error.message === "Email is not valid") {
                 setId("views.auth.errors-email-invalid");
-            } else if (error.message === "Please provide your email") {
-                setId("views.auth.errors-email-empty");
-            } else if (error.message === "Password must be at lest 6 characters") {
-                setId("views.auth.errors-password-too-short");
-            } else if (error.message === "Please provide your password") {
-                setId("views.auth.errors-password-empty");
-            } else if (error.message === "Password must match") {
-                setId("views.auth.errors-confirm-password-empty");
-            } else if (error.message === "Password is incorrect") {
-                setId("views.auth.errors-wrong-password");
             } else if (error.message === "User not found") {
                 setId("views.auth.errors-user-not-found");
             } else if (error.message === "This account has been disabled") {
                 setId("views.auth.errors-user-disabled");
-            }
-            else {
+            } else if (error.message === "Please provide your email") {
+                setId("views.auth.errors-email-empty");
+            } else if (error.message === "That email address is already in use") {
+                setId("views.auth.errors-email-in-use");
+            } else if (error.message === "Password must be at lest 6 characters") {
+                setId("views.auth.errors-password-too-short");
+            } else if (error.message === "Please provide your password") {
+                setId("views.auth.errors-password-empty");
+            } else if (error.message === "Password is incorrect") {
+                setId("views.auth.errors-wrong-password");
+            } else if (error.message === "Field can not be empty") {
+                setId("views.auth.errors-confirm-password-empty");
+            } else if (error.message === "Password must match") {
+                setId("views.auth.errors-confirm-password-different");
+            } else if (error.message === "Password is too weak") {
+                setId("views.auth.errors-weak-password");
+            } else if (error.message === "Internal error, please try again later") {
+                setId("views.auth.errors-internal-error");
+            } else {
                 setId("views.auth.errors-basic-error");
             }
         }
@@ -104,7 +109,14 @@ export default function TextField({
             {(actionLabel || label) && (
                 <View style={styles.actionContainer}>
                     <Text style={styles.label}>{label}</Text>
-                    {actionLabel && <Text style={styles.action}>{actionLabel}</Text>}
+                    {actionLabel &&
+                        <TouchableOpacity
+                            activeOpacity={0.7}
+                            onPress={action}
+                        >
+                            <Text style={styles.action}>{actionLabel}</Text>
+                        </TouchableOpacity>
+                    }
                 </View>
             )}
             <View style={[styles.container, focus ? styles.focus : {}, (error) ? styles.error : {}, (error) ? styles.containerWithError : {}]}>
@@ -175,7 +187,7 @@ const styles = StyleSheet.create({
         fontSize: typography.FONT_SIZE_14,
         ...typography.FONT_BOLD,
         fontWeight: 'bold',
-        color: colors.LIGHT_COLORS.PRIMARY,
+        color: colors.LIGHT_COLORS.TERTIARY,
     },
     textInput: {
         ...typography.FONT_BOLD,

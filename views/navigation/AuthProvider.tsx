@@ -39,26 +39,15 @@ export function AuthProvider({ children }: AuthProviderProps) {
                 await auth().signInWithEmailAndPassword(email, password);
             },
             register: async (email: string, password: string, firstName: string, lastName: string) => {
-                try {
-                    await auth().createUserWithEmailAndPassword(email, password)
-                        .then((userCredential) => {
-                            const user = userCredential.user;
-                            user.updateProfile({
-                                displayName: `${firstName} ${lastName}`,
-                            });
-                            user.sendEmailVerification();
-                        })
-                } catch (error: any) {
-                    if (error.code === 'auth/email-already-in-use') {
-                        console.log('That email address is already in use!');
-                    }
+                await auth().createUserWithEmailAndPassword(email, password)
+                    .then((userCredential) => {
+                        const user = userCredential.user;
+                        user.updateProfile({
+                            displayName: `${firstName} ${lastName}`,
+                        });
+                        user.sendEmailVerification();
+                    })
 
-                    if (error.code === 'auth/invalid-email') {
-                        console.log('That email address is invalid!');
-                    }
-
-                    console.error(error);
-                }
             },
             logout: async () => {
                 try {
@@ -68,11 +57,7 @@ export function AuthProvider({ children }: AuthProviderProps) {
                 }
             },
             resetPassword: async (email: string) => {
-                try {
-                    await auth().sendPasswordResetEmail(email);
-                } catch (error) {
-                    console.log(error);
-                }
+                await auth().sendPasswordResetEmail(email);
             },
             signInAnonymously: async () => {
                 try {

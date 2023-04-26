@@ -43,8 +43,14 @@
   "views.auth.errors-password-too-short": "Password must be at lest 6 characters",
   "views.auth.errors-password-empty": "Please provide your password",
   "views.auth.errors-wrong-password": "Password is incorrect",
-  "views.auth.errors-confirm-password-too-short": "Password must be at lest 6 characters",
-  "views.auth.errors-confirm-password-empty": "Password must match",
+  "views.auth.errors-confirm-password-empty": "Field can not be empty",
   "views.auth.errors-confirm-password-different": "Password must match",
-  "views.auth.errors-basic-error": "Credentials are invalid"
+  "views.auth.errors-basic-error": "Credentials are invalid",
+  "views.auth.errors-weak-password": "Password is too weak",
+  "views.auth.errors-internal-error": "Internal error, please try again later",
+  "views.auth.login.forgot-password": "Forgot password?",
+  "views.auth.forgot-password-subtitle": "Please provide us with your email address, and we will send you the link necessary to create a new password.",
+  "views.auth.forgot-password-title": "Password Reset",
+  "views.auth.forgot-password-send": "Send",
+  "views.auth.forgot-password-message": "The link to change your password has been sent to your email address."
 }

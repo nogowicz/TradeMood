@@ -1,65 +1,59 @@
-import {
-    View,
-    Text,
-    SafeAreaView,
-    StyleSheet,
-    Animated,
-    Keyboard,
-    Alert,
-} from 'react-native'
-import { NativeStackScreenProps } from '@react-navigation/native-stack';
-import { RootStackParamList } from '../../navigation/Navigation';
-import { useContext, useEffect, useRef, useState } from 'react';
-import { AuthContext } from '../../navigation/AuthProvider';
-import SubmitButton from 'components/buttons/submit-button';
-import { colors, spacing, typography } from 'styles';
-import IconButton from 'components/buttons/icon-button';
+import { NativeStackScreenProps } from "@react-navigation/native-stack";
+import { RootStackParamList } from "@views/navigation/Navigation";
+import { SCREENS } from "@views/navigation/constants";
+import IconButton from "components/buttons/icon-button";
+import SubmitButton from "components/buttons/submit-button";
+import TextField from "components/text-field";
+import React, { useContext, useEffect, useRef, useState } from "react";
+import { Controller, FieldValues, SubmitHandler, useForm } from "react-hook-form";
+import { FormattedMessage } from "react-intl";
+import { Animated, Keyboard, SafeAreaView, StyleSheet, Text, View } from "react-native";
+import { spacing, colors, typography } from "styles";
 
 import GoBack from 'assets/icons/Go-back.svg';
 import SmallLogo from 'assets/logo/logo-smaller.svg';
 import Email from 'assets/icons/Email.svg';
-import Password from 'assets/icons/Password.svg';
-import { FormattedMessage } from 'react-intl';
-import { Controller, FieldValues, SubmitHandler, useForm } from 'react-hook-form';
-import { yupResolver } from '@hookform/resolvers/yup';
-import { schema } from './validationSchema'
-import TextField from 'components/text-field';
-import { SCREENS } from '@views/navigation/constants';
+import { yupResolver } from "@hookform/resolvers/yup";
+import { AuthContext } from "@views/navigation/AuthProvider";
+import { schema } from "./validationSchema"
 
-type LoginScreenNavigationProp = NativeStackScreenProps<RootStackParamList, 'Login'>;
+type ForgotPasswordScreenNavigationProp = NativeStackScreenProps<RootStackParamList, 'ForgotPassword'>;
 
-type LoginProps = {
-    navigation: LoginScreenNavigationProp['navigation']
+type ForgotPasswordProps = {
+    navigation: ForgotPasswordScreenNavigationProp['navigation']
 }
 
-export default function Login({ navigation }: LoginProps) {
-    const { login } = useContext(AuthContext);
+
+export default function ForgotPassword({ navigation }: ForgotPasswordProps) {
+    const [messageVisible, setMessageVisible] = useState(false);
+    const { resetPassword } = useContext(AuthContext);
     const { control, handleSubmit, setError, formState: { errors } } = useForm({
         resolver: yupResolver(schema)
     });
 
-    const onSubmit: SubmitHandler<FieldValues> = async ({ email, password }) => {
+    const onResetPassword: SubmitHandler<FieldValues> = async ({ email }) => {
+        console.log("DEBUG")
         try {
-            await login(email, password);
+            await resetPassword(email)
+                .then(() => {
+                    setMessageVisible(true);
+                    setTimeout(() => {
+                        navigation.goBack();
+                        setMessageVisible(false);
+                    }, 3000)
+                });
         } catch (error: any) {
             console.log(error)
-            if (error.code === 'auth/user-not-found') {
-                setError('email', { message: 'User not found' });
-            } else if (error.code === 'auth/wrong-password') {
-                setError('password', { message: 'Password is incorrect' });
-            } else if (error.code === 'auth/user-disabled') {
-                setError('email', { message: 'This account has been disabled' });
-            } else if (error.code === 'auth/invalid-email') {
+            if (error.code === 'auth/invalid-email') {
                 setError('email', { message: 'Email is not valid' });
+            } else if (error.code === 'auth/user-not-found') {
+                setError('email', { message: 'User not found' });
             }
             else {
                 setError('email', { message: 'Internal error, please try again later' });
             }
         }
-
     }
-
-
 
     const scaleValue = useRef(new Animated.Value(1)).current;
     const translateYValue = useRef(new Animated.Value(0)).current;
@@ -134,14 +128,14 @@ export default function Login({ navigation }: LoginProps) {
                         <Animated.View style={styles.textContainer}>
                             <Text style={styles.title}>
                                 <FormattedMessage
-                                    defaultMessage='Login'
-                                    id='views.auth.login.login'
+                                    defaultMessage='Password Reset'
+                                    id='views.auth.forgot-password-title'
                                 />
                             </Text>
                             <Text style={styles.subTitle}>
                                 <FormattedMessage
-                                    defaultMessage='Hi there! Please provide us with your information so we can personalize your experience.'
-                                    id='views.auth.login.subtitle'
+                                    defaultMessage='Please provide us with your email address, and we will send you the link necessary to create a new password.'
+                                    id='views.auth.forgot-password-subtitle'
                                 />
                             </Text>
                         </Animated.View>
@@ -175,61 +169,37 @@ export default function Login({ navigation }: LoginProps) {
                                 }}
                             />
 
-                            <Controller
-                                name='password'
-                                defaultValue=''
-                                control={control}
-                                render={({ field: { onChange, onBlur, value } }) => {
-                                    return (
-                                        <TextField
-                                            label={(
-                                                <FormattedMessage
-                                                    defaultMessage='Password'
-                                                    id='views.auth.signup.password'
-                                                />
-                                            )}
-                                            actionLabel={
-                                                <FormattedMessage
-                                                    defaultMessage='Forgot password?'
-                                                    id='views.auth.login.forgot-password'
-                                                />
-                                            }
-                                            action={() => {
-                                                navigation.navigate(SCREENS.AUTH.FORGOT_PASSWORD.ID)
-                                            }}
-                                            placeholder='********'
-                                            value={value}
-                                            onBlur={onBlur}
-                                            onChangeText={onChange}
-                                            error={errors.password}
-                                            password
-                                        >
-                                            <Password />
-                                        </TextField>
-                                    )
-                                }}
-                            />
+                            {messageVisible &&
+                                <Text
+                                    style={[styles.subTitle]}
+                                >
+                                    <FormattedMessage
+                                        defaultMessage='The link to change your password has been sent to your email address.'
+                                        id='views.auth.forgot-password-message'
+                                    />
+                                </Text>}
+
                         </View>
                     </Animated.View>
                 </View>
 
-                <Animated.View style={[{ transform: [{ translateY: translateYValue }] }]}>
-                    <SubmitButton
-                        isChevronDisplayed
-                        label={
-                            <FormattedMessage
-                                defaultMessage='Login'
-                                id='views.auth.login.submit-button'
-                            />
-                        }
-                        onPress={handleSubmit(onSubmit)}
-                    />
-                </Animated.View>
+
+                <SubmitButton
+                    isChevronDisplayed
+                    label={
+                        <FormattedMessage
+                            defaultMessage='Send'
+                            id='views.auth.forgot-password-send'
+                        />
+                    }
+                    onPress={handleSubmit(onResetPassword)}
+                />
             </View>
 
         </SafeAreaView>
     );
 };
+
 
 const styles = StyleSheet.create({
     root: {

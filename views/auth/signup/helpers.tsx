@@ -35,7 +35,7 @@ export function prepareSignupPages({
 }: PrepareSignupPagesType) {
 
     const { register, logout } = useContext(AuthContext);
-    const { control, handleSubmit, formState: { errors } } = useForm({
+    const { control, handleSubmit, setError, formState: { errors } } = useForm({
         resolver: yupResolver(schema)
     });
 
@@ -43,9 +43,22 @@ export function prepareSignupPages({
     const onSubmit: SubmitHandler<FieldValues> = async ({ firstName, lastName, email, password, confirmPassword }) => {
         try {
             await register(email, password, firstName, lastName);
-        } catch (error) {
-            Alert.alert('err')
-            console.log(error);
+        } catch (error: any) {
+            console.log(error)
+            if (error.code === 'auth/email-already-in-use') {
+                setError('email', { message: 'That email address is already in use' });
+            } else if (error.code === 'auth/weak-password') {
+                setError('password', { message: 'Password is too weak' });
+            } else if (error.code === 'auth/invalid-email') {
+                setError('email', { message: 'Email is not valid' });
+            } else if (error.code === 'auth/operation-not-allowed') {
+                setError('email', { message: 'Internal error, please try again later' });
+            }
+            else {
+                setError('email', { message: 'Internal error, please try again later' });
+                setError('password', { message: 'Internal error, please try again later' });
+                setError('confirmPassword', { message: 'Internal error, please try again later' });
+            }
         }
     };
 
@@ -103,7 +116,6 @@ export function prepareSignupPages({
                                         />
                                     )}
                                     placeholder='John'
-                                    name="firstNameRegister"
                                     value={value}
                                     onBlur={onBlur}
                                     onChangeText={onChange}
@@ -130,7 +142,6 @@ export function prepareSignupPages({
                                         />
                                     )}
                                     placeholder='Doe'
-                                    name="lastNameRegister"
                                     value={value}
                                     onBlur={onBlur}
                                     onChangeText={onChange}
@@ -229,7 +240,6 @@ export function prepareSignupPages({
                                         />
                                     )}
                                     placeholder='johndoe@trademood.com'
-                                    name="emailRegister"
                                     value={value}
                                     onBlur={onBlur}
                                     onChangeText={onChange}
@@ -256,7 +266,6 @@ export function prepareSignupPages({
                                         />
                                     )}
                                     placeholder='********'
-                                    name="passwordRegister"
                                     value={value}
                                     onBlur={onBlur}
                                     onChangeText={onChange}
@@ -284,7 +293,6 @@ export function prepareSignupPages({
                                         />
                                     )}
                                     placeholder='********'
-                                    name="confirmPasswordRegister"
                                     value={value}
                                     onBlur={onBlur}
                                     onChangeText={onChange}
