@@ -103,6 +103,7 @@ export function prepareSignupPages({
                                         />
                                     )}
                                     placeholder='John'
+                                    name="firstNameRegister"
                                     value={value}
                                     onBlur={onBlur}
                                     onChangeText={onChange}
@@ -129,6 +130,7 @@ export function prepareSignupPages({
                                         />
                                     )}
                                     placeholder='Doe'
+                                    name="lastNameRegister"
                                     value={value}
                                     onBlur={onBlur}
                                     onChangeText={onChange}
@@ -227,6 +229,7 @@ export function prepareSignupPages({
                                         />
                                     )}
                                     placeholder='johndoe@trademood.com'
+                                    name="emailRegister"
                                     value={value}
                                     onBlur={onBlur}
                                     onChangeText={onChange}
@@ -253,6 +256,7 @@ export function prepareSignupPages({
                                         />
                                     )}
                                     placeholder='********'
+                                    name="passwordRegister"
                                     value={value}
                                     onBlur={onBlur}
                                     onChangeText={onChange}
@@ -280,6 +284,7 @@ export function prepareSignupPages({
                                         />
                                     )}
                                     placeholder='********'
+                                    name="confirmPasswordRegister"
                                     value={value}
                                     onBlur={onBlur}
                                     onChangeText={onChange}

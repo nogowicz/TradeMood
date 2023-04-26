@@ -18,26 +18,29 @@ import { colors, constants, spacing, typography } from 'styles';
 
 import PasswordVisible from 'assets/icons/Password-visible.svg';
 import PasswordInvisible from 'assets/icons/Password-invisible.svg';
-import { FormattedMessage } from 'react-intl';;
+import { FormattedMessage } from 'react-intl';
+
 
 type TextFieldProps = {
-    style?: ViewStyle
-    label?: ReactNode,
-    value: string,
-    children: ReactNode,
-    onBlur?: () => void,
-    onChangeText: (value: any) => void,
-    actionLabel?: string,
-    action?: () => any,
-    placeholder?: string,
-    error?: any,
-    props?: TextInputProps,
-    autoCapitalize?: any,
-    password?: boolean,
+    style?: ViewStyle;
+    name: string;
+    label?: ReactNode;
+    value: string;
+    children: ReactNode;
+    onBlur?: () => void;
+    onChangeText: (value: any) => void;
+    actionLabel?: string;
+    action?: () => any;
+    placeholder?: string;
+    error?: any;
+    props?: TextInputProps;
+    autoCapitalize?: any;
+    password?: boolean;
 }
 
 export default function TextField({
     style,
+    name,
     label,
     children,
     actionLabel,
@@ -52,8 +55,8 @@ export default function TextField({
     const [defaultMessage, setDefaultMessage] = useState('')
     const [id, setId] = useState('views.auth.errors-basic-error');
 
-
     useEffect(() => {
+
         if (error) {
             setDefaultMessage(error.message)
             if (error.message === "Your first name is too long") {
@@ -78,11 +81,20 @@ export default function TextField({
                 setId("views.auth.errors-password-empty");
             } else if (error.message === "Password must match") {
                 setId("views.auth.errors-confirm-password-empty");
-            } else {
+            } else if (error.message === "Password is incorrect") {
+                setId("views.auth.errors-wrong-password");
+            } else if (error.message === "User not found") {
+                setId("views.auth.errors-user-not-found");
+            } else if (error.message === "This account has been disabled") {
+                setId("views.auth.errors-user-disabled");
+            }
+            else {
                 setId("views.auth.errors-basic-error");
             }
-
         }
+
+
+
     }, [error]);
 
 
@@ -95,7 +107,7 @@ export default function TextField({
                     {actionLabel && <Text style={styles.action}>{actionLabel}</Text>}
                 </View>
             )}
-            <View style={[styles.container, focus ? styles.focus : {}, error ? styles.error : {}, error ? styles.containerWithError : {}]}>
+            <View style={[styles.container, focus ? styles.focus : {}, (error) ? styles.error : {}, (error) ? styles.containerWithError : {}]}>
                 {children}
                 <TextInput
                     {...props}
@@ -118,9 +130,9 @@ export default function TextField({
                     : null
                 }
             </View>
-            {error &&
+            {(error) &&
                 <Text style={styles.errorLabel}>
-                    {error &&
+                    {(error) &&
                         <FormattedMessage
                             defaultMessage={defaultMessage}
                             id={`${id}`}

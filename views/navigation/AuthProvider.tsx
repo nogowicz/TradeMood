@@ -2,7 +2,6 @@ import { ReactNode, createContext, useState } from "react";
 import auth, { FirebaseAuthTypes } from '@react-native-firebase/auth';
 
 
-
 type AuthContextType = {
     user: FirebaseAuthTypes.User | null;
     setUser: React.Dispatch<React.SetStateAction<FirebaseAuthTypes.User | null>>;
@@ -32,17 +31,12 @@ type AuthProviderProps = {
 
 export function AuthProvider({ children }: AuthProviderProps) {
     const [user, setUser] = useState<FirebaseAuthTypes.User | null>(null);
-
     return <AuthContext.Provider
         value={{
             user,
             setUser,
             login: async (email: string, password: string) => {
-                try {
-                    await auth().signInWithEmailAndPassword(email, password);
-                } catch (error) {
-                    console.log(error);
-                }
+                await auth().signInWithEmailAndPassword(email, password);
             },
             register: async (email: string, password: string, firstName: string, lastName: string) => {
                 try {
@@ -54,8 +48,16 @@ export function AuthProvider({ children }: AuthProviderProps) {
                             });
                             user.sendEmailVerification();
                         })
-                } catch (error) {
-                    console.log(error);
+                } catch (error: any) {
+                    if (error.code === 'auth/email-already-in-use') {
+                        console.log('That email address is already in use!');
+                    }
+
+                    if (error.code === 'auth/invalid-email') {
+                        console.log('That email address is invalid!');
+                    }
+
+                    console.error(error);
                 }
             },
             logout: async () => {
