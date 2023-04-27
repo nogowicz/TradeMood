@@ -1,4 +1,4 @@
-import { Dispatch, SetStateAction, useContext, useEffect, useRef } from "react"
+import { Dispatch, SetStateAction, useContext, useEffect, useRef, useState } from "react"
 import { SignupScreenNavigationProp } from "./Signup"
 import IconButton from "components/buttons/icon-button";
 
@@ -8,16 +8,17 @@ import SmallLogo from 'assets/logo/logo-smaller.svg';
 import Email from 'assets/icons/Email.svg';
 import Password from 'assets/icons/Password.svg';
 import Person from 'assets/icons/Person.svg';
-import AddPhoto from 'assets/signup-screen/AddPhoto.svg';
+
 
 import { FormattedMessage } from "react-intl";
 import { Controller, FieldValues, SubmitHandler, useForm } from "react-hook-form";
 import TextField from "components/text-field";
 import { yupResolver } from "@hookform/resolvers/yup";
 import { schema } from './validationSchema';
-import { Alert, View } from "react-native";
+import { Alert, TouchableOpacity, View } from "react-native";
 import { spacing } from "styles";
 import { AuthContext } from "@views/navigation/AuthProvider";
+import ProfileImagePicker from "components/profile-image-picker";
 
 
 type PrepareSignupPagesType = {
@@ -38,11 +39,11 @@ export function prepareSignupPages({
     const { control, handleSubmit, setError, formState: { errors } } = useForm({
         resolver: yupResolver(schema)
     });
-
+    const [imageUrl, setImageUrl] = useState<string | null>(null);
 
     const onSubmit: SubmitHandler<FieldValues> = async ({ firstName, lastName, email, password, confirmPassword }) => {
         try {
-            await register(email, password, firstName, lastName);
+            await register(email, password, firstName, lastName, imageUrl);
         } catch (error: any) {
             console.log(error)
             if (error.code === 'auth/email-already-in-use') {
@@ -192,7 +193,7 @@ export function prepareSignupPages({
                     marginTop: spacing.SCALE_90,
                     marginBottom: spacing.SCALE_40
                 }}>
-                    <AddPhoto />
+                    <ProfileImagePicker imageUrl={imageUrl} setImageUrl={setImageUrl} />
                 </View>
             ),
             buttonLabel: (
