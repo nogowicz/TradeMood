@@ -12,6 +12,12 @@ import SignupPanel from './signup-panel/SignupPanel';
 import { prepareSignupPages } from './helpers';
 import BottomSheet from 'components/bottom-sheet';
 import { BottomSheetRefProps } from 'components/bottom-sheet/BottomSheet';
+import IconButton from 'components/buttons/icon-button';
+
+import Gallery from 'assets/icons/Gallery.svg'
+import DeletePhoto from 'assets/icons/DeletePhoto.svg'
+import Camera from 'assets/icons/Camera.svg'
+
 
 type SignupPageType = {
     id: string;
@@ -35,7 +41,6 @@ type SignupProps = {
 
 
 export default function Signup({ navigation }: SignupProps) {
-    const { register } = useContext(AuthContext);
     const [page, setPage] = useState(0);
 
     function handleNextPage() {
@@ -75,7 +80,27 @@ export default function Signup({ navigation }: SignupProps) {
                     pages={pages}
                 />
                 <BottomSheet ref={ref} height={500}>
-                    <View />
+                    <View style={styles.bottomSheetActionContainer}>
+                        <IconButton
+                            onPress={console.log("Pressed")}
+                            size={80}
+                        >
+                            <Gallery />
+                        </IconButton>
+                        <IconButton
+                            onPress={console.log("Pressed")}
+                            size={80}
+                        >
+                            <Camera />
+                        </IconButton>
+                        <IconButton
+                            onPress={console.log("Pressed")}
+                            size={80}
+                            color={colors.LIGHT_COLORS.NEGATIVE}
+                        >
+                            <DeletePhoto />
+                        </IconButton>
+                    </View>
                 </BottomSheet>
             </View>
 
@@ -97,4 +122,10 @@ const styles = StyleSheet.create({
     actionContainer: {
         alignItems: 'flex-end',
     },
+    bottomSheetActionContainer: {
+        flexDirection: 'row',
+        justifyContent: 'space-around',
+        alignItems: 'center',
+        marginVertical: spacing.SCALE_20,
+    }
 });

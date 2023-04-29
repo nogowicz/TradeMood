@@ -23,6 +23,8 @@ type IconButtonProps = {
     onPress: Dispatch<SetStateAction<number>> | any,
     TouchableOpacityProps?: TouchableOpacityProps;
     ContainerProps?: ViewProps;
+    size: number;
+    color?: string
 }
 
 export default function IconButton({
@@ -31,10 +33,19 @@ export default function IconButton({
     onPress,
     TouchableOpacityProps,
     ContainerProps,
+    size,
+    color = colors.LIGHT_COLORS.LIGHT_HINT,
 }: IconButtonProps) {
     return (
         <TouchableOpacity
-            style={styles.container}
+            style={[
+                styles.container,
+                {
+                    width: size,
+                    height: size,
+                    borderRadius: size,
+                    borderColor: color
+                }]}
             activeOpacity={activeOpacity}
             onPress={onPress}
             {...TouchableOpacityProps}
@@ -51,12 +62,8 @@ export default function IconButton({
 const styles = StyleSheet.create({
     container: {
         borderWidth: 1,
-        width: 42,
-        height: 42,
         justifyContent: 'center',
         alignItems: 'center',
-        borderColor: colors.LIGHT_COLORS.LIGHT_HINT,
-        borderRadius: 42 / 2,
         padding: spacing.SCALE_8,
     }
 });

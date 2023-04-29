@@ -81,7 +81,10 @@ export function prepareSignupPages({
         {
             id: 'names',
             action: (
-                <IconButton onPress={() => navigation.goBack()}>
+                <IconButton
+                    onPress={() => navigation.goBack()}
+                    size={42}
+                >
                     <GoBack />
                 </IconButton>
             ),
@@ -170,7 +173,9 @@ export function prepareSignupPages({
         {
             id: 'profile-photo',
             action: (
-                <IconButton onPress={handleBack}>
+                <IconButton
+                    onPress={handleBack}
+                    size={42}>
                     <GoBack />
                 </IconButton>
             ),
@@ -218,7 +223,10 @@ export function prepareSignupPages({
         {
             id: 'credentials',
             action: (
-                <IconButton onPress={handleBack}>
+                <IconButton
+                    onPress={handleBack}
+                    size={42}
+                >
                     <GoBack />
                 </IconButton>
             ),
