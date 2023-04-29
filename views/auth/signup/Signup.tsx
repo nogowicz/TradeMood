@@ -5,11 +5,13 @@ import {
     View
 } from 'react-native'
 import { RootStackParamList } from '../../navigation/Navigation';
-import { Dispatch, SetStateAction, useContext, useState } from 'react';
+import { Dispatch, SetStateAction, useCallback, useContext, useRef, useState } from 'react';
 import { AuthContext } from '@views/navigation/AuthProvider';
 import { colors, spacing } from 'styles';
 import SignupPanel from './signup-panel/SignupPanel';
 import { prepareSignupPages } from './helpers';
+import BottomSheet from 'components/bottom-sheet';
+import { BottomSheetRefProps } from 'components/bottom-sheet/BottomSheet';
 
 type SignupPageType = {
     id: string;
@@ -47,8 +49,21 @@ export default function Signup({ navigation }: SignupProps) {
         setPage(page);
     }
 
+    const ref = useRef<BottomSheetRefProps>(null);
 
-    const pages: SignupPagesArrayType = prepareSignupPages({ navigation, handleBack, handleNextPage, handlePageWithError });
+    const handleShowBottomSheet = useCallback(() => {
+        const isActive = ref?.current?.isActive();
+        if (isActive) {
+            ref?.current?.scrollTo(0);
+        } else {
+            ref?.current?.scrollTo(-200);
+        }
+    }, []);
+
+
+
+    const pages: SignupPagesArrayType = prepareSignupPages({ navigation, handleBack, handleNextPage, handlePageWithError, handleShowBottomSheet });
+
 
 
     return (
@@ -58,8 +73,10 @@ export default function Signup({ navigation }: SignupProps) {
                     {...pages[page]}
                     page={page}
                     pages={pages}
-
                 />
+                <BottomSheet ref={ref} height={500}>
+                    <View />
+                </BottomSheet>
             </View>
 
         </SafeAreaView>

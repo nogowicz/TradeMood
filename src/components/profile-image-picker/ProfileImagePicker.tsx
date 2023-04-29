@@ -1,6 +1,7 @@
 import {
     TouchableOpacity,
     Image,
+    GestureResponderEvent,
 } from 'react-native'
 import { launchImageLibrary } from 'react-native-image-picker';
 import storage from '@react-native-firebase/storage';
@@ -13,6 +14,7 @@ type ProfileImagePickerProps = {
     size?: number;
     imageUrl: string | null;
     setImageUrl: Dispatch<SetStateAction<string | null>>;
+    onPress: (event: GestureResponderEvent) => void;
 }
 
 
@@ -20,7 +22,8 @@ export default function ProfileImagePicker({
     activeOpacity = 0.5,
     size = 102,
     imageUrl,
-    setImageUrl
+    setImageUrl,
+    onPress
 }: ProfileImagePickerProps) {
     const uploadImage = async () => {
         launchImageLibrary({
@@ -70,7 +73,7 @@ export default function ProfileImagePicker({
     return (
         <TouchableOpacity
             activeOpacity={activeOpacity}
-            onPress={uploadImage}
+            onPress={onPress}
         >
             {imageUrl ?
                 <Image

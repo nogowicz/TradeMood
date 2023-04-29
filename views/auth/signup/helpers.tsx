@@ -1,4 +1,4 @@
-import { Dispatch, SetStateAction, useContext, useEffect, useRef, useState } from "react"
+import { Dispatch, SetStateAction, useCallback, useContext, useEffect, useRef, useState } from "react"
 import { SignupScreenNavigationProp } from "./Signup"
 import IconButton from "components/buttons/icon-button";
 
@@ -15,17 +15,17 @@ import { Controller, FieldValues, SubmitHandler, useForm } from "react-hook-form
 import TextField from "components/text-field";
 import { yupResolver } from "@hookform/resolvers/yup";
 import { schema } from './validationSchema';
-import { Alert, TouchableOpacity, View } from "react-native";
+import { Alert, GestureResponderEvent, TouchableOpacity, View } from "react-native";
 import { spacing } from "styles";
 import { AuthContext } from "@views/navigation/AuthProvider";
 import ProfileImagePicker from "components/profile-image-picker";
 
-
 type PrepareSignupPagesType = {
-    navigation: SignupScreenNavigationProp,
-    handleBack: Dispatch<SetStateAction<number>>,
-    handleNextPage: Dispatch<SetStateAction<number>>,
-    handlePageWithError: Function,
+    navigation: SignupScreenNavigationProp;
+    handleBack: Dispatch<SetStateAction<number>>;
+    handleNextPage: Dispatch<SetStateAction<number>>;
+    handlePageWithError: Function;
+    handleShowBottomSheet: (event: GestureResponderEvent) => void;
 }
 
 export function prepareSignupPages({
@@ -33,6 +33,7 @@ export function prepareSignupPages({
     handleBack,
     handleNextPage,
     handlePageWithError,
+    handleShowBottomSheet,
 }: PrepareSignupPagesType) {
 
     const { register, logout } = useContext(AuthContext);
@@ -72,6 +73,7 @@ export function prepareSignupPages({
             }
         }, [errors]);
     }
+
 
 
 
@@ -188,13 +190,21 @@ export function prepareSignupPages({
                 />
             ),
             mainContent: (
-                <View style={{
-                    alignItems: 'center',
-                    marginTop: spacing.SCALE_90,
-                    marginBottom: spacing.SCALE_40
-                }}>
-                    <ProfileImagePicker imageUrl={imageUrl} setImageUrl={setImageUrl} />
-                </View>
+                <>
+                    <View style={{
+                        alignItems: 'center',
+                        marginTop: spacing.SCALE_90,
+                        marginBottom: spacing.SCALE_40
+                    }}>
+                        <ProfileImagePicker
+                            imageUrl={imageUrl}
+                            setImageUrl={setImageUrl}
+                            onPress={handleShowBottomSheet}
+                        />
+
+                    </View>
+
+                </>
             ),
             buttonLabel: (
                 <FormattedMessage
