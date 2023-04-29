@@ -21,5 +21,14 @@ export const SCREENS = {
     OVERVIEW: {
       ID: 'OVERVIEW',
     },
+    SEARCH: {
+      ID: 'SEARCH',
+    },
+    NOTIFICATION: {
+      ID: 'NOTIFICATION',
+    },
+    PROFILE: {
+      ID: 'PROFILE'
+    }
   },
 };
