@@ -49,6 +49,7 @@ export default function IconButton({
             activeOpacity={activeOpacity}
             onPress={onPress}
             {...TouchableOpacityProps}
+
         >
             <View
                 {...ContainerProps}

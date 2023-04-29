@@ -26,6 +26,9 @@ type PrepareSignupPagesType = {
     handleNextPage: Dispatch<SetStateAction<number>>;
     handlePageWithError: Function;
     handleShowBottomSheet: (event: GestureResponderEvent) => void;
+    imageUrl: string | null;
+    setImageUrl: Dispatch<SetStateAction<string | null>>;
+    deleteImage: Function;
 }
 
 export function prepareSignupPages({
@@ -34,13 +37,16 @@ export function prepareSignupPages({
     handleNextPage,
     handlePageWithError,
     handleShowBottomSheet,
+    imageUrl,
+    setImageUrl,
+    deleteImage,
 }: PrepareSignupPagesType) {
 
     const { register, logout } = useContext(AuthContext);
     const { control, handleSubmit, setError, formState: { errors } } = useForm({
         resolver: yupResolver(schema)
     });
-    const [imageUrl, setImageUrl] = useState<string | null>(null);
+
 
     const onSubmit: SubmitHandler<FieldValues> = async ({ firstName, lastName, email, password, confirmPassword }) => {
         try {
@@ -82,7 +88,12 @@ export function prepareSignupPages({
             id: 'names',
             action: (
                 <IconButton
-                    onPress={() => navigation.goBack()}
+                    onPress={() => {
+                        navigation.goBack()
+                        if (imageUrl) {
+                            deleteImage();
+                        }
+                    }}
                     size={42}
                 >
                     <GoBack />

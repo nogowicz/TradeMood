@@ -86,7 +86,10 @@ export function preparePages({
             ),
             submitButtonAction: handleNextPage,
             action: (
-                <IconButton onPress={handleBack}>
+                <IconButton
+                    onPress={handleBack}
+                    size={42}
+                >
                     <GoBack />
                 </IconButton>
             ),
@@ -117,7 +120,9 @@ export function preparePages({
             ),
             submitButtonAction: () => navigation.navigate(SCREENS.AUTH.WELCOME.ID),
             action: (
-                <IconButton onPress={handleBack}>
+                <IconButton onPress={handleBack}
+                    size={42}
+                >
                     <GoBack />
                 </IconButton>
             ),
