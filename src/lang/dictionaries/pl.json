@@ -52,5 +52,8 @@
   "views.auth.forgot-password-subtitle": "Podaj nam swój adres e-mail, a wyślemy Ci link potrzebny do utworzenia nowego hasła.",
   "views.auth.forgot-password-title": "Reset Hasła",
   "views.auth.forgot-password-send": "Wyślij",
-  "views.auth.forgot-password-message": "Link do zmiany hasła został wysłany na twój adres email."
+  "views.auth.forgot-password-message": "Link do zmiany hasła został wysłany na twój adres email.",
+  "views.auth.signup-gallery": "Galeria",
+  "views.auth.signup-camera": "Aparat",
+  "views.auth.signup-delete": "Usuń"
 }

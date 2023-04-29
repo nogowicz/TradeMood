@@ -4,6 +4,7 @@ import SplashScreen from 'react-native-splash-screen';
 import LangProvider, { LangModeProvider } from './src/lang/LangProvider';
 import { colors } from './src/styles';
 import Routes from './views/navigation';
+import { GestureHandlerRootView } from 'react-native-gesture-handler';
 
 
 
@@ -22,11 +23,13 @@ function App() {
         backgroundColor={colors.LIGHT_COLORS.BACKGROUND}
         barStyle='dark-content'
       />
-      <LangModeProvider>
-        <LangProvider>
-          <Routes />
-        </LangProvider>
-      </LangModeProvider>
+      <GestureHandlerRootView style={{ flex: 1 }}>
+        <LangModeProvider>
+          <LangProvider>
+            <Routes />
+          </LangProvider>
+        </LangModeProvider>
+      </GestureHandlerRootView>
     </>
   );
 }

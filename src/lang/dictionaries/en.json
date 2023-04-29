@@ -52,5 +52,8 @@
   "views.auth.forgot-password-subtitle": "Please provide us with your email address, and we will send you the link necessary to create a new password.",
   "views.auth.forgot-password-title": "Password Reset",
   "views.auth.forgot-password-send": "Send",
-  "views.auth.forgot-password-message": "The link to change your password has been sent to your email address."
+  "views.auth.forgot-password-message": "The link to change your password has been sent to your email address.",
+  "views.auth.signup-gallery": "Gallery",
+  "views.auth.signup-camera": "Camera",
+  "views.auth.signup-delete": "Delete"
 }

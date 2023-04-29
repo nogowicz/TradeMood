@@ -36,7 +36,10 @@ export default function Welcome({ navigation }: WelcomeProps) {
         <SafeAreaView style={styles.root}>
             <View style={styles.container}>
                 <View style={styles.actionContainer}>
-                    <IconButton onPress={() => navigation.goBack()}>
+                    <IconButton
+                        onPress={() => navigation.goBack()}
+                        size={42}
+                    >
                         <GoBack />
                     </IconButton>
                     <TextButton

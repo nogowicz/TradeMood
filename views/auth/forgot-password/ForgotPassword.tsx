@@ -115,7 +115,10 @@ export default function ForgotPassword({ navigation }: ForgotPasswordProps) {
                 <View>
                     <View style={styles.actionContainer}>
                         <View style={styles.actionContainerComponent} >
-                            <IconButton onPress={() => navigation.goBack()}>
+                            <IconButton
+                                onPress={() => navigation.goBack()}
+                                size={42}
+                            >
                                 <GoBack />
                             </IconButton>
                         </View>
