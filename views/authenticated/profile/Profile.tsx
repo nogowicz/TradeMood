@@ -1,7 +1,9 @@
 import { StyleSheet, Text, View } from 'react-native'
-import React from 'react'
+import React, { useContext } from 'react'
 import { NativeStackScreenProps } from '@react-navigation/native-stack';
 import { RootStackParamList } from '../../../views/navigation/Navigation';
+import SubmitButton from 'components/buttons/submit-button';
+import { AuthContext } from '@views/navigation/AuthProvider';
 
 type ProfileScreenNavigationProp = NativeStackScreenProps<RootStackParamList, 'Profile'>;
 
@@ -11,10 +13,13 @@ type ProfileProps = {
 
 
 export default function Profile({ navigation }: ProfileProps) {
+    const { logout } = useContext(AuthContext);
     return (
-        <View>
+        <><View>
             <Text>Profile</Text>
-        </View>
+        </View><SubmitButton
+                label='Logout'
+                onPress={() => logout()} /></>
     )
 }
 

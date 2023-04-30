@@ -54,7 +54,7 @@ export function AuthProvider({ children }: AuthProviderProps) {
                         }
 
                         user.sendEmailVerification();
-                    })
+                    });
 
             },
             logout: async () => {

@@ -16,6 +16,7 @@ export default function Routes() {
         if (initializing) {
             setInitializing(false);
         }
+
     }
 
     useEffect(() => {
