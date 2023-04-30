@@ -42,7 +42,7 @@ export function prepareSignupPages({
     deleteImage,
 }: PrepareSignupPagesType) {
 
-    const { register, logout } = useContext(AuthContext);
+    const { register } = useContext(AuthContext);
     const { control, handleSubmit, setError, formState: { errors } } = useForm({
         resolver: yupResolver(schema)
     });
