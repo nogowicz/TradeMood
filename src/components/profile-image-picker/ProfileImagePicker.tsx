@@ -19,7 +19,7 @@ type ProfileImagePickerProps = {
 
 export default function ProfileImagePicker({
     activeOpacity = 0.5,
-    size = 102,
+    size = 170,
     imageUrl,
     onPress
 }: ProfileImagePickerProps) {
