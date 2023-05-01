@@ -22,6 +22,7 @@ type OverviewProps = {
 
 export default function Overview({ navigation }: OverviewProps) {
     const { user } = useContext(AuthContext);
+
     console.log(user)
     return (
         <SafeAreaView style={styles.root}>

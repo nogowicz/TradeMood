@@ -19,6 +19,7 @@ import { Alert, GestureResponderEvent, TouchableOpacity, View } from "react-nati
 import { spacing } from "styles";
 import { AuthContext } from "@views/navigation/AuthProvider";
 import ProfileImagePicker from "components/profile-image-picker";
+import { SCREENS } from "@views/navigation/constants";
 
 type PrepareSignupPagesType = {
     navigation: SignupScreenNavigationProp;
@@ -50,7 +51,7 @@ export function prepareSignupPages({
 
     const onSubmit: SubmitHandler<FieldValues> = async ({ firstName, lastName, email, password, confirmPassword }) => {
         try {
-            await register(email, password, firstName, lastName, imageUrl);
+            await register(email, password, firstName, lastName, imageUrl)
         } catch (error: any) {
             console.log(error)
             if (error.code === 'auth/email-already-in-use') {

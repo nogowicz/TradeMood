@@ -12,12 +12,16 @@ export default function Routes() {
     const [initializing, setInitializing] = useState(true);
 
     function onAuthStateChange(newUser: FirebaseAuthTypes.User | null) {
-        setUser(newUser);
+        if (newUser && newUser.displayName) {
+            setUser(newUser);
+        } else {
+            setUser(null);
+        }
         if (initializing) {
             setInitializing(false);
         }
-
     }
+
 
     useEffect(() => {
         const subscriber = auth().onAuthStateChanged(onAuthStateChange);

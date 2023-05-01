@@ -46,15 +46,19 @@ export function AuthProvider({ children }: AuthProviderProps) {
                             user.updateProfile({
                                 displayName: `${firstName} ${lastName}`,
                                 photoURL: imageUrl
-                            });
+                            })
+
                         } else {
                             user.updateProfile({
                                 displayName: `${firstName} ${lastName}`
-                            });
+                            })
+
                         }
 
+
                         user.sendEmailVerification();
-                    });
+
+                    })
 
             },
             logout: async () => {
