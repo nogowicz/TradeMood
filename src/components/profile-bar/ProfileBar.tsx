@@ -14,9 +14,16 @@ type ProfileBarProps = {
     imageUrl: string | null | undefined;
     activeOpacity?: number;
     isAnonymous: boolean | undefined;
+    onPress: () => void;
 }
 
-export default function ProfileBar({ displayName, imageUrl, activeOpacity = 0.5, isAnonymous }: ProfileBarProps) {
+export default function ProfileBar({
+    displayName,
+    imageUrl,
+    activeOpacity = 0.7,
+    isAnonymous,
+    onPress,
+}: ProfileBarProps) {
     const imageSize = 40;
     const currentDate = new Date();
     const currentHour = currentDate.getHours();
@@ -24,6 +31,7 @@ export default function ProfileBar({ displayName, imageUrl, activeOpacity = 0.5,
         <TouchableOpacity
             style={styles.container}
             activeOpacity={activeOpacity}
+            onPress={onPress}
         >
             <View style={styles.textContainer}>
                 <Text style={styles.welcomeText}>
@@ -58,25 +66,26 @@ export default function ProfileBar({ displayName, imageUrl, activeOpacity = 0.5,
                         displayName}
                 </Text>
             </View>
-            <View
-                style={{
-                    width: imageSize,
-                    height: imageSize,
-                    borderRadius: imageSize / 2,
-                    borderWidth: 1,
-                    borderColor: colors.LIGHT_COLORS.HINT,
-                    justifyContent: 'center',
-                    alignItems: 'center'
-                }}>
+            <View>
                 {imageUrl ?
                     <Image
                         source={{ uri: imageUrl }}
                         style={{ width: imageSize, height: imageSize, borderRadius: imageSize / 2 }}
                     /> :
-                    <Image
-                        source={require('assets/profile/profile-picture.png')}
-                        style={{ width: imageSize, height: imageSize, borderRadius: imageSize / 2 }}
-                    />}
+                    <View style={{
+                        width: imageSize,
+                        height: imageSize,
+                        borderRadius: imageSize / 2,
+                        borderWidth: 1,
+                        borderColor: colors.LIGHT_COLORS.HINT,
+                        justifyContent: 'center',
+                        alignItems: 'center'
+                    }}>
+                        <Image
+                            source={require('assets/profile/profile-picture.png')}
+                            style={{ width: imageSize, height: imageSize, borderRadius: imageSize / 2 }}
+                        />
+                    </View>}
             </View>
         </TouchableOpacity>
     )

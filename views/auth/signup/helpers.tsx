@@ -202,8 +202,8 @@ export function prepareSignupPages({
             ),
             buttonLabel: (
                 <FormattedMessage
-                    defaultMessage='Sign up'
-                    id='views.auth.signup.submit-button-signup'
+                    defaultMessage='Continue'
+                    id='views.auth.signup.submit-button-continue'
                 />
             ),
             buttonAction: handleNextPage
@@ -345,8 +345,8 @@ export function prepareSignupPages({
             ),
             buttonLabel: (
                 <FormattedMessage
-                    defaultMessage='Continue'
-                    id='views.auth.signup.submit-button-continue'
+                    defaultMessage='Sign up'
+                    id='views.auth.signup.submit-button-signup'
                 />
             ),
             buttonAction: handleSubmit(onSubmit)

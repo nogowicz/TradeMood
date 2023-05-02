@@ -59,5 +59,6 @@
   "views.home.welcome_text-good_afternoon": "Good Afternoon!",
   "views.home.welcome_text-good_evening": "Good Evening!",
   "views.home.welcome_text-hello": "Hello!",
-  "views.home.welcome_text-anonymous": "Stranger"
+  "views.home.welcome_text-anonymous": "Stranger",
+  "views.home.overview-title": "Overview"
 }

@@ -24,7 +24,8 @@ type IconButtonProps = {
     TouchableOpacityProps?: TouchableOpacityProps;
     ContainerProps?: ViewProps;
     size: number;
-    color?: string
+    color?: string;
+    backgroundColor?: string;
 }
 
 export default function IconButton({
@@ -35,6 +36,7 @@ export default function IconButton({
     ContainerProps,
     size,
     color = colors.LIGHT_COLORS.LIGHT_HINT,
+    backgroundColor = 'transparent'
 }: IconButtonProps) {
     return (
         <TouchableOpacity
@@ -44,7 +46,8 @@ export default function IconButton({
                     width: size,
                     height: size,
                     borderRadius: size,
-                    borderColor: color
+                    borderColor: color,
+                    backgroundColor: backgroundColor
                 }]}
             activeOpacity={activeOpacity}
             onPress={onPress}

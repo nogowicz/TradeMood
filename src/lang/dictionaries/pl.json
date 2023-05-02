@@ -59,5 +59,6 @@
   "views.home.welcome_text-good_afternoon": "Miłego Popołudnia!",
   "views.home.welcome_text-good_evening": "Dobry Wieczór!",
   "views.home.welcome_text-hello": "Cześć!",
-  "views.home.welcome_text-anonymous": "Nieznajomy"
+  "views.home.welcome_text-anonymous": "Nieznajomy",
+  "views.home.overview-title": "Informacje Ogólne"
 }
