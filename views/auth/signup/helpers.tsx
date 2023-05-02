@@ -51,7 +51,7 @@ export function prepareSignupPages({
 
     const onSubmit: SubmitHandler<FieldValues> = async ({ firstName, lastName, email, password, confirmPassword }) => {
         try {
-            await register(email, password, firstName, lastName, imageUrl)
+            await register(email, password, firstName, lastName, imageUrl);
         } catch (error: any) {
             console.log(error)
             if (error.code === 'auth/email-already-in-use') {
