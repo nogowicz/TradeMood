@@ -17,6 +17,8 @@ type SubmitButtonProps = {
     onPress: Dispatch<SetStateAction<number>> | (any),
     isChevronDisplayed?: boolean,
     disabled?: boolean,
+    mode: 'submit' | 'option',
+    icon?: ReactNode
 }
 
 export default function SubmitButton({
@@ -24,11 +26,40 @@ export default function SubmitButton({
     activeOpacity = 0.75,
     onPress,
     isChevronDisplayed = false,
-    disabled = false
+    disabled = false,
+    mode,
+    icon
 }: SubmitButtonProps) {
+    if (mode === 'submit') {
+        return (
+            <TouchableOpacity
+                activeOpacity={activeOpacity}
+                onPress={disabled ? null : onPress}
+                style={[styles.container, disabled ? styles.disabled : {}]}
+            >
+                <View style={styles.actionLeftContainer} />
+                <Text style={[styles.label]}>{label}</Text>
+                <View style={styles.actionRightContainer}>
+                    {isChevronDisplayed ?
+                        <GoForward /> : null}
+                </View>
+            </TouchableOpacity>
+        );
+    } else if (mode === 'option') {
+        return (
+            <TouchableOpacity
+                activeOpacity={activeOpacity}
+                onPress={disabled ? null : onPress}
+                style={[styles.optionContainer, disabled ? styles.disabled : {}]}
+            >
+                {icon}
+                <Text style={[styles.optionLabel]}>{label}</Text>
+            </TouchableOpacity>
+        );
+
+    }
     return (
         <TouchableOpacity
-            activeOpacity={activeOpacity}
             onPress={disabled ? null : onPress}
             style={[styles.container, disabled ? styles.disabled : {}]}
         >
@@ -39,7 +70,9 @@ export default function SubmitButton({
                     <GoForward /> : null}
             </View>
         </TouchableOpacity>
-    );
+    )
+
+
 }
 
 const styles = StyleSheet.create({
@@ -59,6 +92,11 @@ const styles = StyleSheet.create({
         fontSize: typography.FONT_SIZE_24,
         color: colors.LIGHT_COLORS.BACKGROUND
     },
+    optionLabel: {
+        fontWeight: typography.FONT_WEIGHT_BOLD,
+        fontSize: typography.FONT_SIZE_20,
+        color: colors.LIGHT_COLORS.TERTIARY,
+    },
     actionLeftContainer: {
         flex: 1,
         alignItems: 'flex-start',
@@ -69,5 +107,12 @@ const styles = StyleSheet.create({
     },
     disabled: {
         opacity: 0.75
+    },
+    optionContainer: {
+        backgroundColor: 'transparent',
+        flexDirection: 'row',
+        padding: spacing.SCALE_20,
+        gap: spacing.SCALE_20,
+        alignItems: 'center',
     },
 });

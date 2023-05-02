@@ -84,6 +84,7 @@ export default function Welcome({ navigation }: WelcomeProps) {
                         }
                         onPress={() => navigation.navigate(SCREENS.AUTH.LOGIN.ID)}
                         isChevronDisplayed
+                        mode='submit'
                     />
 
                     <OutlinedButton

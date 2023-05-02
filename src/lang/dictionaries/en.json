@@ -60,5 +60,11 @@
   "views.home.welcome_text-good_evening": "Good Evening!",
   "views.home.welcome_text-hello": "Hello!",
   "views.home.welcome_text-anonymous": "Stranger",
-  "views.home.overview-title": "Overview"
+  "views.home.overview-title": "Overview",
+  "views.home.profile-title": "Hello, ",
+  "views.home.profile-edit_profile": "Edit Profile",
+  "views.home.profile-privacy_and_security": "Privacy & Security",
+  "views.home.profile-language": "Language",
+  "views.home.profile-about": "About",
+  "views.home.profile-logout": "Logout"
 }

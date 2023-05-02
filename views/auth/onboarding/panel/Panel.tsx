@@ -62,6 +62,7 @@ export default function Panel({
                     label={submitButtonLabel}
                     isChevronDisplayed={true}
                     onPress={submitButtonAction}
+                    mode='submit'
                 />
             </View>
         </>

@@ -134,6 +134,7 @@ export default function SignupPanel({
                     isChevronDisplayed
                     label={buttonLabel}
                     onPress={buttonAction}
+                    mode='submit'
                 />
             </Animated.View>
         </>

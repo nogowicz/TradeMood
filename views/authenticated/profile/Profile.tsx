@@ -3,13 +3,26 @@ import {
     Text,
     View,
     SafeAreaView,
+    Image,
 } from 'react-native'
 import React, { useContext } from 'react'
 import { NativeStackScreenProps } from '@react-navigation/native-stack';
 import { RootStackParamList } from '../../../views/navigation/Navigation';
-import SubmitButton from 'components/buttons/submit-button';
 import { AuthContext } from '@views/navigation/AuthProvider';
-import { colors, spacing } from 'styles';
+import { colors, constants, spacing, typography } from 'styles';
+import IconButton from 'components/buttons/icon-button';
+import { FormattedMessage } from 'react-intl';
+import SubmitButton from 'components/buttons/submit-button';
+
+import EditProfileSmall from 'assets/icons/Edit-profile-small.svg';
+import EditProfileBig from 'assets/icons/Edit-profile-bigger.svg';
+import Logout from 'assets/icons/Logout.svg'
+import PrivacyAndSecurity from 'assets/icons/Privacy-and-security.svg'
+import Language from 'assets/icons/Language.svg'
+import About from 'assets/icons/About.svg'
+
+
+
 
 type ProfileScreenNavigationProp = NativeStackScreenProps<RootStackParamList, 'Profile'>;
 
@@ -19,15 +32,126 @@ type ProfileProps = {
 
 
 export default function Profile({ navigation }: ProfileProps) {
-    const { logout } = useContext(AuthContext);
+    const { user, logout } = useContext(AuthContext);
+    const imageSize = 80;
     return (
         <SafeAreaView style={styles.root}>
             <View style={styles.container}>
-                <Text>Profile</Text>
+                <View style={styles.actionBar}>
+                    {user?.photoURL ?
+                        <Image
+                            source={{ uri: user?.photoURL }}
+                            style={{ width: imageSize, height: imageSize, borderRadius: imageSize / 2 }}
+                        /> :
+                        <View style={{
+                            width: imageSize,
+                            height: imageSize,
+                            borderRadius: imageSize / 2,
+                            borderWidth: 1,
+                            borderColor: colors.LIGHT_COLORS.HINT,
+                            justifyContent: 'center',
+                            alignItems: 'center'
+                        }}>
+                            <Image
+                                source={require('assets/profile/profile-picture.png')}
+                                style={{ width: imageSize, height: imageSize, borderRadius: imageSize / 2 }}
+                            />
+                        </View>}
+                    <IconButton
+                        onPress={() => console.log("Navigating to edit profile")}
+                        size={42}
+                        backgroundColor={colors.LIGHT_COLORS.LIGHT_HINT}
+                    >
+                        <EditProfileSmall />
+                    </IconButton>
+                </View>
+                <View style={styles.mainContainer}>
+                    <View style={styles.sectionTitleContainer}>
+                        <Text style={styles.sectionTitle}>
+                            <FormattedMessage
+                                defaultMessage='Hello, '
+                                id='views.home.profile-title'
+                            />
+                        </Text>
+                        <Text style={styles.sectionTitle}>
+                            {user?.isAnonymous ?
+                                <FormattedMessage
+                                    defaultMessage='Stranger'
+                                    id='views.home.welcome_text-anonymous'
+                                />
+                                :
+                                user?.displayName?.split(" ")[0]}
+                        </Text>
+                    </View>
 
-                <SubmitButton
-                    label='Logout'
-                    onPress={() => logout()} />
+
+                    <View style={styles.optionsContainer}>
+                        <SubmitButton
+                            label={
+                                <FormattedMessage
+                                    defaultMessage='Edit Profile'
+                                    id='views.home.profile-edit_profile'
+                                />
+                            }
+                            onPress={() => console.log("Edit profile")}
+                            mode='option'
+                            icon={<EditProfileBig />}
+                            activeOpacity={0.5}
+                        />
+                        <SubmitButton
+                            label={
+                                <FormattedMessage
+                                    defaultMessage='Privacy & Security'
+                                    id='views.home.profile-privacy_and_security'
+                                />
+                            }
+                            onPress={() => console.log("Privacy & Security")}
+                            mode='option'
+                            icon={<PrivacyAndSecurity />}
+                            activeOpacity={0.5}
+                        />
+                        <SubmitButton
+                            label={
+                                <FormattedMessage
+                                    defaultMessage='Language'
+                                    id='views.home.profile-language'
+                                />
+                            }
+                            onPress={() => console.log("Language")}
+                            mode='option'
+                            icon={<Language />}
+                            activeOpacity={0.5}
+                        />
+                        <SubmitButton
+                            label={
+                                <FormattedMessage
+                                    defaultMessage='About'
+                                    id='views.home.profile-about'
+                                />
+                            }
+                            onPress={() => console.log("About")}
+                            mode='option'
+                            icon={<About />}
+                            activeOpacity={0.5}
+                        />
+                        <SubmitButton
+                            label={
+                                <FormattedMessage
+                                    defaultMessage='Logout'
+                                    id='views.home.profile-logout'
+                                />
+                            }
+                            onPress={logout}
+                            mode='option'
+                            icon={<Logout />}
+                            activeOpacity={0.5}
+                        />
+                    </View>
+                </View>
+            </View>
+            <View style={styles.infoTextConatiner}>
+                <Text>TradeMood</Text>
+                <Text>v1.0.0</Text>
             </View>
         </SafeAreaView>
     )
@@ -43,4 +167,29 @@ const styles = StyleSheet.create({
         paddingHorizontal: spacing.SCALE_20,
         paddingTop: spacing.SCALE_20,
     },
+    actionBar: {
+        flexDirection: 'row',
+        justifyContent: 'space-between'
+    },
+    sectionTitle: {
+        ...typography.FONT_BOLD,
+        color: colors.LIGHT_COLORS.TERTIARY,
+        fontSize: typography.FONT_SIZE_32,
+        fontWeight: typography.FONT_WEIGHT_BOLD,
+    },
+    mainContainer: {
+        marginTop: spacing.SCALE_18,
+    },
+    sectionTitleContainer: {
+        flexDirection: 'row',
+    },
+    optionsContainer: {
+        backgroundColor: colors.LIGHT_COLORS.LIGHT_HINT,
+        borderRadius: constants.BORDER_RADIUS.BOTTOM_SHEET,
+        marginVertical: spacing.SCALE_20,
+    },
+    infoTextConatiner: {
+        alignItems: 'center',
+        marginVertical: spacing.SCALE_8,
+    }
 })
