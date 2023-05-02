@@ -65,6 +65,11 @@ export default function Signup({ navigation }: SignupProps) {
         }
     }, []);
 
+    const handleHideBottomSheet = useCallback(() => {
+        ref?.current?.scrollTo(0);
+
+    }, []);
+
 
     function handleNextPage() {
         setPage(prevPage => prevPage + 1);
@@ -104,6 +109,7 @@ export default function Signup({ navigation }: SignupProps) {
                         (error) => {
                             console.log(error);
                             setLoading(false);
+                            handleHideBottomSheet();
                         },
                         () => {
                             if (uploadTask.snapshot !== null) {
@@ -111,12 +117,14 @@ export default function Signup({ navigation }: SignupProps) {
                                 uploadTask.snapshot.ref.getDownloadURL().then((downloadURL) => {
                                     console.log('File available at', downloadURL);
                                     setLoading(false);
+                                    handleHideBottomSheet();
                                     setImageUrl(downloadURL);
                                 });
 
                             } else {
                                 console.log('Wystąpił błąd podczas przesyłania pliku.');
                                 setLoading(false);
+                                handleHideBottomSheet();
                             }
                         }
                     )
@@ -151,18 +159,21 @@ export default function Signup({ navigation }: SignupProps) {
                         (error) => {
                             console.log(error);
                             setLoading(false);
+                            handleHideBottomSheet();
                         },
                         () => {
                             if (uploadTask.snapshot !== null) {
                                 console.log('Upload is ' + uploadTask.snapshot.bytesTransferred + ' bytes done.');
                                 uploadTask.snapshot.ref.getDownloadURL().then((downloadURL) => {
                                     setLoading(false);
+                                    handleHideBottomSheet();
                                     console.log('File available at', downloadURL);
                                     setImageUrl(downloadURL);
                                 });
                             } else {
                                 console.log('Wystąpił błąd podczas przesyłania pliku.');
                                 setLoading(false);
+                                handleHideBottomSheet();
                             }
                         }
                     );
@@ -185,9 +196,11 @@ export default function Signup({ navigation }: SignupProps) {
 
                 console.log('Plik został usunięty.');
                 setLoading(false);
+                handleHideBottomSheet();
             } catch (error) {
                 console.error('Wystąpił błąd podczas usuwania pliku:', error);
                 setLoading(false);
+                handleHideBottomSheet();
             }
         }
 
@@ -215,10 +228,6 @@ export default function Signup({ navigation }: SignupProps) {
                 <BottomSheet ref={ref} height={500}>
                     <View>
                         {loading ?
-                            // <Image
-                            //     source={require('assets/loading/loading.gif')}
-                            //     style={{ width: 50, height: 50 }}
-                            // />
                             <View style={styles.progressBar}>
                                 <ProgressBar step={step} steps={100} height={40} />
                             </View>

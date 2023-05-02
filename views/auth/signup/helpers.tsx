@@ -56,27 +56,32 @@ export function prepareSignupPages({
             console.log(error)
             if (error.code === 'auth/email-already-in-use') {
                 setError('email', { message: 'That email address is already in use' });
+                handlePageWithError(0);
             } else if (error.code === 'auth/weak-password') {
                 setError('password', { message: 'Password is too weak' });
+                handlePageWithError(0);
             } else if (error.code === 'auth/invalid-email') {
                 setError('email', { message: 'Email is not valid' });
+                handlePageWithError(0);
             } else if (error.code === 'auth/operation-not-allowed') {
                 setError('email', { message: 'Internal error, please try again later' });
+                handlePageWithError(0);
             }
             else {
                 setError('email', { message: 'Internal error, please try again later' });
                 setError('password', { message: 'Internal error, please try again later' });
                 setError('confirmPassword', { message: 'Internal error, please try again later' });
+                handlePageWithError(0);
             }
         }
     };
 
     if (errors) {
         useEffect(() => {
-            if (errors.firstName || errors.lastName) {
+            if (errors.email || errors.password || errors.confirmPassword) {
                 handlePageWithError(0);
-            } else if (errors.email || errors.password || errors.confirmPassword) {
-                handlePageWithError(2);
+            } else if (errors.firstName || errors.lastName) {
+                handlePageWithError(1);
             }
         }, [errors]);
     }
@@ -86,7 +91,7 @@ export function prepareSignupPages({
 
     return [
         {
-            id: 'names',
+            id: 'credentials',
             action: (
                 <IconButton
                     onPress={() => {
@@ -95,6 +100,121 @@ export function prepareSignupPages({
                             deleteImage();
                         }
                     }}
+                    size={42}
+                >
+                    <GoBack />
+                </IconButton>
+            ),
+            logo: (
+                <SmallLogo />
+            ),
+            title: (
+                <FormattedMessage
+                    defaultMessage='Sign Up'
+                    id='views.auth.signup.signup'
+                />
+            ),
+            subTitle: (<></>),
+            mainContent: (
+                <>
+                    <Controller
+                        name='email'
+                        rules={{
+                            required: true,
+                        }}
+                        defaultValue=''
+                        control={control}
+                        render={({ field: { onChange, onBlur, value } }) => {
+                            return (
+                                <TextField
+                                    label={(
+                                        <FormattedMessage
+                                            defaultMessage='Email'
+                                            id='views.auth.signup.email'
+                                        />
+                                    )}
+                                    placeholder='johndoe@trademood.com'
+                                    value={value}
+                                    onBlur={onBlur}
+                                    onChangeText={onChange}
+                                    error={errors.email}
+                                >
+                                    <Email />
+                                </TextField>
+
+                            )
+                        }}
+                    />
+
+                    <Controller
+                        name='password'
+                        defaultValue=''
+                        control={control}
+                        render={({ field: { onChange, onBlur, value } }) => {
+                            return (
+                                <TextField
+                                    label={(
+                                        <FormattedMessage
+                                            defaultMessage='Password'
+                                            id='views.auth.signup.password'
+                                        />
+                                    )}
+                                    placeholder='********'
+                                    value={value}
+                                    onBlur={onBlur}
+                                    onChangeText={onChange}
+                                    error={errors.password}
+                                    password
+                                >
+                                    <Password />
+                                </TextField>
+                            )
+                        }}
+                    />
+
+
+                    <Controller
+                        name='confirmPassword'
+                        defaultValue=''
+                        control={control}
+                        render={({ field: { onChange, onBlur, value } }) => {
+                            return (
+                                <TextField
+                                    label={(
+                                        <FormattedMessage
+                                            defaultMessage='Confirm Password'
+                                            id='views.auth.signup.confirm-password'
+                                        />
+                                    )}
+                                    placeholder='********'
+                                    value={value}
+                                    onBlur={onBlur}
+                                    onChangeText={onChange}
+                                    error={errors.confirmPassword}
+                                    password
+                                >
+                                    <Password />
+                                </TextField>
+                            )
+                        }}
+                    />
+                </>
+            ),
+            buttonLabel: (
+                <FormattedMessage
+                    defaultMessage='Sign up'
+                    id='views.auth.signup.submit-button-signup'
+                />
+            ),
+            buttonAction: handleNextPage
+
+
+        },
+        {
+            id: 'names',
+            action: (
+                <IconButton
+                    onPress={handleBack}
                     size={42}
                 >
                     <GoBack />
@@ -229,123 +349,9 @@ export function prepareSignupPages({
                     id='views.auth.signup.submit-button-continue'
                 />
             ),
-            buttonAction: handleNextPage
-
-        },
-        {
-            id: 'credentials',
-            action: (
-                <IconButton
-                    onPress={handleBack}
-                    size={42}
-                >
-                    <GoBack />
-                </IconButton>
-            ),
-            logo: (
-                <SmallLogo />
-            ),
-            title: (
-                <FormattedMessage
-                    defaultMessage='Sign Up'
-                    id='views.auth.signup.signup'
-                />
-            ),
-            subTitle: (<></>),
-            mainContent: (
-                <>
-                    <Controller
-                        name='email'
-                        rules={{
-                            required: true,
-                        }}
-                        defaultValue=''
-                        control={control}
-                        render={({ field: { onChange, onBlur, value } }) => {
-                            return (
-                                <TextField
-                                    label={(
-                                        <FormattedMessage
-                                            defaultMessage='Email'
-                                            id='views.auth.signup.email'
-                                        />
-                                    )}
-                                    placeholder='johndoe@trademood.com'
-                                    value={value}
-                                    onBlur={onBlur}
-                                    onChangeText={onChange}
-                                    error={errors.email}
-                                >
-                                    <Email />
-                                </TextField>
-
-                            )
-                        }}
-                    />
-
-                    <Controller
-                        name='password'
-                        defaultValue=''
-                        control={control}
-                        render={({ field: { onChange, onBlur, value } }) => {
-                            return (
-                                <TextField
-                                    label={(
-                                        <FormattedMessage
-                                            defaultMessage='Password'
-                                            id='views.auth.signup.password'
-                                        />
-                                    )}
-                                    placeholder='********'
-                                    value={value}
-                                    onBlur={onBlur}
-                                    onChangeText={onChange}
-                                    error={errors.password}
-                                    password
-                                >
-                                    <Password />
-                                </TextField>
-                            )
-                        }}
-                    />
-
-
-                    <Controller
-                        name='confirmPassword'
-                        defaultValue=''
-                        control={control}
-                        render={({ field: { onChange, onBlur, value } }) => {
-                            return (
-                                <TextField
-                                    label={(
-                                        <FormattedMessage
-                                            defaultMessage='Confirm Password'
-                                            id='views.auth.signup.confirm-password'
-                                        />
-                                    )}
-                                    placeholder='********'
-                                    value={value}
-                                    onBlur={onBlur}
-                                    onChangeText={onChange}
-                                    error={errors.confirmPassword}
-                                    password
-                                >
-                                    <Password />
-                                </TextField>
-                            )
-                        }}
-                    />
-                </>
-            ),
-            buttonLabel: (
-                <FormattedMessage
-                    defaultMessage='Sign up'
-                    id='views.auth.signup.submit-button-signup'
-                />
-            ),
             buttonAction: handleSubmit(onSubmit)
 
-
         },
+
     ];
 }
