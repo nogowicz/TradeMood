@@ -38,6 +38,7 @@ export default function Overview({ navigation }: OverviewProps) {
                     <ProfileBar
                         displayName={user?.displayName}
                         imageUrl={user?.photoURL}
+                        isAnonymous={user?.isAnonymous}
                     />
                 </View>
 
