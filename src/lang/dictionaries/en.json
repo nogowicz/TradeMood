@@ -54,5 +54,17 @@
   "views.auth.forgot-password-message": "The link to change your password has been sent to your email address.",
   "views.auth.signup-gallery": "Gallery",
   "views.auth.signup-camera": "Camera",
-  "views.auth.signup-delete": "Delete"
+  "views.auth.signup-delete": "Delete",
+  "views.home.welcome_text-good_morning": "Good Morning!",
+  "views.home.welcome_text-good_afternoon": "Good Afternoon!",
+  "views.home.welcome_text-good_evening": "Good Evening!",
+  "views.home.welcome_text-hello": "Hello!",
+  "views.home.welcome_text-anonymous": "Stranger",
+  "views.home.overview-title": "Overview",
+  "views.home.profile-title": "Hello, ",
+  "views.home.profile-edit_profile": "Edit Profile",
+  "views.home.profile-privacy_and_security": "Privacy & Security",
+  "views.home.profile-language": "Language",
+  "views.home.profile-about": "About",
+  "views.home.profile-logout": "Logout"
 }

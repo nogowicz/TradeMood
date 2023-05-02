@@ -7,43 +7,85 @@ import {
 } from 'react-native'
 import React from 'react'
 import { colors, constants, spacing, typography } from 'styles'
+import { FormattedMessage } from 'react-intl';
 
 type ProfileBarProps = {
     displayName: string | null | undefined;
     imageUrl: string | null | undefined;
     activeOpacity?: number;
+    isAnonymous: boolean | undefined;
+    onPress: () => void;
 }
 
-export default function ProfileBar({ displayName, imageUrl, activeOpacity = 0.5 }: ProfileBarProps) {
+export default function ProfileBar({
+    displayName,
+    imageUrl,
+    activeOpacity = 0.7,
+    isAnonymous,
+    onPress,
+}: ProfileBarProps) {
     const imageSize = 40;
+    const currentDate = new Date();
+    const currentHour = currentDate.getHours();
     return (
         <TouchableOpacity
             style={styles.container}
             activeOpacity={activeOpacity}
+            onPress={onPress}
         >
             <View style={styles.textContainer}>
-                <Text style={styles.welcomeText}>Good Morning!</Text>
-                <Text style={styles.displayName}>{displayName}</Text>
+                <Text style={styles.welcomeText}>
+                    {(currentHour >= 5 && currentHour < 12) &&
+                        <FormattedMessage
+                            defaultMessage='Good Morning!'
+                            id='views.home.welcome_text-good_morning'
+                        />}
+                    {(currentHour >= 12 && currentHour < 18) &&
+                        <FormattedMessage
+                            defaultMessage='Good Afternoon!'
+                            id='views.home.welcome_text-good_afternoon'
+                        />}
+                    {(currentHour >= 18 && currentHour < 24) &&
+                        <FormattedMessage
+                            defaultMessage='Good evening!'
+                            id='views.home.welcome_text-good_evening'
+                        />}
+                    {(currentHour >= 0 && currentHour < 5) &&
+                        <FormattedMessage
+                            defaultMessage='Hello!'
+                            id='views.home.welcome_text-hello'
+                        />}
+                </Text>
+                <Text style={styles.displayName}>
+                    {isAnonymous ?
+                        <FormattedMessage
+                            defaultMessage='Stranger'
+                            id='views.home.welcome_text-anonymous'
+                        />
+                        :
+                        displayName}
+                </Text>
             </View>
-            <View
-                style={{
-                    width: imageSize,
-                    height: imageSize,
-                    borderRadius: imageSize / 2,
-                    borderWidth: 1,
-                    borderColor: colors.LIGHT_COLORS.HINT,
-                    justifyContent: 'center',
-                    alignItems: 'center'
-                }}>
+            <View>
                 {imageUrl ?
                     <Image
                         source={{ uri: imageUrl }}
                         style={{ width: imageSize, height: imageSize, borderRadius: imageSize / 2 }}
                     /> :
-                    <Image
-                        source={require('assets/profile/profile-picture.png')}
-                        style={{ width: imageSize, height: imageSize, borderRadius: imageSize / 2 }}
-                    />}
+                    <View style={{
+                        width: imageSize,
+                        height: imageSize,
+                        borderRadius: imageSize / 2,
+                        borderWidth: 1,
+                        borderColor: colors.LIGHT_COLORS.HINT,
+                        justifyContent: 'center',
+                        alignItems: 'center'
+                    }}>
+                        <Image
+                            source={require('assets/profile/profile-picture.png')}
+                            style={{ width: imageSize, height: imageSize, borderRadius: imageSize / 2 }}
+                        />
+                    </View>}
             </View>
         </TouchableOpacity>
     )

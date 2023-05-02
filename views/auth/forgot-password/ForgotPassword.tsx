@@ -196,6 +196,7 @@ export default function ForgotPassword({ navigation }: ForgotPasswordProps) {
                         />
                     }
                     onPress={handleSubmit(onResetPassword)}
+                    mode="submit"
                 />
             </View>
 

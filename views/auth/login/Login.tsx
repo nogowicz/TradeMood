@@ -226,6 +226,7 @@ export default function Login({ navigation }: LoginProps) {
                             />
                         }
                         onPress={handleSubmit(onSubmit)}
+                        mode="submit"
                     />
                 </Animated.View>
             </View>
