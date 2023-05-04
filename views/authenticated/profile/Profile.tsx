@@ -149,9 +149,9 @@ export default function Profile({ navigation }: ProfileProps) {
                     </View>
                 </View>
             </View>
-            <View style={styles.infoTextConatiner}>
-                <Text>TradeMood</Text>
-                <Text>v1.0.0</Text>
+            <View style={styles.infoTextContainer}>
+                <Text style={styles.infoText}>TradeMood</Text>
+                <Text style={styles.infoText}>v1.0.0</Text>
             </View>
         </SafeAreaView>
     )
@@ -186,10 +186,13 @@ const styles = StyleSheet.create({
     optionsContainer: {
         backgroundColor: colors.LIGHT_COLORS.LIGHT_HINT,
         borderRadius: constants.BORDER_RADIUS.BOTTOM_SHEET,
-        marginVertical: spacing.SCALE_20,
+        marginVertical: spacing.SCALE_40,
     },
-    infoTextConatiner: {
+    infoTextContainer: {
         alignItems: 'center',
         marginVertical: spacing.SCALE_8,
+    },
+    infoText: {
+        color: colors.LIGHT_COLORS.HINT
     }
 })
