@@ -4,7 +4,7 @@ import {
     Text,
     View,
 } from 'react-native';
-import { useContext } from 'react';
+import { useContext, useEffect, useState } from 'react';
 import { NativeStackScreenProps } from '@react-navigation/native-stack';
 import { FormattedMessage } from 'react-intl';
 
@@ -18,6 +18,8 @@ import Bell from 'assets/icons/Bell-icon.svg'
 import Search from 'assets/icons/Search.svg'
 import { SCREENS } from '@views/navigation/constants';
 import TrendingNow from 'components/trending-now';
+import firestore from '@react-native-firebase/firestore';
+import AsyncStorage from '@react-native-async-storage/async-storage';
 
 
 type OverviewScreenNavigationProp = NativeStackScreenProps<RootStackParamList, 'Overview'>;
@@ -28,6 +30,63 @@ type OverviewProps = {
 
 export default function Overview({ navigation }: OverviewProps) {
     const { user } = useContext(AuthContext);
+    const [instruments, setInstruments] = useState<any>();
+    const trendingNow = instruments[0];
+    useEffect(() => {
+        AsyncStorage.getItem('instruments').then(data => {
+            if (data) {
+                setInstruments(JSON.parse(data));
+            }
+        });
+    }, []);
+
+    const ref = firestore().collection('instruments');
+
+
+
+    useEffect(() => {
+        return ref.onSnapshot(querySnapshot => {
+            const list: any = [];
+            querySnapshot.forEach(doc => {
+                const {
+                    stockSymbol,
+                    crypto,
+                    activityTM,
+                    activityTW,
+                    sentimentPositive,
+                    sentimentNeutral,
+                    sentimentNegative,
+                    sentiment,
+                    sentimentDirection,
+                    time
+                } = doc.data();
+                list.push({
+                    id: doc.id,
+                    stockSymbol,
+                    crypto,
+                    activityTM,
+                    activityTW,
+                    sentimentPositive,
+                    sentimentNeutral,
+                    sentimentNegative,
+                    sentiment,
+                    sentimentDirection,
+                    time
+                });
+            });
+
+            setInstruments(list);
+
+            AsyncStorage.setItem('instruments', JSON.stringify(list))
+                .then(() => console.log('Lista instrumentów zapisana w Async Storage'))
+                .catch(error => console.log('Błąd zapisu listy instrumentów w Async Storage', error));
+        });
+
+
+    }, [])
+
+
+
 
     return (
         <SafeAreaView style={styles.root}>
@@ -65,11 +124,12 @@ export default function Overview({ navigation }: OverviewProps) {
                     </Text>
                 </View>
                 <View>
+
                     <TrendingNow
-                        name='Bitcoin'
-                        positive={60}
-                        neutral={10}
-                        negative={30}
+                        name={instruments ? trendingNow.crypto : ''}
+                        positive={instruments ? trendingNow.sentimentPositive : 0}
+                        neutral={instruments ? trendingNow.sentimentNeutral : 0}
+                        negative={instruments ? trendingNow.sentimentNegative : 0}
                         onPress={() => console.log("Navigating to details screen")}
                     />
                 </View>

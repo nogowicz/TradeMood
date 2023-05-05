@@ -1746,6 +1746,11 @@
   dependencies:
     plist "^3.0.5"
 
+"@react-native-firebase/firestore@^17.4.3":
+  version "17.4.3"
+  resolved "https://registry.yarnpkg.com/@react-native-firebase/firestore/-/firestore-17.4.3.tgz#f8766fab67cede99aec3c0565d3f549bf2210f0a"
+  integrity sha512-tN9x2n0lkY2jQcV+xWQym7woMzTzqX/eHTngKgLgOG+wtjxlCNgSQwOPqnrFL+TqHuSUxKuyJm4NSy9/mXOpig==
+
 "@react-native-firebase/storage@^17.4.3":
   version "17.4.3"
   resolved "https://registry.yarnpkg.com/@react-native-firebase/storage/-/storage-17.4.3.tgz#1bd30a03134ec92c9b7be7604d003a894656ca5e"
