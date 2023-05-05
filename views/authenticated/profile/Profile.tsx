@@ -20,6 +20,7 @@ import Logout from 'assets/icons/Logout.svg'
 import PrivacyAndSecurity from 'assets/icons/Privacy-and-security.svg'
 import Language from 'assets/icons/Language.svg'
 import About from 'assets/icons/About.svg'
+import { SCREENS } from '@views/navigation/constants';
 
 
 
@@ -58,7 +59,7 @@ export default function Profile({ navigation }: ProfileProps) {
                             />
                         </View>}
                     <IconButton
-                        onPress={() => console.log("Navigating to edit profile")}
+                        onPress={() => navigation.navigate(SCREENS.HOME.EDIT_PROFILE.ID)}
                         size={42}
                         backgroundColor={colors.LIGHT_COLORS.LIGHT_HINT}
                     >
@@ -93,7 +94,7 @@ export default function Profile({ navigation }: ProfileProps) {
                                     id='views.home.profile-edit_profile'
                                 />
                             }
-                            onPress={() => console.log("Edit profile")}
+                            onPress={() => navigation.navigate(SCREENS.HOME.EDIT_PROFILE.ID)}
                             mode='option'
                             icon={<EditProfileBig />}
                             activeOpacity={0.5}
@@ -141,7 +142,11 @@ export default function Profile({ navigation }: ProfileProps) {
                                     id='views.home.profile-logout'
                                 />
                             }
-                            onPress={logout}
+                            onPress={() => {
+                                logout().then(() => {
+                                    navigation.navigate(SCREENS.AUTH.WELCOME.ID);
+                                });
+                            }}
                             mode='option'
                             icon={<Logout />}
                             activeOpacity={0.5}
@@ -149,9 +154,9 @@ export default function Profile({ navigation }: ProfileProps) {
                     </View>
                 </View>
             </View>
-            <View style={styles.infoTextConatiner}>
-                <Text>TradeMood</Text>
-                <Text>v1.0.0</Text>
+            <View style={styles.infoTextContainer}>
+                <Text style={styles.infoText}>TradeMood</Text>
+                <Text style={styles.infoText}>v1.0.0</Text>
             </View>
         </SafeAreaView>
     )
@@ -186,10 +191,13 @@ const styles = StyleSheet.create({
     optionsContainer: {
         backgroundColor: colors.LIGHT_COLORS.LIGHT_HINT,
         borderRadius: constants.BORDER_RADIUS.BOTTOM_SHEET,
-        marginVertical: spacing.SCALE_20,
+        marginVertical: spacing.SCALE_40,
     },
-    infoTextConatiner: {
+    infoTextContainer: {
         alignItems: 'center',
         marginVertical: spacing.SCALE_8,
+    },
+    infoText: {
+        color: colors.LIGHT_COLORS.HINT
     }
 })

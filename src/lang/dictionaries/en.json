@@ -66,5 +66,9 @@
   "views.home.profile-privacy_and_security": "Privacy & Security",
   "views.home.profile-language": "Language",
   "views.home.profile-about": "About",
-  "views.home.profile-logout": "Logout"
+  "views.home.profile-logout": "Logout",
+  "views.home.profile-edit_profile-title": "Edit Your Profile",
+  "views.home.profile-edit_profile-email": "Email",
+  "views.home.profile-edit_profile-personal_info": "Personal Info",
+  "views.home.profile-edit_profile-profile_picture": "Profile Picture"
 }

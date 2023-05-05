@@ -18,6 +18,8 @@ import NotificationActive from 'assets/icons/Notification-Active.svg'
 
 import ProfileInactive from 'assets/icons/Profile.svg'
 import ProfileActive from 'assets/icons/Profile-Active.svg'
+import { spacing } from 'styles';
+import EditProfile from '@views/authenticated/sub-views/edit-profile';
 
 export default function HomeStack() {
     const Stack = createNativeStackNavigator();
@@ -30,6 +32,7 @@ export default function HomeStack() {
                 screenOptions={{
                     headerShown: false,
                     tabBarShowLabel: false,
+                    tabBarStyle: { height: spacing.SCALE_60 }
                 }}
 
             >
@@ -85,6 +88,11 @@ export default function HomeStack() {
             <Stack.Screen
                 name='MyTabs'
                 component={MyTabs}
+            />
+
+            <Stack.Screen
+                name={SCREENS.HOME.EDIT_PROFILE.ID}
+                component={EditProfile}
             />
         </Stack.Navigator>
     );
