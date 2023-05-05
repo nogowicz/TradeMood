@@ -7,4 +7,5 @@ export const LIGHT_COLORS = {
   HINT: '#828282',
   LIGHT_HINT: '#EAEAEA',
   NEGATIVE: '#DB6363',
+  POSITIVE: '#90D37A',
 };
