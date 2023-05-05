@@ -29,6 +29,9 @@ export const SCREENS = {
     },
     PROFILE: {
       ID: 'PROFILE'
+    },
+    EDIT_PROFILE: {
+      ID: 'EDIT_PROFILE'
     }
   },
 };

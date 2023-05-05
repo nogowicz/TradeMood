@@ -66,5 +66,9 @@
   "views.home.profile-privacy_and_security": "Bezpieczeństwo",
   "views.home.profile-language": "Język",
   "views.home.profile-about": "O nas",
-  "views.home.profile-logout": "Wyloguj"
+  "views.home.profile-logout": "Wyloguj",
+  "views.home.profile-edit_profile-title": "Edytuj Swój Profil",
+  "views.home.profile-edit_profile-email": "Email",
+  "views.home.profile-edit_profile-personal_info": "Informacje Osobiste",
+  "views.home.profile-edit_profile-profile_picture": "Zdjęcie Profilowe"
 }
