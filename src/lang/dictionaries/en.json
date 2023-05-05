@@ -70,5 +70,10 @@
   "views.home.profile-edit_profile-title": "Edit Your Profile",
   "views.home.profile-edit_profile-email": "Email",
   "views.home.profile-edit_profile-personal_info": "Personal Info",
-  "views.home.profile-edit_profile-profile_picture": "Profile Picture"
+  "views.home.profile-edit_profile-profile_picture": "Profile Picture",
+  "views.home.overview-trending_now-title": "Trending Now",
+  "views.home.overview-trending_now-details": "Details",
+  "views.home.overview-trending_now-positive": "Positive",
+  "views.home.overview-trending_now-neutral": "Neutral",
+  "views.home.overview-trending_now-negative": "Negative"
 }
