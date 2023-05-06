@@ -10,8 +10,7 @@ import { RootStackParamList } from '@views/navigation/Navigation';
 import { colors, constants, spacing, typography } from 'styles';
 import IconButton from 'components/buttons/icon-button';
 
-import GoBack from 'assets/icons/Go-back.svg'
-import SmallLogo from 'assets/logo/logo-smaller.svg'
+
 import { FormattedMessage } from 'react-intl';
 import { SCREENS } from '@views/navigation/constants';
 import SubmitButton from 'components/buttons/submit-button';
@@ -19,6 +18,8 @@ import SubmitButton from 'components/buttons/submit-button';
 import Email from 'assets/icons/Email-light.svg'
 import Person from 'assets/icons/Person-light.svg'
 import Picture from 'assets/icons/Picture.svg'
+import GoBack from 'assets/icons/Go-back.svg'
+import SmallLogo from 'assets/logo/logo-smaller.svg'
 
 type EditProfileScreenNavigationProp = NativeStackScreenProps<RootStackParamList, 'EditProfile'>;
 
@@ -60,7 +61,7 @@ export default function EditProfile({ navigation }: EditProfileProps) {
                                     id='views.home.profile-edit_profile-email'
                                 />
                             }
-                            onPress={() => console.log("Email")}
+                            onPress={() => navigation.navigate(SCREENS.HOME.EDIT_EMAIL.ID)}
                             mode='option'
                             icon={<Email />}
                             activeOpacity={0.5}

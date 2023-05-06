@@ -25,6 +25,7 @@ type ForgotPasswordProps = {
 
 
 export default function ForgotPassword({ navigation }: ForgotPasswordProps) {
+    const [loading, setLoading] = useState(false);
     const [messageVisible, setMessageVisible] = useState(false);
     const { resetPassword } = useContext(AuthContext);
     const { control, handleSubmit, setError, formState: { errors } } = useForm({
@@ -32,11 +33,12 @@ export default function ForgotPassword({ navigation }: ForgotPasswordProps) {
     });
 
     const onResetPassword: SubmitHandler<FieldValues> = async ({ email }) => {
-        console.log("DEBUG")
+        setLoading(true);
         try {
             await resetPassword(email)
                 .then(() => {
                     setMessageVisible(true);
+                    setLoading(false);
                     setTimeout(() => {
                         navigation.goBack();
                         setMessageVisible(false);
@@ -52,6 +54,7 @@ export default function ForgotPassword({ navigation }: ForgotPasswordProps) {
             else {
                 setError('email', { message: 'Internal error, please try again later' });
             }
+            setLoading(false);
         }
     }
 
@@ -190,10 +193,15 @@ export default function ForgotPassword({ navigation }: ForgotPasswordProps) {
                 <SubmitButton
                     isChevronDisplayed
                     label={
-                        <FormattedMessage
-                            defaultMessage='Send'
-                            id='views.auth.forgot-password-send'
-                        />
+                        loading ?
+                            <FormattedMessage
+                                defaultMessage='Loading...'
+                                id='views.auth.loading'
+                            /> :
+                            <FormattedMessage
+                                defaultMessage='Send'
+                                id='views.auth.forgot-password-send'
+                            />
                     }
                     onPress={handleSubmit(onResetPassword)}
                     mode="submit"

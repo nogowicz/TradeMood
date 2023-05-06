@@ -75,5 +75,12 @@
   "views.home.overview-trending_now-details": "Details",
   "views.home.overview-trending_now-positive": "Positive",
   "views.home.overview-trending_now-neutral": "Neutral",
-  "views.home.overview-trending_now-negative": "Negative"
+  "views.home.overview-trending_now-negative": "Negative",
+  "views.home.profile-edit_email-title": "Edit Your Email",
+  "views.home.profile-edit_email-new_email": "New Email",
+  "views.home.profile-edit_email-submit": "Submit",
+  "views.home.profile-edit_email-message": "Your address email has been update successfully, please check your inbox.",
+  "views.home.profile-edit_email-error-re_authentication": "This operation requires re-authentication to ensure it's you",
+  "views.auth.loading": "Loading...",
+  "views.home.profile-edit_email-subtitle": "Please provide us with new email address"
 }

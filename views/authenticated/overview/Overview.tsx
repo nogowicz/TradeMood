@@ -204,6 +204,6 @@ const styles = StyleSheet.create({
         fontWeight: typography.FONT_WEIGHT_BOLD,
     },
     mainContainer: {
-        marginTop: spacing.SCALE_18,
+        marginVertical: spacing.SCALE_18,
     }
 });

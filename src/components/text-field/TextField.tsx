@@ -93,6 +93,8 @@ export default function TextField({
                 setId("views.auth.errors-weak-password");
             } else if (error.message === "Internal error, please try again later") {
                 setId("views.auth.errors-internal-error");
+            } else if (error.message === "This operation requires re-authentication to ensure it's you") {
+                setId('views.home.profile-edit_email-error-re_authentication');
             } else {
                 setId("views.auth.errors-basic-error");
             }
