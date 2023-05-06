@@ -42,7 +42,7 @@ export function prepareSignupPages({
     setImageUrl,
     deleteImage,
 }: PrepareSignupPagesType) {
-
+    const [loading, setLoading] = useState(false);
     const { register } = useContext(AuthContext);
     const { control, handleSubmit, setError, formState: { errors } } = useForm({
         resolver: yupResolver(schema)
@@ -50,8 +50,10 @@ export function prepareSignupPages({
 
 
     const onSubmit: SubmitHandler<FieldValues> = async ({ firstName, lastName, email, password, confirmPassword }) => {
+        setLoading(true);
         try {
-            await register(email, password, firstName, lastName, imageUrl);
+            await register(email, password, firstName, lastName, imageUrl)
+                .then(() => setLoading(false));
         } catch (error: any) {
             console.log(error)
             if (error.code === 'auth/email-already-in-use') {
@@ -73,6 +75,7 @@ export function prepareSignupPages({
                 setError('confirmPassword', { message: 'Internal error, please try again later' });
                 handlePageWithError(0);
             }
+            setLoading(false)
         }
     };
 
@@ -344,10 +347,15 @@ export function prepareSignupPages({
                 </>
             ),
             buttonLabel: (
-                <FormattedMessage
-                    defaultMessage='Sign up'
-                    id='views.auth.signup.submit-button-signup'
-                />
+                loading ?
+                    <FormattedMessage
+                        defaultMessage='Loading...'
+                        id='views.auth.loading'
+                    /> :
+                    <FormattedMessage
+                        defaultMessage='Sign up'
+                        id='views.auth.signup.submit-button-signup'
+                    />
             ),
             buttonAction: handleSubmit(onSubmit)
 

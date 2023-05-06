@@ -1,69 +1,73 @@
 import {
-    View,
-    Text,
-    SafeAreaView,
     StyleSheet,
+    Text,
+    View,
+    SafeAreaView,
     Animated,
     Keyboard,
-    Alert,
 } from 'react-native'
-import { NativeStackScreenProps } from '@react-navigation/native-stack';
-import { RootStackParamList } from '../../navigation/Navigation';
-import { useContext, useEffect, useRef, useState } from 'react';
-import { AuthContext } from '../../navigation/AuthProvider';
-import SubmitButton from 'components/buttons/submit-button';
-import { colors, spacing, typography } from 'styles';
-import IconButton from 'components/buttons/icon-button';
+import React, { useContext, useEffect, useRef, useState } from 'react'
+import { colors, spacing, typography } from 'styles'
 
-import GoBack from 'assets/icons/Go-back.svg';
-import SmallLogo from 'assets/logo/logo-smaller.svg';
+import GoBack from 'assets/icons/Go-back.svg'
+import SmallLogo from 'assets/logo/logo-smaller.svg'
+import IconButton from 'components/buttons/icon-button'
+import { RootStackParamList } from '@views/navigation/Navigation'
+import { NativeStackScreenProps } from '@react-navigation/native-stack'
+import { FormattedMessage } from 'react-intl'
+import { SCREENS } from '@views/navigation/constants'
+import SubmitButton from 'components/buttons/submit-button'
+import TextField from 'components/text-field'
+import { Controller, FieldValues, SubmitHandler, useForm } from 'react-hook-form'
+import { yupResolver } from '@hookform/resolvers/yup'
+import { schema } from '@views/authenticated/sub-views/edit-email/validationSchema';
+import { AuthContext } from '@views/navigation/AuthProvider'
+
 import Email from 'assets/icons/Email.svg';
-import Password from 'assets/icons/Password.svg';
-import { FormattedMessage } from 'react-intl';
-import { Controller, FieldValues, SubmitHandler, useForm } from 'react-hook-form';
-import { yupResolver } from '@hookform/resolvers/yup';
-import { schema } from './validationSchema'
-import TextField from 'components/text-field';
-import { SCREENS } from '@views/navigation/constants';
 
-type LoginScreenNavigationProp = NativeStackScreenProps<RootStackParamList, 'Login'>;
+type EditEmailScreenNavigationProp = NativeStackScreenProps<RootStackParamList, 'EditProfile'>;
 
-type LoginProps = {
-    navigation: LoginScreenNavigationProp['navigation']
+type EditEmailProps = {
+    navigation: EditEmailScreenNavigationProp['navigation']
 }
 
-export default function Login({ navigation }: LoginProps) {
+
+export default function EditEmail({ navigation }: EditEmailProps) {
     const [loading, setLoading] = useState(false);
-    const { login } = useContext(AuthContext);
+    const [messageVisible, setMessageVisible] = useState(false);
+    const { updateEmail } = useContext(AuthContext);
     const { control, handleSubmit, setError, formState: { errors } } = useForm({
         resolver: yupResolver(schema)
     });
 
-    const onSubmit: SubmitHandler<FieldValues> = async ({ email, password }) => {
+    const onSubmit: SubmitHandler<FieldValues> = async ({ newEmail }) => {
         setLoading(true);
         try {
-            await login(email, password)
-                .then(() => setLoading(false))
+            await updateEmail(newEmail)
+                .then(() => {
+                    setMessageVisible(true);
+                    setLoading(false);
+                    setTimeout(() => {
+                        navigation.goBack();
+                        setMessageVisible(false);
+                    }, 3000)
+                });
         } catch (error: any) {
             console.log(error)
-            if (error.code === 'auth/user-not-found') {
-                setError('email', { message: 'User not found' });
-            } else if (error.code === 'auth/wrong-password') {
-                setError('password', { message: 'Password is incorrect' });
-            } else if (error.code === 'auth/user-disabled') {
-                setError('email', { message: 'This account has been disabled' });
-            } else if (error.code === 'auth/invalid-email') {
-                setError('email', { message: 'Email is not valid' });
+            if (error.code === 'auth/invalid-email') {
+                setError('newEmail', { message: 'Email is not valid' })
+            } else if (error.code === 'auth/email-already-in-use') {
+                setError('newEmail', { message: 'That email address is already in use' })
+            } else if (error.code === 'auth/requires-recent-login') {
+                setError('newEmail', { message: "This operation requires re-authentication to ensure it's you" })
             }
             else {
-                setError('email', { message: 'Internal error, please try again later' });
+                setError('newEmail', { message: 'Internal error, please try again later' });
             }
-            setLoading(false)
+            setLoading(false);
         }
 
     }
-
-
 
     const scaleValue = useRef(new Animated.Value(1)).current;
     const translateYValue = useRef(new Animated.Value(0)).current;
@@ -141,20 +145,20 @@ export default function Login({ navigation }: LoginProps) {
                         <Animated.View style={styles.textContainer}>
                             <Text style={styles.title}>
                                 <FormattedMessage
-                                    defaultMessage='Login'
-                                    id='views.auth.login.login'
+                                    defaultMessage='Edit Your Email'
+                                    id='views.home.profile-edit_email-title'
                                 />
                             </Text>
                             <Text style={styles.subTitle}>
                                 <FormattedMessage
-                                    defaultMessage='Hi there! Please provide us with your information so we can personalize your experience.'
-                                    id='views.auth.login.subtitle'
+                                    defaultMessage='Please provide us with new email address'
+                                    id='views.home.profile-edit_email-subtitle'
                                 />
                             </Text>
                         </Animated.View>
                         <View style={styles.mainContent}>
                             <Controller
-                                name='email'
+                                name='newEmail'
                                 rules={{
                                     required: true,
                                 }}
@@ -165,15 +169,15 @@ export default function Login({ navigation }: LoginProps) {
                                         <TextField
                                             label={(
                                                 <FormattedMessage
-                                                    defaultMessage='Email'
-                                                    id='views.auth.signup.email'
+                                                    defaultMessage='New Email'
+                                                    id='views.home.profile-edit_email-new_email'
                                                 />
                                             )}
-                                            placeholder='johndoe@trademood.com'
+                                            placeholder='johnydoe@trademood.com'
                                             value={value}
                                             onBlur={onBlur}
                                             onChangeText={onChange}
-                                            error={errors.email}
+                                            error={errors.newEmail}
                                         >
                                             <Email />
                                         </TextField>
@@ -182,67 +186,40 @@ export default function Login({ navigation }: LoginProps) {
                                 }}
                             />
 
-                            <Controller
-                                name='password'
-                                defaultValue=''
-                                control={control}
-                                render={({ field: { onChange, onBlur, value } }) => {
-                                    return (
-                                        <TextField
-                                            label={(
-                                                <FormattedMessage
-                                                    defaultMessage='Password'
-                                                    id='views.auth.signup.password'
-                                                />
-                                            )}
-                                            actionLabel={
-                                                <FormattedMessage
-                                                    defaultMessage='Forgot password?'
-                                                    id='views.auth.login.forgot-password'
-                                                />
-                                            }
-                                            action={() => {
-                                                navigation.navigate(SCREENS.AUTH.FORGOT_PASSWORD.ID)
-                                            }}
-                                            placeholder='********'
-                                            value={value}
-                                            onBlur={onBlur}
-                                            onChangeText={onChange}
-                                            error={errors.password}
-                                            password
-                                        >
-                                            <Password />
-                                        </TextField>
-                                    )
-                                }}
-                            />
+                            {messageVisible &&
+                                <Text
+                                    style={[styles.subTitle]}
+                                >
+                                    <FormattedMessage
+                                        defaultMessage='Your address email has been update successfully, please check your inbox.'
+                                        id='views.home.profile-edit_email-message'
+                                    />
+                                </Text>}
+
                         </View>
+
                     </Animated.View>
                 </View>
-
-                <Animated.View style={[{ transform: [{ translateY: translateYValue }] }]}>
-                    <SubmitButton
-                        isChevronDisplayed
-                        label={
-                            loading ?
-                                <FormattedMessage
-                                    defaultMessage='Loading...'
-                                    id='views.auth.loading'
-                                /> :
-                                <FormattedMessage
-                                    defaultMessage='Login'
-                                    id='views.auth.login.submit-button'
-                                />
-                        }
-                        onPress={handleSubmit(onSubmit)}
-                        mode="submit"
-                    />
-                </Animated.View>
+                <SubmitButton
+                    isChevronDisplayed
+                    label={
+                        loading ?
+                            <FormattedMessage
+                                defaultMessage='Loading...'
+                                id='views.auth.loading'
+                            /> :
+                            <FormattedMessage
+                                defaultMessage='Submit'
+                                id='views.home.profile-edit_email-submit'
+                            />
+                    }
+                    onPress={handleSubmit(onSubmit)}
+                    mode="submit"
+                />
             </View>
-
         </SafeAreaView>
-    );
-};
+    )
+}
 
 const styles = StyleSheet.create({
     root: {
@@ -283,4 +260,4 @@ const styles = StyleSheet.create({
     mainContent: {
         marginBottom: spacing.SCALE_4,
     }
-});
+})

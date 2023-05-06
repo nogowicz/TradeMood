@@ -32,6 +32,9 @@ export const SCREENS = {
     },
     EDIT_PROFILE: {
       ID: 'EDIT_PROFILE'
+    },
+    EDIT_EMAIL: {
+      ID: 'EDIT_EMAIL'
     }
   },
 };

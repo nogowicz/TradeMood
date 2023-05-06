@@ -7,7 +7,7 @@ import {
 import React from 'react'
 import { colors, constants, spacing, typography } from 'styles'
 import Pie from 'react-native-pie'
-import GoFroward from 'assets/icons/Go-forward-black.svg'
+import GoFroward from 'assets/icons/Go-forward.svg'
 import { FormattedMessage } from 'react-intl'
 
 type TrendingNowProps = {
@@ -53,7 +53,7 @@ export default function TrendingNow({ name, positive, neutral, negative, onPress
                             id='views.home.overview-trending_now-details'
                         />
                     </Text>
-                    <GoFroward width={6} />
+                    <GoFroward width={6} style={{ color: colors.LIGHT_COLORS.TERTIARY }} />
                 </TouchableOpacity>
             </View>
             <View style={styles.bottomContainer}>

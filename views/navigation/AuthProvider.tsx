@@ -10,6 +10,7 @@ type AuthContextType = {
     logout: () => Promise<void>;
     resetPassword: (email: string) => Promise<void>;
     signInAnonymously: () => Promise<void>;
+    updateEmail: (newEmail: string) => Promise<void>;
 }
 
 export const AuthContext = createContext<AuthContextType>({
@@ -20,6 +21,7 @@ export const AuthContext = createContext<AuthContextType>({
     logout: async () => { },
     resetPassword: async () => { },
     signInAnonymously: async () => { },
+    updateEmail: async () => { },
 });
 
 
@@ -77,6 +79,14 @@ export function AuthProvider({ children }: AuthProviderProps) {
                 } catch (error) {
                     console.log(error);
                 }
+            },
+            updateEmail: async (newEmail: string) => {
+                const user = auth().currentUser;
+                if (user) {
+                    await user.updateEmail(newEmail);
+                    await user.sendEmailVerification();
+                }
+
             }
         }}>{children}</AuthContext.Provider>
 }

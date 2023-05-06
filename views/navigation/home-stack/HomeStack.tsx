@@ -20,6 +20,7 @@ import ProfileInactive from 'assets/icons/Profile.svg'
 import ProfileActive from 'assets/icons/Profile-Active.svg'
 import { spacing } from 'styles';
 import EditProfile from '@views/authenticated/sub-views/edit-profile';
+import EditEmail from '@views/authenticated/sub-views/edit-email';
 
 export default function HomeStack() {
     const Stack = createNativeStackNavigator();
@@ -93,6 +94,11 @@ export default function HomeStack() {
             <Stack.Screen
                 name={SCREENS.HOME.EDIT_PROFILE.ID}
                 component={EditProfile}
+            />
+
+            <Stack.Screen
+                name={SCREENS.HOME.EDIT_EMAIL.ID}
+                component={EditEmail}
             />
         </Stack.Navigator>
     );

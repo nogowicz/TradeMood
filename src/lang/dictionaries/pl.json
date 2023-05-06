@@ -75,5 +75,12 @@
   "views.home.overview-trending_now-details": "Szczegóły",
   "views.home.overview-trending_now-positive": "Pozytywne",
   "views.home.overview-trending_now-neutral": "Neutralne",
-  "views.home.overview-trending_now-negative": "Negatywne"
+  "views.home.overview-trending_now-negative": "Negatywne",
+  "views.home.profile-edit_email-title": "Edytuj Swój Email",
+  "views.home.profile-edit_email-new_email": "Nowy Email",
+  "views.home.profile-edit_email-submit": "Zatwierdź",
+  "views.home.profile-edit_email-message": "Twój adres e-mail został pomyślnie zaktualizowany, sprawdź swoją skrzynkę odbiorczą.",
+  "views.home.profile-edit_email-error-re_authentication": "Ta operacja wymaga ponownego zalogowania, abyśmy mieli pewność, że to Ty",
+  "views.auth.loading": "Ładowanie...",
+  "views.home.profile-edit_email-subtitle": "Podaj nam swój nowy adres email"
 }
