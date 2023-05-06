@@ -8,7 +8,7 @@ import { Dispatch, ReactNode, SetStateAction } from 'react'
 
 import { colors, constants, spacing, typography } from '../../../styles';
 
-import GoForward from '../../../assets/icons/Go-forward-black.svg';
+import GoForward from '../../../assets/icons/Go-forward.svg';
 
 
 type OutlinedButtonProps = {
@@ -34,7 +34,7 @@ export default function OutlinedButton({
             <Text style={[styles.label]}>{label}</Text>
             <View style={styles.actionRightContainer}>
                 {isChevronDisplayed ?
-                    <GoForward /> : null}
+                    <GoForward style={{ color: colors.LIGHT_COLORS.TERTIARY }} /> : null}
             </View>
         </TouchableOpacity>
     );

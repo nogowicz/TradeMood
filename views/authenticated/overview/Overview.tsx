@@ -3,6 +3,7 @@ import {
     StyleSheet,
     Text,
     View,
+    ScrollView,
 } from 'react-native';
 import { useContext, useEffect, useState } from 'react';
 import { NativeStackScreenProps } from '@react-navigation/native-stack';
@@ -20,6 +21,7 @@ import { SCREENS } from '@views/navigation/constants';
 import TrendingNow from 'components/trending-now';
 import firestore from '@react-native-firebase/firestore';
 import AsyncStorage from '@react-native-async-storage/async-storage';
+import InstrumentRecord from 'components/instrument-record';
 
 
 type OverviewScreenNavigationProp = NativeStackScreenProps<RootStackParamList, 'Overview'>;
@@ -28,10 +30,25 @@ type OverviewProps = {
     navigation: OverviewScreenNavigationProp['navigation']
 }
 
+type InstrumentProps = {
+    id: string;
+    stockSymbol: string;
+    crypto: string;
+    activityTM: number;
+    activityTW: number;
+    sentimentPositive: number;
+    sentimentNeutral: number;
+    sentimentNegative: number;
+    sentiment: string;
+    sentimentDirection: string;
+    time: Date;
+    photoUrl: string;
+}
+
 export default function Overview({ navigation }: OverviewProps) {
     const { user } = useContext(AuthContext);
-    const [instruments, setInstruments] = useState<any>();
-    const trendingNow = instruments[0];
+    const [instruments, setInstruments] = useState<Array<InstrumentProps>>();
+
     useEffect(() => {
         AsyncStorage.getItem('instruments').then(data => {
             if (data) {
@@ -46,7 +63,7 @@ export default function Overview({ navigation }: OverviewProps) {
 
     useEffect(() => {
         return ref.onSnapshot(querySnapshot => {
-            const list: any = [];
+            const list: Array<InstrumentProps> = [];
             querySnapshot.forEach(doc => {
                 const {
                     stockSymbol,
@@ -58,7 +75,8 @@ export default function Overview({ navigation }: OverviewProps) {
                     sentimentNegative,
                     sentiment,
                     sentimentDirection,
-                    time
+                    time,
+                    photoUrl
                 } = doc.data();
                 list.push({
                     id: doc.id,
@@ -71,7 +89,8 @@ export default function Overview({ navigation }: OverviewProps) {
                     sentimentNegative,
                     sentiment,
                     sentimentDirection,
-                    time
+                    time,
+                    photoUrl
                 });
             });
 
@@ -123,17 +142,37 @@ export default function Overview({ navigation }: OverviewProps) {
                         />
                     </Text>
                 </View>
-                <View>
+                <ScrollView
+                    showsVerticalScrollIndicator={false}
+                    style={{ flex: 1, }}
+                >
+                    <View>
 
-                    <TrendingNow
-                        name={instruments ? trendingNow.crypto : ''}
-                        positive={instruments ? trendingNow.sentimentPositive : 0}
-                        neutral={instruments ? trendingNow.sentimentNeutral : 0}
-                        negative={instruments ? trendingNow.sentimentNegative : 0}
-                        onPress={() => console.log("Navigating to details screen")}
-                    />
-                </View>
+                        <TrendingNow
+                            name={instruments ? instruments[0].crypto : ''}
+                            positive={instruments ? instruments[0].sentimentPositive : 0}
+                            neutral={instruments ? instruments[0].sentimentNeutral : 0}
+                            negative={instruments ? instruments[0].sentimentNegative : 0}
+                            onPress={() => console.log("Navigating to details screen")}
+                        />
+                    </View>
+                    <View>
+                        {instruments && instruments.map((instrument: InstrumentProps) => {
+                            return (
+                                <InstrumentRecord
+                                    key={instrument.id}
+                                    crypto={instrument.crypto}
+                                    sentimentDirection={instrument.sentimentDirection}
+                                    sentiment={instrument.sentiment}
+                                    photoUrl={instrument.photoUrl}
+                                />
+                            )
 
+                        })}
+
+
+                    </View>
+                </ScrollView>
             </View>
         </SafeAreaView>
     );

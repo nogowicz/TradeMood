@@ -41,7 +41,7 @@ export default function SubmitButton({
                 <Text style={[styles.label]}>{label}</Text>
                 <View style={styles.actionRightContainer}>
                     {isChevronDisplayed ?
-                        <GoForward /> : null}
+                        <GoForward style={{ color: colors.LIGHT_COLORS.BACKGROUND }} /> : null}
                 </View>
             </TouchableOpacity>
         );
@@ -67,7 +67,7 @@ export default function SubmitButton({
             <Text style={[styles.label]}>{label}</Text>
             <View style={styles.actionRightContainer}>
                 {isChevronDisplayed ?
-                    <GoForward /> : null}
+                    <GoForward style={{ color: colors.LIGHT_COLORS.BACKGROUND }} /> : null}
             </View>
         </TouchableOpacity>
     )
