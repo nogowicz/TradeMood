@@ -11,6 +11,7 @@ type AuthContextType = {
     resetPassword: (email: string) => Promise<void>;
     signInAnonymously: () => Promise<void>;
     updateEmail: (newEmail: string) => Promise<void>;
+    updatePersonalData: (firstName: string, lastName: string) => Promise<void>,
 }
 
 export const AuthContext = createContext<AuthContextType>({
@@ -22,6 +23,7 @@ export const AuthContext = createContext<AuthContextType>({
     resetPassword: async () => { },
     signInAnonymously: async () => { },
     updateEmail: async () => { },
+    updatePersonalData: async () => { },
 });
 
 
@@ -46,13 +48,13 @@ export function AuthProvider({ children }: AuthProviderProps) {
                         const user = userCredential.user;
                         if (imageUrl) {
                             user.updateProfile({
-                                displayName: `${firstName} ${lastName}`,
+                                displayName: `${firstName.trim()} ${lastName.trim()}`,
                                 photoURL: imageUrl
                             })
 
                         } else {
                             user.updateProfile({
-                                displayName: `${firstName} ${lastName}`
+                                displayName: `${firstName.trim()} ${lastName.trim()}`
                             })
 
                         }
@@ -86,7 +88,14 @@ export function AuthProvider({ children }: AuthProviderProps) {
                     await user.updateEmail(newEmail);
                     await user.sendEmailVerification();
                 }
-
+            },
+            updatePersonalData: async (firstName: string, lastName: string) => {
+                const user = auth().currentUser;
+                if (user) {
+                    await user.updateProfile({
+                        displayName: `${firstName.trim()} ${lastName.trim()}`
+                    });
+                }
             }
         }}>{children}</AuthContext.Provider>
 }

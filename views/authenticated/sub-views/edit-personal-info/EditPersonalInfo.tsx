@@ -1,49 +1,45 @@
 import {
+    Animated,
+    Keyboard,
     StyleSheet,
     Text,
     View,
     SafeAreaView,
-    Animated,
-    Keyboard,
 } from 'react-native'
 import React, { useContext, useEffect, useRef, useState } from 'react'
-import { colors, spacing, typography } from 'styles'
-
+import { NativeStackScreenProps } from '@react-navigation/native-stack';
+import { RootStackParamList } from '@views/navigation/Navigation';
+import IconButton from 'components/buttons/icon-button';
+import { FormattedMessage } from 'react-intl';
+import { Controller, FieldValues, SubmitHandler, useForm } from 'react-hook-form';
+import TextField from 'components/text-field';
+import { yupResolver } from '@hookform/resolvers/yup';
+import { AuthContext } from '@views/navigation/AuthProvider';
+import SubmitButton from 'components/buttons/submit-button';
+import { spacing, colors, typography } from 'styles';
+import { schema } from '../edit-personal-info/validationSchema';
 import GoBack from 'assets/icons/Go-back.svg'
 import SmallLogo from 'assets/logo/logo-smaller.svg'
-import IconButton from 'components/buttons/icon-button'
-import { RootStackParamList } from '@views/navigation/Navigation'
-import { NativeStackScreenProps } from '@react-navigation/native-stack'
-import { FormattedMessage } from 'react-intl'
-import { SCREENS } from '@views/navigation/constants'
-import SubmitButton from 'components/buttons/submit-button'
-import TextField from 'components/text-field'
-import { Controller, FieldValues, SubmitHandler, useForm } from 'react-hook-form'
-import { yupResolver } from '@hookform/resolvers/yup'
-import { schema } from '@views/authenticated/sub-views/edit-email/validationSchema';
-import { AuthContext } from '@views/navigation/AuthProvider'
+import Person from 'assets/icons/Person.svg'
 
-import Email from 'assets/icons/Email.svg';
+type EditPersonalInfoScreenNavigationProp = NativeStackScreenProps<RootStackParamList, 'EditPersonalInfo'>;
 
-type EditEmailScreenNavigationProp = NativeStackScreenProps<RootStackParamList, 'EditEmail'>;
-
-type EditEmailProps = {
-    navigation: EditEmailScreenNavigationProp['navigation']
+type EditPersonalInfoProps = {
+    navigation: EditPersonalInfoScreenNavigationProp['navigation']
 }
 
-
-export default function EditEmail({ navigation }: EditEmailProps) {
+export default function EditPersonalInfo({ navigation }: EditPersonalInfoProps) {
     const [loading, setLoading] = useState(false);
     const [messageVisible, setMessageVisible] = useState(false);
-    const { updateEmail } = useContext(AuthContext);
+    const { updatePersonalData } = useContext(AuthContext);
     const { control, handleSubmit, setError, formState: { errors } } = useForm({
         resolver: yupResolver(schema)
     });
 
-    const onSubmit: SubmitHandler<FieldValues> = async ({ newEmail }) => {
+    const onSubmit: SubmitHandler<FieldValues> = async ({ firstName, lastName }) => {
         setLoading(true);
         try {
-            await updateEmail(newEmail)
+            await updatePersonalData(firstName, lastName)
                 .then(() => {
                     setMessageVisible(true);
                     setLoading(false);
@@ -54,16 +50,10 @@ export default function EditEmail({ navigation }: EditEmailProps) {
                 });
         } catch (error: any) {
             console.log(error)
-            if (error.code === 'auth/invalid-email') {
-                setError('newEmail', { message: 'Email is not valid' })
-            } else if (error.code === 'auth/email-already-in-use') {
-                setError('newEmail', { message: 'That email address is already in use' })
-            } else if (error.code === 'auth/requires-recent-login') {
-                setError('newEmail', { message: "This operation requires re-authentication to ensure it's you" })
-            }
-            else {
-                setError('newEmail', { message: 'Internal error, please try again later' });
-            }
+
+            setError('firstName', { message: 'Internal error, please try again later' });
+            setError('lastName', { message: 'Internal error, please try again later' });
+
             setLoading(false);
         }
 
@@ -122,7 +112,6 @@ export default function EditEmail({ navigation }: EditEmailProps) {
             }),
         ]).start();
     };
-
     return (
         <SafeAreaView style={styles.root}>
             <View style={styles.container}>
@@ -145,20 +134,20 @@ export default function EditEmail({ navigation }: EditEmailProps) {
                         <Animated.View style={styles.textContainer}>
                             <Text style={styles.title}>
                                 <FormattedMessage
-                                    defaultMessage='Edit Your Email'
-                                    id='views.home.profile-edit_email-title'
+                                    defaultMessage='Edit Your Personal Info'
+                                    id='views.home.profile-edit_personal_info-title'
                                 />
                             </Text>
                             <Text style={styles.subTitle}>
                                 <FormattedMessage
-                                    defaultMessage='Please provide us with new email address'
-                                    id='views.home.profile-edit_email-subtitle'
+                                    defaultMessage='Please provide us with your first and last name'
+                                    id='views.home.profile-edit_personal_info-subtitle'
                                 />
                             </Text>
                         </Animated.View>
                         <View style={styles.mainContent}>
                             <Controller
-                                name='newEmail'
+                                name='firstName'
                                 rules={{
                                     required: true,
                                 }}
@@ -169,17 +158,46 @@ export default function EditEmail({ navigation }: EditEmailProps) {
                                         <TextField
                                             label={(
                                                 <FormattedMessage
-                                                    defaultMessage='New Email'
-                                                    id='views.home.profile-edit_email-new_email'
+                                                    defaultMessage='First Name'
+                                                    id='views.home.profile-edit_personal_info-first_name'
                                                 />
                                             )}
-                                            placeholder='johnydoe@trademood.com'
+                                            placeholder='Johnny'
                                             value={value}
                                             onBlur={onBlur}
                                             onChangeText={onChange}
-                                            error={errors.newEmail}
+                                            error={errors.firstName}
                                         >
-                                            <Email />
+                                            <Person />
+                                        </TextField>
+
+                                    )
+                                }}
+                            />
+
+                            <Controller
+                                name='lastName'
+                                rules={{
+                                    required: true,
+                                }}
+                                defaultValue=''
+                                control={control}
+                                render={({ field: { onChange, onBlur, value } }) => {
+                                    return (
+                                        <TextField
+                                            label={(
+                                                <FormattedMessage
+                                                    defaultMessage='Last Name'
+                                                    id='views.home.profile-edit_personal_info-last_name'
+                                                />
+                                            )}
+                                            placeholder='Doe'
+                                            value={value}
+                                            onBlur={onBlur}
+                                            onChangeText={onChange}
+                                            error={errors.lastName}
+                                        >
+                                            <Person />
                                         </TextField>
 
                                     )
@@ -191,8 +209,8 @@ export default function EditEmail({ navigation }: EditEmailProps) {
                                     style={[styles.subTitle]}
                                 >
                                     <FormattedMessage
-                                        defaultMessage='Your address email has been update successfully, please check your inbox.'
-                                        id='views.home.profile-edit_email-message'
+                                        defaultMessage='Your data has been updated successfully.'
+                                        id='views.home.profile-edit_personal_info-message'
                                     />
                                 </Text>}
 

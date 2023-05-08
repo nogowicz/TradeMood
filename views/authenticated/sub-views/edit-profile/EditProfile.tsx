@@ -73,7 +73,7 @@ export default function EditProfile({ navigation }: EditProfileProps) {
                                     id='views.home.profile-edit_profile-personal_info'
                                 />
                             }
-                            onPress={() => console.log("Personal Info")}
+                            onPress={() => navigation.navigate(SCREENS.HOME.EDIT_PERSONAL_INFO.ID)}
                             mode='option'
                             icon={<Person style={{ marginLeft: spacing.SCALE_4 }} />}
                             activeOpacity={0.5}

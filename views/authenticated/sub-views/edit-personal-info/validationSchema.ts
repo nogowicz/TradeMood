@@ -12,14 +12,4 @@ export const schema = object({
     .max(25, 'Your last name is too long')
     .matches(nameRegex, 'Please enter valid last name')
     .required('Please provide your last name'),
-  email: string()
-    .email('Email is not valid')
-    .required('Please provide your email'),
-  password: string()
-    .min(6, 'Password must be at lest 6 characters')
-    .required('Please provide your password'),
-  confirmPassword: string()
-    .min(6, 'Password must be at lest 6 characters')
-    .oneOf([ref('password')], 'Password must match')
-    .required('Password must match'),
 }).required();

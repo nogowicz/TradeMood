@@ -61,8 +61,7 @@ export default function TrendingNow({ name, positive, neutral, negative, onPress
                     radius={60}
                     innerRadius={40}
                     sections={data}
-                    dividerSize={6}
-                    strokeCap={'butt'}
+                    strokeCap='butt'
                 />
 
                 <View>

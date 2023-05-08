@@ -82,5 +82,10 @@
   "views.home.profile-edit_email-message": "Your address email has been update successfully, please check your inbox.",
   "views.home.profile-edit_email-error-re_authentication": "This operation requires re-authentication to ensure it's you",
   "views.auth.loading": "Loading...",
-  "views.home.profile-edit_email-subtitle": "Please provide us with new email address"
+  "views.home.profile-edit_email-subtitle": "Please provide us with new email address",
+  "views.home.profile-edit_personal_info-title": "Edit Your Personal Info",
+  "views.home.profile-edit_personal_info-subtitle": "Please provide us with your first and last name",
+  "views.home.profile-edit_personal_info-first_name": "First Name",
+  "views.home.profile-edit_personal_info-last_name": "Last Name",
+  "views.home.profile-edit_personal_info-message": "Your data has been updated successfully."
 }

@@ -82,5 +82,10 @@
   "views.home.profile-edit_email-message": "Twój adres e-mail został pomyślnie zaktualizowany, sprawdź swoją skrzynkę odbiorczą.",
   "views.home.profile-edit_email-error-re_authentication": "Ta operacja wymaga ponownego zalogowania, abyśmy mieli pewność, że to Ty",
   "views.auth.loading": "Ładowanie...",
-  "views.home.profile-edit_email-subtitle": "Podaj nam swój nowy adres email"
+  "views.home.profile-edit_email-subtitle": "Podaj nam swój nowy adres email",
+  "views.home.profile-edit_personal_info-title": "Edytuj Swoje Dane",
+  "views.home.profile-edit_personal_info-subtitle": "Podaj nam swoje imie i nazwisko",
+  "views.home.profile-edit_personal_info-first_name": "Imię",
+  "views.home.profile-edit_personal_info-last_name": "Nazwisko",
+  "views.home.profile-edit_personal_info-message": "Twoje dane zostały zaktualizowane pomyślnie."
 }
