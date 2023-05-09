@@ -87,5 +87,9 @@
   "views.home.profile-edit_personal_info-subtitle": "Please provide us with your first and last name",
   "views.home.profile-edit_personal_info-first_name": "First Name",
   "views.home.profile-edit_personal_info-last_name": "Last Name",
-  "views.home.profile-edit_personal_info-message": "Your data has been updated successfully."
+  "views.home.profile-edit_personal_info-message": "Your data has been updated successfully.",
+  "views.home.profile-edit_picture-title": "Edit Your Profile Picture",
+  "views.home.profile-edit_picture-subtitle": "Please provide us with your profile picture",
+  "views.home.profile-edit_picture-message": "Your data has been updated successfully.",
+  "views.home.profile-edit_picture-submit": "Submit"
 }

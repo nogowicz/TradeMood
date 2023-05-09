@@ -22,6 +22,7 @@ import { spacing } from 'styles';
 import EditProfile from '@views/authenticated/sub-views/edit-profile';
 import EditEmail from '@views/authenticated/sub-views/edit-email';
 import EditPersonalInfo from '@views/authenticated/sub-views/edit-personal-info';
+import EditPicture from '@views/authenticated/sub-views/edit-picture';
 
 export default function HomeStack() {
     const Stack = createNativeStackNavigator();
@@ -105,6 +106,11 @@ export default function HomeStack() {
             <Stack.Screen
                 name={SCREENS.HOME.EDIT_PERSONAL_INFO.ID}
                 component={EditPersonalInfo}
+            />
+
+            <Stack.Screen
+                name={SCREENS.HOME.EDIT_PICTURE.ID}
+                component={EditPicture}
             />
         </Stack.Navigator>
     );

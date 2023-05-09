@@ -87,5 +87,9 @@
   "views.home.profile-edit_personal_info-subtitle": "Podaj nam swoje imie i nazwisko",
   "views.home.profile-edit_personal_info-first_name": "Imię",
   "views.home.profile-edit_personal_info-last_name": "Nazwisko",
-  "views.home.profile-edit_personal_info-message": "Twoje dane zostały zaktualizowane pomyślnie."
+  "views.home.profile-edit_personal_info-message": "Twoje dane zostały zaktualizowane pomyślnie.",
+  "views.home.profile-edit_picture-title": "Edytuj Swoje Zdjęcie Profilowe",
+  "views.home.profile-edit_picture-subtitle": "Dodaj swoje zdjęcie, aby twój profil był bardziej spersonalizowany",
+  "views.home.profile-edit_picture-message": "Dane zaktualizowane pomyślnie.",
+  "views.home.profile-edit_picture-submit": "Zatwierdź"
 }

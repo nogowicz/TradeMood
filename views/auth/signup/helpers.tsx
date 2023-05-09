@@ -27,8 +27,8 @@ type PrepareSignupPagesType = {
     handleNextPage: Dispatch<SetStateAction<number>>;
     handlePageWithError: Function;
     handleShowBottomSheet: (event: GestureResponderEvent) => void;
-    imageUrl: string | null;
-    setImageUrl: Dispatch<SetStateAction<string | null>>;
+    imageUrl: string | null | undefined;
+    setImageUrl: Dispatch<SetStateAction<string | null | undefined>>;
     deleteImage: Function;
 }
 

@@ -38,6 +38,9 @@ export const SCREENS = {
     },
     EDIT_PERSONAL_INFO: {
       ID: 'EDIT_PERSONAL_INFO'
+    },
+    EDIT_PICTURE: {
+      ID: 'EDIT_PICTURE'
     }
   },
 };

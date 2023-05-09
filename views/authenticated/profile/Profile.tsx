@@ -14,8 +14,7 @@ import IconButton from 'components/buttons/icon-button';
 import { FormattedMessage } from 'react-intl';
 import SubmitButton from 'components/buttons/submit-button';
 
-import EditProfileSmall from 'assets/icons/Edit-profile-small.svg';
-import EditProfileBig from 'assets/icons/Edit-profile-bigger.svg';
+import EditProfile from 'assets/icons/Edit-profile.svg';
 import Logout from 'assets/icons/Logout.svg'
 import PrivacyAndSecurity from 'assets/icons/Privacy-and-security.svg'
 import Language from 'assets/icons/Language.svg'
@@ -58,13 +57,7 @@ export default function Profile({ navigation }: ProfileProps) {
                                 style={{ width: imageSize, height: imageSize, borderRadius: imageSize / 2 }}
                             />
                         </View>}
-                    <IconButton
-                        onPress={() => navigation.navigate(SCREENS.HOME.EDIT_PROFILE.ID)}
-                        size={42}
-                        backgroundColor={colors.LIGHT_COLORS.LIGHT_HINT}
-                    >
-                        <EditProfileSmall />
-                    </IconButton>
+
                 </View>
                 <View style={styles.mainContainer}>
                     <View style={styles.sectionTitleContainer}>
@@ -96,7 +89,7 @@ export default function Profile({ navigation }: ProfileProps) {
                             }
                             onPress={() => navigation.navigate(SCREENS.HOME.EDIT_PROFILE.ID)}
                             mode='option'
-                            icon={<EditProfileBig />}
+                            icon={<EditProfile />}
                             activeOpacity={0.5}
                         />
                         <SubmitButton
