@@ -131,7 +131,7 @@ export default function Overview({ navigation }: OverviewProps) {
                         displayName={user?.displayName}
                         imageUrl={user?.photoURL}
                         isAnonymous={user?.isAnonymous}
-                        onPress={() => console.log("Navigating to profile details")}
+                        onPress={() => navigation.navigate(SCREENS.HOME.EDIT_PROFILE.ID)}
                     />
                 </View>
                 <View style={styles.mainContainer}>

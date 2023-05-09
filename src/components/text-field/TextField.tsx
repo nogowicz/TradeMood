@@ -125,7 +125,7 @@ export default function TextField({
                 {children}
                 <TextInput
                     {...props}
-                    selectionColor={colors.LIGHT_COLORS.TERTIARY}
+                    selectionColor={colors.LIGHT_COLORS.PRIMARY}
                     placeholderTextColor={colors.LIGHT_COLORS.HINT}
                     placeholder={placeholder}
                     onFocus={() => setFocus(true)}

@@ -16,7 +16,7 @@ import { SCREENS } from '@views/navigation/constants';
 import SubmitButton from 'components/buttons/submit-button';
 
 import Email from 'assets/icons/Email-light.svg'
-import Person from 'assets/icons/Person-light.svg'
+import Id from 'assets/icons/Id.svg'
 import Picture from 'assets/icons/Picture.svg'
 import GoBack from 'assets/icons/Go-back.svg'
 import SmallLogo from 'assets/logo/logo-smaller.svg'
@@ -73,9 +73,9 @@ export default function EditProfile({ navigation }: EditProfileProps) {
                                     id='views.home.profile-edit_profile-personal_info'
                                 />
                             }
-                            onPress={() => console.log("Personal Info")}
+                            onPress={() => navigation.navigate(SCREENS.HOME.EDIT_PERSONAL_INFO.ID)}
                             mode='option'
-                            icon={<Person style={{ marginLeft: spacing.SCALE_4 }} />}
+                            icon={<Id />}
                             activeOpacity={0.5}
                         />
                         <SubmitButton
@@ -85,7 +85,7 @@ export default function EditProfile({ navigation }: EditProfileProps) {
                                     id='views.home.profile-edit_profile-profile_picture'
                                 />
                             }
-                            onPress={() => console.log("Profile Picture")}
+                            onPress={() => navigation.navigate(SCREENS.HOME.EDIT_PICTURE.ID)}
                             mode='option'
                             icon={<Picture />}
                             activeOpacity={0.5}

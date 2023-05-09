@@ -6,11 +6,13 @@ type AuthContextType = {
     user: FirebaseAuthTypes.User | null;
     setUser: React.Dispatch<React.SetStateAction<FirebaseAuthTypes.User | null>>;
     login: (email: string, password: string) => Promise<void>;
-    register: (email: string, password: string, firstName: string, lastName: string, imageUrl: string | null) => Promise<void>;
+    register: (email: string, password: string, firstName: string, lastName: string, imageUrl: string | null | undefined) => Promise<void>;
     logout: () => Promise<void>;
     resetPassword: (email: string) => Promise<void>;
     signInAnonymously: () => Promise<void>;
     updateEmail: (newEmail: string) => Promise<void>;
+    updatePersonalData: (firstName: string, lastName: string) => Promise<void>,
+    updateProfilePicture: (imageUrl: string | null | undefined) => Promise<void>
 }
 
 export const AuthContext = createContext<AuthContextType>({
@@ -22,6 +24,8 @@ export const AuthContext = createContext<AuthContextType>({
     resetPassword: async () => { },
     signInAnonymously: async () => { },
     updateEmail: async () => { },
+    updatePersonalData: async () => { },
+    updateProfilePicture: async () => { },
 });
 
 
@@ -40,19 +44,19 @@ export function AuthProvider({ children }: AuthProviderProps) {
             login: async (email: string, password: string) => {
                 await auth().signInWithEmailAndPassword(email, password);
             },
-            register: async (email: string, password: string, firstName: string, lastName: string, imageUrl: string | null) => {
+            register: async (email: string, password: string, firstName: string, lastName: string, imageUrl: string | null | undefined) => {
                 await auth().createUserWithEmailAndPassword(email, password)
                     .then((userCredential) => {
                         const user = userCredential.user;
                         if (imageUrl) {
                             user.updateProfile({
-                                displayName: `${firstName} ${lastName}`,
+                                displayName: `${firstName.trim()} ${lastName.trim()}`,
                                 photoURL: imageUrl
                             })
 
                         } else {
                             user.updateProfile({
-                                displayName: `${firstName} ${lastName}`
+                                displayName: `${firstName.trim()} ${lastName.trim()}`
                             })
 
                         }
@@ -86,7 +90,22 @@ export function AuthProvider({ children }: AuthProviderProps) {
                     await user.updateEmail(newEmail);
                     await user.sendEmailVerification();
                 }
-
+            },
+            updatePersonalData: async (firstName: string, lastName: string) => {
+                const user = auth().currentUser;
+                if (user) {
+                    await user.updateProfile({
+                        displayName: `${firstName.trim()} ${lastName.trim()}`
+                    });
+                }
+            },
+            updateProfilePicture: async (imageUrl: string | null | undefined) => {
+                const user = auth().currentUser;
+                if (user) {
+                    await user.updateProfile({
+                        photoURL: imageUrl
+                    });
+                }
             }
         }}>{children}</AuthContext.Provider>
 }

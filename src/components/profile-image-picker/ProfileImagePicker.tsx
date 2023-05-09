@@ -11,8 +11,8 @@ import { Dispatch, SetStateAction } from 'react';
 type ProfileImagePickerProps = {
     activeOpacity?: number;
     size?: number;
-    imageUrl: string | null;
-    setImageUrl: Dispatch<SetStateAction<string | null>>;
+    imageUrl: string | null | undefined;
+    setImageUrl: Dispatch<SetStateAction<string | null | undefined>>;
     onPress: (event: GestureResponderEvent) => void;
 }
 

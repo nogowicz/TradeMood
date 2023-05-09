@@ -1,59 +1,45 @@
-import { NativeStackNavigationProp } from '@react-navigation/native-stack';
 import {
-    SafeAreaView,
     StyleSheet,
     Text,
     View,
+    SafeAreaView,
 } from 'react-native'
-import { RootStackParamList } from '../../navigation/Navigation';
-import { Dispatch, SetStateAction, useCallback, useRef, useState } from 'react';
-import { colors, spacing } from 'styles';
-import storage from '@react-native-firebase/storage';
-import { FormattedMessage } from 'react-intl';
-import SignupPanel from './signup-panel/SignupPanel';
-import { prepareSignupPages } from './helpers';
-import BottomSheet from 'components/bottom-sheet';
-import { BottomSheetRefProps } from 'components/bottom-sheet/BottomSheet';
+import React, { useCallback, useContext, useRef, useState } from 'react'
+import { NativeStackScreenProps } from '@react-navigation/native-stack';
+import { RootStackParamList } from '@views/navigation/Navigation';
 import IconButton from 'components/buttons/icon-button';
-import { launchCamera, launchImageLibrary } from 'react-native-image-picker';
+import { FormattedMessage } from 'react-intl';
+import { colors, spacing, typography } from 'styles';
+
+import GoBack from 'assets/icons/Go-back.svg'
+import SmallLogo from 'assets/logo/logo-smaller.svg'
+import storage from '@react-native-firebase/storage';
+import ProfileImagePicker from 'components/profile-image-picker';
+import { AuthContext } from '@views/navigation/AuthProvider';
+import BottomSheet from 'components/bottom-sheet';
+import ProgressBar from 'components/progress-bar';
 
 import Gallery from 'assets/icons/Gallery.svg'
 import DeletePhoto from 'assets/icons/DeletePhoto.svg'
 import Camera from 'assets/icons/Camera.svg'
-import ProgressBar from 'components/progress-bar';
+import { BottomSheetRefProps } from 'components/bottom-sheet/BottomSheet';
+import { launchCamera, launchImageLibrary } from 'react-native-image-picker';
+import SubmitButton from 'components/buttons/submit-button';
 
+type EditPictureScreenNavigationProp = NativeStackScreenProps<RootStackParamList, 'EditPicture'>;
 
-
-type SignupPageType = {
-    id: string;
-    action: JSX.Element;
-    logo: JSX.Element;
-    title: JSX.Element;
-    subTitle: JSX.Element;
-    mainContent: JSX.Element;
-    buttonLabel: JSX.Element;
-    buttonAction: Dispatch<SetStateAction<number>> | any;
-};
-
-export type SignupPagesArrayType = SignupPageType[];
-
-
-export type SignupScreenNavigationProp = NativeStackNavigationProp<RootStackParamList, 'SIGN_UP'>;
-
-type SignupProps = {
-    navigation: SignupScreenNavigationProp
+type EditPictureProps = {
+    navigation: EditPictureScreenNavigationProp['navigation']
 }
 
 
-export default function Signup({ navigation }: SignupProps) {
-    const [page, setPage] = useState(0);
-    const [imageUrl, setImageUrl] = useState<string | null | undefined>(null);
+export default function EditPicture({ navigation }: EditPictureProps) {
+    const { user, updateProfilePicture } = useContext(AuthContext);
+    const [uploadingImage, setUploadingImage] = useState(false);
     const [loading, setLoading] = useState(false);
     const [step, setStep] = useState(0);
-
-
-
     const ref = useRef<BottomSheetRefProps>(null);
+    const [imageUrl, setImageUrl] = useState<string | null | undefined>(user?.photoURL);
 
     const handleShowBottomSheet = useCallback(() => {
         const isActive = ref?.current?.isActive();
@@ -68,21 +54,6 @@ export default function Signup({ navigation }: SignupProps) {
         ref?.current?.scrollTo(0);
 
     }, []);
-
-
-    function handleNextPage() {
-        setPage(prevPage => prevPage + 1);
-    }
-    function handleBack() {
-        setPage(prevPage => prevPage - 1);
-        ref?.current?.scrollTo(0);
-    }
-
-    function handlePageWithError(page: number) {
-        setPage(page);
-    }
-
-
 
     const uploadImage = async () => {
         launchImageLibrary({
@@ -101,13 +72,13 @@ export default function Signup({ navigation }: SignupProps) {
                     uploadTask.on(
                         'state_changed',
                         (snapshot) => {
-                            setLoading(true);
+                            setUploadingImage(true);
                             const progress = (snapshot.bytesTransferred / snapshot.totalBytes) * 100;
                             console.log(`Postęp przesyłania: ${progress}%`);
                         },
                         (error) => {
                             console.log(error);
-                            setLoading(false);
+                            setUploadingImage(false);
                             handleHideBottomSheet();
                         },
                         () => {
@@ -115,14 +86,14 @@ export default function Signup({ navigation }: SignupProps) {
                                 console.log('Upload is ' + uploadTask.snapshot.bytesTransferred + ' bytes done.');
                                 uploadTask.snapshot.ref.getDownloadURL().then((downloadURL) => {
                                     console.log('File available at', downloadURL);
-                                    setLoading(false);
+                                    setUploadingImage(false);
                                     handleHideBottomSheet();
                                     setImageUrl(downloadURL);
                                 });
 
                             } else {
                                 console.log('Wystąpił błąd podczas przesyłania pliku.');
-                                setLoading(false);
+                                setUploadingImage(false);
                                 handleHideBottomSheet();
                             }
                         }
@@ -150,28 +121,28 @@ export default function Signup({ navigation }: SignupProps) {
                     uploadTask.on(
                         'state_changed',
                         (snapshot) => {
-                            setLoading(true);
+                            setUploadingImage(true);
                             const progress = (snapshot.bytesTransferred / snapshot.totalBytes) * 100;
                             setStep(Math.floor(progress));
                             console.log(`Postęp przesyłania: ${progress}%`);
                         },
                         (error) => {
                             console.log(error);
-                            setLoading(false);
+                            setUploadingImage(false);
                             handleHideBottomSheet();
                         },
                         () => {
                             if (uploadTask.snapshot !== null) {
                                 console.log('Upload is ' + uploadTask.snapshot.bytesTransferred + ' bytes done.');
                                 uploadTask.snapshot.ref.getDownloadURL().then((downloadURL) => {
-                                    setLoading(false);
+                                    setUploadingImage(false);
                                     handleHideBottomSheet();
                                     console.log('File available at', downloadURL);
                                     setImageUrl(downloadURL);
                                 });
                             } else {
                                 console.log('Wystąpił błąd podczas przesyłania pliku.');
-                                setLoading(false);
+                                setUploadingImage(false);
                                 handleHideBottomSheet();
                             }
                         }
@@ -189,44 +160,102 @@ export default function Signup({ navigation }: SignupProps) {
                 const ref = storage().refFromURL(imageUrl);
 
                 await ref.delete().then(() => {
-                    setLoading(true);
+                    setUploadingImage(true);
                     setImageUrl(null);
                 });
 
                 console.log('Plik został usunięty.');
-                setLoading(false);
+                setUploadingImage(false);
                 handleHideBottomSheet();
             } catch (error) {
                 console.error('Wystąpił błąd podczas usuwania pliku:', error);
-                setLoading(false);
+                setUploadingImage(false);
                 handleHideBottomSheet();
             }
         }
 
     }
 
-    const pages: SignupPagesArrayType = prepareSignupPages({
-        navigation,
-        handleBack,
-        handleNextPage,
-        handlePageWithError,
-        handleShowBottomSheet,
-        imageUrl,
-        setImageUrl,
-        deleteImage,
-    });
+
+    const onSubmit = async () => {
+        setLoading(true);
+        try {
+            await updateProfilePicture(imageUrl)
+                .then(() => {
+                    setLoading(false);
+                    navigation.goBack();
+                });
+        } catch (error: any) {
+            console.log(error)
+            setLoading(false);
+        }
+    }
+
 
     return (
         <SafeAreaView style={styles.root}>
             <View style={styles.container}>
-                <SignupPanel
-                    {...pages[page]}
-                    page={page}
-                    pages={pages}
+                <View>
+                    <View style={styles.actionContainer}>
+                        <View style={styles.actionContainerComponent} >
+                            <IconButton
+                                onPress={
+                                    () => {
+                                        navigation.goBack()
+                                    }}
+                                size={42}
+                            >
+                                <GoBack />
+                            </IconButton>
+                        </View>
+                        <SmallLogo />
+
+                        <View style={styles.actionContainerComponent} />
+                    </View>
+                    <View style={styles.textContainer}>
+                        <View style={styles.textContainer}>
+                            <Text style={styles.title}>
+                                <FormattedMessage
+                                    defaultMessage='Edit Your Profile Picture'
+                                    id='views.home.profile-edit_picture-title'
+                                />
+                            </Text>
+                            <Text style={styles.subTitle}>
+                                <FormattedMessage
+                                    defaultMessage='Please provide us with your profile picture'
+                                    id='views.home.profile-edit_picture-subtitle'
+                                />
+                            </Text>
+                        </View>
+
+                    </View>
+                    <View style={styles.mainContent}>
+                        <ProfileImagePicker
+                            imageUrl={imageUrl}
+                            onPress={handleShowBottomSheet}
+                            setImageUrl={setImageUrl}
+                        />
+                    </View>
+                </View>
+                <SubmitButton
+                    isChevronDisplayed
+                    label={
+                        loading ?
+                            <FormattedMessage
+                                defaultMessage='Loading...'
+                                id='views.auth.loading'
+                            /> :
+                            <FormattedMessage
+                                defaultMessage='Submit'
+                                id='views.home.profile-edit_picture-submit'
+                            />
+                    }
+                    onPress={onSubmit}
+                    mode="submit"
                 />
                 <BottomSheet ref={ref} height={500}>
                     <View>
-                        {loading ?
+                        {uploadingImage ?
                             <View style={styles.progressBar}>
                                 <ProgressBar step={step} steps={100} height={40} />
                             </View>
@@ -285,11 +314,11 @@ export default function Signup({ navigation }: SignupProps) {
                             </View>}
                     </View>
                 </BottomSheet>
-            </View>
 
+            </View>
         </SafeAreaView>
-    );
-};
+    )
+}
 
 const styles = StyleSheet.create({
     root: {
@@ -303,7 +332,33 @@ const styles = StyleSheet.create({
         backgroundColor: colors.LIGHT_COLORS.BACKGROUND,
     },
     actionContainer: {
-        alignItems: 'flex-end',
+        flexDirection: 'row',
+        justifyContent: 'space-between',
+    },
+    actionContainerComponent: {
+        flex: 1 / 5
+    },
+    textContainer: {
+        justifyContent: 'center',
+    },
+    title: {
+        ...typography.FONT_BOLD,
+        fontWeight: typography.FONT_WEIGHT_BOLD,
+        fontSize: typography.FONT_SIZE_24,
+        color: colors.LIGHT_COLORS.TERTIARY,
+        textAlign: 'center',
+        marginTop: spacing.SCALE_4
+    },
+    subTitle: {
+        ...typography.FONT_REGULAR,
+        fontWeight: typography.FONT_WEIGHT_REGULAR,
+        fontSize: typography.FONT_SIZE_12,
+        color: colors.LIGHT_COLORS.TERTIARY,
+        textAlign: 'center',
+    },
+    mainContent: {
+        alignItems: 'center',
+        marginTop: spacing.SCALE_60,
     },
     bottomSheetActionContainer: {
         flexDirection: 'row',
@@ -326,4 +381,4 @@ const styles = StyleSheet.create({
         justifyContent: 'center',
         marginVertical: spacing.SCALE_40,
     }
-});
+})
