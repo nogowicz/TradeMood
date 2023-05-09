@@ -7,6 +7,7 @@ import {
 
 import AddPhoto from 'assets/signup-screen/AddPhoto.svg';
 import { Dispatch, SetStateAction } from 'react';
+import FastImage from 'react-native-fast-image';
 
 type ProfileImagePickerProps = {
     activeOpacity?: number;
@@ -32,7 +33,7 @@ export default function ProfileImagePicker({
             onPress={onPress}
         >
             {imageUrl ?
-                <Image
+                <FastImage
                     source={{ uri: imageUrl }}
                     style={{ height: size, width: size, borderRadius: size / 2 }}
                 /> :

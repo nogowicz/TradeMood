@@ -20,6 +20,7 @@ import PrivacyAndSecurity from 'assets/icons/Privacy-and-security.svg'
 import Language from 'assets/icons/Language.svg'
 import About from 'assets/icons/About.svg'
 import { SCREENS } from '@views/navigation/constants';
+import FastImage from 'react-native-fast-image';
 
 
 
@@ -39,11 +40,11 @@ export default function Profile({ navigation }: ProfileProps) {
             <View style={styles.container}>
                 <View style={styles.actionBar}>
                     {user?.photoURL ?
-                        <Image
+                        <FastImage
                             source={{ uri: user?.photoURL }}
                             style={{ width: imageSize, height: imageSize, borderRadius: imageSize / 2 }}
                         /> :
-                        <Image
+                        <FastImage
                             source={require('assets/profile/profile-picture.png')}
                             style={{ width: imageSize, height: imageSize, borderRadius: imageSize / 2 }}
                         />
