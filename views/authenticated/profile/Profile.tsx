@@ -43,20 +43,11 @@ export default function Profile({ navigation }: ProfileProps) {
                             source={{ uri: user?.photoURL }}
                             style={{ width: imageSize, height: imageSize, borderRadius: imageSize / 2 }}
                         /> :
-                        <View style={{
-                            width: imageSize,
-                            height: imageSize,
-                            borderRadius: imageSize / 2,
-                            borderWidth: 1,
-                            borderColor: colors.LIGHT_COLORS.HINT,
-                            justifyContent: 'center',
-                            alignItems: 'center'
-                        }}>
-                            <Image
-                                source={require('assets/profile/profile-picture.png')}
-                                style={{ width: imageSize, height: imageSize, borderRadius: imageSize / 2 }}
-                            />
-                        </View>}
+                        <Image
+                            source={require('assets/profile/profile-picture.png')}
+                            style={{ width: imageSize, height: imageSize, borderRadius: imageSize / 2 }}
+                        />
+                    }
 
                 </View>
                 <View style={styles.mainContainer}>
