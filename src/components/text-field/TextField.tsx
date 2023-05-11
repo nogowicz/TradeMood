@@ -33,7 +33,7 @@ type TextFieldProps = {
     value: string;
     children: ReactNode;
     onBlur?: () => void;
-    onChangeText: (value: any) => void;
+    onChangeText: (value: string) => void;
     actionLabel?: ReactNode;
     action?: () => void;
     placeholder?: string;

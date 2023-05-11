@@ -92,5 +92,10 @@
   "views.home.profile.edit-picture.subtitle": "Please provide us with your profile picture",
   "views.home.profile.edit-picture.message": "Your data has been updated successfully.",
   "views.home.profile.edit-picture.submit": "Submit",
-  "views.home.profile.edit-profile.password": "Password"
+  "views.home.profile.edit-profile.password": "Password",
+  "views.home.profile.edit-password.new-password": "New Password",
+  "views.home.profile.edit-password.message": "Your password has been updated successfully.",
+  "views.home.profile.edit-password.title": "Edit Your Password",
+  "views.home.profile.edit-password.subtitle": "Please provide us with new password",
+  "views.home.profile.edit-password.confirm-new-password": "Confirm New Password"
 }

@@ -12,7 +12,8 @@ type AuthContextType = {
     signInAnonymously: () => Promise<void>;
     updateEmail: (newEmail: string) => Promise<void>;
     updatePersonalData: (firstName: string, lastName: string) => Promise<void>,
-    updateProfilePicture: (imageUrl: string | null | undefined) => Promise<void>
+    updateProfilePicture: (imageUrl: string | null | undefined) => Promise<void>,
+    updatePassword: (newPassword: string) => Promise<void>;
 }
 
 export const AuthContext = createContext<AuthContextType>({
@@ -26,6 +27,7 @@ export const AuthContext = createContext<AuthContextType>({
     updateEmail: async () => { },
     updatePersonalData: async () => { },
     updateProfilePicture: async () => { },
+    updatePassword: async () => { },
 });
 
 
@@ -105,6 +107,12 @@ export function AuthProvider({ children }: AuthProviderProps) {
                     await user.updateProfile({
                         photoURL: imageUrl
                     });
+                }
+            },
+            updatePassword: async (newPassword: string) => {
+                const user = auth().currentUser;
+                if (user) {
+                    await user.updatePassword(newPassword);
                 }
             }
         }}>{children}</AuthContext.Provider>

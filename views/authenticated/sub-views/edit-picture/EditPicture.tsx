@@ -251,7 +251,7 @@ export default function EditPicture({ navigation }: EditPictureProps) {
                                     <Text style={styles.iconButtonBottomSheetText}>
                                         <FormattedMessage
                                             defaultMessage='Gallery'
-                                            id='views.auth.signup-gallery'
+                                            id='views.auth.signup.gallery'
                                         />
                                     </Text>
                                 </View>
@@ -266,7 +266,7 @@ export default function EditPicture({ navigation }: EditPictureProps) {
                                     <Text style={styles.iconButtonBottomSheetText}>
                                         <FormattedMessage
                                             defaultMessage='Camera'
-                                            id='views.auth.signup-camera'
+                                            id='views.auth.signup.camera'
                                         />
                                     </Text>
                                 </View>
@@ -286,7 +286,7 @@ export default function EditPicture({ navigation }: EditPictureProps) {
                                             ]}>
                                             <FormattedMessage
                                                 defaultMessage='Delete'
-                                                id='views.auth.signup-delete'
+                                                id='views.auth.signup.delete'
                                             />
                                         </Text>
                                     </View>
