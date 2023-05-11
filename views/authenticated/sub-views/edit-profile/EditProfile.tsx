@@ -20,6 +20,7 @@ import Id from 'assets/icons/Id.svg'
 import Picture from 'assets/icons/Picture.svg'
 import GoBack from 'assets/icons/Go-back.svg'
 import SmallLogo from 'assets/logo/logo-smaller.svg'
+import Password from 'assets/icons/Password.svg'
 
 type EditProfileScreenNavigationProp = NativeStackScreenProps<RootStackParamList, 'EditProfile'>;
 
@@ -90,7 +91,18 @@ export default function EditProfile({ navigation }: EditProfileProps) {
                             icon={<Picture />}
                             activeOpacity={0.5}
                         />
-
+                        <SubmitButton
+                            label={
+                                <FormattedMessage
+                                    defaultMessage='Profile Picture'
+                                    id='views.home.profile-edit_profile-profile_picture'
+                                />
+                            }
+                            onPress={() => navigation.navigate(SCREENS.HOME.EDIT_PICTURE.ID)}
+                            mode='option'
+                            icon={<Password />}
+                            activeOpacity={0.5}
+                        />
                     </View>
                 </View>
             </View>

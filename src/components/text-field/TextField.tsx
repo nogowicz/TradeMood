@@ -19,7 +19,13 @@ import { colors, constants, spacing, typography } from 'styles';
 import PasswordVisible from 'assets/icons/Password-visible.svg';
 import PasswordInvisible from 'assets/icons/Password-invisible.svg';
 import { FormattedMessage } from 'react-intl';
+import { FieldError, FieldErrorsImpl, Merge } from 'react-hook-form';
 
+
+
+type ErrorsType = {
+    [key: string]: string;
+};
 
 type TextFieldProps = {
     style?: ViewStyle;
@@ -31,7 +37,7 @@ type TextFieldProps = {
     actionLabel?: ReactNode;
     action?: () => void;
     placeholder?: string;
-    error?: any;
+    error?: FieldError | Merge<FieldError, FieldErrorsImpl<any>> | undefined;
     props?: TextInputProps;
     autoCapitalize?: any;
     password?: boolean;
@@ -53,56 +59,39 @@ export default function TextField({
     const [defaultMessage, setDefaultMessage] = useState('')
     const [id, setId] = useState('views.auth.errors-basic-error');
 
+
+
+    const errors: ErrorsType = {
+        "Your first name is too long": "views.auth.errors-first-name-too-long",
+        "Please enter valid first name": "views.auth.errors-first-name-invalid",
+        "Please provide your first name": "views.auth.errors-first-name-empty",
+        "Your last name is too long": "views.auth.errors-last-name-too-long",
+        "Please enter valid last name": "views.auth.errors-last-name-invalid",
+        "Please provide your last name": "views.auth.errors-last-name-empty",
+        "Email is not valid": "views.auth.errors-email-invalid",
+        "User not found": "views.auth.errors-user-not-found",
+        "This account has been disabled": "views.auth.errors-user-disabled",
+        "Please provide your email": "views.auth.errors-email-empty",
+        "That email address is already in use": "views.auth.errors-email-in-use",
+        "Password must be at least 6 characters": "views.auth.errors-password-too-short",
+        "Please provide your password": "views.auth.errors-password-empty",
+        "Password is incorrect": "views.auth.errors-wrong-password",
+        "Field cannot be empty": "views.auth.errors-confirm-password-empty",
+        "Password must match": "views.auth.errors-confirm-password-different",
+        "Password is too weak": "views.auth.errors-weak-password",
+        "Internal error, please try again later": "views.auth.errors-internal-error",
+        "This operation requires re-authentication to ensure it's you": "views.home.profile-edit_email-error-re_authentication",
+    };
+
     useEffect(() => {
-
         if (error) {
-            setDefaultMessage(error.message)
-            if (error.message === "Your first name is too long") {
-                setId("views.auth.errors-first-name-too-long");
-            } else if (error.message === "Please enter valid first name") {
-                setId("views.auth.errors-first-name-invalid");
-            } else if (error.message === "Please provide your first name") {
-                setId("views.auth.errors-first-name-empty");
-            } else if (error.message === "Your last name is too long") {
-                setId("views.auth.errors-last-name-too-long");
-            } else if (error.message === "Please enter valid last name") {
-                setId("views.auth.errors-last-name-invalid");
-            } else if (error.message === "Please provide your last name") {
-                setId("views.auth.errors-last-name-empt");
-            } else if (error.message === "Email is not valid") {
-                setId("views.auth.errors-email-invalid");
-            } else if (error.message === "User not found") {
-                setId("views.auth.errors-user-not-found");
-            } else if (error.message === "This account has been disabled") {
-                setId("views.auth.errors-user-disabled");
-            } else if (error.message === "Please provide your email") {
-                setId("views.auth.errors-email-empty");
-            } else if (error.message === "That email address is already in use") {
-                setId("views.auth.errors-email-in-use");
-            } else if (error.message === "Password must be at lest 6 characters") {
-                setId("views.auth.errors-password-too-short");
-            } else if (error.message === "Please provide your password") {
-                setId("views.auth.errors-password-empty");
-            } else if (error.message === "Password is incorrect") {
-                setId("views.auth.errors-wrong-password");
-            } else if (error.message === "Field can not be empty") {
-                setId("views.auth.errors-confirm-password-empty");
-            } else if (error.message === "Password must match") {
-                setId("views.auth.errors-confirm-password-different");
-            } else if (error.message === "Password is too weak") {
-                setId("views.auth.errors-weak-password");
-            } else if (error.message === "Internal error, please try again later") {
-                setId("views.auth.errors-internal-error");
-            } else if (error.message === "This operation requires re-authentication to ensure it's you") {
-                setId('views.home.profile-edit_email-error-re_authentication');
-            } else {
-                setId("views.auth.errors-basic-error");
-            }
+            setDefaultMessage(error.message as string);
+            setId(errors[error.message as string]);
+        } else {
+            setId("views.auth.errors-basic-error");
         }
+    }, [error, errors]);
 
-
-
-    }, [error]);
 
 
 
