@@ -50,7 +50,7 @@ export default function EditProfile({ navigation }: EditProfileProps) {
                         <Text style={styles.sectionTitle}>
                             <FormattedMessage
                                 defaultMessage='Edit Your Profile'
-                                id='views.home.profile-edit_profile-title'
+                                id='views.home.profile.edit-profile.title'
                             />
                         </Text>
                     </View>
@@ -59,7 +59,7 @@ export default function EditProfile({ navigation }: EditProfileProps) {
                             label={
                                 <FormattedMessage
                                     defaultMessage='Email'
-                                    id='views.home.profile-edit_profile-email'
+                                    id='views.home.profile.edit-profile.email'
                                 />
                             }
                             onPress={() => navigation.navigate(SCREENS.HOME.EDIT_EMAIL.ID)}
@@ -70,8 +70,20 @@ export default function EditProfile({ navigation }: EditProfileProps) {
                         <SubmitButton
                             label={
                                 <FormattedMessage
+                                    defaultMessage='Password'
+                                    id='views.home.profile.edit-profile.password'
+                                />
+                            }
+                            onPress={() => navigation.navigate(SCREENS.HOME.EDIT_PICTURE.ID)}
+                            mode='option'
+                            icon={<Password />}
+                            activeOpacity={0.5}
+                        />
+                        <SubmitButton
+                            label={
+                                <FormattedMessage
                                     defaultMessage='Personal Info'
-                                    id='views.home.profile-edit_profile-personal_info'
+                                    id='views.home.profile.edit-profile.personal-info'
                                 />
                             }
                             onPress={() => navigation.navigate(SCREENS.HOME.EDIT_PERSONAL_INFO.ID)}
@@ -83,24 +95,12 @@ export default function EditProfile({ navigation }: EditProfileProps) {
                             label={
                                 <FormattedMessage
                                     defaultMessage='Profile Picture'
-                                    id='views.home.profile-edit_profile-profile_picture'
+                                    id='views.home.profile.edit-profile.profile-picture'
                                 />
                             }
                             onPress={() => navigation.navigate(SCREENS.HOME.EDIT_PICTURE.ID)}
                             mode='option'
                             icon={<Picture />}
-                            activeOpacity={0.5}
-                        />
-                        <SubmitButton
-                            label={
-                                <FormattedMessage
-                                    defaultMessage='Profile Picture'
-                                    id='views.home.profile-edit_profile-profile_picture'
-                                />
-                            }
-                            onPress={() => navigation.navigate(SCREENS.HOME.EDIT_PICTURE.ID)}
-                            mode='option'
-                            icon={<Password />}
                             activeOpacity={0.5}
                         />
                     </View>

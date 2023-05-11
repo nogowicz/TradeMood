@@ -213,13 +213,13 @@ export default function EditPicture({ navigation }: EditPictureProps) {
                             <Text style={styles.title}>
                                 <FormattedMessage
                                     defaultMessage='Edit Your Profile Picture'
-                                    id='views.home.profile-edit_picture-title'
+                                    id='views.home.profile.edit-picture.title'
                                 />
                             </Text>
                             <Text style={styles.subTitle}>
                                 <FormattedMessage
                                     defaultMessage='Please provide us with your profile picture'
-                                    id='views.home.profile-edit_picture-subtitle'
+                                    id='views.home.profile.edit-picture.subtitle'
                                 />
                             </Text>
                         </View>

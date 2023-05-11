@@ -5,6 +5,6 @@ export const schema = object({
     .email('Email is not valid')
     .required('Please provide your email'),
   password: string()
-    .min(6, 'Password must be at lest 6 characters')
+    .min(6, 'Password must be at least 6 characters')
     .required('Please provide your password'),
 }).required();

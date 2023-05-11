@@ -39,7 +39,7 @@ export default function TrendingNow({ name, positive, neutral, negative, onPress
                 <Text style={styles.titleText}>
                     <FormattedMessage
                         defaultMessage='Trending Now'
-                        id='views.home.overview-trending_now-title'
+                        id='views.home.overview.trending-now.title'
                     />
                 </Text>
                 <TouchableOpacity
@@ -50,7 +50,7 @@ export default function TrendingNow({ name, positive, neutral, negative, onPress
                     <Text style={styles.buttonText}>
                         <FormattedMessage
                             defaultMessage='Details'
-                            id='views.home.overview-trending_now-details'
+                            id='views.home.overview.trending-now.details'
                         />
                     </Text>
                     <GoFroward width={6} style={{ color: colors.LIGHT_COLORS.TERTIARY }} />
@@ -73,7 +73,7 @@ export default function TrendingNow({ name, positive, neutral, negative, onPress
                             <Text style={{ color: colors.LIGHT_COLORS.HINT }}>
                                 <FormattedMessage
                                     defaultMessage='Positive'
-                                    id='views.home.overview-trending_now-positive'
+                                    id='views.home.overview.trending-now.positive'
                                 />
                             </Text>
                         </View>
@@ -86,7 +86,7 @@ export default function TrendingNow({ name, positive, neutral, negative, onPress
                             <Text style={{ color: colors.LIGHT_COLORS.HINT }}>
                                 <FormattedMessage
                                     defaultMessage='Neutral'
-                                    id='views.home.overview-trending_now-neutral'
+                                    id='views.home.overview.trending-now.neutral'
                                 />
                             </Text>
                         </View>
@@ -99,7 +99,7 @@ export default function TrendingNow({ name, positive, neutral, negative, onPress
                             <Text style={{ color: colors.LIGHT_COLORS.HINT }}>
                                 <FormattedMessage
                                     defaultMessage='Negative'
-                                    id='views.home.overview-trending_now-negative'
+                                    id='views.home.overview.trending-now.negative'
                                 />
                             </Text>
                         </View>

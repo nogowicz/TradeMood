@@ -56,14 +56,14 @@ export default function Profile({ navigation }: ProfileProps) {
                         <Text style={styles.sectionTitle}>
                             <FormattedMessage
                                 defaultMessage='Hello, '
-                                id='views.home.profile-title'
+                                id='views.home.profile.title'
                             />
                         </Text>
                         <Text style={styles.sectionTitle}>
                             {user?.isAnonymous ?
                                 <FormattedMessage
                                     defaultMessage='Stranger'
-                                    id='views.home.welcome_text-anonymous'
+                                    id='views.home.welcome-text.anonymous'
                                 />
                                 :
                                 user?.displayName?.split(" ")[0]}
@@ -76,7 +76,7 @@ export default function Profile({ navigation }: ProfileProps) {
                             label={
                                 <FormattedMessage
                                     defaultMessage='Edit Profile'
-                                    id='views.home.profile-edit_profile'
+                                    id='views.home.profile.edit-profile'
                                 />
                             }
                             onPress={() => navigation.navigate(SCREENS.HOME.EDIT_PROFILE.ID)}
@@ -88,7 +88,7 @@ export default function Profile({ navigation }: ProfileProps) {
                             label={
                                 <FormattedMessage
                                     defaultMessage='Privacy & Security'
-                                    id='views.home.profile-privacy_and_security'
+                                    id='views.home.profile.privacy-and-security'
                                 />
                             }
                             onPress={() => console.log("Privacy & Security")}
@@ -100,7 +100,7 @@ export default function Profile({ navigation }: ProfileProps) {
                             label={
                                 <FormattedMessage
                                     defaultMessage='Language'
-                                    id='views.home.profile-language'
+                                    id='views.home.profile.language'
                                 />
                             }
                             onPress={() => console.log("Language")}
@@ -112,7 +112,7 @@ export default function Profile({ navigation }: ProfileProps) {
                             label={
                                 <FormattedMessage
                                     defaultMessage='About'
-                                    id='views.home.profile-about'
+                                    id='views.home.profile.about'
                                 />
                             }
                             onPress={() => console.log("About")}
@@ -124,7 +124,7 @@ export default function Profile({ navigation }: ProfileProps) {
                             label={
                                 <FormattedMessage
                                     defaultMessage='Logout'
-                                    id='views.home.profile-logout'
+                                    id='views.home.profile.logout'
                                 />
                             }
                             onPress={() => {

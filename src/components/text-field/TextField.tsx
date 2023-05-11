@@ -57,38 +57,39 @@ export default function TextField({
     const [focus, setFocus] = useState(false);
     const [secureTextEntry, setSecureTextEntry] = useState(true);
     const [defaultMessage, setDefaultMessage] = useState('')
-    const [id, setId] = useState('views.auth.errors-basic-error');
+    const [id, setId] = useState('views.auth.errors.basic-error');
 
 
 
     const errors: ErrorsType = {
-        "Your first name is too long": "views.auth.errors-first-name-too-long",
-        "Please enter valid first name": "views.auth.errors-first-name-invalid",
-        "Please provide your first name": "views.auth.errors-first-name-empty",
-        "Your last name is too long": "views.auth.errors-last-name-too-long",
-        "Please enter valid last name": "views.auth.errors-last-name-invalid",
-        "Please provide your last name": "views.auth.errors-last-name-empty",
-        "Email is not valid": "views.auth.errors-email-invalid",
-        "User not found": "views.auth.errors-user-not-found",
-        "This account has been disabled": "views.auth.errors-user-disabled",
-        "Please provide your email": "views.auth.errors-email-empty",
-        "That email address is already in use": "views.auth.errors-email-in-use",
-        "Password must be at least 6 characters": "views.auth.errors-password-too-short",
-        "Please provide your password": "views.auth.errors-password-empty",
-        "Password is incorrect": "views.auth.errors-wrong-password",
-        "Field cannot be empty": "views.auth.errors-confirm-password-empty",
-        "Password must match": "views.auth.errors-confirm-password-different",
-        "Password is too weak": "views.auth.errors-weak-password",
-        "Internal error, please try again later": "views.auth.errors-internal-error",
-        "This operation requires re-authentication to ensure it's you": "views.home.profile-edit_email-error-re_authentication",
+        "Your first name is too long": "views.auth.errors.first-name.too-long",
+        "Please enter valid first name": "views.auth.errors.first-name.invalid",
+        "Please provide your first name": "views.auth.errors.first-name.empty",
+        "Your last name is too long": "views.auth.errors.last-name.too-long",
+        "Please enter valid last name": "views.auth.errors.last-name.invalid",
+        "Please provide your last name": "views.auth.errors.last-name.empty",
+        "Email is not valid": "views.auth.errors.email.invalid",
+        "User not found": "views.auth.errors.user.not-found",
+        "This account has been disabled": "views.auth.errors.user.disabled",
+        "Please provide your email": "views.auth.errors.email.empty",
+        "That email address is already in use": "views.auth.errors.email.in-use",
+        "Password must be at least 6 characters": "views.auth.errors.password.too-short",
+        "Please provide your password": "views.auth.errors.password.empty",
+        "Password is incorrect": "views.auth.errors.wrong-password",
+        "Field cannot be empty": "views.auth.errors.confirm-password.empty",
+        "Password must match": "views.auth.errors.confirm-password.different",
+        "Password is too weak": "views.auth.errors.weak-password",
+        "Internal error, please try again later": "views.auth.errors.internal-error",
+        "This operation requires re-authentication to ensure it's you": "views.home.profile.edit-email.error.re-authentication",
     };
 
     useEffect(() => {
         if (error) {
+            console.log(error)
             setDefaultMessage(error.message as string);
             setId(errors[error.message as string]);
         } else {
-            setId("views.auth.errors-basic-error");
+            setId("views.auth.errors.basic-error");
         }
     }, [error, errors]);
 

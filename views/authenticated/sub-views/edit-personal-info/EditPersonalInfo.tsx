@@ -135,13 +135,13 @@ export default function EditPersonalInfo({ navigation }: EditPersonalInfoProps) 
                             <Text style={styles.title}>
                                 <FormattedMessage
                                     defaultMessage='Edit Your Personal Info'
-                                    id='views.home.profile-edit_personal_info-title'
+                                    id='views.home.profile.edit-personal-info.title'
                                 />
                             </Text>
                             <Text style={styles.subTitle}>
                                 <FormattedMessage
                                     defaultMessage='Please provide us with your first and last name'
-                                    id='views.home.profile-edit_personal_info-subtitle'
+                                    id='views.home.profile.edit-personal-info.subtitle'
                                 />
                             </Text>
                         </Animated.View>
@@ -159,7 +159,7 @@ export default function EditPersonalInfo({ navigation }: EditPersonalInfoProps) 
                                             label={(
                                                 <FormattedMessage
                                                     defaultMessage='First Name'
-                                                    id='views.home.profile-edit_personal_info-first_name'
+                                                    id='views.home.profile.edit-personal-info.first-name'
                                                 />
                                             )}
                                             placeholder='Johnny'
@@ -188,7 +188,7 @@ export default function EditPersonalInfo({ navigation }: EditPersonalInfoProps) 
                                             label={(
                                                 <FormattedMessage
                                                     defaultMessage='Last Name'
-                                                    id='views.home.profile-edit_personal_info-last_name'
+                                                    id='views.home.profile.edit-personal-info.last-name'
                                                 />
                                             )}
                                             placeholder='Doe'
@@ -210,7 +210,7 @@ export default function EditPersonalInfo({ navigation }: EditPersonalInfoProps) 
                                 >
                                     <FormattedMessage
                                         defaultMessage='Your data has been updated successfully.'
-                                        id='views.home.profile-edit_personal_info-message'
+                                        id='views.home.profile.edit-personal-info.message'
                                     />
                                 </Text>}
 
@@ -228,7 +228,7 @@ export default function EditPersonalInfo({ navigation }: EditPersonalInfoProps) 
                             /> :
                             <FormattedMessage
                                 defaultMessage='Submit'
-                                id='views.home.profile-edit_email-submit'
+                                id='views.home.profile.edit-email.submit'
                             />
                     }
                     onPress={handleSubmit(onSubmit)}

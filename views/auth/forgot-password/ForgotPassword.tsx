@@ -135,13 +135,13 @@ export default function ForgotPassword({ navigation }: ForgotPasswordProps) {
                             <Text style={styles.title}>
                                 <FormattedMessage
                                     defaultMessage='Password Reset'
-                                    id='views.auth.forgot-password-title'
+                                    id='views.auth.forgot-password.title'
                                 />
                             </Text>
                             <Text style={styles.subTitle}>
                                 <FormattedMessage
                                     defaultMessage='Please provide us with your email address, and we will send you the link necessary to create a new password.'
-                                    id='views.auth.forgot-password-subtitle'
+                                    id='views.auth.forgot-password.subtitle'
                                 />
                             </Text>
                         </Animated.View>
@@ -181,7 +181,7 @@ export default function ForgotPassword({ navigation }: ForgotPasswordProps) {
                                 >
                                     <FormattedMessage
                                         defaultMessage='The link to change your password has been sent to your email address.'
-                                        id='views.auth.forgot-password-message'
+                                        id='views.auth.forgot-password.message'
                                     />
                                 </Text>}
 
@@ -200,7 +200,7 @@ export default function ForgotPassword({ navigation }: ForgotPasswordProps) {
                             /> :
                             <FormattedMessage
                                 defaultMessage='Send'
-                                id='views.auth.forgot-password-send'
+                                id='views.auth.forgot-password.send'
                             />
                     }
                     onPress={handleSubmit(onResetPassword)}

@@ -39,29 +39,29 @@ export default function ProfileBar({
                     {(currentHour >= 5 && currentHour < 12) &&
                         <FormattedMessage
                             defaultMessage='Good Morning!'
-                            id='views.home.welcome_text-good_morning'
+                            id='views.home.welcome-text.good-morning'
                         />}
                     {(currentHour >= 12 && currentHour < 18) &&
                         <FormattedMessage
                             defaultMessage='Good Afternoon!'
-                            id='views.home.welcome_text-good_afternoon'
+                            id='views.home.welcome-text.good-afternoon'
                         />}
                     {(currentHour >= 18 && currentHour < 24) &&
                         <FormattedMessage
                             defaultMessage='Good evening!'
-                            id='views.home.welcome_text-good_evening'
+                            id='views.home.welcome-text.good-evening'
                         />}
                     {(currentHour >= 0 && currentHour < 5) &&
                         <FormattedMessage
                             defaultMessage='Hello!'
-                            id='views.home.welcome_text-hello'
+                            id='views.home.welcome-text.hello'
                         />}
                 </Text>
                 <Text style={styles.displayName}>
                     {isAnonymous ?
                         <FormattedMessage
                             defaultMessage='Stranger'
-                            id='views.home.welcome_text-anonymous'
+                            id='views.home.welcome-text.anonymous'
                         />
                         :
                         displayName}

@@ -30,21 +30,21 @@ export default function InstrumentRecord({ crypto, sentiment, sentimentDirection
                     {sentiment === "Positive" &&
                         <FormattedMessage
                             defaultMessage='Positive'
-                            id='views.home.overview-trending_now-positive'
+                            id='views.home.overview.trending-now.positive'
                         />
                     }
 
                     {sentiment === "Neutral" &&
                         <FormattedMessage
                             defaultMessage='Neutral'
-                            id='views.home.overview-trending_now-neutral'
+                            id='views.home.overview.trending-now.neutral'
                         />
                     }
 
                     {sentiment === "Negative" &&
                         <FormattedMessage
                             defaultMessage='Negative'
-                            id='views.home.overview-trending_now-negative'
+                            id='views.home.overview.trending-now.negative'
                         />
                     }
                 </Text>
