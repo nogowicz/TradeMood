@@ -5,6 +5,7 @@ import { FormattedMessage } from 'react-intl';
 
 import Placeholder from 'assets/icons/crypto-placeholder.svg'
 import Arrow from 'assets/icons/Go-forward.svg';
+import FastImage from 'react-native-fast-image';
 
 type InstrumentRecordProps = {
     crypto: string;
@@ -17,7 +18,7 @@ export default function InstrumentRecord({ crypto, sentiment, sentimentDirection
     return (
         <TouchableOpacity style={styles.container} activeOpacity={0.6}>
             {photoUrl ?
-                <Image source={{ uri: photoUrl }} style={{ width: photoSize, height: photoSize }} />
+                <FastImage source={{ uri: photoUrl }} style={{ width: photoSize, height: photoSize }} />
                 : <Placeholder width={photoSize} height={photoSize} />}
             <View style={styles.middleContainer}>
                 <Text style={styles.titleText}>{crypto}</Text>
@@ -29,21 +30,21 @@ export default function InstrumentRecord({ crypto, sentiment, sentimentDirection
                     {sentiment === "Positive" &&
                         <FormattedMessage
                             defaultMessage='Positive'
-                            id='views.home.overview-trending_now-positive'
+                            id='views.home.overview.trending-now.positive'
                         />
                     }
 
                     {sentiment === "Neutral" &&
                         <FormattedMessage
                             defaultMessage='Neutral'
-                            id='views.home.overview-trending_now-neutral'
+                            id='views.home.overview.trending-now.neutral'
                         />
                     }
 
                     {sentiment === "Negative" &&
                         <FormattedMessage
                             defaultMessage='Negative'
-                            id='views.home.overview-trending_now-negative'
+                            id='views.home.overview.trending-now.negative'
                         />
                     }
                 </Text>

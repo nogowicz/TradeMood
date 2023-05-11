@@ -146,13 +146,13 @@ export default function EditEmail({ navigation }: EditEmailProps) {
                             <Text style={styles.title}>
                                 <FormattedMessage
                                     defaultMessage='Edit Your Email'
-                                    id='views.home.profile-edit_email-title'
+                                    id='views.home.profile.edit-email.title'
                                 />
                             </Text>
                             <Text style={styles.subTitle}>
                                 <FormattedMessage
                                     defaultMessage='Please provide us with new email address'
-                                    id='views.home.profile-edit_email-subtitle'
+                                    id='views.home.profile.edit-email.subtitle'
                                 />
                             </Text>
                         </Animated.View>
@@ -170,7 +170,7 @@ export default function EditEmail({ navigation }: EditEmailProps) {
                                             label={(
                                                 <FormattedMessage
                                                     defaultMessage='New Email'
-                                                    id='views.home.profile-edit_email-new_email'
+                                                    id='views.home.profile.edit-email.new-email'
                                                 />
                                             )}
                                             placeholder='johnydoe@trademood.com'
@@ -192,7 +192,7 @@ export default function EditEmail({ navigation }: EditEmailProps) {
                                 >
                                     <FormattedMessage
                                         defaultMessage='Your address email has been update successfully, please check your inbox.'
-                                        id='views.home.profile-edit_email-message'
+                                        id='views.home.profile.edit-email.message'
                                     />
                                 </Text>}
 
@@ -210,7 +210,7 @@ export default function EditEmail({ navigation }: EditEmailProps) {
                             /> :
                             <FormattedMessage
                                 defaultMessage='Submit'
-                                id='views.home.profile-edit_email-submit'
+                                id='views.home.profile.edit-email.submit'
                             />
                     }
                     onPress={handleSubmit(onSubmit)}

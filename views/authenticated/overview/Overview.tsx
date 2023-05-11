@@ -138,7 +138,7 @@ export default function Overview({ navigation }: OverviewProps) {
                     <Text style={styles.sectionTitle}>
                         <FormattedMessage
                             defaultMessage='Overview'
-                            id='views.home.overview-title'
+                            id='views.home.overview.title'
                         />
                     </Text>
                 </View>

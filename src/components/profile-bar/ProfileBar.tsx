@@ -8,6 +8,7 @@ import {
 import React from 'react'
 import { colors, constants, spacing, typography } from 'styles'
 import { FormattedMessage } from 'react-intl';
+import FastImage from 'react-native-fast-image';
 
 type ProfileBarProps = {
     displayName: string | null | undefined;
@@ -38,29 +39,29 @@ export default function ProfileBar({
                     {(currentHour >= 5 && currentHour < 12) &&
                         <FormattedMessage
                             defaultMessage='Good Morning!'
-                            id='views.home.welcome_text-good_morning'
+                            id='views.home.welcome-text.good-morning'
                         />}
                     {(currentHour >= 12 && currentHour < 18) &&
                         <FormattedMessage
                             defaultMessage='Good Afternoon!'
-                            id='views.home.welcome_text-good_afternoon'
+                            id='views.home.welcome-text.good-afternoon'
                         />}
                     {(currentHour >= 18 && currentHour < 24) &&
                         <FormattedMessage
                             defaultMessage='Good evening!'
-                            id='views.home.welcome_text-good_evening'
+                            id='views.home.welcome-text.good-evening'
                         />}
                     {(currentHour >= 0 && currentHour < 5) &&
                         <FormattedMessage
                             defaultMessage='Hello!'
-                            id='views.home.welcome_text-hello'
+                            id='views.home.welcome-text.hello'
                         />}
                 </Text>
                 <Text style={styles.displayName}>
                     {isAnonymous ?
                         <FormattedMessage
                             defaultMessage='Stranger'
-                            id='views.home.welcome_text-anonymous'
+                            id='views.home.welcome-text.anonymous'
                         />
                         :
                         displayName}
@@ -68,24 +69,16 @@ export default function ProfileBar({
             </View>
             <View>
                 {imageUrl ?
-                    <Image
+                    <FastImage
                         source={{ uri: imageUrl }}
                         style={{ width: imageSize, height: imageSize, borderRadius: imageSize / 2 }}
                     /> :
-                    <View style={{
-                        width: imageSize,
-                        height: imageSize,
-                        borderRadius: imageSize / 2,
-                        borderWidth: 1,
-                        borderColor: colors.LIGHT_COLORS.HINT,
-                        justifyContent: 'center',
-                        alignItems: 'center'
-                    }}>
-                        <Image
-                            source={require('assets/profile/profile-picture.png')}
-                            style={{ width: imageSize, height: imageSize, borderRadius: imageSize / 2 }}
-                        />
-                    </View>}
+
+                    <FastImage
+                        source={require('assets/profile/profile-picture.png')}
+                        style={{ width: imageSize, height: imageSize, borderRadius: imageSize / 2 }}
+                    />
+                }
             </View>
         </TouchableOpacity>
     )

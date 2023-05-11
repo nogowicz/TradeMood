@@ -36,7 +36,6 @@ type EditPictureProps = {
 export default function EditPicture({ navigation }: EditPictureProps) {
     const { user, updateProfilePicture } = useContext(AuthContext);
     const [uploadingImage, setUploadingImage] = useState(false);
-    const [loading, setLoading] = useState(false);
     const [step, setStep] = useState(0);
     const ref = useRef<BottomSheetRefProps>(null);
     const [imageUrl, setImageUrl] = useState<string | null | undefined>(user?.photoURL);
@@ -89,6 +88,7 @@ export default function EditPicture({ navigation }: EditPictureProps) {
                                     setUploadingImage(false);
                                     handleHideBottomSheet();
                                     setImageUrl(downloadURL);
+                                    onSubmit(downloadURL);
                                 });
 
                             } else {
@@ -139,6 +139,7 @@ export default function EditPicture({ navigation }: EditPictureProps) {
                                     handleHideBottomSheet();
                                     console.log('File available at', downloadURL);
                                     setImageUrl(downloadURL);
+                                    onSubmit(downloadURL);
                                 });
                             } else {
                                 console.log('Wystąpił błąd podczas przesyłania pliku.');
@@ -162,6 +163,7 @@ export default function EditPicture({ navigation }: EditPictureProps) {
                 await ref.delete().then(() => {
                     setUploadingImage(true);
                     setImageUrl(null);
+                    onSubmit(null);
                 });
 
                 console.log('Plik został usunięty.');
@@ -177,17 +179,11 @@ export default function EditPicture({ navigation }: EditPictureProps) {
     }
 
 
-    const onSubmit = async () => {
-        setLoading(true);
+    const onSubmit = async (imageUrl: string | undefined | null) => {
         try {
             await updateProfilePicture(imageUrl)
-                .then(() => {
-                    setLoading(false);
-                    navigation.goBack();
-                });
         } catch (error: any) {
             console.log(error)
-            setLoading(false);
         }
     }
 
@@ -217,13 +213,13 @@ export default function EditPicture({ navigation }: EditPictureProps) {
                             <Text style={styles.title}>
                                 <FormattedMessage
                                     defaultMessage='Edit Your Profile Picture'
-                                    id='views.home.profile-edit_picture-title'
+                                    id='views.home.profile.edit-picture.title'
                                 />
                             </Text>
                             <Text style={styles.subTitle}>
                                 <FormattedMessage
                                     defaultMessage='Please provide us with your profile picture'
-                                    id='views.home.profile-edit_picture-subtitle'
+                                    id='views.home.profile.edit-picture.subtitle'
                                 />
                             </Text>
                         </View>
@@ -237,22 +233,6 @@ export default function EditPicture({ navigation }: EditPictureProps) {
                         />
                     </View>
                 </View>
-                <SubmitButton
-                    isChevronDisplayed
-                    label={
-                        loading ?
-                            <FormattedMessage
-                                defaultMessage='Loading...'
-                                id='views.auth.loading'
-                            /> :
-                            <FormattedMessage
-                                defaultMessage='Submit'
-                                id='views.home.profile-edit_picture-submit'
-                            />
-                    }
-                    onPress={onSubmit}
-                    mode="submit"
-                />
                 <BottomSheet ref={ref} height={500}>
                     <View>
                         {uploadingImage ?
