@@ -41,6 +41,9 @@ export const SCREENS = {
     },
     EDIT_PICTURE: {
       ID: 'EDIT_PICTURE'
+    },
+    EDIT_PASSWORD: {
+      ID: 'EDIT_PASSWORD'
     }
   },
 };

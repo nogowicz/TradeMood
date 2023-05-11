@@ -74,7 +74,7 @@ export default function EditProfile({ navigation }: EditProfileProps) {
                                     id='views.home.profile.edit-profile.password'
                                 />
                             }
-                            onPress={() => navigation.navigate(SCREENS.HOME.EDIT_PICTURE.ID)}
+                            onPress={() => navigation.navigate(SCREENS.HOME.EDIT_PASSWORD.ID)}
                             mode='option'
                             icon={<Password />}
                             activeOpacity={0.5}

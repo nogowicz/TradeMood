@@ -92,5 +92,10 @@
   "views.home.profile.edit-picture.subtitle": "Dodaj swoje zdjęcie, aby twój profil był bardziej spersonalizowany",
   "views.home.profile.edit-picture.message": "Dane zaktualizowane pomyślnie.",
   "views.home.profile.edit-picture.submit": "Zatwierdź",
-  "views.home.profile.edit-profile.password": "Hasło"
+  "views.home.profile.edit-profile.password": "Hasło",
+  "views.home.profile.edit-password.new-password": "Nowe Hasło",
+  "views.home.profile.edit-password.message": "Twoje hasło zostało zaktualizowane pomyślnie.",
+  "views.home.profile.edit-password.title": "Edytuj Swoje Hasło",
+  "views.home.profile.edit-password.subtitle": "Podaj nam swoje nowe hasło",
+  "views.home.profile.edit-password.confirm-new-password": "Potwierdź Nowe Hasło"
 }
