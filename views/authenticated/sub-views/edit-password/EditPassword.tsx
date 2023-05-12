@@ -24,7 +24,7 @@ import Password from 'assets/icons/Password.svg';
 import { NativeStackScreenProps } from '@react-navigation/native-stack';
 import { RootStackParamList } from '@views/navigation/Navigation';
 
-type EditPasswordScreenNavigationProp = NativeStackScreenProps<RootStackParamList, 'EditEmail'>;
+type EditPasswordScreenNavigationProp = NativeStackScreenProps<RootStackParamList, 'EditPassword'>;
 
 type EditEmailProps = {
     navigation: EditPasswordScreenNavigationProp['navigation']

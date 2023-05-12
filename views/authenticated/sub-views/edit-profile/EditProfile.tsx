@@ -20,7 +20,7 @@ import Id from 'assets/icons/Id.svg'
 import Picture from 'assets/icons/Picture.svg'
 import GoBack from 'assets/icons/Go-back.svg'
 import SmallLogo from 'assets/logo/logo-smaller.svg'
-import Password from 'assets/icons/Password.svg'
+import Password from 'assets/icons/Password-light.svg'
 
 type EditProfileScreenNavigationProp = NativeStackScreenProps<RootStackParamList, 'EditProfile'>;
 

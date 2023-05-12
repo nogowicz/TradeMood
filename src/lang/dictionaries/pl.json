@@ -63,8 +63,7 @@
   "views.home.overview.title": "Informacje Ogólne",
   "views.home.profile.title": "Cześć, ",
   "views.home.profile.edit-profile": "Edytuj Profil",
-  "views.home.profile.privacy-and-security": "Bezpieczeństwo",
-  "views.home.profile.language": "Język",
+  "views.home.profile.app-settings": "Ustawienia Aplikacji",
   "views.home.profile.about": "O nas",
   "views.home.profile.logout": "Wyloguj",
   "views.home.profile.edit-profile.title": "Edytuj Swój Profil",
@@ -97,5 +96,7 @@
   "views.home.profile.edit-password.message": "Twoje hasło zostało zaktualizowane pomyślnie.",
   "views.home.profile.edit-password.title": "Edytuj Swoje Hasło",
   "views.home.profile.edit-password.subtitle": "Podaj nam swoje nowe hasło",
-  "views.home.profile.edit-password.confirm-new-password": "Potwierdź Nowe Hasło"
+  "views.home.profile.edit-password.confirm-new-password": "Potwierdź Nowe Hasło",
+  "views.home.profile.app-settings.language": "Język",
+  "views.home.profile.app-settings.title": "Ustawienia Aplikacji"
 }
