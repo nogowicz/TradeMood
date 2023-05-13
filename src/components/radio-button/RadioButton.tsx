@@ -21,9 +21,7 @@ type RadioButtonProps = {
 
 export default function RadioButton({ values }: RadioButtonProps) {
     const [language, setLanguage] = useContext(LangContext);
-
     const [value, setValue] = useState<string>(languagesCodes[language]);
-    console.log(language)
     const languageTranslation: LanguageObject = {
         "PL": () => (
             <FormattedMessage
@@ -42,7 +40,6 @@ export default function RadioButton({ values }: RadioButtonProps) {
     return (
         <View>
             {values.map(res => {
-                console.log(res.value)
                 return (
                     <View key={res.key} style={styles.container}>
                         <TouchableOpacity

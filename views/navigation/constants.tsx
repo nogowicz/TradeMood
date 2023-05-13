@@ -47,6 +47,9 @@ export const SCREENS = {
     },
     APP_SETTINGS: {
       ID: 'APP_SETTINGS'
+    },
+    ABOUT_US: {
+      ID: 'ABOUT_US'
     }
   },
 };
