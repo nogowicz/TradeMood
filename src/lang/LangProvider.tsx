@@ -32,7 +32,7 @@ export function LangModeProvider(props: { children: ReactNode }) {
             } else if (bestLanguage) {
                 setLang(bestLanguage.languageTag);
             } else {
-                setLang('en');
+                setLang('English');
             }
 
 

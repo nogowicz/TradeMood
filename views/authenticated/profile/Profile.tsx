@@ -16,8 +16,7 @@ import SubmitButton from 'components/buttons/submit-button';
 
 import EditProfile from 'assets/icons/Edit-profile.svg';
 import Logout from 'assets/icons/Logout.svg'
-import PrivacyAndSecurity from 'assets/icons/Privacy-and-security.svg'
-import Language from 'assets/icons/Language.svg'
+import Settings from 'assets/icons/Settings.svg'
 import About from 'assets/icons/About.svg'
 import { SCREENS } from '@views/navigation/constants';
 import FastImage from 'react-native-fast-image';
@@ -87,25 +86,13 @@ export default function Profile({ navigation }: ProfileProps) {
                         <SubmitButton
                             label={
                                 <FormattedMessage
-                                    defaultMessage='Privacy & Security'
-                                    id='views.home.profile.privacy-and-security'
+                                    defaultMessage='App Settings'
+                                    id='views.home.profile.app-settings'
                                 />
                             }
-                            onPress={() => console.log("Privacy & Security")}
+                            onPress={() => navigation.navigate(SCREENS.HOME.APP_SETTINGS.ID)}
                             mode='option'
-                            icon={<PrivacyAndSecurity />}
-                            activeOpacity={0.5}
-                        />
-                        <SubmitButton
-                            label={
-                                <FormattedMessage
-                                    defaultMessage='Language'
-                                    id='views.home.profile.language'
-                                />
-                            }
-                            onPress={() => console.log("Language")}
-                            mode='option'
-                            icon={<Language />}
+                            icon={<Settings />}
                             activeOpacity={0.5}
                         />
                         <SubmitButton
