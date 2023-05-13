@@ -7,24 +7,55 @@ import {
 import React, { useContext, useState } from 'react'
 import { colors, spacing } from 'styles';
 import { LangContext } from '../../lang/LangProvider';
+import { FormattedMessage } from 'react-intl';
+import { LanguageEntry } from '@views/authenticated/sub-views/app-settings/AppSettings';
+import { languagesCodes } from 'lang/constants';
 
+type LanguageObject = {
+    [key: string]: () => JSX.Element;
+};
 
-export default function RadioButton({ values }) {
-    const [value, setValue] = useState();
+type RadioButtonProps = {
+    values: LanguageEntry[];
+}
+
+export default function RadioButton({ values }: RadioButtonProps) {
     const [language, setLanguage] = useContext(LangContext);
+
+    const [value, setValue] = useState<string>(languagesCodes[language]);
+    console.log(language)
+    const languageTranslation: LanguageObject = {
+        "PL": () => (
+            <FormattedMessage
+                defaultMessage='Polish'
+                id='views.home.profile.app-settings.language.pl'
+            />
+        ),
+        "ENG": () => (
+            <FormattedMessage
+                defaultMessage='English'
+                id='views.home.profile.app-settings.language.eng'
+            />
+        )
+    }
+
     return (
         <View>
             {values.map(res => {
+                console.log(res.value)
                 return (
                     <View key={res.key} style={styles.container}>
                         <TouchableOpacity
                             style={styles.radioCircle}
                             onPress={() => {
+                                setLanguage(res.value)
                                 setValue(res.key);
                             }}>
                             {value === res.key && <View style={styles.selectedRb} />}
                         </TouchableOpacity>
-                        <Text style={styles.radioText}>{res.value}</Text>
+                        <Text style={styles.radioText}>
+                            {languageTranslation[res.key]()}
+                        </Text>
                     </View>
                 );
             })}

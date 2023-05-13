@@ -27,6 +27,11 @@ type AppSettingsProps = {
     navigation: AppSettingsScreenNavigationProp['navigation']
 }
 
+export type LanguageEntry = {
+    key: string;
+    value: string;
+};
+
 
 export default function AppSettings({ navigation }: AppSettingsProps) {
     const ref = useRef<BottomSheetRefProps>(null);
@@ -39,29 +44,8 @@ export default function AppSettings({ navigation }: AppSettingsProps) {
         }
     }, []);
 
-    const arr = Object.entries(LANGUAGES).map(([key, value]) => ({ key, value }));
+    const langArray: LanguageEntry[] = Object.entries(LANGUAGES).map(([key, value]) => ({ key, value }));
 
-    console.log(arr);
-
-
-    const languages = [
-        {
-            key: 'samsung',
-            text: 'Samsung',
-        },
-        {
-            key: 'apple',
-            text: 'Apple',
-        },
-        {
-            key: 'motorola',
-            text: 'Motorola',
-        },
-        {
-            key: 'lenovo',
-            text: 'Lenovo',
-        },
-    ];
 
     return (
         <SafeAreaView style={styles.root}>
@@ -105,7 +89,13 @@ export default function AppSettings({ navigation }: AppSettingsProps) {
                 </View>
             </View>
             <BottomSheet ref={ref}>
-                <RadioButton values={arr} />
+                <Text style={styles.bottomSheetTitleText}>
+                    <FormattedMessage
+                        defaultMessage='Choose Language'
+                        id='views.home.profile.app-settings.choose-language'
+                    />
+                </Text>
+                <RadioButton values={langArray} />
             </BottomSheet>
         </SafeAreaView>
     )
@@ -146,4 +136,14 @@ const styles = StyleSheet.create({
         marginVertical: spacing.SCALE_40,
         justifyContent: 'center',
     },
+    bottomSheetTitleText: {
+        ...typography.FONT_BOLD,
+        color: colors.LIGHT_COLORS.BACKGROUND,
+        justifyContent: 'center',
+        alignItems: 'center',
+        fontSize: typography.FONT_SIZE_20,
+        fontWeight: typography.FONT_WEIGHT_BOLD,
+        textAlign: 'center',
+        marginBottom: spacing.SCALE_20,
+    }
 })

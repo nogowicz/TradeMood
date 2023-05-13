@@ -3,4 +3,9 @@ export const LANGUAGES = {
   ENG: 'en',
 };
 
+export const languagesCodes: { [key: string]: string } = {
+  en: 'ENG',
+  pl: 'PL',
+};
+
 export const LangContextName = 'LangContext';

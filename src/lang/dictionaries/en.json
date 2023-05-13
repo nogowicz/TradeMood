@@ -98,5 +98,8 @@
   "views.home.profile.edit-password.subtitle": "Please provide us with new password",
   "views.home.profile.edit-password.confirm-new-password": "Confirm New Password",
   "views.home.profile.app-settings.language": "Language",
-  "views.home.profile.app-settings.title": "App Settings"
+  "views.home.profile.app-settings.title": "App Settings",
+  "views.home.profile.app-settings.choose-language": "Choose Language",
+  "views.home.profile.app-settings.language.pl": "Polish",
+  "views.home.profile.app-settings.language.eng": "English"
 }
