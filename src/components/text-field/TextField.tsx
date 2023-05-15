@@ -8,7 +8,9 @@ import {
     TouchableOpacity,
 } from 'react-native';
 import {
+    Dispatch,
     ReactNode,
+    SetStateAction,
     useEffect,
     useState
 } from 'react';
@@ -18,6 +20,7 @@ import { colors, constants, spacing, typography } from 'styles';
 
 import PasswordVisible from 'assets/icons/Password-visible.svg';
 import PasswordInvisible from 'assets/icons/Password-invisible.svg';
+import Clear from 'assets/icons/Clear.svg';
 import { FormattedMessage } from 'react-intl';
 import { FieldError, FieldErrorsImpl, Merge } from 'react-hook-form';
 
@@ -31,7 +34,7 @@ type TextFieldProps = {
     style?: ViewStyle;
     label?: ReactNode;
     value: string;
-    children: ReactNode;
+    children?: ReactNode;
     onBlur?: () => void;
     onChangeText: (value: string) => void;
     actionLabel?: ReactNode;
@@ -41,6 +44,8 @@ type TextFieldProps = {
     props?: TextInputProps;
     autoCapitalize?: any;
     password?: boolean;
+    clear?: boolean;
+    onClear?: Dispatch<SetStateAction<string>>;
 }
 
 export default function TextField({
@@ -52,6 +57,8 @@ export default function TextField({
     placeholder,
     error,
     password = false,
+    clear = false,
+    onClear,
     ...props
 }: TextFieldProps) {
     const [focus, setFocus] = useState(false);
@@ -130,6 +137,19 @@ export default function TextField({
                     >
                         {secureTextEntry ?
                             <PasswordVisible /> : <PasswordInvisible />}
+                    </TouchableOpacity>
+                    : null
+                }
+                {clear ?
+                    <TouchableOpacity
+                        onPress={() => {
+                            if (onClear) {
+                                onClear('')
+                            }
+                        }}
+                        activeOpacity={0.7}
+                    >
+                        <Clear />
                     </TouchableOpacity>
                     : null
                 }

@@ -9,7 +9,7 @@ type InstrumentProviderProps = {
     children: ReactNode;
 }
 
-type InstrumentProps = {
+export type InstrumentProps = {
     id: string;
     stockSymbol: string;
     crypto: string;

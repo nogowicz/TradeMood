@@ -22,28 +22,13 @@ import TrendingNow from 'components/trending-now';
 import firestore from '@react-native-firebase/firestore';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import InstrumentRecord from 'components/instrument-record';
-import { InstrumentContext } from '@views/navigation/InstrumentProvider';
+import { InstrumentContext, InstrumentProps } from '@views/navigation/InstrumentProvider';
 
 
 type OverviewScreenNavigationProp = NativeStackScreenProps<RootStackParamList, 'Overview'>;
 
 type OverviewProps = {
     navigation: OverviewScreenNavigationProp['navigation']
-}
-
-type InstrumentProps = {
-    id: string;
-    stockSymbol: string;
-    crypto: string;
-    activityTM: number;
-    activityTW: number;
-    sentimentPositive: number;
-    sentimentNeutral: number;
-    sentimentNegative: number;
-    sentiment: string;
-    sentimentDirection: string;
-    time: Date;
-    photoUrl: string;
 }
 
 export default function Overview({ navigation }: OverviewProps) {
@@ -100,22 +85,7 @@ export default function Overview({ navigation }: OverviewProps) {
                             onPress={() => console.log("Navigating to details screen")}
                         />
                     </View>
-                    <View>
-                        {instruments && instruments.map((instrument: InstrumentProps) => {
-                            return (
-                                <InstrumentRecord
-                                    key={instrument.id}
-                                    crypto={instrument.crypto}
-                                    sentimentDirection={instrument.sentimentDirection}
-                                    sentiment={instrument.sentiment}
-                                    photoUrl={instrument.photoUrl}
-                                />
-                            )
 
-                        })}
-
-
-                    </View>
                 </ScrollView>
             </View>
         </SafeAreaView>

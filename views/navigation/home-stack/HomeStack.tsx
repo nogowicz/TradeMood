@@ -38,7 +38,8 @@ export default function HomeStack() {
                 screenOptions={{
                     headerShown: false,
                     tabBarShowLabel: false,
-                    tabBarStyle: { height: spacing.SCALE_60 }
+                    tabBarStyle: { height: spacing.SCALE_60 },
+                    tabBarHideOnKeyboard: true,
                 }}
 
             >
