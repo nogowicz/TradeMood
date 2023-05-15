@@ -64,7 +64,7 @@
   "views.home.profile.title": "Cześć, ",
   "views.home.profile.edit-profile": "Edytuj Profil",
   "views.home.profile.app-settings": "Ustawienia Aplikacji",
-  "views.home.profile.about": "O nas",
+  "views.home.profile.about": "O TradeMood",
   "views.home.profile.logout": "Wyloguj",
   "views.home.profile.edit-profile.title": "Edytuj Swój Profil",
   "views.home.profile.edit-profile.email": "Email",
@@ -101,5 +101,9 @@
   "views.home.profile.app-settings.title": "Ustawienia Aplikacji",
   "views.home.profile.app-settings.choose-language": "Wybierz język",
   "views.home.profile.app-settings.language.pl": "Polski",
-  "views.home.profile.app-settings.language.eng": "Angielski"
+  "views.home.profile.app-settings.language.eng": "Angielski",
+  "views.home.profile.about-us.title": "O TradeMood",
+  "views.home.search.title": "Szukaj",
+  "views.home.search.text-field.placeholder": "np. Bitcoin",
+  "views.home.search.all-cryptocurrencies": "Wszystkie Kryptowaluty"
 }

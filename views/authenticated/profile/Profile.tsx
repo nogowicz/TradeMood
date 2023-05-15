@@ -102,7 +102,7 @@ export default function Profile({ navigation }: ProfileProps) {
                                     id='views.home.profile.about'
                                 />
                             }
-                            onPress={() => console.log("About")}
+                            onPress={() => navigation.navigate(SCREENS.HOME.ABOUT_US.ID)}
                             mode='option'
                             icon={<About />}
                             activeOpacity={0.5}

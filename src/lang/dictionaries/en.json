@@ -101,5 +101,9 @@
   "views.home.profile.app-settings.title": "App Settings",
   "views.home.profile.app-settings.choose-language": "Choose Language",
   "views.home.profile.app-settings.language.pl": "Polish",
-  "views.home.profile.app-settings.language.eng": "English"
+  "views.home.profile.app-settings.language.eng": "English",
+  "views.home.profile.about-us.title": "About Us",
+  "views.home.search.title": "Search",
+  "views.home.search.text-field.placeholder": "ex. Bitcoin",
+  "views.home.search.all-cryptocurrencies": "All Cryptocurrencies"
 }

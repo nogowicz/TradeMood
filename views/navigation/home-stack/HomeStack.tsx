@@ -25,6 +25,7 @@ import EditPersonalInfo from '@views/authenticated/sub-views/edit-personal-info'
 import EditPicture from '@views/authenticated/sub-views/edit-picture';
 import EditPassword from '@views/authenticated/sub-views/edit-password';
 import AppSettings from '@views/authenticated/sub-views/app-settings';
+import AboutUs from '@views/authenticated/sub-views/about-us';
 
 export default function HomeStack() {
     const Stack = createNativeStackNavigator();
@@ -37,7 +38,8 @@ export default function HomeStack() {
                 screenOptions={{
                     headerShown: false,
                     tabBarShowLabel: false,
-                    tabBarStyle: { height: spacing.SCALE_60 }
+                    tabBarStyle: { height: spacing.SCALE_60 },
+                    tabBarHideOnKeyboard: true,
                 }}
 
             >
@@ -123,6 +125,11 @@ export default function HomeStack() {
             <Stack.Screen
                 name={SCREENS.HOME.APP_SETTINGS.ID}
                 component={AppSettings}
+            />
+
+            <Stack.Screen
+                name={SCREENS.HOME.ABOUT_US.ID}
+                component={AboutUs}
             />
         </Stack.Navigator>
     );

@@ -22,6 +22,7 @@ import TrendingNow from 'components/trending-now';
 import firestore from '@react-native-firebase/firestore';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import InstrumentRecord from 'components/instrument-record';
+import { InstrumentContext, InstrumentProps } from '@views/navigation/InstrumentProvider';
 
 
 type OverviewScreenNavigationProp = NativeStackScreenProps<RootStackParamList, 'Overview'>;
@@ -30,81 +31,9 @@ type OverviewProps = {
     navigation: OverviewScreenNavigationProp['navigation']
 }
 
-type InstrumentProps = {
-    id: string;
-    stockSymbol: string;
-    crypto: string;
-    activityTM: number;
-    activityTW: number;
-    sentimentPositive: number;
-    sentimentNeutral: number;
-    sentimentNegative: number;
-    sentiment: string;
-    sentimentDirection: string;
-    time: Date;
-    photoUrl: string;
-}
-
 export default function Overview({ navigation }: OverviewProps) {
     const { user } = useContext(AuthContext);
-    const [instruments, setInstruments] = useState<Array<InstrumentProps>>();
-
-    useEffect(() => {
-        AsyncStorage.getItem('instruments').then(data => {
-            if (data) {
-                setInstruments(JSON.parse(data));
-            }
-        });
-    }, []);
-
-    const ref = firestore().collection('instruments');
-
-
-
-    useEffect(() => {
-        return ref.onSnapshot(querySnapshot => {
-            const list: Array<InstrumentProps> = [];
-            querySnapshot.forEach(doc => {
-                const {
-                    stockSymbol,
-                    crypto,
-                    activityTM,
-                    activityTW,
-                    sentimentPositive,
-                    sentimentNeutral,
-                    sentimentNegative,
-                    sentiment,
-                    sentimentDirection,
-                    time,
-                    photoUrl
-                } = doc.data();
-                list.push({
-                    id: doc.id,
-                    stockSymbol,
-                    crypto,
-                    activityTM,
-                    activityTW,
-                    sentimentPositive,
-                    sentimentNeutral,
-                    sentimentNegative,
-                    sentiment,
-                    sentimentDirection,
-                    time,
-                    photoUrl
-                });
-            });
-
-            setInstruments(list);
-
-            AsyncStorage.setItem('instruments', JSON.stringify(list))
-                .then(() => console.log('Lista instrumentów zapisana w Async Storage'))
-                .catch(error => console.log('Błąd zapisu listy instrumentów w Async Storage', error));
-        });
-
-
-    }, [])
-
-
+    const instruments = useContext(InstrumentContext);
 
 
     return (
@@ -156,22 +85,7 @@ export default function Overview({ navigation }: OverviewProps) {
                             onPress={() => console.log("Navigating to details screen")}
                         />
                     </View>
-                    <View>
-                        {instruments && instruments.map((instrument: InstrumentProps) => {
-                            return (
-                                <InstrumentRecord
-                                    key={instrument.id}
-                                    crypto={instrument.crypto}
-                                    sentimentDirection={instrument.sentimentDirection}
-                                    sentiment={instrument.sentiment}
-                                    photoUrl={instrument.photoUrl}
-                                />
-                            )
 
-                        })}
-
-
-                    </View>
                 </ScrollView>
             </View>
         </SafeAreaView>
