@@ -114,6 +114,6 @@ export function AuthProvider({ children }: AuthProviderProps) {
                 if (user) {
                     await user.updatePassword(newPassword);
                 }
-            }
+            },
         }}>{children}</AuthContext.Provider>
 }

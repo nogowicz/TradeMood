@@ -50,6 +50,9 @@ export const SCREENS = {
     },
     ABOUT_US: {
       ID: 'ABOUT_US'
+    },
+    INSTRUMENT_DETAILS: {
+      ID: 'INSTRUMENT_DETAILS'
     }
   },
 };

@@ -105,5 +105,6 @@
   "views.home.profile.about-us.title": "O TradeMood",
   "views.home.search.title": "Szukaj",
   "views.home.search.text-field.placeholder": "np. Bitcoin",
-  "views.home.search.all-cryptocurrencies": "Wszystkie Kryptowaluty"
+  "views.home.search.all-cryptocurrencies": "Wszystkie Kryptowaluty",
+  "views.home.overview.favorites": "Ulubione"
 }
