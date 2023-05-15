@@ -26,6 +26,7 @@ import EditPicture from '@views/authenticated/sub-views/edit-picture';
 import EditPassword from '@views/authenticated/sub-views/edit-password';
 import AppSettings from '@views/authenticated/sub-views/app-settings';
 import AboutUs from '@views/authenticated/sub-views/about-us';
+import InstrumentDetails from '@views/authenticated/sub-views/instrument-details';
 
 export default function HomeStack() {
     const Stack = createNativeStackNavigator();
@@ -83,6 +84,20 @@ export default function HomeStack() {
         );
     }
 
+    const instrumentData = {
+        activityTM: 0,
+        activityTW: 0,
+        crypto: "Cryptocurrency",
+        id: "Cryptocurrency",
+        photoUrl: "https://cryptologos.cc/logos/binance-usd-busd-logo.png",
+        sentiment: "Neutral",
+        sentimentDirection: "steady",
+        sentimentNegative: 0,
+        sentimentNeutral: 0,
+        sentimentPositive: 0,
+        stockSymbol: "CRYPTO",
+        time: new Date()
+    };
 
     return (
         <Stack.Navigator
@@ -130,6 +145,12 @@ export default function HomeStack() {
             <Stack.Screen
                 name={SCREENS.HOME.ABOUT_US.ID}
                 component={AboutUs}
+            />
+
+            <Stack.Screen
+                name={SCREENS.HOME.INSTRUMENT_DETAILS.ID}
+                //@ts-ignore
+                component={InstrumentDetails}
             />
         </Stack.Navigator>
     );

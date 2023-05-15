@@ -12,11 +12,16 @@ type InstrumentRecordProps = {
     sentiment: string;
     sentimentDirection: string;
     photoUrl: string;
+    onPress: () => void;
 }
 const photoSize = 50;
-export default function InstrumentRecord({ crypto, sentiment, sentimentDirection, photoUrl }: InstrumentRecordProps) {
+export default function InstrumentRecord({ crypto, sentiment, sentimentDirection, photoUrl, onPress }: InstrumentRecordProps) {
     return (
-        <TouchableOpacity style={styles.container} activeOpacity={0.6}>
+        <TouchableOpacity
+            style={styles.container}
+            activeOpacity={0.6}
+            onPress={onPress}
+        >
             {photoUrl ?
                 <FastImage source={{ uri: photoUrl }} style={{ width: photoSize, height: photoSize }} />
                 : <Placeholder width={photoSize} height={photoSize} />}

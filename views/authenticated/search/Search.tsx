@@ -13,6 +13,7 @@ import { InstrumentContext, InstrumentProps } from '@views/navigation/Instrument
 import { FormattedMessage, useIntl } from 'react-intl';
 import InstrumentRecord from 'components/instrument-record';
 import TextField from 'components/text-field';
+import { SCREENS } from '@views/navigation/constants';
 
 type SearchScreenNavigationProp = NativeStackScreenProps<RootStackParamList, 'Search'>;
 
@@ -95,6 +96,11 @@ export default function Search({ navigation }: SearchProps) {
                                     sentimentDirection={instrument.sentimentDirection}
                                     sentiment={instrument.sentiment}
                                     photoUrl={instrument.photoUrl}
+                                    onPress={() => {
+                                        navigation.navigate(SCREENS.HOME.INSTRUMENT_DETAILS.ID, {
+                                            instrument: instrument ? instrument : undefined
+                                        } as never)
+                                    }}
                                 />
                             )
 

@@ -19,21 +19,26 @@ import Bell from 'assets/icons/Bell-icon.svg'
 import Search from 'assets/icons/Search.svg'
 import { SCREENS } from '@views/navigation/constants';
 import TrendingNow from 'components/trending-now';
-import firestore from '@react-native-firebase/firestore';
-import AsyncStorage from '@react-native-async-storage/async-storage';
-import InstrumentRecord from 'components/instrument-record';
 import { InstrumentContext, InstrumentProps } from '@views/navigation/InstrumentProvider';
+import { FavoritesContext } from '@views/navigation/FavoritesProvider';
+import InstrumentRecord from 'components/instrument-record';
 
 
 type OverviewScreenNavigationProp = NativeStackScreenProps<RootStackParamList, 'Overview'>;
 
 type OverviewProps = {
-    navigation: OverviewScreenNavigationProp['navigation']
+    navigation: OverviewScreenNavigationProp['navigation'];
 }
+
 
 export default function Overview({ navigation }: OverviewProps) {
     const { user } = useContext(AuthContext);
     const instruments = useContext(InstrumentContext);
+    const favoriteMealsCtx = useContext(FavoritesContext);
+
+    const favoriteCrypto = instruments?.filter((instrument) =>
+        favoriteMealsCtx.ids.includes(instrument.id)
+    );
 
 
     return (
@@ -42,14 +47,14 @@ export default function Overview({ navigation }: OverviewProps) {
                 <View style={styles.actionContainer}>
                     <View style={styles.actionContainerLeftSide}>
                         <IconButton
-                            onPress={() => console.log("Navigating to search")}
+                            onPress={() => navigation.navigate(SCREENS.HOME.SEARCH.ID)}
                             size={48}
                             backgroundColor={colors.LIGHT_COLORS.LIGHT_HINT}
                         >
                             <Search />
                         </IconButton>
                         <IconButton
-                            onPress={() => console.log("Navigating to notification")}
+                            onPress={() => navigation.navigate(SCREENS.HOME.NOTIFICATION.ID)}
                             size={48}
                             backgroundColor={colors.LIGHT_COLORS.LIGHT_HINT}
                         >
@@ -82,10 +87,41 @@ export default function Overview({ navigation }: OverviewProps) {
                             positive={instruments ? instruments[0].sentimentPositive : 0}
                             neutral={instruments ? instruments[0].sentimentNeutral : 0}
                             negative={instruments ? instruments[0].sentimentNegative : 0}
-                            onPress={() => console.log("Navigating to details screen")}
+                            onPress={() => {
+                                navigation.navigate(SCREENS.HOME.INSTRUMENT_DETAILS.ID, {
+                                    instrument: instruments ? instruments[0] : undefined
+                                } as never);
+                            }
+                            }
                         />
                     </View>
+                    <View>
+                        {favoriteCrypto && favoriteCrypto?.length > 0 &&
+                            <Text style={styles.listTitleText}>
+                                <FormattedMessage
+                                    defaultMessage='Favorites'
+                                    id='views.home.overview.favorites'
+                                />
+                            </Text>
+                        }
+                        {favoriteCrypto && favoriteCrypto.map((instrument: InstrumentProps) => {
+                            return (
+                                <InstrumentRecord
+                                    key={instrument.id}
+                                    crypto={instrument.crypto}
+                                    sentimentDirection={instrument.sentimentDirection}
+                                    sentiment={instrument.sentiment}
+                                    photoUrl={instrument.photoUrl}
+                                    onPress={() => {
+                                        navigation.navigate(SCREENS.HOME.INSTRUMENT_DETAILS.ID, {
+                                            instrument: instrument ? instrument : undefined
+                                        } as never)
+                                    }}
+                                />
+                            )
 
+                        })}
+                    </View>
                 </ScrollView>
             </View>
         </SafeAreaView>
@@ -119,5 +155,11 @@ const styles = StyleSheet.create({
     },
     mainContainer: {
         marginVertical: spacing.SCALE_18,
+    },
+    listTitleText: {
+        ...typography.FONT_BOLD,
+        color: colors.LIGHT_COLORS.TERTIARY,
+        fontSize: typography.FONT_SIZE_24,
+        fontWeight: typography.FONT_WEIGHT_BOLD,
     }
 });
