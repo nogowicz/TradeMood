@@ -84,9 +84,16 @@ export default function Overview({ navigation }: OverviewProps) {
 
                         <TrendingNow
                             name={instruments ? instruments[0].crypto : ''}
+                            title={
+                                <FormattedMessage
+                                    defaultMessage='Trending Now'
+                                    id='views.home.overview.trending-now.title'
+                                />
+                            }
                             positive={instruments ? instruments[0].sentimentPositive : 0}
                             neutral={instruments ? instruments[0].sentimentNeutral : 0}
                             negative={instruments ? instruments[0].sentimentNegative : 0}
+                            trendingWidget
                             onPress={() => {
                                 if (instruments && instruments.length > 0) {
                                     navigation.navigate(SCREENS.HOME.INSTRUMENT_DETAILS.ID, { instrument: instruments[0] } as any);

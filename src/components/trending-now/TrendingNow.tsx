@@ -4,21 +4,23 @@ import {
     View,
     TouchableOpacity,
 } from 'react-native'
-import React from 'react'
+import React, { ReactNode } from 'react'
 import { colors, constants, spacing, typography } from 'styles'
 import Pie from 'react-native-pie'
 import GoFroward from 'assets/icons/Go-forward.svg'
 import { FormattedMessage } from 'react-intl'
 
 type TrendingNowProps = {
-    name: string;
+    name?: string;
+    title: string | ReactNode;
     positive: number;
     neutral: number;
     negative: number;
-    onPress: () => void;
+    onPress?: () => void;
+    trendingWidget: boolean;
 }
 
-export default function TrendingNow({ name, positive, neutral, negative, onPress }: TrendingNowProps) {
+export default function TrendingNow({ name, title, positive, neutral, negative, onPress, trendingWidget }: TrendingNowProps) {
     const data = [
         {
             percentage: positive,
@@ -35,26 +37,26 @@ export default function TrendingNow({ name, positive, neutral, negative, onPress
     ]
     return (
         <View style={styles.container}>
+
             <View style={styles.topContainer}>
                 <Text style={styles.titleText}>
-                    <FormattedMessage
-                        defaultMessage='Trending Now'
-                        id='views.home.overview.trending-now.title'
-                    />
+                    {title}
                 </Text>
-                <TouchableOpacity
-                    activeOpacity={0.7}
-                    style={styles.detailsButton}
-                    onPress={onPress}
-                >
-                    <Text style={styles.buttonText}>
-                        <FormattedMessage
-                            defaultMessage='Details'
-                            id='views.home.overview.trending-now.details'
-                        />
-                    </Text>
-                    <GoFroward width={6} style={{ color: colors.LIGHT_COLORS.TERTIARY }} />
-                </TouchableOpacity>
+                {trendingWidget &&
+                    <TouchableOpacity
+                        activeOpacity={0.7}
+                        style={styles.detailsButton}
+                        onPress={onPress}
+                    >
+                        <Text style={styles.buttonText}>
+                            <FormattedMessage
+                                defaultMessage='Details'
+                                id='views.home.overview.trending-now.details'
+                            />
+                        </Text>
+                        <GoFroward width={6} style={{ color: colors.LIGHT_COLORS.TERTIARY }} />
+                    </TouchableOpacity>
+                }
             </View>
             <View style={styles.bottomContainer}>
                 <Pie
@@ -65,7 +67,9 @@ export default function TrendingNow({ name, positive, neutral, negative, onPress
                 />
 
                 <View>
-                    <Text style={styles.titleText}>{name}</Text>
+                    {trendingWidget &&
+                        <Text style={styles.titleText}>{name}</Text>
+                    }
                     <View style={styles.legendContainer}>
                         <View style={[styles.dot, { backgroundColor: colors.LIGHT_COLORS.POSITIVE }]} />
                         <View>
