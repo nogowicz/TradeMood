@@ -106,5 +106,6 @@
   "views.home.search.title": "Szukaj",
   "views.home.search.text-field.placeholder": "np. Bitcoin",
   "views.home.search.all-cryptocurrencies": "Wszystkie Kryptowaluty",
-  "views.home.overview.favorites": "Ulubione"
+  "views.home.overview.favorites": "Ulubione",
+  "views.home.instrument-details.no-data": "Brak danych o instrumencie"
 }

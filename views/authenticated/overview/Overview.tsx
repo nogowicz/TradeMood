@@ -88,11 +88,11 @@ export default function Overview({ navigation }: OverviewProps) {
                             neutral={instruments ? instruments[0].sentimentNeutral : 0}
                             negative={instruments ? instruments[0].sentimentNegative : 0}
                             onPress={() => {
-                                navigation.navigate(SCREENS.HOME.INSTRUMENT_DETAILS.ID, {
-                                    instrument: instruments ? instruments[0] : undefined
-                                } as never);
-                            }
-                            }
+                                if (instruments && instruments.length > 0) {
+                                    navigation.navigate(SCREENS.HOME.INSTRUMENT_DETAILS.ID, { instrument: instruments[0] } as any);
+                                }
+                            }}
+
                         />
                     </View>
                     <View>
@@ -113,9 +113,7 @@ export default function Overview({ navigation }: OverviewProps) {
                                     sentiment={instrument.sentiment}
                                     photoUrl={instrument.photoUrl}
                                     onPress={() => {
-                                        navigation.navigate(SCREENS.HOME.INSTRUMENT_DETAILS.ID, {
-                                            instrument: instrument ? instrument : undefined
-                                        } as never)
+                                        navigation.navigate(SCREENS.HOME.INSTRUMENT_DETAILS.ID, { instrument: instrument } as any);
                                     }}
                                 />
                             )

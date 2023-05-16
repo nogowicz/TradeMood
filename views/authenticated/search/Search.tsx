@@ -51,6 +51,7 @@ export default function Search({ navigation }: SearchProps) {
     });
 
 
+
     return (
         <SafeAreaView style={styles.root}>
             <View style={styles.container}>
@@ -97,9 +98,7 @@ export default function Search({ navigation }: SearchProps) {
                                     sentiment={instrument.sentiment}
                                     photoUrl={instrument.photoUrl}
                                     onPress={() => {
-                                        navigation.navigate(SCREENS.HOME.INSTRUMENT_DETAILS.ID, {
-                                            instrument: instrument ? instrument : undefined
-                                        } as never)
+                                        navigation.navigate(SCREENS.HOME.INSTRUMENT_DETAILS.ID, { instrument: instrument } as any);
                                     }}
                                 />
                             )

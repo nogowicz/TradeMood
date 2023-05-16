@@ -106,5 +106,6 @@
   "views.home.search.title": "Search",
   "views.home.search.text-field.placeholder": "ex. Bitcoin",
   "views.home.search.all-cryptocurrencies": "All Cryptocurrencies",
-  "views.home.overview.favorites": "Favorites"
+  "views.home.overview.favorites": "Favorites",
+  "views.home.instrument-details.no-data": "There is no instrument data"
 }
