@@ -20,7 +20,10 @@ export type InstrumentProps = {
     sentimentNegative: number;
     sentiment: string;
     sentimentDirection: string;
-    time: Date;
+    time: {
+        nanoseconds: number;
+        seconds: number;
+    };
     photoUrl: string;
 }
 
