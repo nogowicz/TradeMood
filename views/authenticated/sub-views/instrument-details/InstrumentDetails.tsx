@@ -6,7 +6,6 @@ import {
     View,
     TouchableOpacity,
     Animated,
-    ScrollView,
 } from 'react-native'
 import React, { useContext, useRef } from 'react'
 import { NativeStackScreenProps } from '@react-navigation/native-stack';
@@ -22,7 +21,8 @@ import { FavoritesContext } from '@views/navigation/FavoritesProvider';
 import { InstrumentProps } from '@views/navigation/InstrumentProvider';
 import { FormattedMessage } from 'react-intl';
 import { LangContext } from 'lang/LangProvider';
-import TrendingNow from 'components/trending-now/TrendingNow';
+import TrendingNow from 'components/trending-now';
+import ActivityCompare from 'components/activity-compare';
 
 type InstrumentDetailsScreenNavigationProp = NativeStackScreenProps<RootStackParamList, 'InstrumentDetails'>;
 type InstrumentDetailsScreenRouteProp = RouteProp<RootStackParamList, 'InstrumentDetails'>
@@ -175,6 +175,28 @@ export default function InstrumentDetails({ navigation, route }: InstrumentDetai
                             trendingWidget={false}
                         />
 
+                        <View style={styles.activitiesContainer}>
+                            <ActivityCompare
+                                name={
+                                    <FormattedMessage
+                                        defaultMessage="Today's Activity vs Week"
+                                        id='views.home.instrument-details.todays-activity.week'
+                                    />
+                                }
+                                activity={instrument.activityTW}
+                            />
+
+                            <ActivityCompare
+                                name={
+                                    <FormattedMessage
+                                        defaultMessage="Today's Activity vs Month"
+                                        id='views.home.instrument-details.todays-activity.month'
+                                    />
+                                }
+                                activity={instrument.activityTM}
+                            />
+                        </View>
+
                         <View>
                             <Text style={styles.dateText}>
                                 <FormattedMessage
@@ -182,9 +204,6 @@ export default function InstrumentDetails({ navigation, route }: InstrumentDetai
                                     id='views.home.instrument-details.update-time'
                                 />
                                 {formattedDate}
-                            </Text>
-                            <Text style={styles.dateText}>
-
                             </Text>
                         </View>
                     </Animated.ScrollView>
@@ -209,7 +228,7 @@ const styles = StyleSheet.create({
         justifyContent: 'space-between',
     },
     actionContainerComponent: {
-        flex: 1 / 5
+        flex: 1 / 5,
     },
     sectionTitle: {
         ...typography.FONT_BOLD,
@@ -219,7 +238,6 @@ const styles = StyleSheet.create({
     },
     mainContainer: {
         flex: 1,
-        // justifyContent: 'space-between'
     },
     errorText: {
         ...typography.FONT_BOLD,
@@ -233,10 +251,15 @@ const styles = StyleSheet.create({
         color: colors.LIGHT_COLORS.HINT,
         fontSize: typography.FONT_SIZE_14,
         fontWeight: typography.FONT_WEIGHT_REGULAR,
+        marginVertical: spacing.SCALE_20,
     },
     image: {
         width: 100,
         height: 100,
         marginBottom: spacing.SCALE_20,
+    },
+    activitiesContainer: {
+        flexDirection: 'row',
+        gap: spacing.SCALE_16,
     }
 })
