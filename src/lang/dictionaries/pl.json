@@ -109,5 +109,7 @@
   "views.home.overview.favorites": "Ulubione",
   "views.home.instrument-details.no-data": "Brak danych o instrumencie",
   "views.home.instrument-details.update-time": "Czas aktualizacji: ",
-  "views.home.instrument-details.sentiment-details": "Szczegóły Sentymentu"
+  "views.home.instrument-details.sentiment-details": "Szczegóły Sentymentu",
+  "views.home.instrument-details.todays-activity.week": "Dzisiejsza Aktywność vs Tygodniowa",
+  "views.home.instrument-details.todays-activity.month": "Dzisiejsza Aktywność vs Miesięczna"
 }
