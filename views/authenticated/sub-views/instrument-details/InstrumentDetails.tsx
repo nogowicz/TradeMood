@@ -23,13 +23,10 @@ import { FormattedMessage } from 'react-intl';
 import { LangContext } from 'lang/LangProvider';
 import TrendingNow from 'components/trending-now';
 import ActivityCompare from 'components/activity-compare';
+import Rainbow from 'components/chart';
 
 type InstrumentDetailsScreenNavigationProp = NativeStackScreenProps<RootStackParamList, 'InstrumentDetails'>;
 type InstrumentDetailsScreenRouteProp = RouteProp<RootStackParamList, 'InstrumentDetails'>
-
-
-
-
 type InstrumentDetailsProps = {
     navigation: InstrumentDetailsScreenNavigationProp['navigation'];
     route: InstrumentDetailsScreenRouteProp & {
@@ -196,7 +193,7 @@ export default function InstrumentDetails({ navigation, route }: InstrumentDetai
                                 activity={instrument.activityTM}
                             />
                         </View>
-
+                        <Rainbow />
                         <View>
                             <Text style={styles.dateText}>
                                 <FormattedMessage
