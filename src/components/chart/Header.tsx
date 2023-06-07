@@ -44,7 +44,7 @@ const Header = ({ translation, index }: HeaderProps) => {
     const percentChange = useDerivedValue(
         () => `${round(data.value.percentChange, 3)}%`
     );
-    const label = useDerivedValue(() => data.value.label);
+    const label = useDerivedValue(() => "Last Month");
     const style = useAnimatedStyle(() => ({
         fontWeight: "500",
         fontSize: 24,

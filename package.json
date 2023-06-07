@@ -21,6 +21,7 @@
     "@react-navigation/native": "^6.1.6",
     "@react-navigation/native-stack": "^6.9.12",
     "@reduxjs/toolkit": "^1.9.5",
+    "axios": "^1.4.0",
     "babel-eslint": "^10.1.0",
     "d3-scale": "^4.0.2",
     "d3-shape": "^3.2.0",

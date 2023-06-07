@@ -13,6 +13,7 @@ export type InstrumentProps = {
     id: string;
     stockSymbol: string;
     crypto: string;
+    marketId: string;
     activityTM: number;
     activityTW: number;
     sentimentPositive: number;
@@ -56,6 +57,7 @@ export function InstrumentProvider({ children }: InstrumentProviderProps) {
                 const {
                     stockSymbol,
                     crypto,
+                    marketId,
                     activityTM,
                     activityTW,
                     sentimentPositive,
@@ -71,6 +73,7 @@ export function InstrumentProvider({ children }: InstrumentProviderProps) {
                     id: doc.id,
                     stockSymbol,
                     crypto,
+                    marketId,
                     activityTM,
                     activityTW,
                     sentimentPositive,

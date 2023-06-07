@@ -7,7 +7,7 @@ import {
     TouchableOpacity,
     Animated,
 } from 'react-native'
-import React, { useContext, useRef } from 'react'
+import React, { useContext, useRef, useEffect, useState } from 'react'
 import { NativeStackScreenProps } from '@react-navigation/native-stack';
 import { RootStackParamList } from '@views/navigation/Navigation';
 import { RouteProp } from '@react-navigation/native';
@@ -24,6 +24,7 @@ import { LangContext } from 'lang/LangProvider';
 import TrendingNow from 'components/trending-now';
 import ActivityCompare from 'components/activity-compare';
 import Rainbow from 'components/chart';
+import axios from 'axios';
 
 type InstrumentDetailsScreenNavigationProp = NativeStackScreenProps<RootStackParamList, 'InstrumentDetails'>;
 type InstrumentDetailsScreenRouteProp = RouteProp<RootStackParamList, 'InstrumentDetails'>
@@ -36,16 +37,39 @@ type InstrumentDetailsProps = {
     };
 }
 
-
-
+const API_URL = "https://api.coingecko.com/api/v3/coins/";
 
 export default function InstrumentDetails({ navigation, route }: InstrumentDetailsProps) {
     const scrollY = useRef(new Animated.Value(0)).current;
     const { instrument }: { instrument?: InstrumentProps } = route.params ?? {};
     const favoriteCryptoCtx = useContext(FavoritesContext);
+    const [data, setData] = useState();
     const [language] = useContext(LangContext);
     const backIconMargin = 8;
     const dateLocationLanguage = language === 'pl' ? 'pl-PL' : 'en-US';
+
+
+    useEffect(() => {
+
+        async function getBitcoinPriceData() {
+            try {
+                const endDate = Math.floor(Date.now() / 1000);
+                const startDate = endDate - 30 * 24 * 60 * 60;
+
+                const response = await axios.get(
+                    `${API_URL}${instrument?.marketId}/market_chart/range?vs_currency=usd&from=${startDate}&to=${endDate}`
+                );
+
+                const priceData = response.data.prices;
+                console.log(priceData);
+
+            } catch (error) {
+                console.error('Wystąpił błąd podczas pobierania danych:', error);
+            }
+        }
+
+        // getBitcoinPriceData();
+    }, [])
 
     if (!instrument) {
         return (
