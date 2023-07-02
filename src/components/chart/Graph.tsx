@@ -59,7 +59,17 @@ const Graph = () => {
     const translation = useVector();
     const [selected, setSelected] = useState(0);
     const current = useSharedValue<GraphIndex>(0);
+
+    const graph = [
+        {
+            label: "Last Month",
+            value: 0,
+            data: buildGraph(values),
+        },
+    ];
+
     const currentPath = graph[current.value].data.path;
+
     return (
         <View style={styles.container}>
             <Header translation={translation} index={current} />
@@ -101,6 +111,7 @@ const Graph = () => {
         </View>
     );
 };
+
 
 export default Graph;
 
