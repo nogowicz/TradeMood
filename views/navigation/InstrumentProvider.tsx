@@ -1,7 +1,6 @@
 import React, { ReactNode, createContext, useEffect, useState } from 'react';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import firestore from '@react-native-firebase/firestore';
-
 export const InstrumentContext = createContext<Array<InstrumentProps> | undefined>(undefined);
 
 
@@ -40,7 +39,7 @@ export function InstrumentProvider({ children }: InstrumentProviderProps) {
                     setInstruments(parsedData);
                 }
             } catch (error) {
-                console.log('Błąd pobierania instrumentów', error);
+                console.log('Error while fetching instruments from AsyncStorage', error);
             }
         };
 
@@ -92,14 +91,15 @@ export function InstrumentProvider({ children }: InstrumentProviderProps) {
             setInstruments(list);
 
             AsyncStorage.setItem('instruments', JSON.stringify(list))
-                .then(() => console.log('Lista instrumentów zapisana w AsyncStorage'))
+                .then(() => console.log('Instruments list saved to AsyncStorage'))
                 .catch((error) =>
-                    console.log('Błąd zapisu listy instrumentów w AsyncStorage', error)
+                    console.log('Error while saving instruments to AsyncStorage', error)
                 );
         });
 
         return () => unsubscribe();
     }, []);
+
 
     return (
         <InstrumentContext.Provider value={instruments}>
