@@ -50,8 +50,8 @@ export function InstrumentProvider({ children }: InstrumentProviderProps) {
 
         const unsubscribe = ref.onSnapshot((querySnapshot) => {
             const list: Array<InstrumentProps> = [];
-
             querySnapshot.forEach((doc) => {
+
                 const {
                     stockSymbol,
                     crypto,
@@ -82,7 +82,6 @@ export function InstrumentProvider({ children }: InstrumentProviderProps) {
                 };
 
                 const existingInstrument = list.find((item) => item.id === instrument.id);
-
                 if (!existingInstrument) {
                     list.push(instrument);
                 }

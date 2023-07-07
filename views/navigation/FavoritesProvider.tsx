@@ -30,6 +30,11 @@ function FavoritesContextProvider({ children }: FavoritesContextProviderProps) {
                     if (data && data.favoriteCryptoIds) {
                         setFavoriteCryptoIds(data.favoriteCryptoIds);
                     }
+                } else {
+                    const newData = {
+                        favoriteCryptoIds: []
+                    };
+                    await userRef.set(newData);
                 }
             }
         };

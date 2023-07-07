@@ -7,13 +7,6 @@ import Routes from './views/navigation';
 import { GestureHandlerRootView } from 'react-native-gesture-handler';
 import { checkNotificationPermission, notificationListener } from 'helpers/pushNotificationHelper';
 
-
-
-
-
-
-
-
 function App() {
 
   useEffect(() => {
