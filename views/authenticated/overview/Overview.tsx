@@ -34,10 +34,10 @@ type OverviewProps = {
 export default function Overview({ navigation }: OverviewProps) {
     const { user } = useContext(AuthContext);
     const instruments = useContext(InstrumentContext);
-    const favoriteMealsCtx = useContext(FavoritesContext);
+    const favoriteCryptoCtx = useContext(FavoritesContext);
 
     const favoriteCrypto = instruments?.filter((instrument) =>
-        favoriteMealsCtx.ids.includes(instrument.id)
+        favoriteCryptoCtx.ids.includes(instrument.id)
     );
 
 

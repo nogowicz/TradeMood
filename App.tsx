@@ -5,16 +5,14 @@ import LangProvider, { LangModeProvider } from './src/lang/LangProvider';
 import { colors } from './src/styles';
 import Routes from './views/navigation';
 import { GestureHandlerRootView } from 'react-native-gesture-handler';
-
-
-
-
-
-
+import { checkNotificationPermission, notificationListener } from 'helpers/pushNotificationHelper';
 
 function App() {
+
   useEffect(() => {
     SplashScreen.hide();
+    checkNotificationPermission();
+    notificationListener();
   }, []);
 
   return (

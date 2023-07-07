@@ -34,7 +34,8 @@ export default function Search({ navigation }: SearchProps) {
             const filtered = instruments?.filter((instrument: InstrumentProps) => {
                 return (
                     instrument.crypto.toLowerCase().includes(searchText.toLowerCase()) ||
-                    instrument.stockSymbol.toLowerCase().includes(searchText.toLowerCase())
+                    instrument.stockSymbol.toLowerCase().includes(searchText.toLowerCase()) ||
+                    instrument.sentiment.toLowerCase().includes(searchText.toLowerCase())
                 );
             });
             setFilteredInstruments(filtered);

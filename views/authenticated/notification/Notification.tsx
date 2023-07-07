@@ -5,9 +5,12 @@ import {
     SafeAreaView,
 } from 'react-native'
 import React from 'react'
+import notifee, { TimestampTrigger, TriggerType } from '@notifee/react-native';
 import { NativeStackScreenProps } from '@react-navigation/native-stack';
 import { RootStackParamList } from '../../../views/navigation/Navigation';
 import { colors, spacing } from 'styles';
+import SubmitButton from 'components/buttons/submit-button/SubmitButton';
+
 
 type NotificationScreenNavigationProp = NativeStackScreenProps<RootStackParamList, 'Notification'>;
 
@@ -17,10 +20,31 @@ type NotificationProps = {
 
 
 export default function Notification({ navigation }: NotificationProps) {
+
+    async function onDisplayNotification() {
+        await notifee.requestPermission();
+
+        const channelId = await notifee.createChannel({
+            id: 'default',
+            name: 'Default Channel',
+        });
+
+        await notifee.displayNotification({
+            title: "Title",
+            body: "This is body of notification",
+            android: {
+                channelId,
+                pressAction: {
+                    id: 'default'
+                }
+            }
+        });
+    }
+
     return (
         <SafeAreaView style={styles.root}>
             <View style={styles.container}>
-                <Text>Notification</Text>
+                <SubmitButton label="Display Notification" mode='submit' onPress={() => onDisplayNotification()} />
             </View>
         </SafeAreaView>
     )
