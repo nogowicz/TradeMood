@@ -111,5 +111,6 @@
   "views.home.instrument-details.update-time": "Update time: ",
   "views.home.instrument-details.sentiment-details": "Sentiment Details",
   "views.home.instrument-details.todays-activity.week": "Today's Activity vs Week",
-  "views.home.instrument-details.todays-activity.month": "Today's Activity vs Month"
+  "views.home.instrument-details.todays-activity.month": "Today's Activity vs Month",
+  "views.home.notifications.title": "Notifications"
 }

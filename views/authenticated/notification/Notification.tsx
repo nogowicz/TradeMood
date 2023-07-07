@@ -8,8 +8,9 @@ import React from 'react'
 import notifee, { TimestampTrigger, TriggerType } from '@notifee/react-native';
 import { NativeStackScreenProps } from '@react-navigation/native-stack';
 import { RootStackParamList } from '../../../views/navigation/Navigation';
-import { colors, spacing } from 'styles';
+import { colors, spacing, typography } from 'styles';
 import SubmitButton from 'components/buttons/submit-button/SubmitButton';
+import { FormattedMessage } from 'react-intl';
 
 
 type NotificationScreenNavigationProp = NativeStackScreenProps<RootStackParamList, 'Notification'>;
@@ -20,31 +21,17 @@ type NotificationProps = {
 
 
 export default function Notification({ navigation }: NotificationProps) {
-
-    async function onDisplayNotification() {
-        await notifee.requestPermission();
-
-        const channelId = await notifee.createChannel({
-            id: 'default',
-            name: 'Default Channel',
-        });
-
-        await notifee.displayNotification({
-            title: "Title",
-            body: "This is body of notification",
-            android: {
-                channelId,
-                pressAction: {
-                    id: 'default'
-                }
-            }
-        });
-    }
-
     return (
         <SafeAreaView style={styles.root}>
             <View style={styles.container}>
-                <SubmitButton label="Display Notification" mode='submit' onPress={() => onDisplayNotification()} />
+                <View style={styles.mainContainer}>
+                    <Text style={styles.sectionTitle}>
+                        <FormattedMessage
+                            defaultMessage='Notifications'
+                            id='views.home.notifications.title'
+                        />
+                    </Text>
+                </View>
             </View>
         </SafeAreaView>
     )
@@ -59,5 +46,14 @@ const styles = StyleSheet.create({
         flex: 1,
         paddingHorizontal: spacing.SCALE_20,
         paddingTop: spacing.SCALE_20,
+    },
+    sectionTitle: {
+        ...typography.FONT_BOLD,
+        color: colors.LIGHT_COLORS.TERTIARY,
+        fontSize: typography.FONT_SIZE_32,
+        fontWeight: typography.FONT_WEIGHT_BOLD,
+    },
+    mainContainer: {
+        marginVertical: spacing.SCALE_18,
     },
 })
