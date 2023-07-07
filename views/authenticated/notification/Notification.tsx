@@ -58,7 +58,7 @@ export default function Notification({ navigation }: NotificationProps) {
 
                     <FlatList
                         data={notifications}
-                        renderItem={({ item, index }) => (
+                        renderItem={({ item }) => (
                             <NotificationWidget
                                 title={item.title}
                                 content={item.body}
