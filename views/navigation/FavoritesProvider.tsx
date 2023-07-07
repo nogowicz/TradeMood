@@ -22,10 +22,12 @@ function FavoritesContextProvider({ children }: FavoritesContextProviderProps) {
     useEffect(() => {
         const fetchData = async () => {
             const user = firebase.auth().currentUser;
+
             if (user) {
                 const userRef = firebase.firestore().collection('users').doc(user.uid);
                 const doc = await userRef.get();
                 if (doc.exists) {
+                    console.log("lala")
                     const data = doc.data();
                     if (data && data.favoriteCryptoIds) {
                         setFavoriteCryptoIds(data.favoriteCryptoIds);
@@ -36,6 +38,8 @@ function FavoritesContextProvider({ children }: FavoritesContextProviderProps) {
                     };
                     await userRef.set(newData);
                 }
+
+
             }
         };
 
@@ -46,9 +50,10 @@ function FavoritesContextProvider({ children }: FavoritesContextProviderProps) {
         const user = firebase.auth().currentUser;
         if (user) {
             const userRef = firebase.firestore().collection('users').doc(user.uid);
-            userRef.update({ favoriteCryptoIds });
+            userRef.set({ favoriteCryptoIds }, { merge: true });
         }
     }, [favoriteCryptoIds]);
+
 
 
 
