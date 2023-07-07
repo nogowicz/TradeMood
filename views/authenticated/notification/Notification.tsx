@@ -5,12 +5,11 @@ import {
     SafeAreaView,
 } from 'react-native'
 import React from 'react'
-import notifee, { TimestampTrigger, TriggerType } from '@notifee/react-native';
 import { NativeStackScreenProps } from '@react-navigation/native-stack';
 import { RootStackParamList } from '../../../views/navigation/Navigation';
 import { colors, spacing, typography } from 'styles';
-import SubmitButton from 'components/buttons/submit-button/SubmitButton';
 import { FormattedMessage } from 'react-intl';
+import NotificationWidget from 'components/notification-widget';
 
 
 type NotificationScreenNavigationProp = NativeStackScreenProps<RootStackParamList, 'Notification'>;
@@ -31,6 +30,20 @@ export default function Notification({ navigation }: NotificationProps) {
                             id='views.home.notifications.title'
                         />
                     </Text>
+
+                    <View>
+                        <NotificationWidget
+                            title='New update!'
+                            content='New data is here, check latest sentiment updates'
+                            date={new Date()}
+                        />
+
+                        <NotificationWidget
+                            title='New update!'
+                            content='New data is here, check latest sentiment updates'
+                            date={new Date()}
+                        />
+                    </View>
                 </View>
             </View>
         </SafeAreaView>
