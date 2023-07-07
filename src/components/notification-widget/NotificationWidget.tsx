@@ -2,11 +2,12 @@ import { StyleSheet, Text, View } from 'react-native'
 import React from 'react'
 import { colors, spacing, typography } from 'styles';
 import { TouchableOpacity } from 'react-native-gesture-handler';
+import { formatDateTime } from 'helpers/dateFormat';
 
-type NavigationWidgetProps = {
+export type NavigationWidgetProps = {
     title: string;
     content: string;
-    date: Date;
+    date: string;
     activeOpacity?: number;
 };
 
@@ -15,7 +16,7 @@ export default function NotificationWidget({ title, content, date, activeOpacity
         <TouchableOpacity activeOpacity={activeOpacity} style={styles.container}>
             <View style={styles.notificationTop}>
                 <Text style={styles.titleText}>{title}</Text>
-                <Text style={styles.dateText}>{date.toTimeString().trim().substring(0, 5)} {date.toDateString()}</Text>
+                <Text style={styles.dateText}>{formatDateTime(date)}</Text>
             </View>
             <Text style={styles.contentText}>{content}</Text>
         </TouchableOpacity>
@@ -24,7 +25,7 @@ export default function NotificationWidget({ title, content, date, activeOpacity
 
 const styles = StyleSheet.create({
     container: {
-        paddingHorizontal: spacing.SCALE_18,
+        paddingHorizontal: spacing.SCALE_12,
         paddingVertical: spacing.SCALE_12,
         borderBottomWidth: 1,
         borderBottomColor: colors.LIGHT_COLORS.LIGHT_HINT,
@@ -32,6 +33,7 @@ const styles = StyleSheet.create({
     notificationTop: {
         flexDirection: 'row',
         justifyContent: 'space-between',
+        alignItems: 'center',
     },
     titleText: {
         fontWeight: typography.FONT_WEIGHT_BOLD,

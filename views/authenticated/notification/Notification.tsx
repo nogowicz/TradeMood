@@ -3,13 +3,15 @@ import {
     Text,
     View,
     SafeAreaView,
+    FlatList,
 } from 'react-native'
-import React from 'react'
+import React, { useEffect, useState } from 'react'
 import { NativeStackScreenProps } from '@react-navigation/native-stack';
 import { RootStackParamList } from '../../../views/navigation/Navigation';
 import { colors, spacing, typography } from 'styles';
 import { FormattedMessage } from 'react-intl';
 import NotificationWidget from 'components/notification-widget';
+import { getItem } from 'utils/asyncStorage';
 
 
 type NotificationScreenNavigationProp = NativeStackScreenProps<RootStackParamList, 'Notification'>;
@@ -18,8 +20,31 @@ type NotificationProps = {
     navigation: NotificationScreenNavigationProp['navigation']
 }
 
+type Notification = {
+    title: string;
+    body: string;
+    date: string;
+};
 
 export default function Notification({ navigation }: NotificationProps) {
+    const [notifications, setNotifications] = useState<Notification[]>([]);
+
+    useEffect(() => {
+        const fetchNotifications = async () => {
+            try {
+                const notificationsData = await getItem('notifications');
+                if (notificationsData) {
+                    const parsedNotifications = JSON.parse(notificationsData);
+                    setNotifications(parsedNotifications);
+                }
+            } catch (error) {
+                console.log(error);
+            }
+        };
+
+        fetchNotifications();
+    }, []);
+
     return (
         <SafeAreaView style={styles.root}>
             <View style={styles.container}>
@@ -31,19 +56,16 @@ export default function Notification({ navigation }: NotificationProps) {
                         />
                     </Text>
 
-                    <View>
-                        <NotificationWidget
-                            title='New update!'
-                            content='New data is here, check latest sentiment updates'
-                            date={new Date()}
-                        />
-
-                        <NotificationWidget
-                            title='New update!'
-                            content='New data is here, check latest sentiment updates'
-                            date={new Date()}
-                        />
-                    </View>
+                    <FlatList
+                        data={notifications}
+                        renderItem={({ item, index }) => (
+                            <NotificationWidget
+                                title={item.title}
+                                content={item.body}
+                                date={item.date}
+                            />
+                        )}
+                    />
                 </View>
             </View>
         </SafeAreaView>

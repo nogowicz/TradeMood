@@ -1,6 +1,7 @@
 import notifee, { AuthorizationStatus } from '@notifee/react-native';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import messaging from '@react-native-firebase/messaging';
+import { setItem } from 'utils/asyncStorage';
 
 export async function checkNotificationPermission() {
   const settings = await notifee.getNotificationSettings();
@@ -44,9 +45,14 @@ export function notificationListener() {
       remoteMessage,
     );
     if (remoteMessage.notification) {
+      const { title, body } = remoteMessage.notification;
+      const date = new Date();
+
+      addNotificationToStorage(title, body, date);
+
       notifee.displayNotification({
-        title: remoteMessage.notification.title,
-        body: remoteMessage.notification.body,
+        title: title,
+        body: body,
         android: {
           channelId: 'default',
           smallIcon: 'ic_stat_name',
@@ -55,28 +61,17 @@ export function notificationListener() {
     }
   });
 
-  messaging()
-    .getInitialNotification()
-    .then(remoteMessage => {
-      if (remoteMessage) {
-        console.log(
-          'Notification caused app to open from the quit state:',
-          remoteMessage,
-        );
-      }
-    });
-
-  messaging().setBackgroundMessageHandler(async remoteMessage => {
-    console.log('Background message received: ', remoteMessage);
-    // Handle the background message here
-  });
-
   messaging().onMessage(async remoteMessage => {
     console.log('Message received: ', remoteMessage);
     if (remoteMessage.notification) {
+      const { title, body } = remoteMessage.notification;
+      const date = new Date();
+
+      addNotificationToStorage(title, body, date);
+
       notifee.displayNotification({
-        title: remoteMessage.notification.title,
-        body: remoteMessage.notification.body,
+        title: title,
+        body: body,
         android: {
           channelId: 'default',
           smallIcon: 'ic_stat_name',
@@ -85,3 +80,29 @@ export function notificationListener() {
     }
   });
 }
+
+const addNotificationToStorage = async (
+  title: string | undefined,
+  body: string | undefined,
+  date: Date,
+) => {
+  try {
+    const notifications = await AsyncStorage.getItem('notifications');
+    let notificationsArray = [];
+
+    if (notifications) {
+      notificationsArray = JSON.parse(notifications);
+    }
+
+    const newNotification = {
+      title: title,
+      body: body,
+      date: date,
+    };
+    notificationsArray.push(newNotification);
+    console.log(notificationsArray);
+    await setItem('notifications', JSON.stringify(notificationsArray));
+  } catch (error) {
+    console.log(error);
+  }
+};
