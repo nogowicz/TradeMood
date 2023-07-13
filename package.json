@@ -30,7 +30,7 @@
     "react": "18.2.0",
     "react-hook-form": "^7.43.9",
     "react-intl": "^6.3.2",
-    "react-native": "0.72.1",
+    "react-native": "0.72.3",
     "react-native-fast-image": "^8.6.3",
     "react-native-gesture-handler": "^2.9.0",
     "react-native-gradle-plugin": "^0.71.19",
