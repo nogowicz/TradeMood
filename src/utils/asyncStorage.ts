@@ -23,3 +23,12 @@ export async function removeItem(key: string) {
     console.log(error);
   }
 }
+
+export async function clearAsyncStorage() {
+  try {
+    await AsyncStorage.clear();
+    console.log('AsyncStorage has been cleared.');
+  } catch (error) {
+    console.log('Error occured while clearing AsyncStorage:', error);
+  }
+}
