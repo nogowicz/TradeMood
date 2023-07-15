@@ -132,7 +132,7 @@ export default function InstrumentDetails({ navigation, route }: InstrumentDetai
                         </View>
                         <Animated.View
                             style={[
-                                { marginLeft: -(2 * backIconMargin), alignItems: 'center', justifyContent: 'center', transform: [{ scale: logoScale }, { translateY: logoTranslateY }] },
+                                { marginLeft: -(backIconMargin), alignItems: 'center', justifyContent: 'center', transform: [{ scale: logoScale }, { translateY: logoTranslateY }] },
                             ]}
                         >
                             <FastImage
