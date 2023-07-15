@@ -1,13 +1,12 @@
 import {
     TouchableOpacity,
-    Image,
     GestureResponderEvent,
 } from 'react-native'
 
 
 import AddPhoto from 'assets/signup-screen/AddPhoto.svg';
-import { Dispatch, SetStateAction } from 'react';
-import FastImage from 'react-native-fast-image';
+import { Dispatch, SetStateAction, useState } from 'react';
+import Image from 'components/image/Image';
 
 type ProfileImagePickerProps = {
     activeOpacity?: number;
@@ -24,20 +23,20 @@ export default function ProfileImagePicker({
     imageUrl,
     onPress
 }: ProfileImagePickerProps) {
-
-
-
     return (
         <TouchableOpacity
             activeOpacity={activeOpacity}
             onPress={onPress}
         >
-            {imageUrl ?
-                <FastImage
-                    source={{ uri: imageUrl }}
+            {imageUrl ? (
+                <Image
                     style={{ height: size, width: size, borderRadius: size / 2 }}
-                /> :
-                <AddPhoto height={size} width={size} />}
+                    size={size}
+                    url={imageUrl}
+                />
+            ) : (
+                <AddPhoto height={size} width={size} />
+            )}
         </TouchableOpacity>
     );
 };

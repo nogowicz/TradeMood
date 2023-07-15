@@ -2,13 +2,13 @@ import {
     StyleSheet,
     Text,
     View,
-    Image,
     TouchableOpacity,
 } from 'react-native'
 import React from 'react'
 import { colors, constants, spacing, typography } from 'styles'
 import { FormattedMessage } from 'react-intl';
 import FastImage from 'react-native-fast-image';
+import Image from 'components/image';
 
 type ProfileBarProps = {
     displayName: string | null | undefined;
@@ -69,12 +69,11 @@ export default function ProfileBar({
             </View>
             <View>
                 {imageUrl ?
-                    <FastImage
+                    <Image
                         source={{ uri: imageUrl }}
                         style={{ width: imageSize, height: imageSize, borderRadius: imageSize / 2 }}
                     /> :
-
-                    <FastImage
+                    <Image
                         source={require('assets/profile/profile-picture.png')}
                         style={{ width: imageSize, height: imageSize, borderRadius: imageSize / 2 }}
                     />

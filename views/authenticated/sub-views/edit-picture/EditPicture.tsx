@@ -230,6 +230,7 @@ export default function EditPicture({ navigation }: EditPictureProps) {
                             imageUrl={imageUrl}
                             onPress={handleShowBottomSheet}
                             setImageUrl={setImageUrl}
+
                         />
                     </View>
                 </View>
