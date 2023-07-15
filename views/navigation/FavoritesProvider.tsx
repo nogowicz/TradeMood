@@ -11,10 +11,9 @@ export const FavoritesContext = createContext<{
     removeFavorite: (id: string) => { },
 });
 
-
 type FavoritesContextProviderProps = {
     children: ReactNode;
-}
+};
 
 function FavoritesContextProvider({ children }: FavoritesContextProviderProps) {
     const [favoriteCryptoIds, setFavoriteCryptoIds] = useState<string[]>([]);
@@ -27,44 +26,60 @@ function FavoritesContextProvider({ children }: FavoritesContextProviderProps) {
                 const userRef = firebase.firestore().collection('users').doc(user.uid);
                 const doc = await userRef.get();
                 if (doc.exists) {
-                    console.log("lala")
+                    console.log('Doc exists');
                     const data = doc.data();
                     if (data && data.favoriteCryptoIds) {
                         setFavoriteCryptoIds(data.favoriteCryptoIds);
                     }
                 } else {
+                    console.log('Doc does not exist');
                     const newData = {
-                        favoriteCryptoIds: []
+                        favoriteCryptoIds: [],
                     };
                     await userRef.set(newData);
                 }
-
-
             }
         };
 
         fetchData();
     }, []);
 
-    useEffect(() => {
+    function addFavorite(id: string) {
         const user = firebase.auth().currentUser;
         if (user) {
             const userRef = firebase.firestore().collection('users').doc(user.uid);
-            userRef.set({ favoriteCryptoIds }, { merge: true });
+            firebase.firestore().runTransaction(async (transaction) => {
+                const doc = await transaction.get(userRef);
+                if (doc.exists) {
+                    const data = doc.data();
+                    if (data && data.favoriteCryptoIds) {
+                        const updatedIds = [...data.favoriteCryptoIds, id];
+                        transaction.update(userRef, { favoriteCryptoIds: updatedIds });
+                        setFavoriteCryptoIds(updatedIds);
+                    }
+                }
+            });
         }
-    }, [favoriteCryptoIds]);
-
-
-
-
-    function addFavorite(id: string) {
-        setFavoriteCryptoIds((currentFavIds: string[]) => [...currentFavIds, id]);
     }
 
     function removeFavorite(id: string) {
-        setFavoriteCryptoIds((currentFavIds: string[]) =>
-            currentFavIds.filter((cryptoId: string) => cryptoId !== id)
-        );
+        const user = firebase.auth().currentUser;
+        if (user) {
+            const userRef = firebase.firestore().collection('users').doc(user.uid);
+            firebase.firestore().runTransaction(async (transaction) => {
+                const doc = await transaction.get(userRef);
+                if (doc.exists) {
+                    const data = doc.data();
+                    if (data && data.favoriteCryptoIds) {
+                        const updatedIds = data.favoriteCryptoIds.filter(
+                            (cryptoId: string) => cryptoId !== id
+                        );
+                        transaction.update(userRef, { favoriteCryptoIds: updatedIds });
+                        setFavoriteCryptoIds(updatedIds);
+                    }
+                }
+            });
+        }
     }
 
     const value = {
@@ -74,11 +89,8 @@ function FavoritesContextProvider({ children }: FavoritesContextProviderProps) {
     };
 
     return (
-        <FavoritesContext.Provider value={value}>
-            {children}
-        </FavoritesContext.Provider>
+        <FavoritesContext.Provider value={value}>{children}</FavoritesContext.Provider>
     );
 }
-
 
 export default FavoritesContextProvider;
