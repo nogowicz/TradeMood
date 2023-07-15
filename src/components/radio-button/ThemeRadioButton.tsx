@@ -6,33 +6,33 @@ import {
 } from 'react-native'
 import React, { useContext, useState } from 'react'
 import { colors, spacing } from 'styles';
-import { LangContext } from '../../lang/LangProvider';
 import { FormattedMessage } from 'react-intl';
-import { LanguageEntry } from '@views/authenticated/sub-views/app-settings/AppSettings';
-import { languagesCodes } from 'lang/constants';
+import { themeContext } from 'store/themeContext';
+import { EventRegister } from 'react-native-event-listeners';
+import { getItem, setItem } from 'utils/asyncStorage';
 
-type LanguageObject = {
+type ThemeObject = {
     [key: string]: () => JSX.Element;
 };
 
 type RadioButtonProps = {
-    values: LanguageEntry[];
+    values: any[];
 }
 
-export default function RadioButton({ values }: RadioButtonProps) {
-    const [language, setLanguage] = useContext(LangContext);
-    const [value, setValue] = useState<string>(languagesCodes[language]);
-    const languageTranslation: LanguageObject = {
-        "PL": () => (
+export default function ThemeRadioButton({ values }: RadioButtonProps) {
+    const theme = useContext(themeContext);
+    const [themeMode, setThemeMode] = useState(Boolean(getItem('theme')) ?? false);
+    const themeTranslation: ThemeObject = {
+        "Dark": () => (
             <FormattedMessage
-                defaultMessage='Polish'
-                id='views.home.profile.app-settings.language.pl'
+                defaultMessage='Dark'
+                id='views.home.profile.app-settings.theme.dark'
             />
         ),
-        "ENG": () => (
+        "Light": () => (
             <FormattedMessage
-                defaultMessage='English'
-                id='views.home.profile.app-settings.language.eng'
+                defaultMessage='Light'
+                id='views.home.profile.app-settings.theme.light'
             />
         )
     }
@@ -45,13 +45,14 @@ export default function RadioButton({ values }: RadioButtonProps) {
                         <TouchableOpacity
                             style={styles.radioCircle}
                             onPress={() => {
-                                setLanguage(res.value)
-                                setValue(res.key);
+                                EventRegister.emit("changeTheme", res.value);
+                                setItem('theme', String(res.value))
+                                setThemeMode(res.value)
                             }}>
-                            {value === res.key && <View style={styles.selectedRb} />}
+                            {themeMode === res.value && <View style={styles.selectedRb} />}
                         </TouchableOpacity>
                         <Text style={styles.radioText}>
-                            {languageTranslation[res.key]()}
+                            {themeTranslation[res.key]()}
                         </Text>
                     </View>
                 );

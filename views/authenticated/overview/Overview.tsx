@@ -22,6 +22,7 @@ import TrendingNow from 'components/trending-now';
 import { InstrumentContext, InstrumentProps } from '@views/navigation/InstrumentProvider';
 import { FavoritesContext } from '@views/navigation/FavoritesProvider';
 import InstrumentRecord from 'components/instrument-record';
+import { themeContext } from 'store/themeContext';
 
 
 type OverviewScreenNavigationProp = NativeStackScreenProps<RootStackParamList, 'Overview'>;
@@ -39,10 +40,11 @@ export default function Overview({ navigation }: OverviewProps) {
     const favoriteCrypto = instruments?.filter((instrument) =>
         favoriteCryptoCtx.ids.includes(instrument.id)
     );
+    const theme = useContext(themeContext);
 
 
     return (
-        <SafeAreaView style={styles.root}>
+        <SafeAreaView style={[styles.root, { backgroundColor: theme.BACKGROUND }]}>
             <View style={styles.container}>
                 <View style={styles.actionContainer}>
                     <View style={styles.actionContainerLeftSide}>
@@ -136,7 +138,7 @@ export default function Overview({ navigation }: OverviewProps) {
 const styles = StyleSheet.create({
     root: {
         flex: 1,
-        backgroundColor: colors.LIGHT_COLORS.BACKGROUND,
+        // backgroundColor: colors.LIGHT_COLORS.BACKGROUND,
     },
     container: {
         flex: 1,

@@ -18,7 +18,7 @@ import NotificationActive from 'assets/icons/Notification-Active.svg'
 
 import ProfileInactive from 'assets/icons/Profile.svg'
 import ProfileActive from 'assets/icons/Profile-Active.svg'
-import { spacing } from 'styles';
+import { colors, spacing } from 'styles';
 import EditProfile from '@views/authenticated/sub-views/edit-profile';
 import EditEmail from '@views/authenticated/sub-views/edit-email';
 import EditPersonalInfo from '@views/authenticated/sub-views/edit-personal-info';
@@ -39,10 +39,12 @@ export default function HomeStack() {
                 screenOptions={{
                     headerShown: false,
                     tabBarShowLabel: false,
-                    tabBarStyle: { height: spacing.SCALE_60 },
+                    tabBarStyle: {
+                        height: spacing.SCALE_60,
+                        backgroundColor: colors.LIGHT_COLORS.BACKGROUND,
+                    },
                     tabBarHideOnKeyboard: true,
                 }}
-
             >
                 <Tab.Screen
                     name={SCREENS.HOME.OVERVIEW.ID}

@@ -113,5 +113,10 @@
   "views.home.instrument-details.todays-activity.week": "Dzisiejsza Aktywność vs Tygodniowa",
   "views.home.instrument-details.todays-activity.month": "Dzisiejsza Aktywność vs Miesięczna",
   "views.home.notifications.title": "Powiadomienia",
-  "views.home.notifications.subtitle": "Bądź czujny - powiadomienia pojawią się wkrótce."
+  "views.home.notifications.subtitle": "Bądź czujny - powiadomienia pojawią się wkrótce.",
+  "views.home.profile.app-settings.theme": "Motyw",
+  "views.home.profile.app-settings.choose-theme": "Wybierz motyw",
+  "views.home.profile.app-settings.theme.dark": "Ciemny",
+  "views.home.profile.app-settings.theme.light": "Jasny",
+  "views.home.profile.app-settings.theme.system": "System"
 }

@@ -113,5 +113,10 @@
   "views.home.instrument-details.todays-activity.week": "Today's Activity vs Week",
   "views.home.instrument-details.todays-activity.month": "Today's Activity vs Month",
   "views.home.notifications.title": "Notifications",
-  "views.home.notifications.subtitle": "Be alert - notifications coming soon."
+  "views.home.notifications.subtitle": "Be alert - notifications coming soon.",
+  "views.home.profile.app-settings.theme": "Theme",
+  "views.home.profile.app-settings.choose-theme": "Choose theme",
+  "views.home.profile.app-settings.theme.dark": "Dark",
+  "views.home.profile.app-settings.theme.light": "Light",
+  "views.home.profile.app-settings.theme.system": "System"
 }
