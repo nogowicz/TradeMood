@@ -5,7 +5,7 @@ import {
     SafeAreaView,
     Image,
 } from 'react-native'
-import React, { useContext } from 'react'
+import React, { useContext, useEffect } from 'react'
 import { NativeStackScreenProps } from '@react-navigation/native-stack';
 import { RootStackParamList } from '../../../views/navigation/Navigation';
 import { AuthContext } from '@views/navigation/AuthProvider';
@@ -20,6 +20,8 @@ import Settings from 'assets/icons/Settings.svg'
 import About from 'assets/icons/About.svg'
 import { SCREENS } from '@views/navigation/constants';
 import FastImage from 'react-native-fast-image';
+import AsyncStorage from '@react-native-async-storage/async-storage';
+import { clearAsyncStorage } from 'utils/asyncStorage';
 
 
 
@@ -116,7 +118,9 @@ export default function Profile({ navigation }: ProfileProps) {
                             }
                             onPress={() => {
                                 logout().then(() => {
+                                    clearAsyncStorage();
                                     navigation.navigate(SCREENS.AUTH.WELCOME.ID);
+
                                 });
                             }}
                             mode='option'
