@@ -1,14 +1,12 @@
 import {
     TouchableOpacity,
     GestureResponderEvent,
-    View,
 } from 'react-native'
 
 
 import AddPhoto from 'assets/signup-screen/AddPhoto.svg';
 import { Dispatch, SetStateAction, useState } from 'react';
-import FastImage from 'react-native-fast-image';
-import SkeletonPlaceholder from 'react-native-skeleton-placeholder';
+import Image from 'components/image/Image';
 
 type ProfileImagePickerProps = {
     activeOpacity?: number;
@@ -25,36 +23,17 @@ export default function ProfileImagePicker({
     imageUrl,
     onPress
 }: ProfileImagePickerProps) {
-    const [isImageDownloading, setIsImageDownloading] = useState(false);
-
-    const handleImageLoad = () => {
-        setIsImageDownloading(!isImageDownloading);
-    };
-
     return (
         <TouchableOpacity
             activeOpacity={activeOpacity}
             onPress={onPress}
         >
             {imageUrl ? (
-                <>
-                    {isImageDownloading && (
-                        <SkeletonPlaceholder>
-                            <View style={{ height: size, width: size, borderRadius: size / 2 }} />
-                        </SkeletonPlaceholder>
-                    )}
-                    <FastImage
-                        source={{ uri: imageUrl }}
-                        style={{
-                            height: size,
-                            width: size,
-                            borderRadius: size / 2,
-                            display: isImageDownloading ? 'none' : 'flex'
-                        }}
-                        onLoadStart={handleImageLoad}
-                        onLoadEnd={handleImageLoad}
-                    />
-                </>
+                <Image
+                    style={{ height: size, width: size, borderRadius: size / 2 }}
+                    size={size}
+                    url={imageUrl}
+                />
             ) : (
                 <AddPhoto height={size} width={size} />
             )}

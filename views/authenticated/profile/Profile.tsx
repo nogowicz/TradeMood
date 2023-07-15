@@ -3,14 +3,12 @@ import {
     Text,
     View,
     SafeAreaView,
-    Image,
 } from 'react-native'
-import React, { useContext, useEffect } from 'react'
+import React, { useContext } from 'react'
 import { NativeStackScreenProps } from '@react-navigation/native-stack';
 import { RootStackParamList } from '../../../views/navigation/Navigation';
 import { AuthContext } from '@views/navigation/AuthProvider';
 import { colors, constants, spacing, typography } from 'styles';
-import IconButton from 'components/buttons/icon-button';
 import { FormattedMessage } from 'react-intl';
 import SubmitButton from 'components/buttons/submit-button';
 
@@ -20,8 +18,8 @@ import Settings from 'assets/icons/Settings.svg'
 import About from 'assets/icons/About.svg'
 import { SCREENS } from '@views/navigation/constants';
 import FastImage from 'react-native-fast-image';
-import AsyncStorage from '@react-native-async-storage/async-storage';
 import { clearAsyncStorage } from 'utils/asyncStorage';
+import Image from 'components/image';
 
 
 
@@ -41,11 +39,12 @@ export default function Profile({ navigation }: ProfileProps) {
             <View style={styles.container}>
                 <View style={styles.actionBar}>
                     {user?.photoURL ?
-                        <FastImage
-                            source={{ uri: user?.photoURL }}
+                        <Image
+                            url={user?.photoURL}
                             style={{ width: imageSize, height: imageSize, borderRadius: imageSize / 2 }}
-                        /> :
-                        <FastImage
+                        />
+                        :
+                        <Image
                             source={require('assets/profile/profile-picture.png')}
                             style={{ width: imageSize, height: imageSize, borderRadius: imageSize / 2 }}
                         />
