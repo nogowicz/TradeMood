@@ -4,6 +4,7 @@ import {
     View,
     SafeAreaView,
     FlatList,
+    Dimensions,
 } from 'react-native'
 import React, { useEffect, useState } from 'react'
 import { NativeStackScreenProps } from '@react-navigation/native-stack';
@@ -25,6 +26,8 @@ type Notification = {
     body: string;
     date: string;
 };
+
+const windowHeight = Dimensions.get('window').height;
 
 export default function Notification({ navigation }: NotificationProps) {
     const [notifications, setNotifications] = useState<Notification[]>([]);
@@ -55,17 +58,28 @@ export default function Notification({ navigation }: NotificationProps) {
                             id='views.home.notifications.title'
                         />
                     </Text>
+                    {notifications.length !== 0 ?
+                        <FlatList
+                            data={notifications}
+                            renderItem={({ item }) => (
+                                <NotificationWidget
+                                    title={item.title}
+                                    content={item.body}
+                                    date={item.date}
+                                />
+                            )}
+                        /> :
 
-                    <FlatList
-                        data={notifications}
-                        renderItem={({ item }) => (
-                            <NotificationWidget
-                                title={item.title}
-                                content={item.body}
-                                date={item.date}
-                            />
-                        )}
-                    />
+                        <View style={styles.subtitleContainer}>
+                            <Text style={styles.subtitleText}>
+                                <FormattedMessage
+                                    defaultMessage='Be alert - notifications coming soon.'
+                                    id='views.home.notifications.subtitle'
+                                />
+
+                            </Text>
+                        </View>
+                    }
                 </View>
             </View>
         </SafeAreaView>
@@ -91,4 +105,15 @@ const styles = StyleSheet.create({
     mainContainer: {
         marginVertical: spacing.SCALE_18,
     },
+    subtitleContainer: {
+        height: windowHeight - 200,
+        justifyContent: 'center',
+        alignItems: 'center',
+    },
+    subtitleText: {
+        color: colors.LIGHT_COLORS.TERTIARY,
+        fontSize: typography.FONT_SIZE_16,
+        textAlign: 'center',
+    },
+
 })

@@ -112,5 +112,6 @@
   "views.home.instrument-details.sentiment-details": "Szczegóły Sentymentu",
   "views.home.instrument-details.todays-activity.week": "Dzisiejsza Aktywność vs Tygodniowa",
   "views.home.instrument-details.todays-activity.month": "Dzisiejsza Aktywność vs Miesięczna",
-  "views.home.notifications.title": "Powiadomienia"
+  "views.home.notifications.title": "Powiadomienia",
+  "views.home.notifications.subtitle": "Bądź czujny - powiadomienia pojawią się wkrótce."
 }
