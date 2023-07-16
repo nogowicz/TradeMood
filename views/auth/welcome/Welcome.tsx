@@ -9,7 +9,7 @@ import {
 import { FormattedMessage } from 'react-intl';
 
 import { RootStackParamList } from '@views/navigation/Navigation';
-import { colors, spacing, typography } from 'styles';
+import { spacing, typography } from 'styles';
 import { useContext } from 'react';
 import { AuthContext } from '@views/navigation/AuthProvider';
 
@@ -20,6 +20,7 @@ import LargeLogo from 'assets/logo/logo-bigger.svg'
 import SubmitButton from 'components/buttons/submit-button';
 import { SCREENS } from '@views/navigation/constants';
 import OutlinedButton from 'components/buttons/outlined-button';
+import { themeContext } from 'store/themeContext';
 
 
 
@@ -31,16 +32,17 @@ type WelcomeProps = {
 
 export default function Welcome({ navigation }: WelcomeProps) {
     const { signInAnonymously } = useContext(AuthContext);
+    const theme = useContext(themeContext);
 
     return (
-        <SafeAreaView style={styles.root}>
+        <SafeAreaView style={[styles.root, { backgroundColor: theme.BACKGROUND }]}>
             <View style={styles.container}>
                 <View style={styles.actionContainer}>
                     <IconButton
                         onPress={() => navigation.goBack()}
                         size={42}
                     >
-                        <GoBack />
+                        <GoBack fill={theme.TERTIARY} />
                     </IconButton>
                     <TextButton
                         label={
@@ -56,12 +58,12 @@ export default function Welcome({ navigation }: WelcomeProps) {
                     <LargeLogo />
                 </View>
                 <View style={styles.textContainer}>
-                    <Text style={styles.textRegular}>
+                    <Text style={[styles.textRegular, { color: theme.TERTIARY }]}>
                         <FormattedMessage
                             defaultMessage='Get the latest information about the financial market: '
                             id='views.auth.welcome.first-part-text'
                         />
-                        <Text style={styles.textBold}>
+                        <Text style={[styles.textBold]}>
                             <FormattedMessage
                                 defaultMessage='Log in or create an account'
                                 id='views.auth.welcome.second-part-text'
@@ -112,7 +114,6 @@ const styles = StyleSheet.create({
         paddingHorizontal: spacing.SCALE_20,
         paddingVertical: spacing.SCALE_18,
         justifyContent: 'space-between',
-        backgroundColor: colors.LIGHT_COLORS.BACKGROUND,
     },
     actionContainer: {
         flexDirection: 'row',
@@ -127,7 +128,6 @@ const styles = StyleSheet.create({
     },
     textRegular: {
         ...typography.FONT_REGULAR,
-        color: colors.LIGHT_COLORS.TERTIARY,
         fontWeight: typography.FONT_WEIGHT_REGULAR,
         fontSize: typography.FONT_SIZE_16,
         textAlign: 'center',
