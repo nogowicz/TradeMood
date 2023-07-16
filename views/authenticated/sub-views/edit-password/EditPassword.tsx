@@ -8,14 +8,13 @@ import {
 } from 'react-native'
 import React, { useContext, useEffect, useRef, useState } from 'react'
 import { yupResolver } from '@hookform/resolvers/yup';
-import navigation from '@views/navigation';
 import { AuthContext } from '@views/navigation/AuthProvider';
 import IconButton from 'components/buttons/icon-button';
 import SubmitButton from 'components/buttons/submit-button';
 import TextField from 'components/text-field';
 import { useForm, SubmitHandler, FieldValues, Controller } from 'react-hook-form';
 import { FormattedMessage } from 'react-intl';
-import { spacing, colors, typography } from 'styles';
+import { spacing, typography } from 'styles';
 import { schema } from '../edit-password/validationSchema';
 
 import GoBack from 'assets/icons/Go-back.svg';
@@ -23,6 +22,7 @@ import SmallLogo from 'assets/logo/logo-smaller.svg';
 import Password from 'assets/icons/Password.svg';
 import { NativeStackScreenProps } from '@react-navigation/native-stack';
 import { RootStackParamList } from '@views/navigation/Navigation';
+import { themeContext } from 'store/themeContext';
 
 type EditPasswordScreenNavigationProp = NativeStackScreenProps<RootStackParamList, 'EditPassword'>;
 
@@ -34,6 +34,7 @@ export default function EditPassword({ navigation }: EditEmailProps) {
     const [loading, setLoading] = useState(false);
     const [messageVisible, setMessageVisible] = useState(false);
     const { updatePassword } = useContext(AuthContext);
+    const theme = useContext(themeContext);
     const { control, handleSubmit, setError, formState: { errors } } = useForm({
         resolver: yupResolver(schema)
     });
@@ -119,7 +120,7 @@ export default function EditPassword({ navigation }: EditEmailProps) {
     };
 
     return (
-        <SafeAreaView style={styles.root}>
+        <SafeAreaView style={[styles.root, { backgroundColor: theme.BACKGROUND }]}>
             <View style={styles.container}>
                 <View>
                     <View style={styles.actionContainer}>
@@ -128,7 +129,7 @@ export default function EditPassword({ navigation }: EditEmailProps) {
                                 onPress={() => navigation.goBack()}
                                 size={42}
                             >
-                                <GoBack />
+                                <GoBack fill={theme.TERTIARY} />
                             </IconButton>
                         </View>
                         <Animated.View style={{ transform: [{ scale: scaleValue }, { translateY: translateYValue }] }}>
@@ -138,13 +139,13 @@ export default function EditPassword({ navigation }: EditEmailProps) {
                     </View>
                     <Animated.View style={[styles.textContainer, { transform: [{ translateY: translateYValue }] }]}>
                         <Animated.View style={styles.textContainer}>
-                            <Text style={styles.title}>
+                            <Text style={[styles.title, { color: theme.TERTIARY }]}>
                                 <FormattedMessage
                                     defaultMessage='Edit Your Password'
                                     id='views.home.profile.edit-password.title'
                                 />
                             </Text>
-                            <Text style={styles.subTitle}>
+                            <Text style={[styles.subTitle, { color: theme.TERTIARY }]}>
                                 <FormattedMessage
                                     defaultMessage='Please provide us with new password'
                                     id='views.home.profile.edit-password.subtitle'
@@ -175,7 +176,7 @@ export default function EditPassword({ navigation }: EditEmailProps) {
                                             error={errors.newPassword}
                                             password
                                         >
-                                            <Password />
+                                            <Password stroke={theme.TERTIARY} />
                                         </TextField>
 
                                     )
@@ -205,7 +206,7 @@ export default function EditPassword({ navigation }: EditEmailProps) {
                                             error={errors.confirmNewPassword}
                                             password
                                         >
-                                            <Password />
+                                            <Password stroke={theme.TERTIARY} />
                                         </TextField>
 
                                     )
@@ -214,7 +215,7 @@ export default function EditPassword({ navigation }: EditEmailProps) {
 
                             {messageVisible &&
                                 <Text
-                                    style={[styles.subTitle]}
+                                    style={[styles.subTitle, { color: theme.TERTIARY }]}
                                 >
                                     <FormattedMessage
                                         defaultMessage='Your password has been updated successfully.'
@@ -256,7 +257,6 @@ const styles = StyleSheet.create({
         paddingHorizontal: spacing.SCALE_18,
         paddingVertical: spacing.SCALE_18,
         justifyContent: 'space-between',
-        backgroundColor: colors.LIGHT_COLORS.BACKGROUND,
     },
     actionContainer: {
         flexDirection: 'row',
@@ -272,7 +272,6 @@ const styles = StyleSheet.create({
         ...typography.FONT_BOLD,
         fontWeight: typography.FONT_WEIGHT_BOLD,
         fontSize: typography.FONT_SIZE_24,
-        color: colors.LIGHT_COLORS.TERTIARY,
         textAlign: 'center',
         marginTop: spacing.SCALE_4
     },
@@ -280,7 +279,6 @@ const styles = StyleSheet.create({
         ...typography.FONT_REGULAR,
         fontWeight: typography.FONT_WEIGHT_REGULAR,
         fontSize: typography.FONT_SIZE_12,
-        color: colors.LIGHT_COLORS.TERTIARY,
         textAlign: 'center',
     },
     mainContent: {

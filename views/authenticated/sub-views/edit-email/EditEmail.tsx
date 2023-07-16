@@ -7,7 +7,7 @@ import {
     Keyboard,
 } from 'react-native'
 import React, { useContext, useEffect, useRef, useState } from 'react'
-import { colors, spacing, typography } from 'styles'
+import { spacing, typography } from 'styles'
 
 import GoBack from 'assets/icons/Go-back.svg'
 import SmallLogo from 'assets/logo/logo-smaller.svg'
@@ -24,6 +24,7 @@ import { schema } from '@views/authenticated/sub-views/edit-email/validationSche
 import { AuthContext } from '@views/navigation/AuthProvider'
 
 import Email from 'assets/icons/Email.svg';
+import { themeContext } from 'store/themeContext'
 
 type EditEmailScreenNavigationProp = NativeStackScreenProps<RootStackParamList, 'EditEmail'>;
 
@@ -36,6 +37,7 @@ export default function EditEmail({ navigation }: EditEmailProps) {
     const [loading, setLoading] = useState(false);
     const [messageVisible, setMessageVisible] = useState(false);
     const { updateEmail } = useContext(AuthContext);
+    const theme = useContext(themeContext);
     const { control, handleSubmit, setError, formState: { errors } } = useForm({
         resolver: yupResolver(schema)
     });
@@ -124,7 +126,7 @@ export default function EditEmail({ navigation }: EditEmailProps) {
     };
 
     return (
-        <SafeAreaView style={styles.root}>
+        <SafeAreaView style={[styles.root, { backgroundColor: theme.BACKGROUND }]}>
             <View style={styles.container}>
                 <View>
                     <View style={styles.actionContainer}>
@@ -133,7 +135,7 @@ export default function EditEmail({ navigation }: EditEmailProps) {
                                 onPress={() => navigation.goBack()}
                                 size={42}
                             >
-                                <GoBack />
+                                <GoBack fill={theme.TERTIARY} />
                             </IconButton>
                         </View>
                         <Animated.View style={{ transform: [{ scale: scaleValue }, { translateY: translateYValue }] }}>
@@ -143,13 +145,13 @@ export default function EditEmail({ navigation }: EditEmailProps) {
                     </View>
                     <Animated.View style={[styles.textContainer, { transform: [{ translateY: translateYValue }] }]}>
                         <Animated.View style={styles.textContainer}>
-                            <Text style={styles.title}>
+                            <Text style={[styles.title, { color: theme.TERTIARY }]}>
                                 <FormattedMessage
                                     defaultMessage='Edit Your Email'
                                     id='views.home.profile.edit-email.title'
                                 />
                             </Text>
-                            <Text style={styles.subTitle}>
+                            <Text style={[styles.subTitle, { color: theme.TERTIARY }]}>
                                 <FormattedMessage
                                     defaultMessage='Please provide us with new email address'
                                     id='views.home.profile.edit-email.subtitle'
@@ -179,7 +181,7 @@ export default function EditEmail({ navigation }: EditEmailProps) {
                                             onChangeText={onChange}
                                             error={errors.newEmail}
                                         >
-                                            <Email />
+                                            <Email stroke={theme.TERTIARY} />
                                         </TextField>
 
                                     )
@@ -188,7 +190,7 @@ export default function EditEmail({ navigation }: EditEmailProps) {
 
                             {messageVisible &&
                                 <Text
-                                    style={[styles.subTitle]}
+                                    style={[styles.subTitle, { color: theme.TERTIARY }]}
                                 >
                                     <FormattedMessage
                                         defaultMessage='Your address email has been update successfully, please check your inbox.'
@@ -230,7 +232,6 @@ const styles = StyleSheet.create({
         paddingHorizontal: spacing.SCALE_18,
         paddingVertical: spacing.SCALE_18,
         justifyContent: 'space-between',
-        backgroundColor: colors.LIGHT_COLORS.BACKGROUND,
     },
     actionContainer: {
         flexDirection: 'row',
@@ -246,7 +247,6 @@ const styles = StyleSheet.create({
         ...typography.FONT_BOLD,
         fontWeight: typography.FONT_WEIGHT_BOLD,
         fontSize: typography.FONT_SIZE_24,
-        color: colors.LIGHT_COLORS.TERTIARY,
         textAlign: 'center',
         marginTop: spacing.SCALE_4
     },
@@ -254,7 +254,6 @@ const styles = StyleSheet.create({
         ...typography.FONT_REGULAR,
         fontWeight: typography.FONT_WEIGHT_REGULAR,
         fontSize: typography.FONT_SIZE_12,
-        color: colors.LIGHT_COLORS.TERTIARY,
         textAlign: 'center',
     },
     mainContent: {
