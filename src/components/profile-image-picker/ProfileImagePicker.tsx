@@ -5,8 +5,9 @@ import {
 
 
 import AddPhoto from 'assets/signup-screen/AddPhoto.svg';
-import { Dispatch, SetStateAction, useState } from 'react';
+import { Dispatch, SetStateAction, useContext, useState } from 'react';
 import Image from 'components/image/Image';
+import { themeContext } from 'store/themeContext';
 
 type ProfileImagePickerProps = {
     activeOpacity?: number;
@@ -23,6 +24,7 @@ export default function ProfileImagePicker({
     imageUrl,
     onPress
 }: ProfileImagePickerProps) {
+    const theme = useContext(themeContext);
     return (
         <TouchableOpacity
             activeOpacity={activeOpacity}
@@ -35,7 +37,7 @@ export default function ProfileImagePicker({
                     url={imageUrl}
                 />
             ) : (
-                <AddPhoto height={size} width={size} />
+                <AddPhoto stroke={theme.TERTIARY} height={size} width={size} />
             )}
         </TouchableOpacity>
     );
