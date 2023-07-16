@@ -8,7 +8,7 @@ import React, { useContext } from 'react'
 import { NativeStackScreenProps } from '@react-navigation/native-stack';
 import { RootStackParamList } from '../../../views/navigation/Navigation';
 import { AuthContext } from '@views/navigation/AuthProvider';
-import { colors, constants, spacing, typography } from 'styles';
+import { constants, spacing, typography } from 'styles';
 import { FormattedMessage } from 'react-intl';
 import SubmitButton from 'components/buttons/submit-button';
 
@@ -17,9 +17,9 @@ import Logout from 'assets/icons/Logout.svg'
 import Settings from 'assets/icons/Settings.svg'
 import About from 'assets/icons/About.svg'
 import { SCREENS } from '@views/navigation/constants';
-import FastImage from 'react-native-fast-image';
 import { clearAsyncStorage } from 'utils/asyncStorage';
 import Image from 'components/image';
+import { themeContext } from 'store/themeContext';
 
 
 
@@ -33,9 +33,10 @@ type ProfileProps = {
 
 export default function Profile({ navigation }: ProfileProps) {
     const { user, logout } = useContext(AuthContext);
+    const theme = useContext(themeContext);
     const imageSize = 80;
     return (
-        <SafeAreaView style={styles.root}>
+        <SafeAreaView style={[styles.root, { backgroundColor: theme.BACKGROUND }]}>
             <View style={styles.container}>
                 <View style={styles.actionBar}>
                     {user?.photoURL ?
@@ -53,13 +54,13 @@ export default function Profile({ navigation }: ProfileProps) {
                 </View>
                 <View style={styles.mainContainer}>
                     <View style={styles.sectionTitleContainer}>
-                        <Text style={styles.sectionTitle}>
+                        <Text style={[styles.sectionTitle, { color: theme.TERTIARY }]}>
                             <FormattedMessage
                                 defaultMessage='Hello, '
                                 id='views.home.profile.title'
                             />
                         </Text>
-                        <Text style={styles.sectionTitle}>
+                        <Text style={[styles.sectionTitle, { color: theme.TERTIARY }]}>
                             {user?.isAnonymous ?
                                 <FormattedMessage
                                     defaultMessage='Stranger'
@@ -71,7 +72,7 @@ export default function Profile({ navigation }: ProfileProps) {
                     </View>
 
 
-                    <View style={styles.optionsContainer}>
+                    <View style={[styles.optionsContainer, { backgroundColor: theme.LIGHT_HINT }]}>
                         <SubmitButton
                             label={
                                 <FormattedMessage
@@ -81,7 +82,10 @@ export default function Profile({ navigation }: ProfileProps) {
                             }
                             onPress={() => navigation.navigate(SCREENS.HOME.EDIT_PROFILE.ID)}
                             mode='option'
-                            icon={<EditProfile />}
+                            icon={<EditProfile
+                                stroke={theme.TERTIARY}
+                                fill={theme.BACKGROUND}
+                            />}
                             activeOpacity={0.5}
                         />
                         <SubmitButton
@@ -93,7 +97,7 @@ export default function Profile({ navigation }: ProfileProps) {
                             }
                             onPress={() => navigation.navigate(SCREENS.HOME.APP_SETTINGS.ID)}
                             mode='option'
-                            icon={<Settings />}
+                            icon={<Settings stroke={theme.TERTIARY} />}
                             activeOpacity={0.5}
                         />
                         <SubmitButton
@@ -105,7 +109,10 @@ export default function Profile({ navigation }: ProfileProps) {
                             }
                             onPress={() => navigation.navigate(SCREENS.HOME.ABOUT_US.ID)}
                             mode='option'
-                            icon={<About />}
+                            icon={<About
+                                stroke={theme.TERTIARY}
+                                fill={theme.BACKGROUND}
+                            />}
                             activeOpacity={0.5}
                         />
                         <SubmitButton
@@ -123,15 +130,17 @@ export default function Profile({ navigation }: ProfileProps) {
                                 });
                             }}
                             mode='option'
-                            icon={<Logout />}
+                            icon={<Logout
+                                stroke={theme.TERTIARY}
+                            />}
                             activeOpacity={0.5}
                         />
                     </View>
                 </View>
             </View>
             <View style={styles.infoTextContainer}>
-                <Text style={styles.infoText}>TradeMood</Text>
-                <Text style={styles.infoText}>v1.0.0</Text>
+                <Text style={[styles.infoText, { color: theme.LIGHT_HINT }]}>TradeMood</Text>
+                <Text style={[styles.infoText, { color: theme.LIGHT_HINT }]}>v1.0.0</Text>
             </View>
         </SafeAreaView>
     )
@@ -140,7 +149,6 @@ export default function Profile({ navigation }: ProfileProps) {
 const styles = StyleSheet.create({
     root: {
         flex: 1,
-        backgroundColor: colors.LIGHT_COLORS.BACKGROUND,
     },
     container: {
         flex: 1,
@@ -153,7 +161,6 @@ const styles = StyleSheet.create({
     },
     sectionTitle: {
         ...typography.FONT_BOLD,
-        color: colors.LIGHT_COLORS.TERTIARY,
         fontSize: typography.FONT_SIZE_32,
         fontWeight: typography.FONT_WEIGHT_BOLD,
     },
@@ -164,7 +171,6 @@ const styles = StyleSheet.create({
         flexDirection: 'row',
     },
     optionsContainer: {
-        backgroundColor: colors.LIGHT_COLORS.LIGHT_HINT,
         borderRadius: constants.BORDER_RADIUS.BOTTOM_SHEET,
         marginVertical: spacing.SCALE_40,
     },
@@ -173,6 +179,5 @@ const styles = StyleSheet.create({
         marginVertical: spacing.SCALE_8,
     },
     infoText: {
-        color: colors.LIGHT_COLORS.HINT
     }
 })
