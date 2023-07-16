@@ -18,7 +18,7 @@ export default function NotificationWidget({ title, content, date, activeOpacity
         <TouchableOpacity activeOpacity={activeOpacity} style={[styles.container, { borderBottomColor: theme.LIGHT_HINT }]}>
             <View style={styles.notificationTop}>
                 <Text style={[styles.titleText, { color: theme.TERTIARY }]}>{title}</Text>
-                <Text style={[styles.dateText, { color: theme.LIGHT_HINT }]}>{formatDateTime(date)}</Text>
+                <Text style={[styles.dateText, { color: theme.HINT }]}>{formatDateTime(date)}</Text>
             </View>
             <Text style={[styles.contentText, { color: theme.TERTIARY }]}>{content}</Text>
         </TouchableOpacity>

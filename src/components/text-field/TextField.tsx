@@ -121,7 +121,7 @@ export default function TextField({
                     }
                 </View>
             )}
-            <View style={[styles.container, focus ? { borderColor: theme.PRIMARY } : {}, (error) ? styles.error : {}, (error) ? styles.containerWithError : {}]}>
+            <View style={[styles.container, { borderColor: theme.LIGHT_HINT }, focus ? { borderColor: theme.PRIMARY } : {}, (error) ? styles.error : {}, (error) ? styles.containerWithError : {}]}>
                 {children}
                 <TextInput
                     {...props}

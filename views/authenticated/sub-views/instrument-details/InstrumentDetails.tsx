@@ -11,7 +11,7 @@ import React, { useContext, useRef } from 'react'
 import { NativeStackScreenProps } from '@react-navigation/native-stack';
 import { RootStackParamList } from '@views/navigation/Navigation';
 import { RouteProp } from '@react-navigation/native';
-import { colors, spacing, typography } from 'styles';
+import { spacing, typography } from 'styles';
 import GoBack from 'assets/icons/Go-back.svg'
 import IconButton from 'components/buttons/icon-button';
 import Bookmark from 'assets/icons/Bookmark.svg'
@@ -23,6 +23,7 @@ import { FormattedMessage } from 'react-intl';
 import { LangContext } from 'lang/LangProvider';
 import TrendingNow from 'components/trending-now';
 import ActivityCompare from 'components/activity-compare';
+import { themeContext } from 'store/themeContext';
 type InstrumentDetailsScreenNavigationProp = NativeStackScreenProps<RootStackParamList, 'InstrumentDetails'>;
 type InstrumentDetailsScreenRouteProp = RouteProp<RootStackParamList, 'InstrumentDetails'>
 type InstrumentDetailsProps = {
@@ -44,10 +45,11 @@ export default function InstrumentDetails({ navigation, route }: InstrumentDetai
     const [language] = useContext(LangContext);
     const backIconMargin = 8;
     const dateLocationLanguage = language === 'pl' ? 'pl-PL' : 'en-US';
+    const theme = useContext(themeContext);
 
     if (!instrument) {
         return (
-            <SafeAreaView style={styles.root}>
+            <SafeAreaView style={[styles.root, { backgroundColor: theme.BACKGROUND }]}>
                 <View style={styles.container}>
                     <View style={styles.actionContainer}>
                         <View style={styles.actionContainerComponent} >
@@ -60,7 +62,7 @@ export default function InstrumentDetails({ navigation, route }: InstrumentDetai
                         </View>
                     </View>
                     <View style={styles.mainContainer}>
-                        <Text style={styles.errorText}>
+                        <Text style={[styles.errorText, { color: theme.TERTIARY }]}>
                             <FormattedMessage
                                 defaultMessage='There is no instrument data'
                                 id='views.home.instrument-details.no-data'
@@ -119,7 +121,7 @@ export default function InstrumentDetails({ navigation, route }: InstrumentDetai
         });
 
         return (
-            <SafeAreaView style={styles.root}>
+            <SafeAreaView style={[styles.root, { backgroundColor: theme.BACKGROUND }]}>
                 <View style={styles.container}>
                     <Animated.View style={[styles.actionContainer, { marginBottom }]}>
                         <View style={styles.actionContainerComponent} >
@@ -127,7 +129,7 @@ export default function InstrumentDetails({ navigation, route }: InstrumentDetai
                                 onPress={() => navigation.goBack()}
                                 size={42}
                             >
-                                <GoBack />
+                                <GoBack fill={theme.TERTIARY} />
                             </IconButton>
                         </View>
                         <Animated.View
@@ -139,7 +141,7 @@ export default function InstrumentDetails({ navigation, route }: InstrumentDetai
                                 source={{ uri: instrument.photoUrl }}
                                 style={styles.image}
                             />
-                            <Text style={styles.sectionTitle}>{instrument.crypto}</Text>
+                            <Text style={[styles.sectionTitle, { color: theme.TERTIARY }]}>{instrument.crypto}</Text>
                         </Animated.View>
                         <TouchableOpacity
                             onPress={changeFavoriteStatusHandler}
@@ -147,7 +149,7 @@ export default function InstrumentDetails({ navigation, route }: InstrumentDetai
                         >
                             {cryptoIsFavorite ?
                                 <BookmarkSelected width={32} height={32} /> :
-                                <Bookmark width={32} height={32} />
+                                <Bookmark stroke={theme.TERTIARY} width={32} height={32} />
                             }
                         </TouchableOpacity>
                     </Animated.View>
@@ -192,7 +194,7 @@ export default function InstrumentDetails({ navigation, route }: InstrumentDetai
                             />
                         </View>
                         <View>
-                            <Text style={styles.dateText}>
+                            <Text style={[styles.dateText, { color: theme.HINT }]}>
                                 <FormattedMessage
                                     defaultMessage='Update time:'
                                     id='views.home.instrument-details.update-time'
@@ -210,7 +212,6 @@ export default function InstrumentDetails({ navigation, route }: InstrumentDetai
 const styles = StyleSheet.create({
     root: {
         flex: 1,
-        backgroundColor: colors.LIGHT_COLORS.BACKGROUND,
     },
     container: {
         flex: 1,
@@ -226,7 +227,6 @@ const styles = StyleSheet.create({
     },
     sectionTitle: {
         ...typography.FONT_BOLD,
-        color: colors.LIGHT_COLORS.TERTIARY,
         fontSize: typography.FONT_SIZE_32,
         fontWeight: typography.FONT_WEIGHT_BOLD,
     },
@@ -235,14 +235,12 @@ const styles = StyleSheet.create({
     },
     errorText: {
         ...typography.FONT_BOLD,
-        color: colors.LIGHT_COLORS.TERTIARY,
         fontSize: typography.FONT_SIZE_24,
         fontWeight: typography.FONT_WEIGHT_BOLD,
         marginBottom: spacing.SCALE_20,
     },
     dateText: {
         ...typography.FONT_REGULAR,
-        color: colors.LIGHT_COLORS.HINT,
         fontSize: typography.FONT_SIZE_14,
         fontWeight: typography.FONT_WEIGHT_REGULAR,
         marginVertical: spacing.SCALE_20,

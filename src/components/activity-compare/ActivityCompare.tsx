@@ -1,7 +1,8 @@
 import { StyleSheet, Text, View } from 'react-native'
-import React, { ReactNode } from 'react'
-import { colors, constants, spacing, typography } from 'styles';
+import React, { ReactNode, useContext } from 'react'
+import { constants, spacing, typography } from 'styles';
 import Arrow from 'assets/icons/Go-forward.svg';
+import { themeContext } from 'store/themeContext';
 
 type ActivityCompareProps = {
     name: string | ReactNode;
@@ -9,9 +10,10 @@ type ActivityCompareProps = {
 }
 
 export default function ActivityCompare({ name, activity }: ActivityCompareProps) {
+    const theme = useContext(themeContext);
     return (
-        <View style={styles.container}>
-            <Text style={styles.text}>{name}</Text>
+        <View style={[styles.container, { borderColor: theme.LIGHT_HINT }]}>
+            <Text style={[styles.text, { color: theme.TERTIARY }]}>{name}</Text>
             <View style={styles.activityContainer}>
                 {activity > 0 &&
                     <View style={[
@@ -19,7 +21,7 @@ export default function ActivityCompare({ name, activity }: ActivityCompareProps
                         {
                             transform: [{ rotate: '-90deg' }],
                         }]}>
-                        <Arrow style={{ color: colors.LIGHT_COLORS.POSITIVE }} />
+                        <Arrow style={{ color: theme.POSITIVE }} />
                     </View>
                 }
                 {activity === 0 &&
@@ -28,7 +30,7 @@ export default function ActivityCompare({ name, activity }: ActivityCompareProps
                         {
                             transform: [{ rotate: '0deg' }],
                         }]}>
-                        <Arrow style={{ color: colors.LIGHT_COLORS.HINT }} />
+                        <Arrow style={{ color: theme.HINT }} />
                     </View>
                 }
                 {activity < 0 &&
@@ -37,13 +39,13 @@ export default function ActivityCompare({ name, activity }: ActivityCompareProps
                         {
                             transform: [{ rotate: '90deg' }],
                         }]}>
-                        <Arrow style={{ color: colors.LIGHT_COLORS.NEGATIVE }} />
+                        <Arrow style={{ color: theme.NEGATIVE }} />
                     </View>
                 }
                 <Text style={[
-                    activity > 0 && { color: colors.LIGHT_COLORS.POSITIVE },
-                    activity === 0 && { color: colors.LIGHT_COLORS.HINT },
-                    activity < 0 && { color: colors.LIGHT_COLORS.NEGATIVE }
+                    activity > 0 && { color: theme.POSITIVE },
+                    activity === 0 && { color: theme.HINT },
+                    activity < 0 && { color: theme.NEGATIVE }
                     ,
                     styles.activityText
                 ]}>{activity}%</Text>
@@ -55,14 +57,12 @@ export default function ActivityCompare({ name, activity }: ActivityCompareProps
 const styles = StyleSheet.create({
     container: {
         borderWidth: 1,
-        borderColor: colors.LIGHT_COLORS.LIGHT_HINT,
         borderRadius: constants.BORDER_RADIUS.BUTTON,
         flex: 1,
         padding: spacing.SCALE_12,
         gap: spacing.SCALE_12,
     },
     text: {
-        color: colors.LIGHT_COLORS.TERTIARY,
         fontSize: typography.FONT_SIZE_20,
         textAlign: 'center',
     },
