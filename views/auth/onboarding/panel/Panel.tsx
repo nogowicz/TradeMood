@@ -5,12 +5,14 @@ import {
     FlexAlignType,
 } from 'react-native';
 
-import { colors, spacing, typography } from '../../../../src/styles';
+import { spacing, typography } from '../../../../src/styles';
 
 import Pagination from 'components/pagination';
 import SubmitButton from 'components/buttons/submit-button';
-import { Dispatch, SetStateAction } from 'react';
+import { Dispatch, SetStateAction, useContext } from 'react';
 import { PagesArrayType } from '../OnBoarding';
+import { theme } from 'styles/colors';
+import { themeContext } from 'store/themeContext';
 
 
 
@@ -39,6 +41,7 @@ export default function Panel({
     page,
     pages,
 }: PanelProps) {
+    const theme = useContext(themeContext);
     return (
         <>
             <View style={{ alignItems: actionPosition }}>
@@ -49,10 +52,10 @@ export default function Panel({
             </View>
             <View style={styles.textContainer}>
 
-                <Text style={styles.title}>
+                <Text style={[styles.title, { color: theme.TERTIARY }]}>
                     {title}
                 </Text>
-                <Text style={styles.subTitle}>
+                <Text style={[styles.subTitle, { color: theme.TERTIARY }]}>
                     {subTitle}
                 </Text>
             </View>
@@ -73,7 +76,6 @@ const styles = StyleSheet.create({
     title: {
         ...typography.FONT_BOLD,
         fontWeight: typography.FONT_WEIGHT_BOLD,
-        color: colors.LIGHT_COLORS.TERTIARY,
         fontSize: typography.FONT_SIZE_20,
         textAlign: 'center',
         marginBottom: spacing.SCALE_12,
@@ -81,7 +83,6 @@ const styles = StyleSheet.create({
     subTitle: {
         ...typography.FONT_REGULAR,
         fontWeight: typography.FONT_WEIGHT_REGULAR,
-        color: colors.LIGHT_COLORS.TERTIARY,
         fontSize: typography.FONT_SIZE_14,
         textAlign: 'center',
     },

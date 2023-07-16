@@ -1,4 +1,4 @@
-import { Dispatch, SetStateAction, useState } from 'react';
+import { Dispatch, SetStateAction, useContext, useState } from 'react';
 import {
     FlexAlignType,
     SafeAreaView,
@@ -7,12 +7,14 @@ import {
 } from 'react-native'
 
 import type { NativeStackNavigationProp } from '@react-navigation/native-stack';
-import { colors, spacing } from '../../../src/styles';
+import { spacing } from '../../../src/styles';
 import { RootStackParamList } from '../../navigation/Navigation';
 
 
 import Panel from './panel';
 import { preparePages } from './helpers';
+import { theme } from 'styles/colors';
+import { themeContext } from 'store/themeContext';
 
 export type OnBoardingScreenNavigationProp = NativeStackNavigationProp<RootStackParamList, 'ONBOARDING'>;
 
@@ -36,6 +38,7 @@ type OnBoardingProps = {
 }
 
 export default function OnBoarding({ navigation }: OnBoardingProps) {
+    const theme = useContext(themeContext);
     const [page, setPage] = useState(0);
 
     function handleNextPage() {
@@ -48,7 +51,7 @@ export default function OnBoarding({ navigation }: OnBoardingProps) {
     const pages: PagesArrayType = preparePages({ navigation, handleBack, handleNextPage })
 
     return (
-        <SafeAreaView style={styles.root}>
+        <SafeAreaView style={[styles.root, { backgroundColor: theme.BACKGROUND }]}>
             <View style={styles.container}>
                 <Panel
                     {...pages[page]}
@@ -69,7 +72,6 @@ const styles = StyleSheet.create({
         paddingHorizontal: spacing.SCALE_20,
         paddingVertical: spacing.SCALE_18,
         justifyContent: 'space-between',
-        backgroundColor: colors.LIGHT_COLORS.BACKGROUND,
     },
 
 });

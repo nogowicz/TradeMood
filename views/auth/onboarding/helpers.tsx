@@ -1,4 +1,4 @@
-import { Dispatch, SetStateAction } from "react";
+import { Dispatch, SetStateAction, useContext } from "react";
 import { FlexAlignType } from "react-native";
 import { FormattedMessage } from "react-intl";
 
@@ -11,6 +11,7 @@ import TextButton from "components/buttons/text-button";
 import { OnBoardingScreenNavigationProp } from "./OnBoarding";
 import IconButton from "components/buttons/icon-button";
 import { SCREENS } from '../../../views/navigation/constants';
+import { themeContext } from "store/themeContext";
 
 export type PreparePagesType = {
     navigation: OnBoardingScreenNavigationProp,
@@ -23,6 +24,7 @@ export function preparePages({
     handleBack,
     handleNextPage,
 }: PreparePagesType) {
+    const theme = useContext(themeContext);
     return [
         {
             id: 'all-in-one',
@@ -90,7 +92,7 @@ export function preparePages({
                     onPress={handleBack}
                     size={42}
                 >
-                    <GoBack />
+                    <GoBack fill={theme.TERTIARY} />
                 </IconButton>
             ),
             actionPosition: 'flex-start' as FlexAlignType,
@@ -123,7 +125,7 @@ export function preparePages({
                 <IconButton onPress={handleBack}
                     size={42}
                 >
-                    <GoBack />
+                    <GoBack fill={theme.TERTIARY} />
                 </IconButton>
             ),
             actionPosition: 'flex-start' as FlexAlignType,
