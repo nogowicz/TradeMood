@@ -4,7 +4,7 @@ import {
     TouchableOpacity,
     View,
 } from 'react-native'
-import React, { useContext, useState } from 'react'
+import React, { useContext, useEffect, useState } from 'react'
 import { spacing } from 'styles';
 import { FormattedMessage } from 'react-intl';
 import { themeContext } from 'store/themeContext';
@@ -21,7 +21,19 @@ type RadioButtonProps = {
 
 export default function ThemeRadioButton({ values }: RadioButtonProps) {
     const theme = useContext(themeContext);
-    const [themeMode, setThemeMode] = useState(Boolean(getItem('theme')) ?? false);
+    const [themeMode, setThemeMode] = useState<boolean>();
+
+    useEffect(() => {
+        const fetchThemeMode = async () => {
+            await getItem('theme').then((storedTheme) => {
+                console.log(storedTheme)
+                setThemeMode(storedTheme === "false" ? false : true);
+            })
+        };
+
+        fetchThemeMode();
+    }, []);
+
     const themeTranslation: ThemeObject = {
         "Dark": () => (
             <FormattedMessage
@@ -46,8 +58,8 @@ export default function ThemeRadioButton({ values }: RadioButtonProps) {
                             style={[styles.radioCircle, { borderColor: theme.TERTIARY }]}
                             onPress={() => {
                                 EventRegister.emit("changeTheme", res.value);
-                                setItem('theme', String(res.value))
                                 setThemeMode(res.value)
+                                setItem('theme', res.value.toString());
                             }}>
                             {themeMode === res.value && <View style={[styles.selectedRb, { backgroundColor: theme.TERTIARY }]} />}
                         </TouchableOpacity>

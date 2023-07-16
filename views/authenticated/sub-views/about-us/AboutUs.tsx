@@ -4,17 +4,17 @@ import {
     Text,
     View,
 } from 'react-native'
-import React from 'react'
-import navigation from '@views/navigation'
+import React, { useContext } from 'react'
 import IconButton from 'components/buttons/icon-button'
 
 import { FormattedMessage } from 'react-intl'
-import { colors, spacing, typography } from 'styles'
+import { spacing, typography } from 'styles'
 
 import GoBack from 'assets/icons/Go-back.svg'
 import SmallLogo from 'assets/logo/logo-smaller.svg'
 import { NativeStackScreenProps } from '@react-navigation/native-stack'
 import { RootStackParamList } from '@views/navigation/Navigation'
+import { themeContext } from 'store/themeContext'
 
 
 type AboutUsScreenNavigationProp = NativeStackScreenProps<RootStackParamList, 'AboutUs'>;
@@ -24,8 +24,9 @@ type AboutUsProps = {
 }
 
 export default function AboutUs({ navigation }: AboutUsProps) {
+    const theme = useContext(themeContext);
     return (
-        <SafeAreaView style={styles.root}>
+        <SafeAreaView style={[styles.root, { backgroundColor: theme.BACKGROUND }]}>
             <View style={styles.container}>
                 <View style={styles.actionContainer}>
                     <View style={styles.actionContainerComponent} >
@@ -33,7 +34,7 @@ export default function AboutUs({ navigation }: AboutUsProps) {
                             onPress={() => navigation.goBack()}
                             size={42}
                         >
-                            <GoBack />
+                            <GoBack fill={theme.TERTIARY} />
                         </IconButton>
                     </View>
                     <SmallLogo />
@@ -41,7 +42,7 @@ export default function AboutUs({ navigation }: AboutUsProps) {
                 </View>
                 <View style={styles.mainContainer}>
                     <View style={styles.sectionTitleContainer}>
-                        <Text style={styles.sectionTitle}>
+                        <Text style={[styles.sectionTitle, { color: theme.TERTIARY }]}>
                             <FormattedMessage
                                 defaultMessage='About Us'
                                 id='views.home.profile.about-us.title'
@@ -58,7 +59,6 @@ export default function AboutUs({ navigation }: AboutUsProps) {
 const styles = StyleSheet.create({
     root: {
         flex: 1,
-        backgroundColor: colors.LIGHT_COLORS.BACKGROUND,
     },
     container: {
         flex: 1,
@@ -74,7 +74,6 @@ const styles = StyleSheet.create({
     },
     sectionTitle: {
         ...typography.FONT_BOLD,
-        color: colors.LIGHT_COLORS.TERTIARY,
         fontSize: typography.FONT_SIZE_32,
         fontWeight: typography.FONT_WEIGHT_BOLD,
     },
