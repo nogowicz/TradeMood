@@ -4,11 +4,11 @@ import {
     View,
     TouchableOpacity,
 } from 'react-native'
-import React from 'react'
-import { colors, constants, spacing, typography } from 'styles'
+import React, { useContext } from 'react'
+import { constants, spacing, typography } from 'styles'
 import { FormattedMessage } from 'react-intl';
-import FastImage from 'react-native-fast-image';
 import Image from 'components/image';
+import { themeContext } from 'store/themeContext';
 
 type ProfileBarProps = {
     displayName: string | null | undefined;
@@ -25,17 +25,18 @@ export default function ProfileBar({
     isAnonymous,
     onPress,
 }: ProfileBarProps) {
+    const theme = useContext(themeContext);
     const imageSize = 40;
     const currentDate = new Date();
     const currentHour = currentDate.getHours();
     return (
         <TouchableOpacity
-            style={styles.container}
+            style={[styles.container, { borderColor: theme.LIGHT_HINT }]}
             activeOpacity={activeOpacity}
             onPress={onPress}
         >
             <View style={styles.textContainer}>
-                <Text style={styles.welcomeText}>
+                <Text style={[styles.welcomeText, { color: theme.HINT }]}>
                     {(currentHour >= 5 && currentHour < 12) &&
                         <FormattedMessage
                             defaultMessage='Good Morning!'
@@ -57,7 +58,7 @@ export default function ProfileBar({
                             id='views.home.welcome-text.hello'
                         />}
                 </Text>
-                <Text style={styles.displayName}>
+                <Text style={[styles.displayName, { color: theme.TERTIARY }]}>
                     {isAnonymous ?
                         <FormattedMessage
                             defaultMessage='Stranger'
@@ -86,7 +87,6 @@ export default function ProfileBar({
 const styles = StyleSheet.create({
     container: {
         borderWidth: 1,
-        borderColor: colors.LIGHT_COLORS.LIGHT_HINT,
         borderRadius: constants.BORDER_RADIUS.PROFILE_BAR,
         flexDirection: 'row',
         justifyContent: 'flex-end',
@@ -96,13 +96,11 @@ const styles = StyleSheet.create({
     },
     welcomeText: {
         ...typography.FONT_REGULAR,
-        color: colors.LIGHT_COLORS.HINT,
         fontSize: typography.FONT_SIZE_10,
         fontWeight: typography.FONT_WEIGHT_REGULAR,
     },
     displayName: {
         ...typography.FONT_BOLD,
-        color: colors.LIGHT_COLORS.TERTIARY,
         fontWeight: typography.FONT_WEIGHT_BOLD,
         fontSize: typography.FONT_SIZE_14,
     },

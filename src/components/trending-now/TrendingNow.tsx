@@ -4,11 +4,12 @@ import {
     View,
     TouchableOpacity,
 } from 'react-native'
-import React, { ReactNode } from 'react'
+import React, { ReactNode, useContext } from 'react'
 import { colors, constants, spacing, typography } from 'styles'
 import Pie from 'react-native-pie'
 import GoFroward from 'assets/icons/Go-forward.svg'
 import { FormattedMessage } from 'react-intl'
+import { themeContext } from 'store/themeContext'
 
 type TrendingNowProps = {
     name?: string;
@@ -21,40 +22,41 @@ type TrendingNowProps = {
 }
 
 export default function TrendingNow({ name, title, positive, neutral, negative, onPress, trendingWidget }: TrendingNowProps) {
+    const theme = useContext(themeContext);
     const data = [
         {
             percentage: positive,
-            color: colors.LIGHT_COLORS.POSITIVE,
+            color: theme.POSITIVE,
         },
         {
             percentage: negative,
-            color: colors.LIGHT_COLORS.NEGATIVE,
+            color: theme.NEGATIVE,
         },
         {
             percentage: neutral,
-            color: colors.LIGHT_COLORS.LIGHT_HINT
+            color: theme.LIGHT_HINT
         },
     ]
     return (
-        <View style={styles.container}>
+        <View style={[styles.container, { borderColor: theme.LIGHT_HINT }]}>
 
             <View style={styles.topContainer}>
-                <Text style={styles.titleText}>
+                <Text style={[styles.titleText, { color: theme.TERTIARY }]}>
                     {title}
                 </Text>
                 {trendingWidget &&
                     <TouchableOpacity
                         activeOpacity={0.7}
-                        style={styles.detailsButton}
+                        style={[styles.detailsButton, { backgroundColor: theme.LIGHT_HINT }]}
                         onPress={onPress}
                     >
-                        <Text style={styles.buttonText}>
+                        <Text style={[styles.buttonText, { color: theme.TERTIARY }]}>
                             <FormattedMessage
                                 defaultMessage='Details'
                                 id='views.home.overview.trending-now.details'
                             />
                         </Text>
-                        <GoFroward width={6} style={{ color: colors.LIGHT_COLORS.TERTIARY }} />
+                        <GoFroward width={6} style={{ color: theme.TERTIARY }} />
                     </TouchableOpacity>
                 }
             </View>
@@ -68,13 +70,13 @@ export default function TrendingNow({ name, title, positive, neutral, negative, 
 
                 <View>
                     {trendingWidget &&
-                        <Text style={styles.titleText}>{name}</Text>
+                        <Text style={[styles.titleText, { color: theme.TERTIARY }]}>{name}</Text>
                     }
                     <View style={styles.legendContainer}>
-                        <View style={[styles.dot, { backgroundColor: colors.LIGHT_COLORS.POSITIVE }]} />
+                        <View style={[styles.dot, { backgroundColor: theme.POSITIVE }]} />
                         <View>
-                            <Text style={styles.buttonText}>{positive}%</Text>
-                            <Text style={{ color: colors.LIGHT_COLORS.HINT }}>
+                            <Text style={[styles.buttonText, { color: theme.TERTIARY }]}>{positive}%</Text>
+                            <Text style={{ color: theme.HINT }}>
                                 <FormattedMessage
                                     defaultMessage='Positive'
                                     id='views.home.overview.trending-now.positive'
@@ -84,10 +86,10 @@ export default function TrendingNow({ name, title, positive, neutral, negative, 
                     </View>
 
                     <View style={styles.legendContainer}>
-                        <View style={[styles.dot, { backgroundColor: colors.LIGHT_COLORS.LIGHT_HINT }]} />
+                        <View style={[styles.dot, { backgroundColor: theme.LIGHT_HINT }]} />
                         <View>
-                            <Text style={styles.buttonText}>{neutral}%</Text>
-                            <Text style={{ color: colors.LIGHT_COLORS.HINT }}>
+                            <Text style={[styles.buttonText, , { color: theme.TERTIARY }]}>{neutral}%</Text>
+                            <Text style={{ color: theme.HINT }}>
                                 <FormattedMessage
                                     defaultMessage='Neutral'
                                     id='views.home.overview.trending-now.neutral'
@@ -97,10 +99,10 @@ export default function TrendingNow({ name, title, positive, neutral, negative, 
                     </View>
 
                     <View style={styles.legendContainer}>
-                        <View style={[styles.dot, { backgroundColor: colors.LIGHT_COLORS.NEGATIVE }]} />
+                        <View style={[styles.dot, { backgroundColor: theme.NEGATIVE }]} />
                         <View>
-                            <Text style={styles.buttonText}>{negative}%</Text>
-                            <Text style={{ color: colors.LIGHT_COLORS.HINT }}>
+                            <Text style={[styles.buttonText, { color: theme.TERTIARY }]}>{negative}%</Text>
+                            <Text style={{ color: theme.HINT }}>
                                 <FormattedMessage
                                     defaultMessage='Negative'
                                     id='views.home.overview.trending-now.negative'
@@ -120,12 +122,10 @@ const styles = StyleSheet.create({
         borderWidth: 1,
         borderRadius: constants.BORDER_RADIUS.BUTTON,
         padding: spacing.SCALE_12,
-        borderColor: colors.LIGHT_COLORS.LIGHT_HINT,
         marginVertical: spacing.SCALE_20,
     },
     titleText: {
         ...typography.FONT_BOLD,
-        color: colors.LIGHT_COLORS.TERTIARY,
         fontSize: typography.FONT_SIZE_16,
         fontWeight: typography.FONT_WEIGHT_BOLD,
     },
@@ -137,7 +137,6 @@ const styles = StyleSheet.create({
     },
     buttonText: {
         ...typography.FONT_BOLD,
-        color: colors.LIGHT_COLORS.TERTIARY,
         fontSize: typography.FONT_SIZE_12,
         fontWeight: typography.FONT_WEIGHT_BOLD,
     },
@@ -146,7 +145,6 @@ const styles = StyleSheet.create({
         justifyContent: 'center',
         alignItems: 'center',
         gap: spacing.SCALE_4,
-        backgroundColor: colors.LIGHT_COLORS.LIGHT_HINT,
         borderRadius: constants.BORDER_RADIUS.BUTTON,
         paddingVertical: spacing.SCALE_4,
         paddingHorizontal: spacing.SCALE_8

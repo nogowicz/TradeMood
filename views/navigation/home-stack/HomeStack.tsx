@@ -18,7 +18,7 @@ import NotificationActive from 'assets/icons/Notification-Active.svg'
 
 import ProfileInactive from 'assets/icons/Profile.svg'
 import ProfileActive from 'assets/icons/Profile-Active.svg'
-import { colors, spacing } from 'styles';
+import { spacing } from 'styles';
 import EditProfile from '@views/authenticated/sub-views/edit-profile';
 import EditEmail from '@views/authenticated/sub-views/edit-email';
 import EditPersonalInfo from '@views/authenticated/sub-views/edit-personal-info';
@@ -27,8 +27,11 @@ import EditPassword from '@views/authenticated/sub-views/edit-password';
 import AppSettings from '@views/authenticated/sub-views/app-settings';
 import AboutUs from '@views/authenticated/sub-views/about-us';
 import InstrumentDetails from '@views/authenticated/sub-views/instrument-details';
+import { useContext } from 'react';
+import { themeContext } from 'store/themeContext';
 
 export default function HomeStack() {
+    const theme = useContext(themeContext);
     const Stack = createNativeStackNavigator();
     const Tab = createBottomTabNavigator();
 
@@ -41,7 +44,7 @@ export default function HomeStack() {
                     tabBarShowLabel: false,
                     tabBarStyle: {
                         height: spacing.SCALE_60,
-                        backgroundColor: colors.LIGHT_COLORS.BACKGROUND,
+                        backgroundColor: theme.BACKGROUND,
                     },
                     tabBarHideOnKeyboard: true,
                 }}
@@ -51,7 +54,7 @@ export default function HomeStack() {
                     component={Overview}
                     options={{
                         tabBarIcon: ({ focused }) => (
-                            focused ? <OverviewActive /> : <OverviewInactive />
+                            focused ? <OverviewActive /> : <OverviewInactive stroke={theme.TERTIARY} />
                         ),
                     }}
                 />
@@ -60,7 +63,7 @@ export default function HomeStack() {
                     component={Search}
                     options={{
                         tabBarIcon: ({ focused }) => (
-                            focused ? <SearchActive /> : <SearchInactive />
+                            focused ? <SearchActive /> : <SearchInactive stroke={theme.TERTIARY} />
                         ),
                     }}
                 />
@@ -69,7 +72,7 @@ export default function HomeStack() {
                     component={Notification}
                     options={{
                         tabBarIcon: ({ focused }) => (
-                            focused ? <NotificationActive /> : <NotificationInactive />
+                            focused ? <NotificationActive /> : <NotificationInactive stroke={theme.TERTIARY} />
                         ),
                     }}
                 />
@@ -78,28 +81,13 @@ export default function HomeStack() {
                     component={Profile}
                     options={{
                         tabBarIcon: ({ focused }) => (
-                            focused ? <ProfileActive /> : <ProfileInactive />
+                            focused ? <ProfileActive /> : <ProfileInactive stroke={theme.TERTIARY} />
                         ),
                     }}
                 />
             </Tab.Navigator>
         );
     }
-
-    const instrumentData = {
-        activityTM: 0,
-        activityTW: 0,
-        crypto: "Cryptocurrency",
-        id: "Cryptocurrency",
-        photoUrl: "https://cryptologos.cc/logos/binance-usd-busd-logo.png",
-        sentiment: "Neutral",
-        sentimentDirection: "steady",
-        sentimentNegative: 0,
-        sentimentNeutral: 0,
-        sentimentPositive: 0,
-        stockSymbol: "CRYPTO",
-        time: new Date()
-    };
 
     return (
         <Stack.Navigator

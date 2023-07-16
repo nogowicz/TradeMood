@@ -1,11 +1,12 @@
 import { StyleSheet, Text, View, TouchableOpacity, Image, } from 'react-native'
-import React from 'react'
-import { constants, spacing, colors, typography } from 'styles'
+import React, { useContext } from 'react'
+import { constants, spacing, typography } from 'styles'
 import { FormattedMessage } from 'react-intl';
 
 import Placeholder from 'assets/icons/crypto-placeholder.svg'
 import Arrow from 'assets/icons/Go-forward.svg';
 import FastImage from 'react-native-fast-image';
+import { themeContext } from 'store/themeContext';
 
 type InstrumentRecordProps = {
     crypto: string;
@@ -16,9 +17,10 @@ type InstrumentRecordProps = {
 }
 const photoSize = 50;
 export default function InstrumentRecord({ crypto, sentiment, sentimentDirection, photoUrl, onPress }: InstrumentRecordProps) {
+    const theme = useContext(themeContext);
     return (
         <TouchableOpacity
-            style={styles.container}
+            style={[styles.container, { borderColor: theme.LIGHT_HINT }]}
             activeOpacity={0.6}
             onPress={onPress}
         >
@@ -26,11 +28,11 @@ export default function InstrumentRecord({ crypto, sentiment, sentimentDirection
                 <FastImage source={{ uri: photoUrl }} style={{ width: photoSize, height: photoSize }} />
                 : <Placeholder width={photoSize} height={photoSize} />}
             <View style={styles.middleContainer}>
-                <Text style={styles.titleText}>{crypto}</Text>
-                <Text style={[styles.titleText,
-                sentiment === 'Positive' && { color: colors.LIGHT_COLORS.POSITIVE },
-                sentiment === 'Neutral' && { color: colors.LIGHT_COLORS.HINT },
-                sentiment === 'Negative' && { color: colors.LIGHT_COLORS.NEGATIVE }
+                <Text style={[styles.titleText, { color: theme.TERTIARY }]}>{crypto}</Text>
+                <Text style={[styles.titleText, { color: theme.TERTIARY },
+                sentiment === 'Positive' && { color: theme.POSITIVE },
+                sentiment === 'Neutral' && { color: theme.HINT },
+                sentiment === 'Negative' && { color: theme.NEGATIVE }
                 ]}>
                     {sentiment === "Positive" &&
                         <FormattedMessage
@@ -61,7 +63,7 @@ export default function InstrumentRecord({ crypto, sentiment, sentimentDirection
                         {
                             transform: [{ rotate: '-90deg' }],
                         }]}>
-                        <Arrow style={{ color: colors.LIGHT_COLORS.POSITIVE }} />
+                        <Arrow style={{ color: theme.POSITIVE }} />
                     </View>
                 }
                 {sentimentDirection === 'steady' &&
@@ -70,7 +72,7 @@ export default function InstrumentRecord({ crypto, sentiment, sentimentDirection
                         {
                             transform: [{ rotate: '0deg' }],
                         }]}>
-                        <Arrow style={{ color: colors.LIGHT_COLORS.HINT }} />
+                        <Arrow style={{ color: theme.HINT }} />
                     </View>
                 }
                 {sentimentDirection === 'down' &&
@@ -79,7 +81,7 @@ export default function InstrumentRecord({ crypto, sentiment, sentimentDirection
                         {
                             transform: [{ rotate: '90deg' }],
                         }]}>
-                        <Arrow style={{ color: colors.LIGHT_COLORS.NEGATIVE }} />
+                        <Arrow style={{ color: theme.NEGATIVE }} />
                     </View>
                 }
             </View>
@@ -93,7 +95,6 @@ const styles = StyleSheet.create({
         borderWidth: 1,
         borderRadius: constants.BORDER_RADIUS.BUTTON,
         paddingVertical: spacing.SCALE_12,
-        borderColor: colors.LIGHT_COLORS.LIGHT_HINT,
         marginVertical: spacing.SCALE_8,
         paddingHorizontal: spacing.SCALE_20,
         flexDirection: 'row',
@@ -102,7 +103,6 @@ const styles = StyleSheet.create({
     },
     titleText: {
         ...typography.FONT_BOLD,
-        color: colors.LIGHT_COLORS.TERTIARY,
         fontSize: typography.FONT_SIZE_16,
         fontWeight: typography.FONT_WEIGHT_BOLD,
     },

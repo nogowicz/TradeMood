@@ -5,7 +5,7 @@ import {
     View,
 } from 'react-native'
 import React, { useContext, useState } from 'react'
-import { colors, spacing } from 'styles';
+import { spacing } from 'styles';
 import { FormattedMessage } from 'react-intl';
 import { themeContext } from 'store/themeContext';
 import { EventRegister } from 'react-native-event-listeners';
@@ -43,15 +43,15 @@ export default function ThemeRadioButton({ values }: RadioButtonProps) {
                 return (
                     <View key={res.key} style={styles.container}>
                         <TouchableOpacity
-                            style={styles.radioCircle}
+                            style={[styles.radioCircle, { borderColor: theme.TERTIARY }]}
                             onPress={() => {
                                 EventRegister.emit("changeTheme", res.value);
                                 setItem('theme', String(res.value))
                                 setThemeMode(res.value)
                             }}>
-                            {themeMode === res.value && <View style={styles.selectedRb} />}
+                            {themeMode === res.value && <View style={[styles.selectedRb, { backgroundColor: theme.TERTIARY }]} />}
                         </TouchableOpacity>
-                        <Text style={styles.radioText}>
+                        <Text style={[styles.radioText, { color: theme.TERTIARY }]}>
                             {themeTranslation[res.key]()}
                         </Text>
                     </View>
@@ -72,7 +72,6 @@ const styles = StyleSheet.create({
     radioText: {
         marginRight: 35,
         fontSize: 20,
-        color: '#ffff',
         fontWeight: '700'
     },
     radioCircle: {
@@ -80,7 +79,6 @@ const styles = StyleSheet.create({
         width: 30,
         borderRadius: 100,
         borderWidth: 2,
-        borderColor: colors.LIGHT_COLORS.PRIMARY,
         alignItems: 'center',
         justifyContent: 'center',
     },
@@ -88,6 +86,5 @@ const styles = StyleSheet.create({
         width: 15,
         height: 15,
         borderRadius: 50,
-        backgroundColor: colors.LIGHT_COLORS.PRIMARY,
     },
 });

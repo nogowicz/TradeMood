@@ -12,7 +12,7 @@ import { SCREENS } from '@views/navigation/constants';
 import IconButton from 'components/buttons/icon-button';
 import SubmitButton from 'components/buttons/submit-button';
 import { FormattedMessage } from 'react-intl';
-import { colors, spacing, typography, constants } from 'styles';
+import { spacing, typography, constants, colors } from 'styles';
 import BottomSheet from 'components/bottom-sheet';
 
 import Language from 'assets/icons/Language.svg';
@@ -79,7 +79,7 @@ export default function AppSettings({ navigation }: AppSettingsProps) {
                             onPress={() => navigation.goBack()}
                             size={42}
                         >
-                            <GoBack />
+                            <GoBack fill={theme.TERTIARY} />
                         </IconButton>
                     </View>
                     <SmallLogo />
@@ -87,14 +87,14 @@ export default function AppSettings({ navigation }: AppSettingsProps) {
                 </View>
                 <View style={styles.mainContainer}>
                     <View style={styles.sectionTitleContainer}>
-                        <Text style={styles.sectionTitle}>
+                        <Text style={[styles.sectionTitle, { color: theme.TERTIARY }]}>
                             <FormattedMessage
                                 defaultMessage='App Settings'
                                 id='views.home.profile.app-settings.title'
                             />
                         </Text>
                     </View>
-                    <View style={styles.optionsContainer}>
+                    <View style={[styles.optionsContainer, { backgroundColor: theme.LIGHT_HINT }]}>
                         <SubmitButton
                             label={
                                 <FormattedMessage
@@ -104,7 +104,7 @@ export default function AppSettings({ navigation }: AppSettingsProps) {
                             }
                             onPress={() => handleShowLangBottomSheet()}
                             mode='option'
-                            icon={<Language />}
+                            icon={<Language fill={theme.TERTIARY} />}
                             activeOpacity={0.5}
                         />
 
@@ -117,7 +117,11 @@ export default function AppSettings({ navigation }: AppSettingsProps) {
                             }
                             onPress={() => handleShowThemeBottomSheet()}
                             mode='option'
-                            icon={<Theme />}
+                            icon={<Theme
+                                fill={theme.TERTIARY}
+                                stroke={theme.BACKGROUND}
+                            />
+                            }
                             activeOpacity={0.5}
                         />
 
@@ -125,7 +129,7 @@ export default function AppSettings({ navigation }: AppSettingsProps) {
                 </View>
             </View>
             <BottomSheet ref={refLang}>
-                <Text style={styles.bottomSheetTitleText}>
+                <Text style={[styles.bottomSheetTitleText, { color: theme.TERTIARY }]}>
                     <FormattedMessage
                         defaultMessage='Choose Language'
                         id='views.home.profile.app-settings.choose-language'
@@ -135,7 +139,7 @@ export default function AppSettings({ navigation }: AppSettingsProps) {
             </BottomSheet>
 
             <BottomSheet ref={refTheme}>
-                <Text style={styles.bottomSheetTitleText}>
+                <Text style={[styles.bottomSheetTitleText, { color: theme.TERTIARY }]}>
                     <FormattedMessage
                         defaultMessage='Choose Theme'
                         id='views.home.profile.app-settings.choose-theme'
@@ -165,7 +169,6 @@ const styles = StyleSheet.create({
     },
     sectionTitle: {
         ...typography.FONT_BOLD,
-        color: colors.LIGHT_COLORS.TERTIARY,
         fontSize: typography.FONT_SIZE_32,
         fontWeight: typography.FONT_WEIGHT_BOLD,
     },
@@ -176,14 +179,12 @@ const styles = StyleSheet.create({
         alignItems: 'center',
     },
     optionsContainer: {
-        backgroundColor: colors.LIGHT_COLORS.LIGHT_HINT,
         borderRadius: constants.BORDER_RADIUS.BOTTOM_SHEET,
         marginVertical: spacing.SCALE_40,
         justifyContent: 'center',
     },
     bottomSheetTitleText: {
         ...typography.FONT_BOLD,
-        color: colors.LIGHT_COLORS.BACKGROUND,
         justifyContent: 'center',
         alignItems: 'center',
         fontSize: typography.FONT_SIZE_20,
