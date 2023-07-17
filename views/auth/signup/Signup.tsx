@@ -6,8 +6,8 @@ import {
     View,
 } from 'react-native'
 import { RootStackParamList } from '../../navigation/Navigation';
-import { Dispatch, SetStateAction, useCallback, useRef, useState } from 'react';
-import { colors, spacing } from 'styles';
+import { Dispatch, SetStateAction, useCallback, useContext, useRef, useState } from 'react';
+import { spacing } from 'styles';
 import storage from '@react-native-firebase/storage';
 import { FormattedMessage } from 'react-intl';
 import SignupPanel from './signup-panel/SignupPanel';
@@ -21,6 +21,7 @@ import Gallery from 'assets/icons/Gallery.svg'
 import DeletePhoto from 'assets/icons/DeletePhoto.svg'
 import Camera from 'assets/icons/Camera.svg'
 import ProgressBar from 'components/progress-bar';
+import { themeContext } from 'store/themeContext';
 
 
 
@@ -50,8 +51,7 @@ export default function Signup({ navigation }: SignupProps) {
     const [imageUrl, setImageUrl] = useState<string | null | undefined>(null);
     const [loading, setLoading] = useState(false);
     const [step, setStep] = useState(0);
-
-
+    const theme = useContext(themeContext);
 
     const ref = useRef<BottomSheetRefProps>(null);
 
@@ -217,7 +217,7 @@ export default function Signup({ navigation }: SignupProps) {
     });
 
     return (
-        <SafeAreaView style={styles.root}>
+        <SafeAreaView style={[styles.root, { backgroundColor: theme.BACKGROUND }]}>
             <View style={styles.container}>
                 <SignupPanel
                     {...pages[page]}
@@ -237,9 +237,9 @@ export default function Signup({ navigation }: SignupProps) {
                                         onPress={uploadImage}
                                         size={80}
                                     >
-                                        <Gallery />
+                                        <Gallery stroke={theme.TERTIARY} />
                                     </IconButton>
-                                    <Text style={styles.iconButtonBottomSheetText}>
+                                    <Text style={[styles.iconButtonBottomSheetText, { color: theme.TERTIARY }]}>
                                         <FormattedMessage
                                             defaultMessage='Gallery'
                                             id='views.auth.signup.gallery'
@@ -252,9 +252,9 @@ export default function Signup({ navigation }: SignupProps) {
                                         onPress={takePhoto}
                                         size={80}
                                     >
-                                        <Camera />
+                                        <Camera stroke={theme.TERTIARY} />
                                     </IconButton>
-                                    <Text style={styles.iconButtonBottomSheetText}>
+                                    <Text style={[styles.iconButtonBottomSheetText, { color: theme.TERTIARY }]}>
                                         <FormattedMessage
                                             defaultMessage='Camera'
                                             id='views.auth.signup.camera'
@@ -266,14 +266,13 @@ export default function Signup({ navigation }: SignupProps) {
                                         <IconButton
                                             onPress={deleteImage}
                                             size={80}
-                                            color={colors.LIGHT_COLORS.NEGATIVE}
                                         >
                                             <DeletePhoto />
                                         </IconButton>
                                         <Text
                                             style={[
                                                 styles.iconButtonBottomSheetText,
-                                                { color: colors.LIGHT_COLORS.NEGATIVE }
+                                                { color: theme.NEGATIVE }
                                             ]}>
                                             <FormattedMessage
                                                 defaultMessage='Delete'
@@ -300,7 +299,6 @@ const styles = StyleSheet.create({
         paddingHorizontal: spacing.SCALE_18,
         paddingVertical: spacing.SCALE_18,
         justifyContent: 'space-between',
-        backgroundColor: colors.LIGHT_COLORS.BACKGROUND,
     },
     actionContainer: {
         alignItems: 'flex-end',
@@ -312,7 +310,6 @@ const styles = StyleSheet.create({
         marginVertical: spacing.SCALE_20,
     },
     iconButtonBottomSheetText: {
-        color: colors.LIGHT_COLORS.BACKGROUND,
         textAlign: 'center',
         marginHorizontal: 150,
     },

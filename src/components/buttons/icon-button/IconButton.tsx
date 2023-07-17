@@ -9,12 +9,14 @@ import {
     ReactNode,
     Dispatch,
     SetStateAction,
+    useContext,
 } from 'react'
 
 import {
-    colors,
     spacing,
 } from 'styles';
+import { theme } from 'styles/colors';
+import { themeContext } from 'store/themeContext';
 
 
 type IconButtonProps = {
@@ -24,7 +26,6 @@ type IconButtonProps = {
     TouchableOpacityProps?: TouchableOpacityProps;
     ContainerProps?: ViewProps;
     size: number;
-    color?: string;
     backgroundColor?: string;
 }
 
@@ -35,9 +36,9 @@ export default function IconButton({
     TouchableOpacityProps,
     ContainerProps,
     size,
-    color = colors.LIGHT_COLORS.LIGHT_HINT,
     backgroundColor = 'transparent'
 }: IconButtonProps) {
+    const theme = useContext(themeContext);
     return (
         <TouchableOpacity
             style={[
@@ -46,7 +47,7 @@ export default function IconButton({
                     width: size,
                     height: size,
                     borderRadius: size,
-                    borderColor: color,
+                    borderColor: theme.LIGHT_HINT,
                     backgroundColor: backgroundColor
                 }]}
             activeOpacity={activeOpacity}

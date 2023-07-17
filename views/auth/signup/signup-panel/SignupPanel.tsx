@@ -8,16 +8,19 @@ import {
 import {
     Dispatch,
     SetStateAction,
+    useContext,
     useEffect,
     useRef,
     useState,
 } from 'react';
 
-import { colors, spacing, typography } from 'styles';
+import { spacing, typography } from 'styles';
 
 import SubmitButton from 'components/buttons/submit-button';
 import { SignupPagesArrayType } from '../Signup';
 import Pagination from 'components/pagination/Pagination';
+import { theme } from 'styles/colors';
+import { themeContext } from 'store/themeContext';
 
 
 type SignupPanelProps = {
@@ -49,18 +52,19 @@ export default function SignupPanel({
     const translateYValue = useRef(new Animated.Value(0)).current;
     const [isKeyboardVisible, setKeyboardVisible] = useState(false);
     const animationDuration = 400;
+    const theme = useContext(themeContext);
     useEffect(() => {
         const keyboardDidShowListener = Keyboard.addListener(
             'keyboardDidShow',
             () => {
-                setKeyboardVisible(true); // or some other action
+                setKeyboardVisible(true);
                 handleKeyboardOut();
             }
         );
         const keyboardDidHideListener = Keyboard.addListener(
             'keyboardDidHide',
             () => {
-                setKeyboardVisible(false); // or some other action
+                setKeyboardVisible(false);
                 handleKeyboardIn();
             }
         );
@@ -114,10 +118,10 @@ export default function SignupPanel({
                 </View>
                 <Animated.View style={[styles.textContainer, { transform: [{ translateY: translateYValue }] }]}>
                     <Animated.View style={styles.textContainer}>
-                        <Text style={styles.title}>
+                        <Text style={[styles.title, { color: theme.TERTIARY }]}>
                             {title}
                         </Text>
-                        <Text style={styles.subTitle}>
+                        <Text style={[styles.subTitle, { color: theme.TERTIARY }]}>
                             {subTitle}
                         </Text>
                     </Animated.View>
@@ -156,7 +160,6 @@ const styles = StyleSheet.create({
         ...typography.FONT_BOLD,
         fontWeight: typography.FONT_WEIGHT_BOLD,
         fontSize: typography.FONT_SIZE_24,
-        color: colors.LIGHT_COLORS.TERTIARY,
         textAlign: 'center',
         marginTop: spacing.SCALE_4
     },
@@ -164,7 +167,6 @@ const styles = StyleSheet.create({
         ...typography.FONT_REGULAR,
         fontWeight: typography.FONT_WEIGHT_REGULAR,
         fontSize: typography.FONT_SIZE_12,
-        color: colors.LIGHT_COLORS.TERTIARY,
         textAlign: 'center',
     },
     mainContent: {

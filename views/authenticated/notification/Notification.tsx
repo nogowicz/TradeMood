@@ -6,13 +6,14 @@ import {
     FlatList,
     Dimensions,
 } from 'react-native'
-import React, { useEffect, useState } from 'react'
+import React, { useContext, useEffect, useState } from 'react'
 import { NativeStackScreenProps } from '@react-navigation/native-stack';
 import { RootStackParamList } from '../../../views/navigation/Navigation';
-import { colors, spacing, typography } from 'styles';
+import { spacing, typography } from 'styles';
 import { FormattedMessage } from 'react-intl';
 import NotificationWidget from 'components/notification-widget';
 import { getItem } from 'utils/asyncStorage';
+import { themeContext } from 'store/themeContext';
 
 
 type NotificationScreenNavigationProp = NativeStackScreenProps<RootStackParamList, 'Notification'>;
@@ -31,6 +32,7 @@ const windowHeight = Dimensions.get('window').height;
 
 export default function Notification({ navigation }: NotificationProps) {
     const [notifications, setNotifications] = useState<Notification[]>([]);
+    const theme = useContext(themeContext);
 
     useEffect(() => {
         const fetchNotifications = async () => {
@@ -49,10 +51,10 @@ export default function Notification({ navigation }: NotificationProps) {
     }, []);
 
     return (
-        <SafeAreaView style={styles.root}>
+        <SafeAreaView style={[styles.root, { backgroundColor: theme.BACKGROUND }]}>
             <View style={styles.container}>
                 <View style={styles.mainContainer}>
-                    <Text style={styles.sectionTitle}>
+                    <Text style={[styles.sectionTitle, { color: theme.TERTIARY }]}>
                         <FormattedMessage
                             defaultMessage='Notifications'
                             id='views.home.notifications.title'
@@ -71,7 +73,7 @@ export default function Notification({ navigation }: NotificationProps) {
                         /> :
 
                         <View style={styles.subtitleContainer}>
-                            <Text style={styles.subtitleText}>
+                            <Text style={[styles.subtitleText, { color: theme.TERTIARY }]}>
                                 <FormattedMessage
                                     defaultMessage='Be alert - notifications coming soon.'
                                     id='views.home.notifications.subtitle'
@@ -89,7 +91,6 @@ export default function Notification({ navigation }: NotificationProps) {
 const styles = StyleSheet.create({
     root: {
         flex: 1,
-        backgroundColor: colors.LIGHT_COLORS.BACKGROUND,
     },
     container: {
         flex: 1,
@@ -98,7 +99,6 @@ const styles = StyleSheet.create({
     },
     sectionTitle: {
         ...typography.FONT_BOLD,
-        color: colors.LIGHT_COLORS.TERTIARY,
         fontSize: typography.FONT_SIZE_32,
         fontWeight: typography.FONT_WEIGHT_BOLD,
     },
@@ -111,7 +111,6 @@ const styles = StyleSheet.create({
         alignItems: 'center',
     },
     subtitleText: {
-        color: colors.LIGHT_COLORS.TERTIARY,
         fontSize: typography.FONT_SIZE_16,
         textAlign: 'center',
     },

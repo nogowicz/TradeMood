@@ -1,9 +1,10 @@
-import React from 'react'
+import React, { useContext } from 'react'
 
 import { View, StyleSheet } from 'react-native'
-import { colors, spacing } from '../../styles';
+import { spacing } from '../../styles';
 import { PagesArrayType } from '../../../views/auth/onboarding/OnBoarding';
 import { SignupPagesArrayType } from '@views/auth/signup/Signup';
+import { themeContext } from 'store/themeContext';
 
 type PaginationProps = {
     pages: PagesArrayType | SignupPagesArrayType,
@@ -11,10 +12,11 @@ type PaginationProps = {
 }
 
 export default function Pagination({ pages = [], activePage }: PaginationProps) {
+    const theme = useContext(themeContext);
     return (
         <View style={styles.container}>
             {pages.map((page, index: number) => (
-                <View key={page.id} style={[styles.dot, index === activePage ? styles.activeDot : {}]} />
+                <View key={page.id} style={[styles.dot, { backgroundColor: theme.LIGHT_HINT }, index === activePage ? [styles.activeDot, { backgroundColor: theme.PRIMARY }] : {}]} />
             ))}
         </View>
     );
@@ -30,11 +32,9 @@ const styles = StyleSheet.create({
     dot: {
         width: spacing.SCALE_8,
         height: spacing.SCALE_8,
-        backgroundColor: colors.LIGHT_COLORS.LIGHT_HINT,
         borderRadius: spacing.SCALE_8,
     },
     activeDot: {
         width: spacing.SCALE_16,
-        backgroundColor: colors.LIGHT_COLORS.PRIMARY,
     },
 });

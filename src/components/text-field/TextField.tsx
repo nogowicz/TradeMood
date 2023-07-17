@@ -11,18 +11,20 @@ import {
     Dispatch,
     ReactNode,
     SetStateAction,
+    useContext,
     useEffect,
     useState
 } from 'react';
 
 
-import { colors, constants, spacing, typography } from 'styles';
+import { constants, spacing, typography } from 'styles';
 
 import PasswordVisible from 'assets/icons/Password-visible.svg';
 import PasswordInvisible from 'assets/icons/Password-invisible.svg';
 import Clear from 'assets/icons/Clear.svg';
 import { FormattedMessage } from 'react-intl';
 import { FieldError, FieldErrorsImpl, Merge } from 'react-hook-form';
+import { themeContext } from 'store/themeContext';
 
 
 
@@ -65,6 +67,7 @@ export default function TextField({
     const [secureTextEntry, setSecureTextEntry] = useState(true);
     const [defaultMessage, setDefaultMessage] = useState('')
     const [id, setId] = useState('views.auth.errors.basic-error');
+    const theme = useContext(themeContext);
 
 
 
@@ -107,27 +110,27 @@ export default function TextField({
         <View style={styles.root}>
             {(actionLabel || label) && (
                 <View style={styles.actionContainer}>
-                    <Text style={styles.label}>{label}</Text>
+                    <Text style={[styles.label, { color: theme.TERTIARY }]}>{label}</Text>
                     {actionLabel &&
                         <TouchableOpacity
                             activeOpacity={0.7}
                             onPress={action}
                         >
-                            <Text style={styles.action}>{actionLabel}</Text>
+                            <Text style={[styles.action, { color: theme.TERTIARY }]}>{actionLabel}</Text>
                         </TouchableOpacity>
                     }
                 </View>
             )}
-            <View style={[styles.container, focus ? styles.focus : {}, (error) ? styles.error : {}, (error) ? styles.containerWithError : {}]}>
+            <View style={[styles.container, { borderColor: theme.LIGHT_HINT }, focus ? { borderColor: theme.PRIMARY } : {}, (error) ? styles.error : {}, (error) ? styles.containerWithError : {}]}>
                 {children}
                 <TextInput
                     {...props}
-                    selectionColor={colors.LIGHT_COLORS.PRIMARY}
-                    placeholderTextColor={colors.LIGHT_COLORS.HINT}
+                    selectionColor={theme.PRIMARY}
+                    placeholderTextColor={theme.HINT}
                     placeholder={placeholder}
                     onFocus={() => setFocus(true)}
                     onBlur={() => setFocus(false)}
-                    style={[styles.textInput]}
+                    style={[styles.textInput, { color: theme.TERTIARY }]}
                     secureTextEntry={(password && secureTextEntry)}
                 />
                 {password ?
@@ -136,7 +139,7 @@ export default function TextField({
                         activeOpacity={0.7}
                     >
                         {secureTextEntry ?
-                            <PasswordVisible /> : <PasswordInvisible />}
+                            <PasswordVisible stroke={theme.TERTIARY} /> : <PasswordInvisible stroke={theme.TERTIARY} />}
                     </TouchableOpacity>
                     : null
                 }
@@ -149,7 +152,7 @@ export default function TextField({
                         }}
                         activeOpacity={0.7}
                     >
-                        <Clear />
+                        <Clear stroke={theme.TERTIARY} />
                     </TouchableOpacity>
                     : null
                 }
@@ -191,7 +194,6 @@ const styles = StyleSheet.create({
     },
     label: {
         ...typography.FONT_BOLD,
-        color: colors.LIGHT_COLORS.TERTIARY,
         fontSize: typography.FONT_SIZE_14,
         fontWeight: typography.FONT_WEIGHT_BOLD,
     },
@@ -199,19 +201,15 @@ const styles = StyleSheet.create({
         fontSize: typography.FONT_SIZE_14,
         ...typography.FONT_BOLD,
         fontWeight: 'bold',
-        color: colors.LIGHT_COLORS.TERTIARY,
     },
     textInput: {
         ...typography.FONT_BOLD,
         fontWeight: typography.FONT_WEIGHT_BOLD,
         fontSize: typography.FONT_SIZE_16,
         marginHorizontal: spacing.SCALE_12,
-        color: colors.LIGHT_COLORS.TERTIARY,
         flex: 1,
     },
-    focus: {
-        borderColor: colors.LIGHT_COLORS.PRIMARY,
-    },
+
     error: {
         borderColor: 'red',
     },

@@ -1,4 +1,5 @@
 import {
+    useContext,
     useEffect,
     useRef,
     useState,
@@ -8,8 +9,9 @@ import {
     View,
     StyleSheet
 } from "react-native";
+import { themeContext } from "store/themeContext";
 
-import { colors, constants } from "styles";
+import { constants } from "styles";
 
 type ProgressBarProps = {
     step: number;
@@ -22,6 +24,7 @@ export default function ProgressBar({ step, steps, height }: any) {
     const [width, setWidth] = useState(0);
     const animatedValue = useRef(new Animated.Value(-1000)).current;
     const reactive = useRef(new Animated.Value(-1000)).current;
+    const theme = useContext(themeContext);
 
     useEffect(() => {
         Animated.timing(animatedValue, {
@@ -36,7 +39,7 @@ export default function ProgressBar({ step, steps, height }: any) {
     }, [step, width])
 
     return (
-        <View style={[styles.container, { height }]}>
+        <View style={[styles.container, { height, backgroundColor: theme.QUATERNARY }]}>
             <Animated.View
                 onLayout={e => {
                     const newWidth = e.nativeEvent.layout.width;
@@ -48,7 +51,8 @@ export default function ProgressBar({ step, steps, height }: any) {
                         height,
                         transform: [{
                             translateX: animatedValue,
-                        }]
+                        }],
+                        backgroundColor: theme.PRIMARY
                     }]}
             />
         </View>
@@ -58,13 +62,11 @@ export default function ProgressBar({ step, steps, height }: any) {
 
 const styles = StyleSheet.create({
     container: {
-        backgroundColor: colors.LIGHT_COLORS.QUATERNARY,
         overflow: 'hidden',
         borderRadius: constants.BORDER_RADIUS.INPUT
     },
     progressBar: {
         width: '100%',
-        backgroundColor: colors.LIGHT_COLORS.PRIMARY,
         position: 'absolute',
         left: 0,
         top: 0,

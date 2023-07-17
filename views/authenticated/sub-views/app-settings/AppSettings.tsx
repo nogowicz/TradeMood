@@ -2,24 +2,28 @@ import {
     SafeAreaView,
     StyleSheet,
     Text,
+    TouchableOpacity,
     View,
 } from 'react-native'
-import React, { useCallback, useRef } from 'react'
+import React, { useCallback, useContext, useRef } from 'react'
 import { NativeStackScreenProps } from '@react-navigation/native-stack';
 import { RootStackParamList } from '@views/navigation/Navigation';
 import { SCREENS } from '@views/navigation/constants';
 import IconButton from 'components/buttons/icon-button';
 import SubmitButton from 'components/buttons/submit-button';
 import { FormattedMessage } from 'react-intl';
-import { colors, spacing, typography, constants } from 'styles';
+import { spacing, typography, constants, colors } from 'styles';
 import BottomSheet from 'components/bottom-sheet';
 
-import Language from 'assets/icons/Language.svg'
-import GoBack from 'assets/icons/Go-back.svg'
-import SmallLogo from 'assets/logo/logo-smaller.svg'
+import Language from 'assets/icons/Language.svg';
+import Theme from 'assets/icons/Theme.svg';
+import GoBack from 'assets/icons/Go-back.svg';
+import SmallLogo from 'assets/logo/logo-smaller.svg';
 import { BottomSheetRefProps } from 'components/bottom-sheet/BottomSheet';
-import RadioButton from 'components/radio-button/RadioButton';
+import LanguageRadioButton from 'components/radio-button/LanguageRadioButton';
 import { LANGUAGES } from 'lang/constants';
+import ThemeRadioButton from 'components/radio-button/ThemeRadioButton';
+import { themeContext } from 'store/themeContext';
 
 type AppSettingsScreenNavigationProp = NativeStackScreenProps<RootStackParamList, 'AppSettings'>;
 
@@ -27,28 +31,47 @@ type AppSettingsProps = {
     navigation: AppSettingsScreenNavigationProp['navigation']
 }
 
-export type LanguageEntry = {
+export type Entry = {
     key: string;
     value: string;
 };
 
 
 export default function AppSettings({ navigation }: AppSettingsProps) {
-    const ref = useRef<BottomSheetRefProps>(null);
-    const handleShowBottomSheet = useCallback(() => {
-        const isActive = ref?.current?.isActive();
+    const theme = useContext(themeContext);
+    const refLang = useRef<BottomSheetRefProps>(null);
+    const refTheme = useRef<BottomSheetRefProps>(null);
+    const handleShowLangBottomSheet = useCallback(() => {
+        const isActive = refLang?.current?.isActive();
         if (isActive) {
-            ref?.current?.scrollTo(0);
+            refLang?.current?.scrollTo(0);
         } else {
-            ref?.current?.scrollTo(-200);
+            refLang?.current?.scrollTo(-200);
         }
     }, []);
 
-    const langArray: LanguageEntry[] = Object.entries(LANGUAGES).map(([key, value]) => ({ key, value }));
+    const langArray: Entry[] = Object.entries(LANGUAGES).map(([key, value]) => ({ key, value }));
+
+    const themesEntry = {
+        Dark: true,
+        Light: false
+    }
+
+    const themesArray = Object.entries(themesEntry).map(([key, value]) => ({ key, value }));
+
+
+    const handleShowThemeBottomSheet = useCallback(() => {
+        const isActive = refTheme?.current?.isActive();
+        if (isActive) {
+            refTheme?.current?.scrollTo(0);
+        } else {
+            refTheme?.current?.scrollTo(-200);
+        }
+    }, []);
 
 
     return (
-        <SafeAreaView style={styles.root}>
+        <SafeAreaView style={[styles.root, { backgroundColor: theme.BACKGROUND }]}>
             <View style={styles.container}>
                 <View style={styles.actionContainer}>
                     <View style={styles.actionContainerComponent} >
@@ -56,7 +79,7 @@ export default function AppSettings({ navigation }: AppSettingsProps) {
                             onPress={() => navigation.goBack()}
                             size={42}
                         >
-                            <GoBack />
+                            <GoBack fill={theme.TERTIARY} />
                         </IconButton>
                     </View>
                     <SmallLogo />
@@ -64,14 +87,14 @@ export default function AppSettings({ navigation }: AppSettingsProps) {
                 </View>
                 <View style={styles.mainContainer}>
                     <View style={styles.sectionTitleContainer}>
-                        <Text style={styles.sectionTitle}>
+                        <Text style={[styles.sectionTitle, { color: theme.TERTIARY }]}>
                             <FormattedMessage
                                 defaultMessage='App Settings'
                                 id='views.home.profile.app-settings.title'
                             />
                         </Text>
                     </View>
-                    <View style={styles.optionsContainer}>
+                    <View style={[styles.optionsContainer, { backgroundColor: theme.LIGHT_HINT }]}>
                         <SubmitButton
                             label={
                                 <FormattedMessage
@@ -79,23 +102,50 @@ export default function AppSettings({ navigation }: AppSettingsProps) {
                                     id='views.home.profile.app-settings.language'
                                 />
                             }
-                            onPress={() => handleShowBottomSheet()}
+                            onPress={() => handleShowLangBottomSheet()}
                             mode='option'
-                            icon={<Language />}
+                            icon={<Language fill={theme.TERTIARY} />}
+                            activeOpacity={0.5}
+                        />
+
+                        <SubmitButton
+                            label={
+                                <FormattedMessage
+                                    defaultMessage='Theme'
+                                    id='views.home.profile.app-settings.theme'
+                                />
+                            }
+                            onPress={() => handleShowThemeBottomSheet()}
+                            mode='option'
+                            icon={<Theme
+                                fill={theme.TERTIARY}
+                                stroke={theme.BACKGROUND}
+                            />
+                            }
                             activeOpacity={0.5}
                         />
 
                     </View>
                 </View>
             </View>
-            <BottomSheet ref={ref}>
-                <Text style={styles.bottomSheetTitleText}>
+            <BottomSheet ref={refLang}>
+                <Text style={[styles.bottomSheetTitleText, { color: theme.TERTIARY }]}>
                     <FormattedMessage
                         defaultMessage='Choose Language'
                         id='views.home.profile.app-settings.choose-language'
                     />
                 </Text>
-                <RadioButton values={langArray} />
+                <LanguageRadioButton values={langArray} />
+            </BottomSheet>
+
+            <BottomSheet ref={refTheme}>
+                <Text style={[styles.bottomSheetTitleText, { color: theme.TERTIARY }]}>
+                    <FormattedMessage
+                        defaultMessage='Choose Theme'
+                        id='views.home.profile.app-settings.choose-theme'
+                    />
+                </Text>
+                <ThemeRadioButton values={themesArray} />
             </BottomSheet>
         </SafeAreaView>
     )
@@ -104,7 +154,6 @@ export default function AppSettings({ navigation }: AppSettingsProps) {
 const styles = StyleSheet.create({
     root: {
         flex: 1,
-        backgroundColor: colors.LIGHT_COLORS.BACKGROUND,
     },
     container: {
         flex: 1,
@@ -120,7 +169,6 @@ const styles = StyleSheet.create({
     },
     sectionTitle: {
         ...typography.FONT_BOLD,
-        color: colors.LIGHT_COLORS.TERTIARY,
         fontSize: typography.FONT_SIZE_32,
         fontWeight: typography.FONT_WEIGHT_BOLD,
     },
@@ -131,14 +179,12 @@ const styles = StyleSheet.create({
         alignItems: 'center',
     },
     optionsContainer: {
-        backgroundColor: colors.LIGHT_COLORS.LIGHT_HINT,
         borderRadius: constants.BORDER_RADIUS.BOTTOM_SHEET,
         marginVertical: spacing.SCALE_40,
         justifyContent: 'center',
     },
     bottomSheetTitleText: {
         ...typography.FONT_BOLD,
-        color: colors.LIGHT_COLORS.BACKGROUND,
         justifyContent: 'center',
         alignItems: 'center',
         fontSize: typography.FONT_SIZE_20,

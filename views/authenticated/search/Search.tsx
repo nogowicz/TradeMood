@@ -8,12 +8,13 @@ import {
 import React, { useContext, useState } from 'react'
 import { NativeStackScreenProps } from '@react-navigation/native-stack';
 import { RootStackParamList } from '@views/navigation/Navigation';
-import { colors, spacing, typography } from 'styles';
+import { spacing, typography } from 'styles';
 import { InstrumentContext, InstrumentProps } from '@views/navigation/InstrumentProvider';
 import { FormattedMessage, useIntl } from 'react-intl';
 import InstrumentRecord from 'components/instrument-record';
 import TextField from 'components/text-field';
 import { SCREENS } from '@views/navigation/constants';
+import { themeContext } from 'store/themeContext';
 
 type SearchScreenNavigationProp = NativeStackScreenProps<RootStackParamList, 'Search'>;
 
@@ -22,6 +23,7 @@ type SearchProps = {
 }
 
 export default function Search({ navigation }: SearchProps) {
+    const theme = useContext(themeContext);
     const instruments = useContext(InstrumentContext);
     const intl = useIntl();
     const [search, setSearch] = useState('');
@@ -54,10 +56,10 @@ export default function Search({ navigation }: SearchProps) {
 
 
     return (
-        <SafeAreaView style={styles.root}>
+        <SafeAreaView style={[styles.root, { backgroundColor: theme.BACKGROUND }]}>
             <View style={styles.container}>
                 <View style={styles.mainContainer}>
-                    <Text style={styles.sectionTitle}>
+                    <Text style={[styles.sectionTitle, { color: theme.TERTIARY }]}>
                         <FormattedMessage
                             defaultMessage='Search'
                             id='views.home.search.title'
@@ -78,7 +80,7 @@ export default function Search({ navigation }: SearchProps) {
                 </View>
 
                 <View style={styles.listTitle}>
-                    <Text style={styles.listTitleText}>
+                    <Text style={[styles.listTitleText, { color: theme.TERTIARY }]}>
                         <FormattedMessage
                             defaultMessage='All Cryptocurrencies'
                             id='views.home.search.all-cryptocurrencies'
@@ -115,7 +117,6 @@ export default function Search({ navigation }: SearchProps) {
 const styles = StyleSheet.create({
     root: {
         flex: 1,
-        backgroundColor: colors.LIGHT_COLORS.BACKGROUND,
     },
     container: {
         flex: 1,
@@ -133,7 +134,6 @@ const styles = StyleSheet.create({
     },
     sectionTitle: {
         ...typography.FONT_BOLD,
-        color: colors.LIGHT_COLORS.TERTIARY,
         fontSize: typography.FONT_SIZE_32,
         fontWeight: typography.FONT_WEIGHT_BOLD,
     },
@@ -142,7 +142,6 @@ const styles = StyleSheet.create({
     },
     listTitleText: {
         ...typography.FONT_BOLD,
-        color: colors.LIGHT_COLORS.TERTIARY,
         fontSize: typography.FONT_SIZE_24,
         fontWeight: typography.FONT_WEIGHT_BOLD,
     },

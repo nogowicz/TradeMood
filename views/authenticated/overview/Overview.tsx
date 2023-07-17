@@ -11,7 +11,7 @@ import { FormattedMessage } from 'react-intl';
 
 import { RootStackParamList } from '../../navigation/Navigation';
 import { AuthContext } from '@views/navigation/AuthProvider';
-import { colors, spacing, typography } from 'styles';
+import { spacing, typography } from 'styles';
 import ProfileBar from 'components/profile-bar';
 import IconButton from 'components/buttons/icon-button';
 
@@ -22,6 +22,7 @@ import TrendingNow from 'components/trending-now';
 import { InstrumentContext, InstrumentProps } from '@views/navigation/InstrumentProvider';
 import { FavoritesContext } from '@views/navigation/FavoritesProvider';
 import InstrumentRecord from 'components/instrument-record';
+import { themeContext } from 'store/themeContext';
 
 
 type OverviewScreenNavigationProp = NativeStackScreenProps<RootStackParamList, 'Overview'>;
@@ -39,26 +40,27 @@ export default function Overview({ navigation }: OverviewProps) {
     const favoriteCrypto = instruments?.filter((instrument) =>
         favoriteCryptoCtx.ids.includes(instrument.id)
     );
+    const theme = useContext(themeContext);
 
 
     return (
-        <SafeAreaView style={styles.root}>
+        <SafeAreaView style={[styles.root, { backgroundColor: theme.BACKGROUND }]}>
             <View style={styles.container}>
                 <View style={styles.actionContainer}>
                     <View style={styles.actionContainerLeftSide}>
                         <IconButton
                             onPress={() => navigation.navigate(SCREENS.HOME.SEARCH.ID)}
                             size={48}
-                            backgroundColor={colors.LIGHT_COLORS.LIGHT_HINT}
+                            backgroundColor={theme.LIGHT_HINT}
                         >
-                            <Search />
+                            <Search stroke={theme.TERTIARY} />
                         </IconButton>
                         <IconButton
                             onPress={() => navigation.navigate(SCREENS.HOME.NOTIFICATION.ID)}
                             size={48}
-                            backgroundColor={colors.LIGHT_COLORS.LIGHT_HINT}
+                            backgroundColor={theme.LIGHT_HINT}
                         >
-                            <Bell />
+                            <Bell stroke={theme.TERTIARY} />
                         </IconButton>
                     </View>
                     <ProfileBar
@@ -69,7 +71,7 @@ export default function Overview({ navigation }: OverviewProps) {
                     />
                 </View>
                 <View style={styles.mainContainer}>
-                    <Text style={styles.sectionTitle}>
+                    <Text style={[styles.sectionTitle, { color: theme.TERTIARY }]}>
                         <FormattedMessage
                             defaultMessage='Overview'
                             id='views.home.overview.title'
@@ -104,7 +106,7 @@ export default function Overview({ navigation }: OverviewProps) {
                     </View>
                     <View>
                         {favoriteCrypto && favoriteCrypto?.length > 0 &&
-                            <Text style={styles.listTitleText}>
+                            <Text style={[styles.listTitleText, { color: theme.TERTIARY }]}>
                                 <FormattedMessage
                                     defaultMessage='Favorites'
                                     id='views.home.overview.favorites'
@@ -136,7 +138,6 @@ export default function Overview({ navigation }: OverviewProps) {
 const styles = StyleSheet.create({
     root: {
         flex: 1,
-        backgroundColor: colors.LIGHT_COLORS.BACKGROUND,
     },
     container: {
         flex: 1,
@@ -154,7 +155,6 @@ const styles = StyleSheet.create({
     },
     sectionTitle: {
         ...typography.FONT_BOLD,
-        color: colors.LIGHT_COLORS.TERTIARY,
         fontSize: typography.FONT_SIZE_32,
         fontWeight: typography.FONT_WEIGHT_BOLD,
     },
@@ -163,7 +163,6 @@ const styles = StyleSheet.create({
     },
     listTitleText: {
         ...typography.FONT_BOLD,
-        color: colors.LIGHT_COLORS.TERTIARY,
         fontSize: typography.FONT_SIZE_24,
         fontWeight: typography.FONT_WEIGHT_BOLD,
     }

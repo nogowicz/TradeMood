@@ -9,7 +9,7 @@ import { NativeStackScreenProps } from '@react-navigation/native-stack';
 import { RootStackParamList } from '@views/navigation/Navigation';
 import IconButton from 'components/buttons/icon-button';
 import { FormattedMessage } from 'react-intl';
-import { colors, spacing, typography } from 'styles';
+import { spacing, typography } from 'styles';
 
 import GoBack from 'assets/icons/Go-back.svg'
 import SmallLogo from 'assets/logo/logo-smaller.svg'
@@ -24,7 +24,7 @@ import DeletePhoto from 'assets/icons/DeletePhoto.svg'
 import Camera from 'assets/icons/Camera.svg'
 import { BottomSheetRefProps } from 'components/bottom-sheet/BottomSheet';
 import { launchCamera, launchImageLibrary } from 'react-native-image-picker';
-import SubmitButton from 'components/buttons/submit-button';
+import { themeContext } from 'store/themeContext';
 
 type EditPictureScreenNavigationProp = NativeStackScreenProps<RootStackParamList, 'EditPicture'>;
 
@@ -37,6 +37,7 @@ export default function EditPicture({ navigation }: EditPictureProps) {
     const { user, updateProfilePicture } = useContext(AuthContext);
     const [uploadingImage, setUploadingImage] = useState(false);
     const [step, setStep] = useState(0);
+    const theme = useContext(themeContext);
     const ref = useRef<BottomSheetRefProps>(null);
     const [imageUrl, setImageUrl] = useState<string | null | undefined>(user?.photoURL);
 
@@ -189,7 +190,7 @@ export default function EditPicture({ navigation }: EditPictureProps) {
 
 
     return (
-        <SafeAreaView style={styles.root}>
+        <SafeAreaView style={[styles.root, { backgroundColor: theme.BACKGROUND }]}>
             <View style={styles.container}>
                 <View>
                     <View style={styles.actionContainer}>
@@ -201,7 +202,7 @@ export default function EditPicture({ navigation }: EditPictureProps) {
                                     }}
                                 size={42}
                             >
-                                <GoBack />
+                                <GoBack fill={theme.TERTIARY} />
                             </IconButton>
                         </View>
                         <SmallLogo />
@@ -210,13 +211,13 @@ export default function EditPicture({ navigation }: EditPictureProps) {
                     </View>
                     <View style={styles.textContainer}>
                         <View style={styles.textContainer}>
-                            <Text style={styles.title}>
+                            <Text style={[styles.title, { color: theme.TERTIARY }]}>
                                 <FormattedMessage
                                     defaultMessage='Edit Your Profile Picture'
                                     id='views.home.profile.edit-picture.title'
                                 />
                             </Text>
-                            <Text style={styles.subTitle}>
+                            <Text style={[styles.subTitle, { color: theme.TERTIARY }]}>
                                 <FormattedMessage
                                     defaultMessage='Please provide us with your profile picture'
                                     id='views.home.profile.edit-picture.subtitle'
@@ -247,9 +248,9 @@ export default function EditPicture({ navigation }: EditPictureProps) {
                                         onPress={uploadImage}
                                         size={80}
                                     >
-                                        <Gallery />
+                                        <Gallery stroke={theme.TERTIARY} />
                                     </IconButton>
-                                    <Text style={styles.iconButtonBottomSheetText}>
+                                    <Text style={[styles.iconButtonBottomSheetText, { color: theme.TERTIARY }]}>
                                         <FormattedMessage
                                             defaultMessage='Gallery'
                                             id='views.auth.signup.gallery'
@@ -262,9 +263,9 @@ export default function EditPicture({ navigation }: EditPictureProps) {
                                         onPress={takePhoto}
                                         size={80}
                                     >
-                                        <Camera />
+                                        <Camera stroke={theme.TERTIARY} />
                                     </IconButton>
-                                    <Text style={styles.iconButtonBottomSheetText}>
+                                    <Text style={[styles.iconButtonBottomSheetText, { color: theme.TERTIARY }]}>
                                         <FormattedMessage
                                             defaultMessage='Camera'
                                             id='views.auth.signup.camera'
@@ -276,14 +277,13 @@ export default function EditPicture({ navigation }: EditPictureProps) {
                                         <IconButton
                                             onPress={deleteImage}
                                             size={80}
-                                            color={colors.LIGHT_COLORS.NEGATIVE}
                                         >
                                             <DeletePhoto />
                                         </IconButton>
                                         <Text
                                             style={[
                                                 styles.iconButtonBottomSheetText,
-                                                { color: colors.LIGHT_COLORS.NEGATIVE }
+                                                { color: theme.NEGATIVE }
                                             ]}>
                                             <FormattedMessage
                                                 defaultMessage='Delete'
@@ -310,7 +310,6 @@ const styles = StyleSheet.create({
         paddingHorizontal: spacing.SCALE_18,
         paddingVertical: spacing.SCALE_18,
         justifyContent: 'space-between',
-        backgroundColor: colors.LIGHT_COLORS.BACKGROUND,
     },
     actionContainer: {
         flexDirection: 'row',
@@ -326,7 +325,6 @@ const styles = StyleSheet.create({
         ...typography.FONT_BOLD,
         fontWeight: typography.FONT_WEIGHT_BOLD,
         fontSize: typography.FONT_SIZE_24,
-        color: colors.LIGHT_COLORS.TERTIARY,
         textAlign: 'center',
         marginTop: spacing.SCALE_4
     },
@@ -334,7 +332,6 @@ const styles = StyleSheet.create({
         ...typography.FONT_REGULAR,
         fontWeight: typography.FONT_WEIGHT_REGULAR,
         fontSize: typography.FONT_SIZE_12,
-        color: colors.LIGHT_COLORS.TERTIARY,
         textAlign: 'center',
     },
     mainContent: {
@@ -348,7 +345,6 @@ const styles = StyleSheet.create({
         marginVertical: spacing.SCALE_20,
     },
     iconButtonBottomSheetText: {
-        color: colors.LIGHT_COLORS.BACKGROUND,
         textAlign: 'center',
         marginHorizontal: 150,
     },

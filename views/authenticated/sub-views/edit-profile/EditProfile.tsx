@@ -4,10 +4,10 @@ import {
     Text,
     View,
 } from 'react-native'
-import React from 'react'
+import React, { useContext } from 'react'
 import { NativeStackScreenProps } from '@react-navigation/native-stack';
 import { RootStackParamList } from '@views/navigation/Navigation';
-import { colors, constants, spacing, typography } from 'styles';
+import { constants, spacing, typography } from 'styles';
 import IconButton from 'components/buttons/icon-button';
 
 
@@ -21,6 +21,7 @@ import Picture from 'assets/icons/Picture.svg'
 import GoBack from 'assets/icons/Go-back.svg'
 import SmallLogo from 'assets/logo/logo-smaller.svg'
 import Password from 'assets/icons/Password-light.svg'
+import { themeContext } from 'store/themeContext';
 
 type EditProfileScreenNavigationProp = NativeStackScreenProps<RootStackParamList, 'EditProfile'>;
 
@@ -30,8 +31,9 @@ type EditProfileProps = {
 
 
 export default function EditProfile({ navigation }: EditProfileProps) {
+    const theme = useContext(themeContext);
     return (
-        <SafeAreaView style={styles.root}>
+        <SafeAreaView style={[styles.root, { backgroundColor: theme.BACKGROUND }]}>
             <View style={styles.container}>
                 <View style={styles.actionContainer}>
                     <View style={styles.actionContainerComponent} >
@@ -39,7 +41,7 @@ export default function EditProfile({ navigation }: EditProfileProps) {
                             onPress={() => navigation.goBack()}
                             size={42}
                         >
-                            <GoBack />
+                            <GoBack fill={theme.TERTIARY} />
                         </IconButton>
                     </View>
                     <SmallLogo />
@@ -47,14 +49,14 @@ export default function EditProfile({ navigation }: EditProfileProps) {
                 </View>
                 <View style={styles.mainContainer}>
                     <View style={styles.sectionTitleContainer}>
-                        <Text style={styles.sectionTitle}>
+                        <Text style={[styles.sectionTitle, { color: theme.TERTIARY }]}>
                             <FormattedMessage
                                 defaultMessage='Edit Your Profile'
                                 id='views.home.profile.edit-profile.title'
                             />
                         </Text>
                     </View>
-                    <View style={styles.optionsContainer}>
+                    <View style={[styles.optionsContainer, { backgroundColor: theme.LIGHT_HINT }]}>
                         <SubmitButton
                             label={
                                 <FormattedMessage
@@ -64,7 +66,7 @@ export default function EditProfile({ navigation }: EditProfileProps) {
                             }
                             onPress={() => navigation.navigate(SCREENS.HOME.EDIT_EMAIL.ID)}
                             mode='option'
-                            icon={<Email />}
+                            icon={<Email stroke={theme.TERTIARY} />}
                             activeOpacity={0.5}
                         />
                         <SubmitButton
@@ -76,7 +78,7 @@ export default function EditProfile({ navigation }: EditProfileProps) {
                             }
                             onPress={() => navigation.navigate(SCREENS.HOME.EDIT_PASSWORD.ID)}
                             mode='option'
-                            icon={<Password />}
+                            icon={<Password stroke={theme.TERTIARY} />}
                             activeOpacity={0.5}
                         />
                         <SubmitButton
@@ -88,7 +90,7 @@ export default function EditProfile({ navigation }: EditProfileProps) {
                             }
                             onPress={() => navigation.navigate(SCREENS.HOME.EDIT_PERSONAL_INFO.ID)}
                             mode='option'
-                            icon={<Id />}
+                            icon={<Id stroke={theme.TERTIARY} />}
                             activeOpacity={0.5}
                         />
                         <SubmitButton
@@ -100,7 +102,7 @@ export default function EditProfile({ navigation }: EditProfileProps) {
                             }
                             onPress={() => navigation.navigate(SCREENS.HOME.EDIT_PICTURE.ID)}
                             mode='option'
-                            icon={<Picture />}
+                            icon={<Picture stroke={theme.TERTIARY} />}
                             activeOpacity={0.5}
                         />
                     </View>
@@ -113,7 +115,6 @@ export default function EditProfile({ navigation }: EditProfileProps) {
 const styles = StyleSheet.create({
     root: {
         flex: 1,
-        backgroundColor: colors.LIGHT_COLORS.BACKGROUND,
     },
     container: {
         flex: 1,
@@ -129,7 +130,6 @@ const styles = StyleSheet.create({
     },
     sectionTitle: {
         ...typography.FONT_BOLD,
-        color: colors.LIGHT_COLORS.TERTIARY,
         fontSize: typography.FONT_SIZE_32,
         fontWeight: typography.FONT_WEIGHT_BOLD,
     },
@@ -140,7 +140,6 @@ const styles = StyleSheet.create({
         alignItems: 'center',
     },
     optionsContainer: {
-        backgroundColor: colors.LIGHT_COLORS.LIGHT_HINT,
         borderRadius: constants.BORDER_RADIUS.BOTTOM_SHEET,
         marginVertical: spacing.SCALE_40,
         justifyContent: 'center',

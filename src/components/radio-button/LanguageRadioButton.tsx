@@ -5,21 +5,23 @@ import {
     View,
 } from 'react-native'
 import React, { useContext, useState } from 'react'
-import { colors, spacing } from 'styles';
+import { spacing } from 'styles';
 import { LangContext } from '../../lang/LangProvider';
 import { FormattedMessage } from 'react-intl';
-import { LanguageEntry } from '@views/authenticated/sub-views/app-settings/AppSettings';
+import { Entry } from '@views/authenticated/sub-views/app-settings/AppSettings';
 import { languagesCodes } from 'lang/constants';
+import { themeContext } from 'store/themeContext';
 
 type LanguageObject = {
     [key: string]: () => JSX.Element;
 };
 
 type RadioButtonProps = {
-    values: LanguageEntry[];
+    values: Entry[];
 }
 
-export default function RadioButton({ values }: RadioButtonProps) {
+export default function LanguageRadioButton({ values }: RadioButtonProps) {
+    const theme = useContext(themeContext);
     const [language, setLanguage] = useContext(LangContext);
     const [value, setValue] = useState<string>(languagesCodes[language]);
     const languageTranslation: LanguageObject = {
@@ -43,14 +45,14 @@ export default function RadioButton({ values }: RadioButtonProps) {
                 return (
                     <View key={res.key} style={styles.container}>
                         <TouchableOpacity
-                            style={styles.radioCircle}
+                            style={[styles.radioCircle, { borderColor: theme.TERTIARY }]}
                             onPress={() => {
                                 setLanguage(res.value)
                                 setValue(res.key);
                             }}>
-                            {value === res.key && <View style={styles.selectedRb} />}
+                            {value === res.key && <View style={[styles.selectedRb, { backgroundColor: theme.TERTIARY }]} />}
                         </TouchableOpacity>
-                        <Text style={styles.radioText}>
+                        <Text style={[styles.radioText, { color: theme.TERTIARY }]}>
                             {languageTranslation[res.key]()}
                         </Text>
                     </View>
@@ -71,7 +73,6 @@ const styles = StyleSheet.create({
     radioText: {
         marginRight: 35,
         fontSize: 20,
-        color: '#ffff',
         fontWeight: '700'
     },
     radioCircle: {
@@ -79,7 +80,6 @@ const styles = StyleSheet.create({
         width: 30,
         borderRadius: 100,
         borderWidth: 2,
-        borderColor: colors.LIGHT_COLORS.PRIMARY,
         alignItems: 'center',
         justifyContent: 'center',
     },
@@ -87,6 +87,5 @@ const styles = StyleSheet.create({
         width: 15,
         height: 15,
         borderRadius: 50,
-        backgroundColor: colors.LIGHT_COLORS.PRIMARY,
     },
 });

@@ -12,7 +12,7 @@ import { RootStackParamList } from '../../navigation/Navigation';
 import { useContext, useEffect, useRef, useState } from 'react';
 import { AuthContext } from '../../navigation/AuthProvider';
 import SubmitButton from 'components/buttons/submit-button';
-import { colors, spacing, typography } from 'styles';
+import { spacing, typography } from 'styles';
 import IconButton from 'components/buttons/icon-button';
 
 import GoBack from 'assets/icons/Go-back.svg';
@@ -25,6 +25,7 @@ import { yupResolver } from '@hookform/resolvers/yup';
 import { schema } from './validationSchema'
 import TextField from 'components/text-field';
 import { SCREENS } from '@views/navigation/constants';
+import { themeContext } from 'store/themeContext';
 
 type LoginScreenNavigationProp = NativeStackScreenProps<RootStackParamList, 'Login'>;
 
@@ -35,6 +36,7 @@ type LoginProps = {
 export default function Login({ navigation }: LoginProps) {
     const [loading, setLoading] = useState(false);
     const { login } = useContext(AuthContext);
+    const theme = useContext(themeContext);
     const { control, handleSubmit, setError, formState: { errors } } = useForm({
         resolver: yupResolver(schema)
     });
@@ -120,7 +122,7 @@ export default function Login({ navigation }: LoginProps) {
     };
 
     return (
-        <SafeAreaView style={styles.root}>
+        <SafeAreaView style={[styles.root, { backgroundColor: theme.BACKGROUND }]}>
             <View style={styles.container}>
                 <View>
                     <View style={styles.actionContainer}>
@@ -129,7 +131,7 @@ export default function Login({ navigation }: LoginProps) {
                                 onPress={() => navigation.goBack()}
                                 size={42}
                             >
-                                <GoBack />
+                                <GoBack fill={theme.TERTIARY} />
                             </IconButton>
                         </View>
                         <Animated.View style={{ transform: [{ scale: scaleValue }, { translateY: translateYValue }] }}>
@@ -139,13 +141,13 @@ export default function Login({ navigation }: LoginProps) {
                     </View>
                     <Animated.View style={[styles.textContainer, { transform: [{ translateY: translateYValue }] }]}>
                         <Animated.View style={styles.textContainer}>
-                            <Text style={styles.title}>
+                            <Text style={[styles.title, { color: theme.TERTIARY }]}>
                                 <FormattedMessage
                                     defaultMessage='Login'
                                     id='views.auth.login.login'
                                 />
                             </Text>
-                            <Text style={styles.subTitle}>
+                            <Text style={[styles.subTitle, { color: theme.TERTIARY }]}>
                                 <FormattedMessage
                                     defaultMessage='Hi there! Please provide us with your information so we can personalize your experience.'
                                     id='views.auth.login.subtitle'
@@ -175,7 +177,7 @@ export default function Login({ navigation }: LoginProps) {
                                             onChangeText={onChange}
                                             error={errors.email}
                                         >
-                                            <Email />
+                                            <Email stroke={theme.TERTIARY} />
                                         </TextField>
 
                                     )
@@ -211,7 +213,7 @@ export default function Login({ navigation }: LoginProps) {
                                             error={errors.password}
                                             password
                                         >
-                                            <Password />
+                                            <Password stroke={theme.TERTIARY} />
                                         </TextField>
                                     )
                                 }}
@@ -253,7 +255,6 @@ const styles = StyleSheet.create({
         paddingHorizontal: spacing.SCALE_18,
         paddingVertical: spacing.SCALE_18,
         justifyContent: 'space-between',
-        backgroundColor: colors.LIGHT_COLORS.BACKGROUND,
     },
     actionContainer: {
         flexDirection: 'row',
@@ -269,7 +270,6 @@ const styles = StyleSheet.create({
         ...typography.FONT_BOLD,
         fontWeight: typography.FONT_WEIGHT_BOLD,
         fontSize: typography.FONT_SIZE_24,
-        color: colors.LIGHT_COLORS.TERTIARY,
         textAlign: 'center',
         marginTop: spacing.SCALE_4
     },
@@ -277,7 +277,6 @@ const styles = StyleSheet.create({
         ...typography.FONT_REGULAR,
         fontWeight: typography.FONT_WEIGHT_REGULAR,
         fontSize: typography.FONT_SIZE_12,
-        color: colors.LIGHT_COLORS.TERTIARY,
         textAlign: 'center',
     },
     mainContent: {

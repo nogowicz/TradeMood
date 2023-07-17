@@ -4,11 +4,12 @@ import {
     StyleSheet,
     View,
 } from 'react-native'
-import { Dispatch, ReactNode, SetStateAction } from 'react'
+import { Dispatch, ReactNode, SetStateAction, useContext } from 'react'
 
-import { colors, constants, spacing, typography } from '../../../styles';
+import { constants, spacing, typography } from '../../../styles';
 
 import GoForward from '../../../assets/icons/Go-forward.svg';
+import { themeContext } from 'store/themeContext';
 
 
 type SubmitButtonProps = {
@@ -30,18 +31,19 @@ export default function SubmitButton({
     mode,
     icon
 }: SubmitButtonProps) {
+    const theme = useContext(themeContext);
     if (mode === 'submit') {
         return (
             <TouchableOpacity
                 activeOpacity={activeOpacity}
                 onPress={disabled ? null : onPress}
-                style={[styles.container, disabled ? styles.disabled : {}]}
+                style={[styles.container, { backgroundColor: theme.TERTIARY }, disabled ? styles.disabled : {}]}
             >
                 <View style={styles.actionLeftContainer} />
-                <Text style={[styles.label]}>{label}</Text>
+                <Text style={[styles.label, { color: theme.BACKGROUND }]}>{label}</Text>
                 <View style={styles.actionRightContainer}>
                     {isChevronDisplayed ?
-                        <GoForward style={{ color: colors.LIGHT_COLORS.BACKGROUND }} /> : null}
+                        <GoForward style={{ color: theme.BACKGROUND }} /> : null}
                 </View>
             </TouchableOpacity>
         );
@@ -53,7 +55,7 @@ export default function SubmitButton({
                 style={[styles.optionContainer, disabled ? styles.disabled : {}]}
             >
                 {icon}
-                <Text style={[styles.optionLabel]}>{label}</Text>
+                <Text style={[styles.optionLabel, { color: theme.TERTIARY }]}>{label}</Text>
             </TouchableOpacity>
         );
 
@@ -67,7 +69,7 @@ export default function SubmitButton({
             <Text style={[styles.label]}>{label}</Text>
             <View style={styles.actionRightContainer}>
                 {isChevronDisplayed ?
-                    <GoForward style={{ color: colors.LIGHT_COLORS.BACKGROUND }} /> : null}
+                    <GoForward style={{ color: theme.BACKGROUND }} /> : null}
             </View>
         </TouchableOpacity>
     )
@@ -77,7 +79,6 @@ export default function SubmitButton({
 
 const styles = StyleSheet.create({
     container: {
-        backgroundColor: colors.LIGHT_COLORS.TERTIARY,
         flexDirection: 'row',
         justifyContent: 'space-between',
         alignItems: 'center',
@@ -90,12 +91,10 @@ const styles = StyleSheet.create({
         ...typography.FONT_BOLD,
         fontWeight: typography.FONT_WEIGHT_BOLD,
         fontSize: typography.FONT_SIZE_24,
-        color: colors.LIGHT_COLORS.BACKGROUND
     },
     optionLabel: {
         fontWeight: typography.FONT_WEIGHT_BOLD,
         fontSize: typography.FONT_SIZE_18,
-        color: colors.LIGHT_COLORS.TERTIARY,
     },
     actionLeftContainer: {
         flex: 1,

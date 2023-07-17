@@ -1,6 +1,6 @@
 import { Dimensions, StyleSheet, Text, View } from 'react-native'
-import React, { ReactNode, forwardRef, useCallback, useImperativeHandle } from 'react'
-import { colors, constants, spacing } from 'styles'
+import React, { ReactNode, forwardRef, useCallback, useContext, useImperativeHandle } from 'react'
+import { constants, spacing } from 'styles'
 import { GestureDetector, Gesture } from 'react-native-gesture-handler';
 import
 Animated,
@@ -11,6 +11,7 @@ Animated,
     useSharedValue,
     withSpring,
 } from 'react-native-reanimated';
+import { themeContext } from 'store/themeContext';
 
 const {
     height: SCREEN_HEIGHT,
@@ -30,6 +31,7 @@ const BottomSheet = forwardRef<BottomSheetRefProps, BottomSheetProps>(({ childre
     const MAX_TRANSLATE_Y = -SCREEN_HEIGHT + height;
     const translateY = useSharedValue(0);
     const active = useSharedValue(false);
+    const theme = useContext(themeContext);
 
     const isActive = useCallback(() => {
         return active.value;
@@ -80,8 +82,8 @@ const BottomSheet = forwardRef<BottomSheetRefProps, BottomSheetProps>(({ childre
 
     return (
         <GestureDetector gesture={gesture}>
-            <Animated.View style={[styles.bottomSheetContainer, rBottomSheetStyle]}>
-                <View style={styles.line} />
+            <Animated.View style={[styles.bottomSheetContainer, rBottomSheetStyle, { backgroundColor: theme.LIGHT_HINT }]}>
+                <View style={[styles.line, { backgroundColor: theme.HINT }]} />
                 {children}
             </Animated.View>
         </GestureDetector>
@@ -95,7 +97,6 @@ const styles = StyleSheet.create({
     bottomSheetContainer: {
         height: SCREEN_HEIGHT,
         width: SCREEN_WIDTH,
-        backgroundColor: colors.LIGHT_COLORS.TERTIARY,
         position: 'absolute',
         top: SCREEN_HEIGHT,
         borderRadius: constants.BORDER_RADIUS.BOTTOM_SHEET,
@@ -103,7 +104,6 @@ const styles = StyleSheet.create({
     line: {
         width: 75,
         height: 4,
-        backgroundColor: colors.LIGHT_COLORS.HINT,
         alignSelf: 'center',
         marginVertical: spacing.SCALE_16,
         borderRadius: constants.BORDER_RADIUS.BOTTOM_SHEET,

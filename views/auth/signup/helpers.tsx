@@ -15,11 +15,11 @@ import { Controller, FieldValues, SubmitHandler, useForm } from "react-hook-form
 import TextField from "components/text-field";
 import { yupResolver } from "@hookform/resolvers/yup";
 import { schema } from './validationSchema';
-import { Alert, GestureResponderEvent, TouchableOpacity, View } from "react-native";
+import { GestureResponderEvent, TouchableOpacity, View } from "react-native";
 import { spacing } from "styles";
 import { AuthContext } from "@views/navigation/AuthProvider";
 import ProfileImagePicker from "components/profile-image-picker";
-import { SCREENS } from "@views/navigation/constants";
+import { themeContext } from "store/themeContext";
 
 type PrepareSignupPagesType = {
     navigation: SignupScreenNavigationProp;
@@ -47,7 +47,7 @@ export function prepareSignupPages({
     const { control, handleSubmit, setError, formState: { errors } } = useForm({
         resolver: yupResolver(schema)
     });
-
+    const theme = useContext(themeContext);
 
     const onSubmit: SubmitHandler<FieldValues> = async ({ firstName, lastName, email, password, confirmPassword }) => {
         setLoading(true);
@@ -105,7 +105,7 @@ export function prepareSignupPages({
                     }}
                     size={42}
                 >
-                    <GoBack />
+                    <GoBack fill={theme.TERTIARY} />
                 </IconButton>
             ),
             logo: (
@@ -142,7 +142,7 @@ export function prepareSignupPages({
                                     onChangeText={onChange}
                                     error={errors.email}
                                 >
-                                    <Email />
+                                    <Email stroke={theme.TERTIARY} />
                                 </TextField>
 
                             )
@@ -169,7 +169,7 @@ export function prepareSignupPages({
                                     error={errors.password}
                                     password
                                 >
-                                    <Password />
+                                    <Password stroke={theme.TERTIARY} />
                                 </TextField>
                             )
                         }}
@@ -196,7 +196,7 @@ export function prepareSignupPages({
                                     error={errors.confirmPassword}
                                     password
                                 >
-                                    <Password />
+                                    <Password stroke={theme.TERTIARY} />
                                 </TextField>
                             )
                         }}
@@ -220,7 +220,7 @@ export function prepareSignupPages({
                     onPress={handleBack}
                     size={42}
                 >
-                    <GoBack />
+                    <GoBack fill={theme.TERTIARY} />
                 </IconButton>
             ),
             logo: (
@@ -262,7 +262,7 @@ export function prepareSignupPages({
                                     onChangeText={onChange}
                                     error={errors.firstName}
                                 >
-                                    <Person />
+                                    <Person stroke={theme.TERTIARY} />
                                 </TextField>
 
                             )
@@ -288,7 +288,7 @@ export function prepareSignupPages({
                                     onChangeText={onChange}
                                     error={errors.lastName}
                                 >
-                                    <Person />
+                                    <Person stroke={theme.TERTIARY} />
                                 </TextField>
                             )
                         }}
@@ -311,7 +311,7 @@ export function prepareSignupPages({
                 <IconButton
                     onPress={handleBack}
                     size={42}>
-                    <GoBack />
+                    <GoBack fill={theme.TERTIARY} />
                 </IconButton>
             ),
             logo: (

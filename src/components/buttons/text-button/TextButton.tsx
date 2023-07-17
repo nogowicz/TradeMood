@@ -3,10 +3,11 @@ import {
     Text,
     StyleSheet,
 } from 'react-native'
-import { ReactNode } from 'react'
+import { ReactNode, useContext } from 'react'
 
 
-import { colors, constants, spacing, typography } from '../../../styles';
+import { spacing, typography } from '../../../styles';
+import { themeContext } from 'store/themeContext';
 
 type TextButtonProps = {
     label: ReactNode,
@@ -19,13 +20,14 @@ export default function TextButton({
     activeOpacity = 0.75,
     onPress,
 }: TextButtonProps) {
+    const theme = useContext(themeContext);
     return (
         <TouchableOpacity
             activeOpacity={activeOpacity}
             onPress={onPress}
             style={styles.container}
         >
-            <Text style={[styles.label]}>{label}</Text>
+            <Text style={[styles.label, { color: theme.HINT }]}>{label}</Text>
         </TouchableOpacity>
     );
 }
@@ -37,6 +39,5 @@ const styles = StyleSheet.create({
     label: {
         fontSize: typography.FONT_SIZE_16,
         fontWeight: typography.FONT_WEIGHT_SEMI_BOLD,
-        color: colors.LIGHT_COLORS.HINT
     },
 });

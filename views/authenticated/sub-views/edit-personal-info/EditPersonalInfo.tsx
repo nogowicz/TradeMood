@@ -16,11 +16,12 @@ import TextField from 'components/text-field';
 import { yupResolver } from '@hookform/resolvers/yup';
 import { AuthContext } from '@views/navigation/AuthProvider';
 import SubmitButton from 'components/buttons/submit-button';
-import { spacing, colors, typography } from 'styles';
+import { spacing, typography } from 'styles';
 import { schema } from '../edit-personal-info/validationSchema';
 import GoBack from 'assets/icons/Go-back.svg'
 import SmallLogo from 'assets/logo/logo-smaller.svg'
 import Person from 'assets/icons/Person.svg'
+import { themeContext } from 'store/themeContext';
 
 type EditPersonalInfoScreenNavigationProp = NativeStackScreenProps<RootStackParamList, 'EditPersonalInfo'>;
 
@@ -32,6 +33,7 @@ export default function EditPersonalInfo({ navigation }: EditPersonalInfoProps) 
     const [loading, setLoading] = useState(false);
     const [messageVisible, setMessageVisible] = useState(false);
     const { updatePersonalData } = useContext(AuthContext);
+    const theme = useContext(themeContext);
     const { control, handleSubmit, setError, formState: { errors } } = useForm({
         resolver: yupResolver(schema)
     });
@@ -113,7 +115,7 @@ export default function EditPersonalInfo({ navigation }: EditPersonalInfoProps) 
         ]).start();
     };
     return (
-        <SafeAreaView style={styles.root}>
+        <SafeAreaView style={[styles.root, { backgroundColor: theme.BACKGROUND }]}>
             <View style={styles.container}>
                 <View>
                     <View style={styles.actionContainer}>
@@ -122,7 +124,7 @@ export default function EditPersonalInfo({ navigation }: EditPersonalInfoProps) 
                                 onPress={() => navigation.goBack()}
                                 size={42}
                             >
-                                <GoBack />
+                                <GoBack fill={theme.TERTIARY} />
                             </IconButton>
                         </View>
                         <Animated.View style={{ transform: [{ scale: scaleValue }, { translateY: translateYValue }] }}>
@@ -132,13 +134,13 @@ export default function EditPersonalInfo({ navigation }: EditPersonalInfoProps) 
                     </View>
                     <Animated.View style={[styles.textContainer, { transform: [{ translateY: translateYValue }] }]}>
                         <Animated.View style={styles.textContainer}>
-                            <Text style={styles.title}>
+                            <Text style={[styles.title, { color: theme.TERTIARY }]}>
                                 <FormattedMessage
                                     defaultMessage='Edit Your Personal Info'
                                     id='views.home.profile.edit-personal-info.title'
                                 />
                             </Text>
-                            <Text style={styles.subTitle}>
+                            <Text style={[styles.subTitle, { color: theme.TERTIARY }]}>
                                 <FormattedMessage
                                     defaultMessage='Please provide us with your first and last name'
                                     id='views.home.profile.edit-personal-info.subtitle'
@@ -168,7 +170,7 @@ export default function EditPersonalInfo({ navigation }: EditPersonalInfoProps) 
                                             onChangeText={onChange}
                                             error={errors.firstName}
                                         >
-                                            <Person />
+                                            <Person stroke={theme.TERTIARY} />
                                         </TextField>
 
                                     )
@@ -197,7 +199,7 @@ export default function EditPersonalInfo({ navigation }: EditPersonalInfoProps) 
                                             onChangeText={onChange}
                                             error={errors.lastName}
                                         >
-                                            <Person />
+                                            <Person stroke={theme.TERTIARY} />
                                         </TextField>
 
                                     )
@@ -206,7 +208,7 @@ export default function EditPersonalInfo({ navigation }: EditPersonalInfoProps) 
 
                             {messageVisible &&
                                 <Text
-                                    style={[styles.subTitle]}
+                                    style={[styles.subTitle, { color: theme.TERTIARY }]}
                                 >
                                     <FormattedMessage
                                         defaultMessage='Your data has been updated successfully.'
@@ -248,7 +250,6 @@ const styles = StyleSheet.create({
         paddingHorizontal: spacing.SCALE_18,
         paddingVertical: spacing.SCALE_18,
         justifyContent: 'space-between',
-        backgroundColor: colors.LIGHT_COLORS.BACKGROUND,
     },
     actionContainer: {
         flexDirection: 'row',
@@ -264,7 +265,6 @@ const styles = StyleSheet.create({
         ...typography.FONT_BOLD,
         fontWeight: typography.FONT_WEIGHT_BOLD,
         fontSize: typography.FONT_SIZE_24,
-        color: colors.LIGHT_COLORS.TERTIARY,
         textAlign: 'center',
         marginTop: spacing.SCALE_4
     },
@@ -272,7 +272,6 @@ const styles = StyleSheet.create({
         ...typography.FONT_REGULAR,
         fontWeight: typography.FONT_WEIGHT_REGULAR,
         fontSize: typography.FONT_SIZE_12,
-        color: colors.LIGHT_COLORS.TERTIARY,
         textAlign: 'center',
     },
     mainContent: {

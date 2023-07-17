@@ -8,7 +8,7 @@ import React, { useContext, useEffect, useRef, useState } from "react";
 import { Controller, FieldValues, SubmitHandler, useForm } from "react-hook-form";
 import { FormattedMessage } from "react-intl";
 import { Animated, Keyboard, SafeAreaView, StyleSheet, Text, View } from "react-native";
-import { spacing, colors, typography } from "styles";
+import { spacing, typography } from "styles";
 
 import GoBack from 'assets/icons/Go-back.svg';
 import SmallLogo from 'assets/logo/logo-smaller.svg';
@@ -16,6 +16,7 @@ import Email from 'assets/icons/Email.svg';
 import { yupResolver } from "@hookform/resolvers/yup";
 import { AuthContext } from "@views/navigation/AuthProvider";
 import { schema } from "./validationSchema"
+import { themeContext } from "store/themeContext";
 
 type ForgotPasswordScreenNavigationProp = NativeStackScreenProps<RootStackParamList, 'ForgotPassword'>;
 
@@ -28,6 +29,7 @@ export default function ForgotPassword({ navigation }: ForgotPasswordProps) {
     const [loading, setLoading] = useState(false);
     const [messageVisible, setMessageVisible] = useState(false);
     const { resetPassword } = useContext(AuthContext);
+    const theme = useContext(themeContext);
     const { control, handleSubmit, setError, formState: { errors } } = useForm({
         resolver: yupResolver(schema)
     });
@@ -113,7 +115,7 @@ export default function ForgotPassword({ navigation }: ForgotPasswordProps) {
     };
 
     return (
-        <SafeAreaView style={styles.root}>
+        <SafeAreaView style={[styles.root, { backgroundColor: theme.BACKGROUND }]}>
             <View style={styles.container}>
                 <View>
                     <View style={styles.actionContainer}>
@@ -122,7 +124,7 @@ export default function ForgotPassword({ navigation }: ForgotPasswordProps) {
                                 onPress={() => navigation.goBack()}
                                 size={42}
                             >
-                                <GoBack />
+                                <GoBack fill={theme.TERTIARY} />
                             </IconButton>
                         </View>
                         <Animated.View style={{ transform: [{ scale: scaleValue }, { translateY: translateYValue }] }}>
@@ -132,13 +134,13 @@ export default function ForgotPassword({ navigation }: ForgotPasswordProps) {
                     </View>
                     <Animated.View style={[styles.textContainer, { transform: [{ translateY: translateYValue }] }]}>
                         <Animated.View style={styles.textContainer}>
-                            <Text style={styles.title}>
+                            <Text style={[styles.title, { color: theme.TERTIARY }]}>
                                 <FormattedMessage
                                     defaultMessage='Password Reset'
                                     id='views.auth.forgot-password.title'
                                 />
                             </Text>
-                            <Text style={styles.subTitle}>
+                            <Text style={[styles.subTitle, , { color: theme.TERTIARY }]}>
                                 <FormattedMessage
                                     defaultMessage='Please provide us with your email address, and we will send you the link necessary to create a new password.'
                                     id='views.auth.forgot-password.subtitle'
@@ -168,7 +170,7 @@ export default function ForgotPassword({ navigation }: ForgotPasswordProps) {
                                             onChangeText={onChange}
                                             error={errors.email}
                                         >
-                                            <Email />
+                                            <Email stroke={theme.TERTIARY} />
                                         </TextField>
 
                                     )
@@ -177,7 +179,7 @@ export default function ForgotPassword({ navigation }: ForgotPasswordProps) {
 
                             {messageVisible &&
                                 <Text
-                                    style={[styles.subTitle]}
+                                    style={[styles.subTitle, { color: theme.TERTIARY }]}
                                 >
                                     <FormattedMessage
                                         defaultMessage='The link to change your password has been sent to your email address.'
@@ -222,7 +224,6 @@ const styles = StyleSheet.create({
         paddingHorizontal: spacing.SCALE_18,
         paddingVertical: spacing.SCALE_18,
         justifyContent: 'space-between',
-        backgroundColor: colors.LIGHT_COLORS.BACKGROUND,
     },
     actionContainer: {
         flexDirection: 'row',
@@ -238,7 +239,6 @@ const styles = StyleSheet.create({
         ...typography.FONT_BOLD,
         fontWeight: typography.FONT_WEIGHT_BOLD,
         fontSize: typography.FONT_SIZE_24,
-        color: colors.LIGHT_COLORS.TERTIARY,
         textAlign: 'center',
         marginTop: spacing.SCALE_4
     },
@@ -246,7 +246,6 @@ const styles = StyleSheet.create({
         ...typography.FONT_REGULAR,
         fontWeight: typography.FONT_WEIGHT_REGULAR,
         fontSize: typography.FONT_SIZE_12,
-        color: colors.LIGHT_COLORS.TERTIARY,
         textAlign: 'center',
     },
     mainContent: {
