@@ -84,7 +84,6 @@ export default function Profile({ navigation }: ProfileProps) {
                             mode='option'
                             icon={<EditProfile
                                 stroke={theme.TERTIARY}
-                                fill={theme.BACKGROUND}
                             />}
                             activeOpacity={0.5}
                         />
