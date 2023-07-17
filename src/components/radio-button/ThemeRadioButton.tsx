@@ -46,7 +46,7 @@ export default function ThemeRadioButton({ values }: RadioButtonProps) {
                 defaultMessage='Light'
                 id='views.home.profile.app-settings.theme.light'
             />
-        )
+        ),
     }
 
     return (

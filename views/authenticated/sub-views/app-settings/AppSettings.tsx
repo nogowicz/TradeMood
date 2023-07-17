@@ -2,13 +2,11 @@ import {
     SafeAreaView,
     StyleSheet,
     Text,
-    TouchableOpacity,
     View,
 } from 'react-native'
 import React, { useCallback, useContext, useRef } from 'react'
 import { NativeStackScreenProps } from '@react-navigation/native-stack';
 import { RootStackParamList } from '@views/navigation/Navigation';
-import { SCREENS } from '@views/navigation/constants';
 import IconButton from 'components/buttons/icon-button';
 import SubmitButton from 'components/buttons/submit-button';
 import { FormattedMessage } from 'react-intl';
@@ -74,7 +72,7 @@ export default function AppSettings({ navigation }: AppSettingsProps) {
 
     const themesEntry = {
         Dark: true,
-        Light: false
+        Light: false,
     }
 
     const themesArray = Object.entries(themesEntry).map(([key, value]) => ({ key, value }));

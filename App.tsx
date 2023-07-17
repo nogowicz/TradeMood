@@ -1,8 +1,7 @@
-import React, { useContext, useEffect, useState } from 'react';
-import { StatusBar } from 'react-native'
+import React, { useEffect, useState } from 'react';
+import { StatusBar, Appearance } from 'react-native'
 import SplashScreen from 'react-native-splash-screen';
 import LangProvider, { LangModeProvider } from './src/lang/LangProvider';
-import { colors } from './src/styles';
 import Routes from './views/navigation';
 import { GestureHandlerRootView } from 'react-native-gesture-handler';
 import { checkNotificationPermission, notificationListener } from 'helpers/pushNotificationHelper';
@@ -12,8 +11,8 @@ import { theme } from 'styles/colors';
 import { getItem } from 'utils/asyncStorage';
 
 function App() {
-  const [themeMode, setThemeMode] = useState(Boolean(getItem('theme') ?? false));
-  const themeCtx = useContext(themeContext);
+  const colorScheme = Appearance.getColorScheme();
+  const [themeMode, setThemeMode] = useState(Boolean(getItem('theme') ?? (colorScheme === "dark" ? true : false)));
   useEffect(() => {
     let eventListener = EventRegister.addEventListener(
       "changeTheme",
@@ -33,6 +32,7 @@ function App() {
     SplashScreen.hide();
     checkNotificationPermission();
     notificationListener();
+    console.log(colorScheme)
   }, []);
 
   return (
