@@ -140,7 +140,7 @@ export default function AppSettings({ navigation }: AppSettingsProps) {
                     </View>
                 </View>
             </View>
-            <BottomSheet ref={refLang}>
+            <BottomSheet ref={refLang} height={500}>
                 <Text style={[styles.bottomSheetTitleText, { color: theme.TERTIARY }]}>
                     <FormattedMessage
                         defaultMessage='Choose Language'
@@ -150,7 +150,7 @@ export default function AppSettings({ navigation }: AppSettingsProps) {
                 <LanguageRadioButton values={langArray} />
             </BottomSheet>
 
-            <BottomSheet ref={refTheme}>
+            <BottomSheet ref={refTheme} height={500}>
                 <Text style={[styles.bottomSheetTitleText, { color: theme.TERTIARY }]}>
                     <FormattedMessage
                         defaultMessage='Choose Theme'
