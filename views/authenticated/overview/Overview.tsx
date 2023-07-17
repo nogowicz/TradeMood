@@ -138,7 +138,6 @@ export default function Overview({ navigation }: OverviewProps) {
 const styles = StyleSheet.create({
     root: {
         flex: 1,
-        // backgroundColor: colors.LIGHT_COLORS.BACKGROUND,
     },
     container: {
         flex: 1,

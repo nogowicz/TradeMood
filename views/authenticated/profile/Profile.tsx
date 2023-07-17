@@ -110,7 +110,7 @@ export default function Profile({ navigation }: ProfileProps) {
                             onPress={() => navigation.navigate(SCREENS.HOME.ABOUT_US.ID)}
                             mode='option'
                             icon={<About
-                                fill={theme.TERTIARY}
+                                stroke={theme.TERTIARY}
                             />}
                             activeOpacity={0.5}
                         />

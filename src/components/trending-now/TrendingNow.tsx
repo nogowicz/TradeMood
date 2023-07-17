@@ -34,7 +34,7 @@ export default function TrendingNow({ name, title, positive, neutral, negative, 
         },
         {
             percentage: neutral,
-            color: theme.LIGHT_HINT
+            color: theme.HINT
         },
     ]
     return (
@@ -86,7 +86,7 @@ export default function TrendingNow({ name, title, positive, neutral, negative, 
                     </View>
 
                     <View style={styles.legendContainer}>
-                        <View style={[styles.dot, { backgroundColor: theme.LIGHT_HINT }]} />
+                        <View style={[styles.dot, { backgroundColor: theme.HINT }]} />
                         <View>
                             <Text style={[styles.buttonText, , { color: theme.TERTIARY }]}>{neutral}%</Text>
                             <Text style={{ color: theme.HINT }}>

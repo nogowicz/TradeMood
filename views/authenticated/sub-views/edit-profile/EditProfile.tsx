@@ -90,7 +90,7 @@ export default function EditProfile({ navigation }: EditProfileProps) {
                             }
                             onPress={() => navigation.navigate(SCREENS.HOME.EDIT_PERSONAL_INFO.ID)}
                             mode='option'
-                            icon={<Id fill={theme.TERTIARY} />}
+                            icon={<Id stroke={theme.TERTIARY} />}
                             activeOpacity={0.5}
                         />
                         <SubmitButton
