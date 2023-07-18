@@ -3,6 +3,7 @@ import {
     Text,
     TouchableOpacity,
     View,
+    Appearance,
 } from 'react-native'
 import React, { useContext, useEffect, useState } from 'react'
 import { spacing } from 'styles';
@@ -22,17 +23,21 @@ type RadioButtonProps = {
 export default function ThemeRadioButton({ values }: RadioButtonProps) {
     const theme = useContext(themeContext);
     const [themeMode, setThemeMode] = useState<boolean>();
+    const colorScheme = Appearance.getColorScheme();
 
     useEffect(() => {
         const fetchThemeMode = async () => {
-            await getItem('theme').then((storedTheme) => {
-                console.log(storedTheme)
+            const storedTheme = await getItem('theme');
+            if (storedTheme) {
                 setThemeMode(storedTheme === "false" ? false : true);
-            })
+            } else {
+                setThemeMode(colorScheme === "dark" ? false : true);
+            }
         };
 
         fetchThemeMode();
     }, []);
+
 
     const themeTranslation: ThemeObject = {
         "Dark": () => (
