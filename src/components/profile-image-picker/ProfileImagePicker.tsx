@@ -37,7 +37,7 @@ export default function ProfileImagePicker({
                     url={imageUrl}
                 />
             ) : (
-                <AddPhoto stroke={theme.TERTIARY} height={size} width={size} />
+                <AddPhoto stroke={theme.TERTIARY} height={size} width={size} strokeWidth={3} />
             )}
         </TouchableOpacity>
     );
