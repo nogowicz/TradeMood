@@ -248,7 +248,7 @@ export default function EditPicture({ navigation }: EditPictureProps) {
                                         onPress={uploadImage}
                                         size={80}
                                     >
-                                        <Gallery stroke={theme.TERTIARY} />
+                                        <Gallery stroke={theme.TERTIARY} strokeWidth={1.5} />
                                     </IconButton>
                                     <Text style={[styles.iconButtonBottomSheetText, { color: theme.TERTIARY }]}>
                                         <FormattedMessage
@@ -263,7 +263,7 @@ export default function EditPicture({ navigation }: EditPictureProps) {
                                         onPress={takePhoto}
                                         size={80}
                                     >
-                                        <Camera stroke={theme.TERTIARY} />
+                                        <Camera stroke={theme.TERTIARY} strokeWidth={1.5} />
                                     </IconButton>
                                     <Text style={[styles.iconButtonBottomSheetText, { color: theme.TERTIARY }]}>
                                         <FormattedMessage
@@ -278,7 +278,7 @@ export default function EditPicture({ navigation }: EditPictureProps) {
                                             onPress={deleteImage}
                                             size={80}
                                         >
-                                            <DeletePhoto />
+                                            <DeletePhoto strokeWidth={1.5} />
                                         </IconButton>
                                         <Text
                                             style={[

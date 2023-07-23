@@ -32,3 +32,18 @@ export async function clearAsyncStorage() {
     console.log('Error occured while clearing AsyncStorage:', error);
   }
 }
+
+export async function handleLogout(array: string[]) {
+  try {
+    for (let item in array) {
+      await AsyncStorage.removeItem(item).then(() =>
+        console.log('Deleted', item),
+      );
+    }
+  } catch (error) {
+    console.log(
+      'Error occurred while removing items from AsyncStorage:',
+      error,
+    );
+  }
+}

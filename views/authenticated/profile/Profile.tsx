@@ -16,8 +16,10 @@ import EditProfile from 'assets/icons/Edit-profile.svg';
 import Logout from 'assets/icons/Logout.svg'
 import Settings from 'assets/icons/Settings.svg'
 import About from 'assets/icons/About.svg'
+import LogIn from 'assets/icons/Log-in.svg'
+
 import { SCREENS } from '@views/navigation/constants';
-import { clearAsyncStorage } from 'utils/asyncStorage';
+import { handleLogout } from 'utils/asyncStorage';
 import Image from 'components/image';
 import { themeContext } from 'store/themeContext';
 
@@ -73,21 +75,22 @@ export default function Profile({ navigation }: ProfileProps) {
 
 
                     <View style={[styles.optionsContainer, { backgroundColor: theme.LIGHT_HINT }]}>
-                        <SubmitButton
-                            label={
-                                <FormattedMessage
-                                    defaultMessage='Edit Profile'
-                                    id='views.home.profile.edit-profile'
-                                />
-                            }
-                            onPress={() => navigation.navigate(SCREENS.HOME.EDIT_PROFILE.ID)}
-                            mode='option'
-                            icon={<EditProfile
-                                stroke={theme.TERTIARY}
-                                fill={theme.BACKGROUND}
+                        {!user?.isAnonymous &&
+                            <SubmitButton
+                                label={
+                                    <FormattedMessage
+                                        defaultMessage='Edit Profile'
+                                        id='views.home.profile.edit-profile'
+                                    />
+                                }
+                                onPress={() => navigation.navigate(SCREENS.HOME.EDIT_PROFILE.ID)}
+                                mode='option'
+                                icon={<EditProfile
+                                    strokeWidth={1.5}
+                                    stroke={theme.TERTIARY}
+                                />}
+                                activeOpacity={0.5}
                             />}
-                            activeOpacity={0.5}
-                        />
                         <SubmitButton
                             label={
                                 <FormattedMessage
@@ -97,7 +100,10 @@ export default function Profile({ navigation }: ProfileProps) {
                             }
                             onPress={() => navigation.navigate(SCREENS.HOME.APP_SETTINGS.ID)}
                             mode='option'
-                            icon={<Settings stroke={theme.TERTIARY} />}
+                            icon={<Settings
+                                stroke={theme.TERTIARY}
+                                strokeWidth={1.5}
+                            />}
                             activeOpacity={0.5}
                         />
                         <SubmitButton
@@ -110,36 +116,62 @@ export default function Profile({ navigation }: ProfileProps) {
                             onPress={() => navigation.navigate(SCREENS.HOME.ABOUT_US.ID)}
                             mode='option'
                             icon={<About
+                                strokeWidth={1.5}
                                 stroke={theme.TERTIARY}
                             />}
                             activeOpacity={0.5}
                         />
-                        <SubmitButton
-                            label={
-                                <FormattedMessage
-                                    defaultMessage='Logout'
-                                    id='views.home.profile.logout'
-                                />
-                            }
-                            onPress={() => {
-                                logout().then(() => {
-                                    clearAsyncStorage();
-                                    navigation.navigate(SCREENS.AUTH.WELCOME.ID);
+                        {!user?.isAnonymous &&
+                            <SubmitButton
+                                label={
+                                    <FormattedMessage
+                                        defaultMessage='Logout'
+                                        id='views.home.profile.logout'
+                                    />
+                                }
+                                onPress={() => {
+                                    logout().then(() => {
+                                        handleLogout(['instruments', 'fcmToken'])
+                                        navigation.navigate(SCREENS.AUTH.WELCOME.ID);
 
-                                });
-                            }}
-                            mode='option'
-                            icon={<Logout
-                                stroke={theme.TERTIARY}
+                                    });
+                                }}
+                                mode='option'
+                                icon={<Logout
+                                    strokeWidth={1.5}
+                                    stroke={theme.TERTIARY}
+                                />}
+                                activeOpacity={0.5}
                             />}
-                            activeOpacity={0.5}
-                        />
+
+                        {user?.isAnonymous &&
+                            <SubmitButton
+                                label={
+                                    <FormattedMessage
+                                        defaultMessage='Log in or Sign in'
+                                        id='views.home.profile.log-in-or-sign-in'
+                                    />
+                                }
+                                onPress={() => {
+                                    logout().then(() => {
+                                        handleLogout(['instruments', 'fcmToken'])
+                                        navigation.navigate(SCREENS.AUTH.WELCOME.ID);
+
+                                    });
+                                }}
+                                mode='option'
+                                icon={<LogIn
+                                    strokeWidth={1.5}
+                                    stroke={theme.TERTIARY}
+                                />}
+                                activeOpacity={0.5}
+                            />}
                     </View>
                 </View>
             </View>
             <View style={styles.infoTextContainer}>
                 <Text style={[styles.infoText, { color: theme.HINT }]}>TradeMood</Text>
-                <Text style={[styles.infoText, { color: theme.HINT }]}>v1.0.0</Text>
+                <Text style={[styles.infoText, { color: theme.HINT }]}>v1.0.1</Text>
             </View>
         </SafeAreaView>
     )

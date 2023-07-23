@@ -23,6 +23,7 @@ import { InstrumentContext, InstrumentProps } from '@views/navigation/Instrument
 import { FavoritesContext } from '@views/navigation/FavoritesProvider';
 import InstrumentRecord from 'components/instrument-record';
 import { themeContext } from 'store/themeContext';
+import AsyncStorage from '@react-native-async-storage/async-storage';
 
 
 type OverviewScreenNavigationProp = NativeStackScreenProps<RootStackParamList, 'Overview'>;
@@ -41,8 +42,9 @@ export default function Overview({ navigation }: OverviewProps) {
         favoriteCryptoCtx.ids.includes(instrument.id)
     );
     const theme = useContext(themeContext);
-
-
+    useEffect(() => {
+        console.log(favoriteCrypto);
+    }, [])
     return (
         <SafeAreaView style={[styles.root, { backgroundColor: theme.BACKGROUND }]}>
             <View style={styles.container}>
@@ -53,14 +55,14 @@ export default function Overview({ navigation }: OverviewProps) {
                             size={48}
                             backgroundColor={theme.LIGHT_HINT}
                         >
-                            <Search stroke={theme.TERTIARY} />
+                            <Search stroke={theme.TERTIARY} strokeWidth={1.5} />
                         </IconButton>
                         <IconButton
                             onPress={() => navigation.navigate(SCREENS.HOME.NOTIFICATION.ID)}
                             size={48}
                             backgroundColor={theme.LIGHT_HINT}
                         >
-                            <Bell stroke={theme.TERTIARY} />
+                            <Bell stroke={theme.TERTIARY} strokeWidth={1.5} />
                         </IconButton>
                     </View>
                     <ProfileBar
@@ -104,31 +106,32 @@ export default function Overview({ navigation }: OverviewProps) {
 
                         />
                     </View>
-                    <View>
-                        {favoriteCrypto && favoriteCrypto?.length > 0 &&
-                            <Text style={[styles.listTitleText, { color: theme.TERTIARY }]}>
-                                <FormattedMessage
-                                    defaultMessage='Favorites'
-                                    id='views.home.overview.favorites'
-                                />
-                            </Text>
-                        }
-                        {favoriteCrypto && favoriteCrypto.map((instrument: InstrumentProps) => {
-                            return (
-                                <InstrumentRecord
-                                    key={instrument.id}
-                                    crypto={instrument.crypto}
-                                    sentimentDirection={instrument.sentimentDirection}
-                                    sentiment={instrument.sentiment}
-                                    photoUrl={instrument.photoUrl}
-                                    onPress={() => {
-                                        navigation.navigate(SCREENS.HOME.INSTRUMENT_DETAILS.ID, { instrument: instrument } as any);
-                                    }}
-                                />
-                            )
+                    {!user?.isAnonymous &&
+                        <View>
+                            {favoriteCrypto && favoriteCrypto?.length > 0 &&
+                                <Text style={[styles.listTitleText, { color: theme.TERTIARY }]}>
+                                    <FormattedMessage
+                                        defaultMessage='Favorites'
+                                        id='views.home.overview.favorites'
+                                    />
+                                </Text>
+                            }
+                            {favoriteCrypto && favoriteCrypto.map((instrument: InstrumentProps) => {
+                                return (
+                                    <InstrumentRecord
+                                        key={instrument.id}
+                                        crypto={instrument.crypto}
+                                        sentimentDirection={instrument.sentimentDirection}
+                                        sentiment={instrument.sentiment}
+                                        photoUrl={instrument.photoUrl}
+                                        onPress={() => {
+                                            navigation.navigate(SCREENS.HOME.INSTRUMENT_DETAILS.ID, { instrument: instrument } as any);
+                                        }}
+                                    />
+                                )
 
-                        })}
-                    </View>
+                            })}
+                        </View>}
                 </ScrollView>
             </View>
         </SafeAreaView>

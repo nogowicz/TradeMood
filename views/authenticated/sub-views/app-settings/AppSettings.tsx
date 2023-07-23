@@ -2,13 +2,11 @@ import {
     SafeAreaView,
     StyleSheet,
     Text,
-    TouchableOpacity,
     View,
 } from 'react-native'
 import React, { useCallback, useContext, useRef } from 'react'
 import { NativeStackScreenProps } from '@react-navigation/native-stack';
 import { RootStackParamList } from '@views/navigation/Navigation';
-import { SCREENS } from '@views/navigation/constants';
 import IconButton from 'components/buttons/icon-button';
 import SubmitButton from 'components/buttons/submit-button';
 import { FormattedMessage } from 'react-intl';
@@ -41,33 +39,45 @@ export default function AppSettings({ navigation }: AppSettingsProps) {
     const theme = useContext(themeContext);
     const refLang = useRef<BottomSheetRefProps>(null);
     const refTheme = useRef<BottomSheetRefProps>(null);
+    const langSheetOpen = useRef(false);
+    const themeSheetOpen = useRef(false);
+
     const handleShowLangBottomSheet = useCallback(() => {
-        const isActive = refLang?.current?.isActive();
-        if (isActive) {
-            refLang?.current?.scrollTo(0);
+        if (themeSheetOpen.current) {
+            refTheme.current?.scrollTo(0);
+        }
+        langSheetOpen.current = !langSheetOpen.current;
+        if (!langSheetOpen.current) {
+            refLang.current?.scrollTo(0);
         } else {
-            refLang?.current?.scrollTo(-200);
+            refLang.current?.scrollTo(-200);
         }
     }, []);
+
+    const handleShowThemeBottomSheet = useCallback(() => {
+        if (langSheetOpen.current) {
+            refLang.current?.scrollTo(0);
+        }
+        themeSheetOpen.current = !themeSheetOpen.current;
+        if (!themeSheetOpen.current) {
+            refTheme.current?.scrollTo(0);
+        } else {
+            refTheme.current?.scrollTo(-200);
+        }
+    }, []);
+
+
 
     const langArray: Entry[] = Object.entries(LANGUAGES).map(([key, value]) => ({ key, value }));
 
     const themesEntry = {
         Dark: true,
-        Light: false
+        Light: false,
     }
 
     const themesArray = Object.entries(themesEntry).map(([key, value]) => ({ key, value }));
 
 
-    const handleShowThemeBottomSheet = useCallback(() => {
-        const isActive = refTheme?.current?.isActive();
-        if (isActive) {
-            refTheme?.current?.scrollTo(0);
-        } else {
-            refTheme?.current?.scrollTo(-200);
-        }
-    }, []);
 
 
     return (
@@ -128,7 +138,7 @@ export default function AppSettings({ navigation }: AppSettingsProps) {
                     </View>
                 </View>
             </View>
-            <BottomSheet ref={refLang}>
+            <BottomSheet ref={refLang} height={500}>
                 <Text style={[styles.bottomSheetTitleText, { color: theme.TERTIARY }]}>
                     <FormattedMessage
                         defaultMessage='Choose Language'
@@ -138,7 +148,7 @@ export default function AppSettings({ navigation }: AppSettingsProps) {
                 <LanguageRadioButton values={langArray} />
             </BottomSheet>
 
-            <BottomSheet ref={refTheme}>
+            <BottomSheet ref={refTheme} height={500}>
                 <Text style={[styles.bottomSheetTitleText, { color: theme.TERTIARY }]}>
                     <FormattedMessage
                         defaultMessage='Choose Theme'

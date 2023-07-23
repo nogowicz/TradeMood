@@ -46,6 +46,7 @@ type TextFieldProps = {
     props?: TextInputProps;
     autoCapitalize?: any;
     password?: boolean;
+    editable?: boolean;
     clear?: boolean;
     onClear?: Dispatch<SetStateAction<string>>;
 }
@@ -60,6 +61,7 @@ export default function TextField({
     error,
     password = false,
     clear = false,
+    editable = true,
     onClear,
     ...props
 }: TextFieldProps) {
@@ -125,6 +127,7 @@ export default function TextField({
                 {children}
                 <TextInput
                     {...props}
+                    editable={editable}
                     selectionColor={theme.PRIMARY}
                     placeholderTextColor={theme.HINT}
                     placeholder={placeholder}
@@ -132,6 +135,7 @@ export default function TextField({
                     onBlur={() => setFocus(false)}
                     style={[styles.textInput, { color: theme.TERTIARY }]}
                     secureTextEntry={(password && secureTextEntry)}
+
                 />
                 {password ?
                     <TouchableOpacity
@@ -139,7 +143,7 @@ export default function TextField({
                         activeOpacity={0.7}
                     >
                         {secureTextEntry ?
-                            <PasswordVisible stroke={theme.TERTIARY} /> : <PasswordInvisible stroke={theme.TERTIARY} />}
+                            <PasswordVisible strokeWidth={1.5} stroke={theme.TERTIARY} /> : <PasswordInvisible strokeWidth={1.5} stroke={theme.TERTIARY} />}
                     </TouchableOpacity>
                     : null
                 }

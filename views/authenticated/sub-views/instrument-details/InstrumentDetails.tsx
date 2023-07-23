@@ -24,6 +24,7 @@ import { LangContext } from 'lang/LangProvider';
 import TrendingNow from 'components/trending-now';
 import ActivityCompare from 'components/activity-compare';
 import { themeContext } from 'store/themeContext';
+import { AuthContext } from '@views/navigation/AuthProvider';
 type InstrumentDetailsScreenNavigationProp = NativeStackScreenProps<RootStackParamList, 'InstrumentDetails'>;
 type InstrumentDetailsScreenRouteProp = RouteProp<RootStackParamList, 'InstrumentDetails'>
 type InstrumentDetailsProps = {
@@ -46,7 +47,7 @@ export default function InstrumentDetails({ navigation, route }: InstrumentDetai
     const backIconMargin = 8;
     const dateLocationLanguage = language === 'pl' ? 'pl-PL' : 'en-US';
     const theme = useContext(themeContext);
-
+    const { user } = useContext(AuthContext);
     if (!instrument) {
         return (
             <SafeAreaView style={[styles.root, { backgroundColor: theme.BACKGROUND }]}>
@@ -143,15 +144,18 @@ export default function InstrumentDetails({ navigation, route }: InstrumentDetai
                             />
                             <Text style={[styles.sectionTitle, { color: theme.TERTIARY }]}>{instrument.crypto}</Text>
                         </Animated.View>
-                        <TouchableOpacity
-                            onPress={changeFavoriteStatusHandler}
-                            style={{ marginTop: backIconMargin }}
-                        >
-                            {cryptoIsFavorite ?
-                                <BookmarkSelected width={32} height={32} /> :
-                                <Bookmark stroke={theme.TERTIARY} width={32} height={32} />
-                            }
-                        </TouchableOpacity>
+                        {!user?.isAnonymous ?
+                            <TouchableOpacity
+                                onPress={changeFavoriteStatusHandler}
+                                style={{ marginTop: backIconMargin }}
+                            >
+                                {cryptoIsFavorite ?
+                                    <BookmarkSelected width={32} height={32} /> :
+                                    <Bookmark stroke={theme.TERTIARY} width={32} height={32} />
+                                }
+                            </TouchableOpacity> :
+                            <View style={{ width: 32 }} />
+                        }
                     </Animated.View>
                     <Animated.ScrollView
                         style={styles.mainContainer}

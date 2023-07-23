@@ -77,6 +77,7 @@
   "views.home.overview.trending-now.negative": "Negatywne",
   "views.home.profile.edit-email.title": "Edytuj Swój Email",
   "views.home.profile.edit-email.new-email": "Nowy Email",
+  "views.home.profile.edit-email.current-email": "Aktualny Email",
   "views.home.profile.edit-email.submit": "Zatwierdź",
   "views.home.profile.edit-email.message": "Twój adres e-mail został pomyślnie zaktualizowany, sprawdź swoją skrzynkę odbiorczą.",
   "views.home.profile.edit-email.error.re-authentication": "Ta operacja wymaga ponownego zalogowania, abyśmy mieli pewność, że to Ty",
@@ -118,5 +119,7 @@
   "views.home.profile.app-settings.choose-theme": "Wybierz motyw",
   "views.home.profile.app-settings.theme.dark": "Ciemny",
   "views.home.profile.app-settings.theme.light": "Jasny",
-  "views.home.profile.app-settings.theme.system": "System"
+  "views.home.profile.app-settings.theme.system": "System",
+  "views.home.notifications.login": "Zaloguj się, aby zobaczyć swoje powiadomienia",
+  "views.home.profile.log-in-or-sign-in": "Zaloguj Się / Zarejestruj Się"
 }
