@@ -1,6 +1,7 @@
-import { Dispatch, SetStateAction, useContext, useState } from 'react';
+import { Dispatch, SetStateAction, useContext, useRef, useState } from 'react';
 import {
     FlexAlignType,
+    PanResponder,
     SafeAreaView,
     StyleSheet,
     View,
@@ -50,9 +51,38 @@ export default function OnBoarding({ navigation }: OnBoardingProps) {
 
     const pages: PagesArrayType = preparePages({ navigation, handleBack, handleNextPage })
 
+    const swipeViewRef = useRef(null);
+    const isSwipeHandled = useRef(false);
+
+    const panResponder = PanResponder.create({
+        onMoveShouldSetPanResponder: (_, gestureState) => {
+            return Math.abs(gestureState.dx) > Math.abs(gestureState.dy);
+        },
+        onPanResponderMove: (_, gestureState) => {
+            if (gestureState.dx < -100 && !isSwipeHandled.current) {
+                if (page !== 2) {
+                    handleNextPage();
+                    isSwipeHandled.current = true;
+                }
+            } else if (gestureState.dx > 100 && !isSwipeHandled.current) {
+                if (page !== 0) {
+                    handleBack();
+                    isSwipeHandled.current = true;
+                }
+            }
+        },
+        onPanResponderRelease: () => {
+            isSwipeHandled.current = false;
+        },
+        onPanResponderTerminationRequest: () => true,
+    });
     return (
         <SafeAreaView style={[styles.root, { backgroundColor: theme.BACKGROUND }]}>
-            <View style={styles.container}>
+            <View
+                ref={swipeViewRef}
+                style={styles.container}
+                {...panResponder.panHandlers}
+            >
                 <Panel
                     {...pages[page]}
                     page={page}
