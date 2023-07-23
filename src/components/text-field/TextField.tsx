@@ -143,7 +143,7 @@ export default function TextField({
                         activeOpacity={0.7}
                     >
                         {secureTextEntry ?
-                            <PasswordVisible stroke={theme.TERTIARY} /> : <PasswordInvisible stroke={theme.TERTIARY} />}
+                            <PasswordVisible strokeWidth={1.5} stroke={theme.TERTIARY} /> : <PasswordInvisible strokeWidth={1.5} stroke={theme.TERTIARY} />}
                     </TouchableOpacity>
                     : null
                 }

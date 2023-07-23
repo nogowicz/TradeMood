@@ -10,7 +10,7 @@ import { FormattedMessage } from 'react-intl';
 
 import { RootStackParamList } from '@views/navigation/Navigation';
 import { spacing, typography } from 'styles';
-import { useContext } from 'react';
+import { useContext, useEffect } from 'react';
 import { AuthContext } from '@views/navigation/AuthProvider';
 
 
@@ -21,6 +21,7 @@ import SubmitButton from 'components/buttons/submit-button';
 import { SCREENS } from '@views/navigation/constants';
 import OutlinedButton from 'components/buttons/outlined-button';
 import { themeContext } from 'store/themeContext';
+import AsyncStorage from '@react-native-async-storage/async-storage';
 
 
 

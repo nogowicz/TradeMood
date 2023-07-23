@@ -48,7 +48,7 @@ const styles = StyleSheet.create({
         flexDirection: 'row',
         justifyContent: 'space-between',
         alignItems: 'center',
-        paddingVertical: spacing.SCALE_8,
+        paddingVertical: spacing.SCALE_12,
         paddingHorizontal: spacing.SCALE_18,
         borderRadius: constants.BORDER_RADIUS.BUTTON,
     },

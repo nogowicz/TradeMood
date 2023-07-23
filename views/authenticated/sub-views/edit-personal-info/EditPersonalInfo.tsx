@@ -172,7 +172,7 @@ export default function EditPersonalInfo({ navigation }: EditPersonalInfoProps) 
                                             onChangeText={onChange}
                                             error={errors.firstName}
                                         >
-                                            <Person stroke={theme.TERTIARY} />
+                                            <Person stroke={theme.TERTIARY} strokeWidth={1.5} />
                                         </TextField>
 
                                     )
@@ -201,7 +201,7 @@ export default function EditPersonalInfo({ navigation }: EditPersonalInfoProps) 
                                             onChangeText={onChange}
                                             error={errors.lastName}
                                         >
-                                            <Person stroke={theme.TERTIARY} />
+                                            <Person stroke={theme.TERTIARY} strokeWidth={1.5} />
                                         </TextField>
 
                                     )

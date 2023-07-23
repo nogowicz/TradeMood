@@ -21,7 +21,6 @@ function FavoritesContextProvider({ children }: FavoritesContextProviderProps) {
     useEffect(() => {
         const fetchData = async () => {
             const user = firebase.auth().currentUser;
-
             if (user) {
                 const userRef = firebase.firestore().collection('users').doc(user.uid);
                 const doc = await userRef.get();

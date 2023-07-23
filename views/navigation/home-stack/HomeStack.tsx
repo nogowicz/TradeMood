@@ -54,7 +54,7 @@ export default function HomeStack() {
                     component={Overview}
                     options={{
                         tabBarIcon: ({ focused }) => (
-                            focused ? <OverviewActive /> : <OverviewInactive stroke={theme.TERTIARY} />
+                            focused ? <OverviewActive /> : <OverviewInactive stroke={theme.TERTIARY} strokeWidth={1.5} />
                         ),
                     }}
                 />
@@ -63,7 +63,7 @@ export default function HomeStack() {
                     component={Search}
                     options={{
                         tabBarIcon: ({ focused }) => (
-                            focused ? <SearchActive /> : <SearchInactive stroke={theme.TERTIARY} />
+                            focused ? <SearchActive /> : <SearchInactive stroke={theme.TERTIARY} strokeWidth={1.5} />
                         ),
                     }}
                 />
@@ -72,7 +72,7 @@ export default function HomeStack() {
                     component={Notification}
                     options={{
                         tabBarIcon: ({ focused }) => (
-                            focused ? <NotificationActive /> : <NotificationInactive stroke={theme.TERTIARY} />
+                            focused ? <NotificationActive /> : <NotificationInactive stroke={theme.TERTIARY} strokeWidth={1.5} />
                         ),
                     }}
                 />
@@ -81,7 +81,7 @@ export default function HomeStack() {
                     component={Profile}
                     options={{
                         tabBarIcon: ({ focused }) => (
-                            focused ? <ProfileActive /> : <ProfileInactive stroke={theme.TERTIARY} />
+                            focused ? <ProfileActive /> : <ProfileInactive stroke={theme.TERTIARY} strokeWidth={1.5} />
                         ),
                     }}
                 />

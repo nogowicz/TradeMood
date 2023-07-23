@@ -176,7 +176,7 @@ export default function EditPassword({ navigation }: EditEmailProps) {
                                             error={errors.newPassword}
                                             password
                                         >
-                                            <Password stroke={theme.TERTIARY} />
+                                            <Password stroke={theme.TERTIARY} strokeWidth={1.5} />
                                         </TextField>
 
                                     )
@@ -206,7 +206,7 @@ export default function EditPassword({ navigation }: EditEmailProps) {
                                             error={errors.confirmNewPassword}
                                             password
                                         >
-                                            <Password stroke={theme.TERTIARY} />
+                                            <Password stroke={theme.TERTIARY} strokeWidth={1.5} />
                                         </TextField>
 
                                     )

@@ -19,10 +19,9 @@ import About from 'assets/icons/About.svg'
 import LogIn from 'assets/icons/Log-in.svg'
 
 import { SCREENS } from '@views/navigation/constants';
-import { clearAsyncStorage } from 'utils/asyncStorage';
+import { handleLogout } from 'utils/asyncStorage';
 import Image from 'components/image';
 import { themeContext } from 'store/themeContext';
-import Login from '@views/auth/login/Login';
 
 
 
@@ -87,6 +86,7 @@ export default function Profile({ navigation }: ProfileProps) {
                                 onPress={() => navigation.navigate(SCREENS.HOME.EDIT_PROFILE.ID)}
                                 mode='option'
                                 icon={<EditProfile
+                                    strokeWidth={1.5}
                                     stroke={theme.TERTIARY}
                                 />}
                                 activeOpacity={0.5}
@@ -100,7 +100,10 @@ export default function Profile({ navigation }: ProfileProps) {
                             }
                             onPress={() => navigation.navigate(SCREENS.HOME.APP_SETTINGS.ID)}
                             mode='option'
-                            icon={<Settings stroke={theme.TERTIARY} />}
+                            icon={<Settings
+                                stroke={theme.TERTIARY}
+                                strokeWidth={1.5}
+                            />}
                             activeOpacity={0.5}
                         />
                         <SubmitButton
@@ -113,6 +116,7 @@ export default function Profile({ navigation }: ProfileProps) {
                             onPress={() => navigation.navigate(SCREENS.HOME.ABOUT_US.ID)}
                             mode='option'
                             icon={<About
+                                strokeWidth={1.5}
                                 stroke={theme.TERTIARY}
                             />}
                             activeOpacity={0.5}
@@ -127,13 +131,14 @@ export default function Profile({ navigation }: ProfileProps) {
                                 }
                                 onPress={() => {
                                     logout().then(() => {
-                                        clearAsyncStorage();
+                                        handleLogout(['instruments', 'fcmToken'])
                                         navigation.navigate(SCREENS.AUTH.WELCOME.ID);
 
                                     });
                                 }}
                                 mode='option'
                                 icon={<Logout
+                                    strokeWidth={1.5}
                                     stroke={theme.TERTIARY}
                                 />}
                                 activeOpacity={0.5}
@@ -149,13 +154,14 @@ export default function Profile({ navigation }: ProfileProps) {
                                 }
                                 onPress={() => {
                                     logout().then(() => {
-                                        clearAsyncStorage();
+                                        handleLogout(['instruments', 'fcmToken'])
                                         navigation.navigate(SCREENS.AUTH.WELCOME.ID);
 
                                     });
                                 }}
                                 mode='option'
                                 icon={<LogIn
+                                    strokeWidth={1.5}
                                     stroke={theme.TERTIARY}
                                 />}
                                 activeOpacity={0.5}

@@ -173,7 +173,7 @@ export default function EditEmail({ navigation }: EditEmailProps) {
                                 }}
 
                             >
-                                <Email stroke={theme.TERTIARY} />
+                                <Email stroke={theme.TERTIARY} strokeWidth={1.5} />
                             </TextField>
                             <Controller
                                 name='newEmail'
@@ -197,7 +197,7 @@ export default function EditEmail({ navigation }: EditEmailProps) {
                                             onChangeText={onChange}
                                             error={errors.newEmail}
                                         >
-                                            <Email stroke={theme.TERTIARY} />
+                                            <Email stroke={theme.TERTIARY} strokeWidth={1.5} />
                                         </TextField>
 
                                     )

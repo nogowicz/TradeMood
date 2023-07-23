@@ -23,6 +23,7 @@ import { InstrumentContext, InstrumentProps } from '@views/navigation/Instrument
 import { FavoritesContext } from '@views/navigation/FavoritesProvider';
 import InstrumentRecord from 'components/instrument-record';
 import { themeContext } from 'store/themeContext';
+import AsyncStorage from '@react-native-async-storage/async-storage';
 
 
 type OverviewScreenNavigationProp = NativeStackScreenProps<RootStackParamList, 'Overview'>;
@@ -41,6 +42,16 @@ export default function Overview({ navigation }: OverviewProps) {
         favoriteCryptoCtx.ids.includes(instrument.id)
     );
     const theme = useContext(themeContext);
+    // useEffect(() => {
+    //     AsyncStorage.getAllKeys((err, keys) => {
+    //         AsyncStorage.multiGet(keys, (error, stores) => {
+    //             stores.map((result, i, store) => {
+    //                 console.log({ [store[i][0]]: store[i][1] });
+    //                 return true;
+    //             });
+    //         });
+    //     });
+    // }, [])
 
 
     return (
@@ -53,14 +64,14 @@ export default function Overview({ navigation }: OverviewProps) {
                             size={48}
                             backgroundColor={theme.LIGHT_HINT}
                         >
-                            <Search stroke={theme.TERTIARY} />
+                            <Search stroke={theme.TERTIARY} strokeWidth={1.5} />
                         </IconButton>
                         <IconButton
                             onPress={() => navigation.navigate(SCREENS.HOME.NOTIFICATION.ID)}
                             size={48}
                             backgroundColor={theme.LIGHT_HINT}
                         >
-                            <Bell stroke={theme.TERTIARY} />
+                            <Bell stroke={theme.TERTIARY} strokeWidth={1.5} />
                         </IconButton>
                     </View>
                     <ProfileBar
