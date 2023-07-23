@@ -22,6 +22,7 @@ import GoBack from 'assets/icons/Go-back.svg'
 import SmallLogo from 'assets/logo/logo-smaller.svg'
 import Person from 'assets/icons/Person.svg'
 import { themeContext } from 'store/themeContext';
+import auth from '@react-native-firebase/auth';
 
 type EditPersonalInfoScreenNavigationProp = NativeStackScreenProps<RootStackParamList, 'EditPersonalInfo'>;
 
@@ -34,6 +35,7 @@ export default function EditPersonalInfo({ navigation }: EditPersonalInfoProps) 
     const [messageVisible, setMessageVisible] = useState(false);
     const { updatePersonalData } = useContext(AuthContext);
     const theme = useContext(themeContext);
+    const user = auth().currentUser;
     const { control, handleSubmit, setError, formState: { errors } } = useForm({
         resolver: yupResolver(schema)
     });
@@ -153,7 +155,7 @@ export default function EditPersonalInfo({ navigation }: EditPersonalInfoProps) 
                                 rules={{
                                     required: true,
                                 }}
-                                defaultValue=''
+                                defaultValue={user?.displayName?.split(" ")[0]}
                                 control={control}
                                 render={({ field: { onChange, onBlur, value } }) => {
                                     return (
@@ -182,7 +184,7 @@ export default function EditPersonalInfo({ navigation }: EditPersonalInfoProps) 
                                 rules={{
                                     required: true,
                                 }}
-                                defaultValue=''
+                                defaultValue={user?.displayName?.split(" ")[1]}
                                 control={control}
                                 render={({ field: { onChange, onBlur, value } }) => {
                                     return (
