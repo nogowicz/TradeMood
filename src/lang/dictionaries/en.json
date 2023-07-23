@@ -77,6 +77,7 @@
   "views.home.overview.trending-now.negative": "Negative",
   "views.home.profile.edit-email.title": "Edit Your Email",
   "views.home.profile.edit-email.new-email": "New Email",
+  "views.home.profile.edit-email.current-email": "Current Email",
   "views.home.profile.edit-email.submit": "Submit",
   "views.home.profile.edit-email.message": "Your address email has been update successfully, please check your inbox.",
   "views.home.profile.edit-email.error.re-authentication": "This operation requires re-authentication to ensure it's you",

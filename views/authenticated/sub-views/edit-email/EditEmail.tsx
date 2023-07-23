@@ -22,6 +22,7 @@ import { Controller, FieldValues, SubmitHandler, useForm } from 'react-hook-form
 import { yupResolver } from '@hookform/resolvers/yup'
 import { schema } from '@views/authenticated/sub-views/edit-email/validationSchema';
 import { AuthContext } from '@views/navigation/AuthProvider'
+import auth from '@react-native-firebase/auth';
 
 import Email from 'assets/icons/Email.svg';
 import { themeContext } from 'store/themeContext'
@@ -38,6 +39,7 @@ export default function EditEmail({ navigation }: EditEmailProps) {
     const [messageVisible, setMessageVisible] = useState(false);
     const { updateEmail } = useContext(AuthContext);
     const theme = useContext(themeContext);
+    const user = auth().currentUser;
     const { control, handleSubmit, setError, formState: { errors } } = useForm({
         resolver: yupResolver(schema)
     });
@@ -159,6 +161,21 @@ export default function EditEmail({ navigation }: EditEmailProps) {
                             </Text>
                         </Animated.View>
                         <View style={styles.mainContent}>
+                            <TextField
+                                editable={false}
+                                label={(
+                                    <FormattedMessage
+                                        defaultMessage='Current Email'
+                                        id='views.home.profile.edit-email.current-email' />
+                                )}
+                                value={user?.email ?? ''}
+                                onChangeText={function (value: string): void {
+                                    throw new Error('Function not implemented.')
+                                }}
+
+                            >
+                                <Email stroke={theme.TERTIARY} />
+                            </TextField>
                             <Controller
                                 name='newEmail'
                                 rules={{
