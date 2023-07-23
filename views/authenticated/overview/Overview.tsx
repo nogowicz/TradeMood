@@ -42,18 +42,9 @@ export default function Overview({ navigation }: OverviewProps) {
         favoriteCryptoCtx.ids.includes(instrument.id)
     );
     const theme = useContext(themeContext);
-    // useEffect(() => {
-    //     AsyncStorage.getAllKeys((err, keys) => {
-    //         AsyncStorage.multiGet(keys, (error, stores) => {
-    //             stores.map((result, i, store) => {
-    //                 console.log({ [store[i][0]]: store[i][1] });
-    //                 return true;
-    //             });
-    //         });
-    //     });
-    // }, [])
-
-
+    useEffect(() => {
+        console.log(favoriteCrypto);
+    }, [])
     return (
         <SafeAreaView style={[styles.root, { backgroundColor: theme.BACKGROUND }]}>
             <View style={styles.container}>

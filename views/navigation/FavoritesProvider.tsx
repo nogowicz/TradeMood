@@ -20,6 +20,7 @@ function FavoritesContextProvider({ children }: FavoritesContextProviderProps) {
 
     useEffect(() => {
         const fetchData = async () => {
+            console.log("Fetching favorite crypto")
             const user = firebase.auth().currentUser;
             if (user) {
                 const userRef = firebase.firestore().collection('users').doc(user.uid);
