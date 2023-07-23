@@ -16,10 +16,13 @@ import EditProfile from 'assets/icons/Edit-profile.svg';
 import Logout from 'assets/icons/Logout.svg'
 import Settings from 'assets/icons/Settings.svg'
 import About from 'assets/icons/About.svg'
+import LogIn from 'assets/icons/Log-in.svg'
+
 import { SCREENS } from '@views/navigation/constants';
 import { clearAsyncStorage } from 'utils/asyncStorage';
 import Image from 'components/image';
 import { themeContext } from 'store/themeContext';
+import Login from '@views/auth/login/Login';
 
 
 
@@ -73,20 +76,21 @@ export default function Profile({ navigation }: ProfileProps) {
 
 
                     <View style={[styles.optionsContainer, { backgroundColor: theme.LIGHT_HINT }]}>
-                        <SubmitButton
-                            label={
-                                <FormattedMessage
-                                    defaultMessage='Edit Profile'
-                                    id='views.home.profile.edit-profile'
-                                />
-                            }
-                            onPress={() => navigation.navigate(SCREENS.HOME.EDIT_PROFILE.ID)}
-                            mode='option'
-                            icon={<EditProfile
-                                stroke={theme.TERTIARY}
+                        {!user?.isAnonymous &&
+                            <SubmitButton
+                                label={
+                                    <FormattedMessage
+                                        defaultMessage='Edit Profile'
+                                        id='views.home.profile.edit-profile'
+                                    />
+                                }
+                                onPress={() => navigation.navigate(SCREENS.HOME.EDIT_PROFILE.ID)}
+                                mode='option'
+                                icon={<EditProfile
+                                    stroke={theme.TERTIARY}
+                                />}
+                                activeOpacity={0.5}
                             />}
-                            activeOpacity={0.5}
-                        />
                         <SubmitButton
                             label={
                                 <FormattedMessage
@@ -113,26 +117,49 @@ export default function Profile({ navigation }: ProfileProps) {
                             />}
                             activeOpacity={0.5}
                         />
-                        <SubmitButton
-                            label={
-                                <FormattedMessage
-                                    defaultMessage='Logout'
-                                    id='views.home.profile.logout'
-                                />
-                            }
-                            onPress={() => {
-                                logout().then(() => {
-                                    clearAsyncStorage();
-                                    navigation.navigate(SCREENS.AUTH.WELCOME.ID);
+                        {!user?.isAnonymous &&
+                            <SubmitButton
+                                label={
+                                    <FormattedMessage
+                                        defaultMessage='Logout'
+                                        id='views.home.profile.logout'
+                                    />
+                                }
+                                onPress={() => {
+                                    logout().then(() => {
+                                        clearAsyncStorage();
+                                        navigation.navigate(SCREENS.AUTH.WELCOME.ID);
 
-                                });
-                            }}
-                            mode='option'
-                            icon={<Logout
-                                stroke={theme.TERTIARY}
+                                    });
+                                }}
+                                mode='option'
+                                icon={<Logout
+                                    stroke={theme.TERTIARY}
+                                />}
+                                activeOpacity={0.5}
                             />}
-                            activeOpacity={0.5}
-                        />
+
+                        {user?.isAnonymous &&
+                            <SubmitButton
+                                label={
+                                    <FormattedMessage
+                                        defaultMessage='Log in or Sign in'
+                                        id='views.home.profile.log-in-or-sign-in'
+                                    />
+                                }
+                                onPress={() => {
+                                    logout().then(() => {
+                                        clearAsyncStorage();
+                                        navigation.navigate(SCREENS.AUTH.WELCOME.ID);
+
+                                    });
+                                }}
+                                mode='option'
+                                icon={<LogIn
+                                    stroke={theme.TERTIARY}
+                                />}
+                                activeOpacity={0.5}
+                            />}
                     </View>
                 </View>
             </View>

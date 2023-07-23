@@ -14,6 +14,7 @@ import { FormattedMessage } from 'react-intl';
 import NotificationWidget from 'components/notification-widget';
 import { getItem } from 'utils/asyncStorage';
 import { themeContext } from 'store/themeContext';
+import { AuthContext } from '@views/navigation/AuthProvider';
 
 
 type NotificationScreenNavigationProp = NativeStackScreenProps<RootStackParamList, 'Notification'>;
@@ -32,6 +33,7 @@ const windowHeight = Dimensions.get('window').height;
 
 export default function Notification({ navigation }: NotificationProps) {
     const [notifications, setNotifications] = useState<Notification[]>([]);
+    const { user } = useContext(AuthContext);
     const theme = useContext(themeContext);
 
     useEffect(() => {
@@ -60,7 +62,7 @@ export default function Notification({ navigation }: NotificationProps) {
                             id='views.home.notifications.title'
                         />
                     </Text>
-                    {notifications.length !== 0 ?
+                    {notifications.length !== 0 && (!user?.isAnonymous) ?
                         <FlatList
                             data={notifications}
                             renderItem={({ item }) => (
@@ -74,10 +76,16 @@ export default function Notification({ navigation }: NotificationProps) {
 
                         <View style={styles.subtitleContainer}>
                             <Text style={[styles.subtitleText, { color: theme.TERTIARY }]}>
-                                <FormattedMessage
-                                    defaultMessage='Be alert - notifications coming soon.'
-                                    id='views.home.notifications.subtitle'
-                                />
+                                {!user?.isAnonymous ?
+                                    <FormattedMessage
+                                        defaultMessage='Be alert - notifications coming soon.'
+                                        id='views.home.notifications.subtitle'
+                                    /> :
+                                    <FormattedMessage
+                                        defaultMessage='Log in to see your notifications'
+                                        id='views.home.notifications.login'
+                                    />
+                                }
 
                             </Text>
                         </View>
