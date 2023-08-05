@@ -38,7 +38,7 @@ function App() {
   return (
     <themeContext.Provider value={themeMode ? theme.dark : theme.light}>
       <StatusBar
-        backgroundColor={themeMode ? '#000000' : '#ffffff'}
+        backgroundColor={themeMode ? '#0A2129' : '#ffffff'}
         barStyle={themeMode ? 'light-content' : 'dark-content'}
       />
       <GestureHandlerRootView style={{ flex: 1 }}>
