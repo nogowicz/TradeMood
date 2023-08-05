@@ -171,7 +171,7 @@ export default function Profile({ navigation }: ProfileProps) {
             </View>
             <View style={styles.infoTextContainer}>
                 <Text style={[styles.infoText, { color: theme.HINT }]}>TradeMood</Text>
-                <Text style={[styles.infoText, { color: theme.HINT }]}>v1.0.1</Text>
+                <Text style={[styles.infoText, { color: theme.HINT }]}>v1.0.2</Text>
             </View>
         </SafeAreaView>
     )
