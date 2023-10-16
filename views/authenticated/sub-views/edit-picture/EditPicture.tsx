@@ -3,13 +3,14 @@ import {
     Text,
     View,
     SafeAreaView,
+    useWindowDimensions,
 } from 'react-native'
 import React, { useCallback, useContext, useRef, useState } from 'react'
 import { NativeStackScreenProps } from '@react-navigation/native-stack';
 import { RootStackParamList } from '@views/navigation/Navigation';
 import IconButton from 'components/buttons/icon-button';
 import { FormattedMessage } from 'react-intl';
-import { spacing, typography } from 'styles';
+import { constants, spacing, typography } from 'styles';
 
 import GoBack from 'assets/icons/Go-back.svg'
 import SmallLogo from 'assets/logo/logo-smaller.svg'
@@ -40,13 +41,13 @@ export default function EditPicture({ navigation }: EditPictureProps) {
     const theme = useTheme();
     const ref = useRef<BottomSheetRefProps>(null);
     const [imageUrl, setImageUrl] = useState<string | null | undefined>(user?.photoURL);
-
+    const { height } = useWindowDimensions();
     const handleShowBottomSheet = useCallback(() => {
         const isActive = ref?.current?.isActive();
         if (isActive) {
             ref?.current?.scrollTo(0);
         } else {
-            ref?.current?.scrollTo(-200);
+            ref?.current?.scrollTo(-(height - constants.BOTTOM_SHEET_HEIGHT.PICTURE_SELECTION));
         }
     }, []);
 
@@ -235,7 +236,7 @@ export default function EditPicture({ navigation }: EditPictureProps) {
                         />
                     </View>
                 </View>
-                <BottomSheet ref={ref} height={500}>
+                <BottomSheet ref={ref} height={constants.BOTTOM_SHEET_HEIGHT.PICTURE_SELECTION}>
                     <View>
                         {uploadingImage ?
                             <View style={styles.progressBar}>
@@ -243,7 +244,7 @@ export default function EditPicture({ navigation }: EditPictureProps) {
                             </View>
                             :
                             <View style={styles.bottomSheetActionContainer}>
-                                <View style={[styles.iconButtonBottomSheet, imageUrl ? { opacity: 0.5 } : {}]}>
+                                <View style={[styles.iconButtonBottomSheet, imageUrl ? { opacity: constants.ACTIVE_OPACITY.HIGH } : {}]}>
                                     <IconButton
                                         onPress={uploadImage}
                                         size={80}
@@ -258,7 +259,7 @@ export default function EditPicture({ navigation }: EditPictureProps) {
                                     </Text>
                                 </View>
 
-                                <View style={[styles.iconButtonBottomSheet, imageUrl ? { opacity: 0.5 } : {}]}>
+                                <View style={[styles.iconButtonBottomSheet, imageUrl ? { opacity: constants.ACTIVE_OPACITY.HIGH } : {}]}>
                                     <IconButton
                                         onPress={takePhoto}
                                         size={80}

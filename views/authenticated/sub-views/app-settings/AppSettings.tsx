@@ -3,6 +3,7 @@ import {
     StyleSheet,
     Text,
     View,
+    useWindowDimensions,
 } from 'react-native'
 import React, { useCallback, useRef } from 'react'
 import { NativeStackScreenProps } from '@react-navigation/native-stack';
@@ -42,6 +43,9 @@ export default function AppSettings({ navigation }: AppSettingsProps) {
     const themeSheetOpen = useRef(false);
     const langSheetOpen = useRef(false);
 
+    const { height } = useWindowDimensions();
+
+
     const handleShowLangBottomSheet = useCallback(() => {
         if (themeSheetOpen.current) {
             refTheme.current?.scrollTo(0);
@@ -50,7 +54,7 @@ export default function AppSettings({ navigation }: AppSettingsProps) {
         if (!langSheetOpen.current) {
             refLang.current?.scrollTo(0);
         } else {
-            refLang.current?.scrollTo(-200);
+            refLang.current?.scrollTo(-(height - constants.BOTTOM_SHEET_HEIGHT.LANGUAGE_SELECTION));
         }
     }, []);
 
@@ -62,7 +66,7 @@ export default function AppSettings({ navigation }: AppSettingsProps) {
         if (!themeSheetOpen.current) {
             refTheme.current?.scrollTo(0);
         } else {
-            refTheme.current?.scrollTo(-200);
+            refTheme.current?.scrollTo(-(height - constants.BOTTOM_SHEET_HEIGHT.THEME_SELECTION));
         }
     }, []);
 
@@ -138,7 +142,10 @@ export default function AppSettings({ navigation }: AppSettingsProps) {
                     </View>
                 </View>
             </View>
-            <BottomSheet ref={refLang} height={500}>
+            <BottomSheet
+                ref={refLang}
+                height={constants.BOTTOM_SHEET_HEIGHT.LANGUAGE_SELECTION}
+            >
                 <Text style={[styles.bottomSheetTitleText, { color: theme.TERTIARY }]}>
                     <FormattedMessage
                         defaultMessage='Choose Language'
@@ -148,7 +155,7 @@ export default function AppSettings({ navigation }: AppSettingsProps) {
                 <LanguageRadioButton values={langArray} />
             </BottomSheet>
 
-            <BottomSheet ref={refTheme} height={500}>
+            <BottomSheet ref={refTheme} height={constants.BOTTOM_SHEET_HEIGHT.THEME_SELECTION}>
                 <Text style={[styles.bottomSheetTitleText, { color: theme.TERTIARY }]}>
                     <FormattedMessage
                         defaultMessage='Choose Theme'
