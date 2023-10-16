@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useLayoutEffect, useState } from 'react';
 import { StatusBar, Appearance } from 'react-native'
 import SplashScreen from 'react-native-splash-screen';
 import LangProvider, { LangModeProvider } from './src/lang/LangProvider';
@@ -12,8 +12,28 @@ import { getItem } from 'utils/asyncStorage';
 
 function App() {
   const colorScheme = Appearance.getColorScheme();
-  const [themeMode, setThemeMode] = useState(Boolean(getItem('theme') ?? (colorScheme === "dark" ? true : false)));
-  useEffect(() => {
+  const [themeMode, setThemeMode] = useState(false);
+
+
+  useLayoutEffect(() => {
+    async function fetchTheme() {
+      try {
+        await getItem('theme').then((storedTheme) => {
+          const storedThemeAsBoolean = JSON.parse(storedTheme as string);
+          const initialThemeMode = storedTheme !== null ? storedThemeAsBoolean : (colorScheme === "dark" ? true : false);
+          setThemeMode(initialThemeMode);
+        });
+
+      } catch (error) {
+        console.error('Error fetching theme:', error);
+      }
+    }
+    checkNotificationPermission();
+    fetchTheme();
+  }, []);
+
+
+  useLayoutEffect(() => {
     let eventListener = EventRegister.addEventListener(
       "changeTheme",
       (theme: boolean) => {

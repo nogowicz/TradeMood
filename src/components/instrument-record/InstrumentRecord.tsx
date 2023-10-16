@@ -25,7 +25,13 @@ export default function InstrumentRecord({ crypto, sentiment, sentimentDirection
             onPress={onPress}
         >
             {photoUrl ?
-                <FastImage source={{ uri: photoUrl }} style={{ width: photoSize, height: photoSize }} />
+                <FastImage
+                    source={{ uri: photoUrl }}
+                    style={{
+                        width: photoSize,
+                        height: photoSize,
+                        borderRadius: photoSize / 2,
+                    }} />
                 : <Placeholder width={photoSize} height={photoSize} />}
             <View style={styles.middleContainer}>
                 <Text style={[styles.titleText, { color: theme.TERTIARY }]}>{crypto}</Text>
