@@ -1,10 +1,10 @@
-import React, { useContext } from 'react'
+import React from 'react'
 
 import { View, StyleSheet } from 'react-native'
 import { spacing } from '../../styles';
 import { PagesArrayType } from '../../../views/auth/onboarding/OnBoarding';
 import { SignupPagesArrayType } from '@views/auth/signup/Signup';
-import { themeContext } from 'store/themeContext';
+import { useTheme } from 'store/themeContext';
 
 type PaginationProps = {
     pages: PagesArrayType | SignupPagesArrayType,
@@ -12,7 +12,7 @@ type PaginationProps = {
 }
 
 export default function Pagination({ pages = [], activePage }: PaginationProps) {
-    const theme = useContext(themeContext);
+    const theme = useTheme();
     return (
         <View style={styles.container}>
             {pages.map((page, index: number) => (

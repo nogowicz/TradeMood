@@ -10,7 +10,7 @@ import { FormattedMessage } from 'react-intl';
 
 import { RootStackParamList } from '@views/navigation/Navigation';
 import { spacing, typography } from 'styles';
-import { useContext, useEffect } from 'react';
+import { useContext } from 'react';
 import { AuthContext } from '@views/navigation/AuthProvider';
 
 
@@ -20,8 +20,7 @@ import LargeLogo from 'assets/logo/logo-bigger.svg'
 import SubmitButton from 'components/buttons/submit-button';
 import { SCREENS } from '@views/navigation/constants';
 import OutlinedButton from 'components/buttons/outlined-button';
-import { themeContext } from 'store/themeContext';
-import AsyncStorage from '@react-native-async-storage/async-storage';
+import { useTheme } from 'store/themeContext';
 
 
 
@@ -33,7 +32,7 @@ type WelcomeProps = {
 
 export default function Welcome({ navigation }: WelcomeProps) {
     const { signInAnonymously } = useContext(AuthContext);
-    const theme = useContext(themeContext);
+    const theme = useTheme();
 
     return (
         <SafeAreaView style={[styles.root, { backgroundColor: theme.BACKGROUND }]}>

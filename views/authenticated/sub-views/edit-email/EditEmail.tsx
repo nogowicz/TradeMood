@@ -24,7 +24,7 @@ import { AuthContext } from '@views/navigation/AuthProvider'
 import auth from '@react-native-firebase/auth';
 
 import Email from 'assets/icons/Email.svg';
-import { themeContext } from 'store/themeContext'
+import { useTheme } from 'store/themeContext'
 
 type EditEmailScreenNavigationProp = NativeStackScreenProps<RootStackParamList, 'EditEmail'>;
 
@@ -37,7 +37,7 @@ export default function EditEmail({ navigation }: EditEmailProps) {
     const [loading, setLoading] = useState(false);
     const [messageVisible, setMessageVisible] = useState(false);
     const { updateEmail } = useContext(AuthContext);
-    const theme = useContext(themeContext);
+    const theme = useTheme();
     const user = auth().currentUser;
     const { control, handleSubmit, setError, formState: { errors } } = useForm({
         resolver: yupResolver(schema)

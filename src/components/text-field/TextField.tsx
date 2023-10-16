@@ -11,7 +11,6 @@ import {
     Dispatch,
     ReactNode,
     SetStateAction,
-    useContext,
     useEffect,
     useState
 } from 'react';
@@ -24,7 +23,7 @@ import PasswordInvisible from 'assets/icons/Password-invisible.svg';
 import Clear from 'assets/icons/Clear.svg';
 import { FormattedMessage } from 'react-intl';
 import { FieldError, FieldErrorsImpl, Merge } from 'react-hook-form';
-import { themeContext } from 'store/themeContext';
+import { useTheme } from 'store/themeContext';
 
 
 
@@ -69,7 +68,7 @@ export default function TextField({
     const [secureTextEntry, setSecureTextEntry] = useState(true);
     const [defaultMessage, setDefaultMessage] = useState('')
     const [id, setId] = useState('views.auth.errors.basic-error');
-    const theme = useContext(themeContext);
+    const theme = useTheme();
 
 
 

@@ -9,10 +9,9 @@ import { spacing, typography } from '../../../../src/styles';
 
 import Pagination from 'components/pagination';
 import SubmitButton from 'components/buttons/submit-button';
-import { Dispatch, SetStateAction, useContext } from 'react';
+import { Dispatch, SetStateAction } from 'react';
 import { PagesArrayType } from '../OnBoarding';
-import { theme } from 'styles/colors';
-import { themeContext } from 'store/themeContext';
+import { useTheme } from 'store/themeContext';
 
 
 
@@ -41,7 +40,7 @@ export default function Panel({
     page,
     pages,
 }: PanelProps) {
-    const theme = useContext(themeContext);
+    const theme = useTheme();
     return (
         <>
             <View style={{ alignItems: actionPosition }}>

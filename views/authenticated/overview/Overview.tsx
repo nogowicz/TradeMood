@@ -5,7 +5,7 @@ import {
     View,
     ScrollView,
 } from 'react-native';
-import { useContext, useEffect, useState } from 'react';
+import { useContext, useEffect } from 'react';
 import { NativeStackScreenProps } from '@react-navigation/native-stack';
 import { FormattedMessage } from 'react-intl';
 
@@ -22,8 +22,7 @@ import TrendingNow from 'components/trending-now';
 import { InstrumentContext, InstrumentProps } from '@views/navigation/InstrumentProvider';
 import { FavoritesContext } from '@views/navigation/FavoritesProvider';
 import InstrumentRecord from 'components/instrument-record';
-import { themeContext } from 'store/themeContext';
-import AsyncStorage from '@react-native-async-storage/async-storage';
+import { useTheme } from 'store/themeContext';
 
 
 type OverviewScreenNavigationProp = NativeStackScreenProps<RootStackParamList, 'Overview'>;
@@ -41,7 +40,7 @@ export default function Overview({ navigation }: OverviewProps) {
     const favoriteCrypto = instruments?.filter((instrument) =>
         favoriteCryptoCtx.ids.includes(instrument.id)
     );
-    const theme = useContext(themeContext);
+    const theme = useTheme();
     useEffect(() => {
         console.log(favoriteCrypto);
     }, [])

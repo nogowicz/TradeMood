@@ -9,14 +9,12 @@ import {
     ReactNode,
     Dispatch,
     SetStateAction,
-    useContext,
 } from 'react'
 
 import {
     spacing,
 } from 'styles';
-import { theme } from 'styles/colors';
-import { themeContext } from 'store/themeContext';
+import { useTheme } from 'store/themeContext';
 
 
 type IconButtonProps = {
@@ -38,7 +36,7 @@ export default function IconButton({
     size,
     backgroundColor = 'transparent'
 }: IconButtonProps) {
-    const theme = useContext(themeContext);
+    const theme = useTheme();
     return (
         <TouchableOpacity
             style={[

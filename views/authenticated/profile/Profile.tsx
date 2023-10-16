@@ -21,7 +21,7 @@ import LogIn from 'assets/icons/Log-in.svg'
 import { SCREENS } from '@views/navigation/constants';
 import { handleLogout } from 'utils/asyncStorage';
 import Image from 'components/image';
-import { themeContext } from 'store/themeContext';
+import { useTheme } from 'store/themeContext';
 
 
 
@@ -35,7 +35,7 @@ type ProfileProps = {
 
 export default function Profile({ navigation }: ProfileProps) {
     const { user, logout } = useContext(AuthContext);
-    const theme = useContext(themeContext);
+    const theme = useTheme();
     const imageSize = 80;
     return (
         <SafeAreaView style={[styles.root, { backgroundColor: theme.BACKGROUND }]}>

@@ -4,7 +4,7 @@ import {
     Text,
     View,
 } from 'react-native'
-import React, { useCallback, useContext, useRef } from 'react'
+import React, { useCallback, useRef } from 'react'
 import { NativeStackScreenProps } from '@react-navigation/native-stack';
 import { RootStackParamList } from '@views/navigation/Navigation';
 import IconButton from 'components/buttons/icon-button';
@@ -21,7 +21,7 @@ import { BottomSheetRefProps } from 'components/bottom-sheet/BottomSheet';
 import LanguageRadioButton from 'components/radio-button/LanguageRadioButton';
 import { LANGUAGES } from 'lang/constants';
 import ThemeRadioButton from 'components/radio-button/ThemeRadioButton';
-import { themeContext } from 'store/themeContext';
+import { useTheme } from 'store/themeContext';
 
 type AppSettingsScreenNavigationProp = NativeStackScreenProps<RootStackParamList, 'AppSettings'>;
 
@@ -36,11 +36,11 @@ export type Entry = {
 
 
 export default function AppSettings({ navigation }: AppSettingsProps) {
-    const theme = useContext(themeContext);
+    const theme = useTheme();
     const refLang = useRef<BottomSheetRefProps>(null);
     const refTheme = useRef<BottomSheetRefProps>(null);
-    const langSheetOpen = useRef(false);
     const themeSheetOpen = useRef(false);
+    const langSheetOpen = useRef(false);
 
     const handleShowLangBottomSheet = useCallback(() => {
         if (themeSheetOpen.current) {

@@ -4,11 +4,11 @@ import {
     View,
     TouchableOpacity,
 } from 'react-native'
-import React, { useContext } from 'react'
+import React from 'react'
 import { constants, spacing, typography } from 'styles'
 import { FormattedMessage } from 'react-intl';
 import Image from 'components/image';
-import { themeContext } from 'store/themeContext';
+import { useTheme } from 'store/themeContext';
 
 type ProfileBarProps = {
     displayName: string | null | undefined;
@@ -25,7 +25,7 @@ export default function ProfileBar({
     isAnonymous,
     onPress,
 }: ProfileBarProps) {
-    const theme = useContext(themeContext);
+    const theme = useTheme();
     const imageSize = 40;
     const currentDate = new Date();
     const currentHour = currentDate.getHours();

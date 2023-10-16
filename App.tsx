@@ -6,7 +6,7 @@ import Routes from './views/navigation';
 import { GestureHandlerRootView } from 'react-native-gesture-handler';
 import { checkNotificationPermission, notificationListener } from 'helpers/pushNotificationHelper';
 import { EventRegister } from 'react-native-event-listeners';
-import { themeContext } from 'store/themeContext';
+import { ThemeContext } from 'store/themeContext';
 import { theme } from 'styles/colors';
 import { getItem } from 'utils/asyncStorage';
 
@@ -36,7 +36,7 @@ function App() {
   }, []);
 
   return (
-    <themeContext.Provider value={themeMode ? theme.dark : theme.light}>
+    <ThemeContext.Provider value={themeMode ? theme.dark : theme.light}>
       <StatusBar
         backgroundColor={themeMode ? '#0A2129' : '#ffffff'}
         barStyle={themeMode ? 'light-content' : 'dark-content'}
@@ -48,7 +48,7 @@ function App() {
           </LangProvider>
         </LangModeProvider>
       </GestureHandlerRootView>
-    </themeContext.Provider>
+    </ThemeContext.Provider>
   );
 }
 

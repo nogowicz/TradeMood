@@ -26,12 +26,11 @@ import EditPicture from '@views/authenticated/sub-views/edit-picture';
 import EditPassword from '@views/authenticated/sub-views/edit-password';
 import AppSettings from '@views/authenticated/sub-views/app-settings';
 import AboutUs from '@views/authenticated/sub-views/about-us';
-import InstrumentDetails from '@views/authenticated/sub-views/instrument-details';
-import { useContext } from 'react';
-import { themeContext } from 'store/themeContext';
+import InstrumentDetails from '@views/authenticated/sub-views/instrument-details';;
+import { useTheme } from 'store/themeContext';
 
 export default function HomeStack() {
-    const theme = useContext(themeContext);
+    const theme = useTheme();
     const Stack = createNativeStackNavigator();
     const Tab = createBottomTabNavigator();
 

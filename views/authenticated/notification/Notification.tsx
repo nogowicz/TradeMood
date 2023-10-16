@@ -13,7 +13,7 @@ import { spacing, typography } from 'styles';
 import { FormattedMessage } from 'react-intl';
 import NotificationWidget from 'components/notification-widget';
 import { getItem } from 'utils/asyncStorage';
-import { themeContext } from 'store/themeContext';
+import { useTheme } from 'store/themeContext';
 import { AuthContext } from '@views/navigation/AuthProvider';
 
 
@@ -34,7 +34,7 @@ const windowHeight = Dimensions.get('window').height;
 export default function Notification({ navigation }: NotificationProps) {
     const [notifications, setNotifications] = useState<Notification[]>([]);
     const { user } = useContext(AuthContext);
-    const theme = useContext(themeContext);
+    const theme = useTheme();
 
     useEffect(() => {
         const fetchNotifications = async () => {

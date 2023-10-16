@@ -11,7 +11,7 @@ import TextButton from "components/buttons/text-button";
 import { OnBoardingScreenNavigationProp } from "./OnBoarding";
 import IconButton from "components/buttons/icon-button";
 import { SCREENS } from '../../../views/navigation/constants';
-import { themeContext } from "store/themeContext";
+import { useTheme } from "store/themeContext";
 
 export type PreparePagesType = {
     navigation: OnBoardingScreenNavigationProp,
@@ -24,7 +24,7 @@ export function preparePages({
     handleBack,
     handleNextPage,
 }: PreparePagesType) {
-    const theme = useContext(themeContext);
+    const theme = useTheme();
     return [
         {
             id: 'all-in-one',

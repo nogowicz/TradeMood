@@ -10,7 +10,7 @@ import { LangContext } from '../../lang/LangProvider';
 import { FormattedMessage } from 'react-intl';
 import { Entry } from '@views/authenticated/sub-views/app-settings/AppSettings';
 import { languagesCodes } from 'lang/constants';
-import { themeContext } from 'store/themeContext';
+import { useTheme } from 'store/themeContext';
 
 type LanguageObject = {
     [key: string]: () => JSX.Element;
@@ -21,7 +21,7 @@ type RadioButtonProps = {
 }
 
 export default function LanguageRadioButton({ values }: RadioButtonProps) {
-    const theme = useContext(themeContext);
+    const theme = useTheme();
     const [language, setLanguage] = useContext(LangContext);
     const [value, setValue] = useState<string>(languagesCodes[language]);
     const languageTranslation: LanguageObject = {

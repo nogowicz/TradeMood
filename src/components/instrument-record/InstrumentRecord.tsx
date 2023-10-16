@@ -1,12 +1,12 @@
-import { StyleSheet, Text, View, TouchableOpacity, Image, } from 'react-native'
-import React, { useContext } from 'react'
+import { StyleSheet, Text, View, TouchableOpacity, } from 'react-native'
+import React from 'react'
 import { constants, spacing, typography } from 'styles'
 import { FormattedMessage } from 'react-intl';
 
 import Placeholder from 'assets/icons/crypto-placeholder.svg'
 import Arrow from 'assets/icons/Go-forward.svg';
 import FastImage from 'react-native-fast-image';
-import { themeContext } from 'store/themeContext';
+import { useTheme } from 'store/themeContext';
 
 type InstrumentRecordProps = {
     crypto: string;
@@ -17,7 +17,7 @@ type InstrumentRecordProps = {
 }
 const photoSize = 50;
 export default function InstrumentRecord({ crypto, sentiment, sentimentDirection, photoUrl, onPress }: InstrumentRecordProps) {
-    const theme = useContext(themeContext);
+    const theme = useTheme();
     return (
         <TouchableOpacity
             style={[styles.container, { borderColor: theme.LIGHT_HINT }]}

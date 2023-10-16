@@ -24,7 +24,7 @@ import DeletePhoto from 'assets/icons/DeletePhoto.svg'
 import Camera from 'assets/icons/Camera.svg'
 import { BottomSheetRefProps } from 'components/bottom-sheet/BottomSheet';
 import { launchCamera, launchImageLibrary } from 'react-native-image-picker';
-import { themeContext } from 'store/themeContext';
+import { useTheme } from 'store/themeContext';
 
 type EditPictureScreenNavigationProp = NativeStackScreenProps<RootStackParamList, 'EditPicture'>;
 
@@ -37,7 +37,7 @@ export default function EditPicture({ navigation }: EditPictureProps) {
     const { user, updateProfilePicture } = useContext(AuthContext);
     const [uploadingImage, setUploadingImage] = useState(false);
     const [step, setStep] = useState(0);
-    const theme = useContext(themeContext);
+    const theme = useTheme();
     const ref = useRef<BottomSheetRefProps>(null);
     const [imageUrl, setImageUrl] = useState<string | null | undefined>(user?.photoURL);
 

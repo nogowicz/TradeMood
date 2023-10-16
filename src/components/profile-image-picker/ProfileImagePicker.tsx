@@ -2,12 +2,10 @@ import {
     TouchableOpacity,
     GestureResponderEvent,
 } from 'react-native'
-
-
 import AddPhoto from 'assets/signup-screen/AddPhoto.svg';
-import { Dispatch, SetStateAction, useContext, useState } from 'react';
+import { Dispatch, SetStateAction } from 'react';
 import Image from 'components/image/Image';
-import { themeContext } from 'store/themeContext';
+import { useTheme } from 'store/themeContext';
 
 type ProfileImagePickerProps = {
     activeOpacity?: number;
@@ -24,7 +22,7 @@ export default function ProfileImagePicker({
     imageUrl,
     onPress
 }: ProfileImagePickerProps) {
-    const theme = useContext(themeContext);
+    const theme = useTheme();
     return (
         <TouchableOpacity
             activeOpacity={activeOpacity}

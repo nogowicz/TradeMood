@@ -5,10 +5,10 @@ import {
     View,
     Appearance,
 } from 'react-native'
-import React, { useContext, useEffect, useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import { spacing } from 'styles';
 import { FormattedMessage } from 'react-intl';
-import { themeContext } from 'store/themeContext';
+import { useTheme } from 'store/themeContext';
 import { EventRegister } from 'react-native-event-listeners';
 import { getItem, setItem } from 'utils/asyncStorage';
 
@@ -21,7 +21,7 @@ type RadioButtonProps = {
 }
 
 export default function ThemeRadioButton({ values }: RadioButtonProps) {
-    const theme = useContext(themeContext);
+    const theme = useTheme();
     const [themeMode, setThemeMode] = useState<boolean>();
     const colorScheme = Appearance.getColorScheme();
 

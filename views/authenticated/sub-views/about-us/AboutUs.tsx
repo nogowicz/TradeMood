@@ -4,7 +4,7 @@ import {
     Text,
     View,
 } from 'react-native'
-import React, { useContext } from 'react'
+import React from 'react'
 import IconButton from 'components/buttons/icon-button'
 
 import { FormattedMessage } from 'react-intl'
@@ -14,7 +14,7 @@ import GoBack from 'assets/icons/Go-back.svg'
 import SmallLogo from 'assets/logo/logo-smaller.svg'
 import { NativeStackScreenProps } from '@react-navigation/native-stack'
 import { RootStackParamList } from '@views/navigation/Navigation'
-import { themeContext } from 'store/themeContext'
+import { useTheme } from 'store/themeContext'
 
 
 type AboutUsScreenNavigationProp = NativeStackScreenProps<RootStackParamList, 'AboutUs'>;
@@ -24,7 +24,7 @@ type AboutUsProps = {
 }
 
 export default function AboutUs({ navigation }: AboutUsProps) {
-    const theme = useContext(themeContext);
+    const theme = useTheme();
     return (
         <SafeAreaView style={[styles.root, { backgroundColor: theme.BACKGROUND }]}>
             <View style={styles.container}>

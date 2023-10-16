@@ -4,12 +4,12 @@ import {
     View,
     TouchableOpacity,
 } from 'react-native'
-import React, { ReactNode, useContext } from 'react'
-import { colors, constants, spacing, typography } from 'styles'
+import React, { ReactNode } from 'react'
+import { constants, spacing, typography } from 'styles'
 import Pie from 'react-native-pie'
 import GoFroward from 'assets/icons/Go-forward.svg'
 import { FormattedMessage } from 'react-intl'
-import { themeContext } from 'store/themeContext'
+import { useTheme } from 'store/themeContext'
 
 type TrendingNowProps = {
     name?: string;
@@ -22,7 +22,7 @@ type TrendingNowProps = {
 }
 
 export default function TrendingNow({ name, title, positive, neutral, negative, onPress, trendingWidget }: TrendingNowProps) {
-    const theme = useContext(themeContext);
+    const theme = useTheme();
     const data = [
         {
             percentage: positive,

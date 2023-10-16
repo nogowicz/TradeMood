@@ -1,4 +1,4 @@
-import { Dispatch, SetStateAction, useCallback, useContext, useEffect, useRef, useState } from "react"
+import { Dispatch, SetStateAction, useContext, useEffect, useState } from "react"
 import { SignupScreenNavigationProp } from "./Signup"
 import IconButton from "components/buttons/icon-button";
 
@@ -15,11 +15,11 @@ import { Controller, FieldValues, SubmitHandler, useForm } from "react-hook-form
 import TextField from "components/text-field";
 import { yupResolver } from "@hookform/resolvers/yup";
 import { schema } from './validationSchema';
-import { GestureResponderEvent, TouchableOpacity, View } from "react-native";
+import { GestureResponderEvent, View } from "react-native";
 import { spacing } from "styles";
 import { AuthContext } from "@views/navigation/AuthProvider";
 import ProfileImagePicker from "components/profile-image-picker";
-import { themeContext } from "store/themeContext";
+import { useTheme } from "store/themeContext";
 
 type PrepareSignupPagesType = {
     navigation: SignupScreenNavigationProp;
@@ -47,7 +47,7 @@ export function prepareSignupPages({
     const { control, handleSubmit, setError, formState: { errors } } = useForm({
         resolver: yupResolver(schema)
     });
-    const theme = useContext(themeContext);
+    const theme = useTheme();
 
     const onSubmit: SubmitHandler<FieldValues> = async ({ firstName, lastName, email, password, confirmPassword }) => {
         setLoading(true);
