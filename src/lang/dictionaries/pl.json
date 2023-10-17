@@ -125,5 +125,8 @@
   "views.home.profile.edit-picture.uploading-error": "Wystąpił błąd podczas dodawania zdjęcia",
   "views.home.profile.edit-picture.deleting-error": "Wystąpił błąd podczas usuwania zdjęcia",
   "views.home.profile.provider.error.fetching-data": "Wystąpił błąd podczas pobierania danych",
-  "views.home.profile.provider.error.try-again": "Spróbuj ponownie"
+  "views.home.profile.provider.error.try-again": "Spróbuj ponownie",
+  "views.home.notifications.error.fetching-error": "Wystąpił błąd podczas pobierania danych powiadomień",
+  "views.home.profile.provider.error.logout": "Wystąpił błąd podczas wylogowywania",
+  "views.home.profile.provider.error.sign-in-anonymously": "Wystąpił błąd podczas logowania"
 }

@@ -122,7 +122,7 @@ export function InstrumentProvider({ children }: InstrumentProviderProps) {
                         console.log('Error while saving instruments', error)
                         Snackbar.show({
                             text: fetchingDataErrorTranslation,
-                            duration: Snackbar.LENGTH_SHORT,
+                            duration: Snackbar.LENGTH_LONG,
                         });
                     });
             });

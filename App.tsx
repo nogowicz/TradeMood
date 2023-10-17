@@ -9,11 +9,11 @@ import { EventRegister } from 'react-native-event-listeners';
 import { ThemeContext } from 'store/themeContext';
 import { theme } from 'styles/colors';
 import { getItem } from 'utils/asyncStorage';
+import Snackbar from 'react-native-snackbar';
 
 function App() {
   const colorScheme = Appearance.getColorScheme();
   const [themeMode, setThemeMode] = useState(false);
-
 
   useLayoutEffect(() => {
     async function fetchTheme() {
@@ -26,6 +26,10 @@ function App() {
 
       } catch (error) {
         console.error('Error fetching theme:', error);
+        Snackbar.show({
+          text: "Error occurred while fetching theme",
+          duration: Snackbar.LENGTH_SHORT,
+        });
       }
     }
     checkNotificationPermission();
