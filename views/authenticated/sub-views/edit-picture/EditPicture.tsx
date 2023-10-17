@@ -147,7 +147,7 @@ export default function EditPicture({ navigation }: EditPictureProps) {
                             setUploadingImage(true);
                             const progress = (snapshot.bytesTransferred / snapshot.totalBytes) * 100;
                             setStep(Math.floor(progress));
-                            console.log(`Postęp przesyłania: ${progress}%`);
+                            console.log(`Uploading progress: ${progress}%`);
                         },
                         (error) => {
                             console.log(error);
@@ -178,7 +178,7 @@ export default function EditPicture({ navigation }: EditPictureProps) {
                         }
                     );
                 } else {
-                    console.error('Błąd: brak danych pliku');
+                    console.error('Error: no file data');
                     Snackbar.show({
                         text: uploadingImageErrorTranslation,
                         duration: Snackbar.LENGTH_SHORT,

@@ -39,6 +39,7 @@ export default function EditEmail({ navigation }: EditEmailProps) {
     const { updateEmail } = useContext(AuthContext);
     const theme = useTheme();
     const user = auth().currentUser;
+
     const { control, handleSubmit, setError, formState: { errors } } = useForm({
         resolver: yupResolver(schema)
     });

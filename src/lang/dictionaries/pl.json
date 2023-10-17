@@ -123,5 +123,7 @@
   "views.home.notifications.login": "Zaloguj się, aby zobaczyć swoje powiadomienia",
   "views.home.profile.log-in-or-sign-in": "Zaloguj Się / Zarejestruj Się",
   "views.home.profile.edit-picture.uploading-error": "Wystąpił błąd podczas dodawania zdjęcia",
-  "views.home.profile.edit-picture.deleting-error": "Wystąpił błąd podczas usuwania zdjęcia"
+  "views.home.profile.edit-picture.deleting-error": "Wystąpił błąd podczas usuwania zdjęcia",
+  "views.home.profile.provider.error.fetching-data": "Wystąpił błąd podczas pobierania danych",
+  "views.home.profile.provider.error.try-again": "Spróbuj ponownie"
 }
