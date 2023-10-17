@@ -6,12 +6,13 @@ import {
     View,
     TouchableOpacity,
     Animated,
+    Dimensions,
 } from 'react-native'
-import React, { useContext, useEffect, useRef } from 'react'
+import React, { useContext, useEffect, useRef, useState } from 'react'
 import { NativeStackScreenProps } from '@react-navigation/native-stack';
 import { RootStackParamList } from '@views/navigation/Navigation';
 import { RouteProp } from '@react-navigation/native';
-import { spacing, typography } from 'styles';
+import { constants, spacing, typography } from 'styles';
 import GoBack from 'assets/icons/Go-back.svg'
 import IconButton from 'components/buttons/icon-button';
 import Bookmark from 'assets/icons/Bookmark.svg'
@@ -25,6 +26,7 @@ import TrendingNow from 'components/trending-now';
 import ActivityCompare from 'components/activity-compare';
 import { useTheme } from 'store/themeContext';
 import { AuthContext } from '@views/navigation/AuthProvider';
+import { LineChart } from "react-native-chart-kit";
 
 type InstrumentDetailsScreenNavigationProp = NativeStackScreenProps<RootStackParamList, 'InstrumentDetails'>;
 type InstrumentDetailsScreenRouteProp = RouteProp<RootStackParamList, 'InstrumentDetails'>
@@ -49,6 +51,32 @@ export default function InstrumentDetails({ navigation, route }: InstrumentDetai
     const dateLocationLanguage = language === 'pl' ? 'pl-PL' : 'en-US';
     const theme = useTheme();
     const { user } = useContext(AuthContext);
+    const [data, setData] = useState<any>();
+
+    const [chartData, setChartData] = useState<any>();
+
+    function convertData(data: any) {
+        let labels = [];
+        let dataset = [];
+
+        for (let i = 0; i < data.length; i++) {
+            labels.push(data[i].Date);
+            dataset.push(data[i].Close);
+        }
+
+        return {
+            labels: labels,
+            datasets: [{
+                data: dataset
+            }]
+        };
+    }
+
+    useEffect(() => {
+        if (data) {
+            setChartData(convertData(data));
+        }
+    }, [data]);
 
     useEffect(() => {
         if (instrument?.stockSymbol) {
@@ -60,7 +88,7 @@ export default function InstrumentDetails({ navigation, route }: InstrumentDetai
 
                 let newTimestamp = Math.floor(date.getTime() / 1000);
 
-                fetch(`https://query1.finance.yahoo.com/v7/finance/download/${instrument?.stockSymbol}-USD?period1=${newTimestamp}&period2=${currentTimestamp}&interval=1wk&events=history`)
+                fetch(`https://query1.finance.yahoo.com/v7/finance/download/${instrument?.stockSymbol}-USD?period1=${newTimestamp}&period2=${currentTimestamp}&interval=3mo&events=history`)
                     .then(response => response.text())
                     .then(data => {
                         const lines: string[] = data.split('\n');
@@ -72,8 +100,8 @@ export default function InstrumentDetails({ navigation, route }: InstrumentDetai
                                 return object;
                             }, {});
                         });
-
-                        console.log(json);
+                        setData(json);
+                        // console.log(json);
                     });
 
 
@@ -155,6 +183,7 @@ export default function InstrumentDetails({ navigation, route }: InstrumentDetai
             outputRange: [0, -50],
             extrapolate: 'clamp',
         });
+
 
         return (
             <SafeAreaView style={[styles.root, { backgroundColor: theme.BACKGROUND }]}>
@@ -249,6 +278,54 @@ export default function InstrumentDetails({ navigation, route }: InstrumentDetai
                             />
                         </View>
                         <View>
+                            {chartData ?
+                                <LineChart
+                                    data={chartData}
+                                    width={(Dimensions.get("window").width) - 50}
+                                    height={450}
+                                    yAxisLabel="$"
+                                    yAxisSuffix="k"
+                                    yAxisInterval={1}
+                                    chartConfig={{
+                                        backgroundColor: theme.BACKGROUND,
+                                        backgroundGradientFrom: theme.BACKGROUND,
+                                        backgroundGradientTo: theme.BACKGROUND,
+                                        decimalPlaces: 2,
+                                        color: (opacity = 1) => `rgba(255, 255, 255, ${opacity})`,
+                                        labelColor: (opacity = 1) => `rgba(255, 255, 255, ${opacity})`,
+                                        style: {
+                                            borderRadius: 16,
+                                        },
+                                        propsForDots: {
+                                            r: "4",
+                                            strokeWidth: "1",
+                                            stroke: theme.PRIMARY
+                                        }
+                                    }}
+                                    bezier
+                                    verticalLabelRotation={90}
+                                    horizontalLabelRotation={-50}
+                                    style={{
+                                        borderRadius: constants.BORDER_RADIUS.BOTTOM_SHEET,
+                                        borderWidth: 2,
+                                        borderColor: theme.LIGHT_HINT,
+                                        paddingTop: 20,
+                                    }}
+
+                                    formatXLabel={(xValue) => {
+                                        const date = new Date(xValue);
+                                        const monthNames = ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"];
+                                        const month = monthNames[date.getMonth()];
+                                        const year = date.getFullYear();
+                                        return `${month} ${year}`;
+                                    }}
+
+                                /> :
+                                <Text>Loading data...</Text>
+                            }
+                        </View>
+
+                        <View>
                             <Text style={[styles.dateText, { color: theme.HINT }]}>
                                 <FormattedMessage
                                     defaultMessage='Update time:'
@@ -309,5 +386,6 @@ const styles = StyleSheet.create({
     activitiesContainer: {
         flexDirection: 'row',
         gap: spacing.SCALE_16,
+        marginBottom: spacing.SCALE_20,
     }
 })
