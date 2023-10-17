@@ -1,6 +1,6 @@
 import {
-    TouchableOpacity,
     GestureResponderEvent,
+    Pressable,
 } from 'react-native'
 import AddPhoto from 'assets/signup-screen/AddPhoto.svg';
 import { Dispatch, SetStateAction } from 'react';
@@ -12,7 +12,7 @@ type ProfileImagePickerProps = {
     size?: number;
     imageUrl: string | null | undefined;
     setImageUrl: Dispatch<SetStateAction<string | null | undefined>>;
-    onPress: (event: GestureResponderEvent) => void;
+    onPress?: (event: GestureResponderEvent) => void;
 }
 
 
@@ -24,9 +24,11 @@ export default function ProfileImagePicker({
 }: ProfileImagePickerProps) {
     const theme = useTheme();
     return (
-        <TouchableOpacity
-            activeOpacity={activeOpacity}
+        <Pressable
             onPress={onPress}
+            style={({ pressed }) => ({
+                opacity: (onPress && pressed) ? activeOpacity : 1
+            })}
         >
             {imageUrl ? (
                 <Image
@@ -37,6 +39,6 @@ export default function ProfileImagePicker({
             ) : (
                 <AddPhoto stroke={theme.TERTIARY} height={size} width={size} strokeWidth={3} />
             )}
-        </TouchableOpacity>
+        </Pressable>
     );
 };

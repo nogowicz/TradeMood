@@ -255,72 +255,70 @@ export default function EditPicture({ navigation }: EditPictureProps) {
                     <View style={styles.mainContent}>
                         <ProfileImagePicker
                             imageUrl={imageUrl}
-                            onPress={handleShowBottomSheet}
                             setImageUrl={setImageUrl}
-
+                            size={250}
                         />
                     </View>
                 </View>
-                <BottomSheet ref={ref} height={constants.BOTTOM_SHEET_HEIGHT.PICTURE_SELECTION}>
-                    <View>
-                        {uploadingImage ?
-                            <View style={styles.progressBar}>
-                                <ProgressBar step={step} steps={100} height={40} />
-                            </View>
-                            :
-                            <View style={styles.bottomSheetActionContainer}>
-                                <View style={[styles.iconButtonBottomSheet]}>
-                                    <IconButton
-                                        onPress={uploadImage}
-                                        size={80}
-                                    >
-                                        <Gallery stroke={theme.TERTIARY} strokeWidth={constants.STROKE_WIDTH.MEDIUM} />
-                                    </IconButton>
-                                    <Text style={[styles.iconButtonBottomSheetText, { color: theme.TERTIARY }]}>
-                                        <FormattedMessage
-                                            defaultMessage='Gallery'
-                                            id='views.auth.signup.gallery'
-                                        />
-                                    </Text>
-                                </View>
 
-                                <View style={[styles.iconButtonBottomSheet]}>
+                <View>
+                    {uploadingImage ?
+                        <View style={styles.progressBar}>
+                            <ProgressBar step={step} steps={100} height={40} />
+                        </View>
+                        :
+                        <View style={styles.bottomSheetActionContainer}>
+                            <View style={[styles.iconButtonBottomSheet]}>
+                                <IconButton
+                                    onPress={uploadImage}
+                                    size={80}
+                                >
+                                    <Gallery stroke={theme.TERTIARY} strokeWidth={constants.STROKE_WIDTH.BOLD} />
+                                </IconButton>
+                                <Text style={[styles.iconButtonBottomSheetText, { color: theme.TERTIARY }]}>
+                                    <FormattedMessage
+                                        defaultMessage='Gallery'
+                                        id='views.auth.signup.gallery'
+                                    />
+                                </Text>
+                            </View>
+
+                            <View style={[styles.iconButtonBottomSheet]}>
+                                <IconButton
+                                    onPress={takePhoto}
+                                    size={80}
+                                >
+                                    <Camera stroke={theme.TERTIARY} strokeWidth={constants.STROKE_WIDTH.BOLD} />
+                                </IconButton>
+                                <Text style={[styles.iconButtonBottomSheetText, { color: theme.TERTIARY }]}>
+                                    <FormattedMessage
+                                        defaultMessage='Camera'
+                                        id='views.auth.signup.camera'
+                                    />
+                                </Text>
+                            </View>
+                            {imageUrl &&
+                                <View style={styles.iconButtonBottomSheet}>
                                     <IconButton
-                                        onPress={takePhoto}
+                                        onPress={() => deleteImage(imageUrl, false)}
                                         size={80}
                                     >
-                                        <Camera stroke={theme.TERTIARY} strokeWidth={constants.STROKE_WIDTH.MEDIUM} />
+                                        <DeletePhoto strokeWidth={constants.STROKE_WIDTH.BOLD} />
                                     </IconButton>
-                                    <Text style={[styles.iconButtonBottomSheetText, { color: theme.TERTIARY }]}>
+                                    <Text
+                                        style={[
+                                            styles.iconButtonBottomSheetText,
+                                            { color: theme.NEGATIVE }
+                                        ]}>
                                         <FormattedMessage
-                                            defaultMessage='Camera'
-                                            id='views.auth.signup.camera'
+                                            defaultMessage='Delete'
+                                            id='views.auth.signup.delete'
                                         />
                                     </Text>
                                 </View>
-                                {imageUrl &&
-                                    <View style={styles.iconButtonBottomSheet}>
-                                        <IconButton
-                                            onPress={() => deleteImage(imageUrl, false)}
-                                            size={80}
-                                        >
-                                            <DeletePhoto strokeWidth={1.5} />
-                                        </IconButton>
-                                        <Text
-                                            style={[
-                                                styles.iconButtonBottomSheetText,
-                                                { color: theme.NEGATIVE }
-                                            ]}>
-                                            <FormattedMessage
-                                                defaultMessage='Delete'
-                                                id='views.auth.signup.delete'
-                                            />
-                                        </Text>
-                                    </View>
-                                }
-                            </View>}
-                    </View>
-                </BottomSheet>
+                            }
+                        </View>}
+                </View>
 
             </View>
         </SafeAreaView>
@@ -362,7 +360,7 @@ const styles = StyleSheet.create({
     },
     mainContent: {
         alignItems: 'center',
-        marginTop: spacing.SCALE_60,
+        marginTop: spacing.SCALE_90,
     },
     bottomSheetActionContainer: {
         flexDirection: 'row',
@@ -372,7 +370,7 @@ const styles = StyleSheet.create({
     },
     iconButtonBottomSheetText: {
         textAlign: 'center',
-        marginHorizontal: 150,
+        fontWeight: typography.FONT_WEIGHT_SEMI_BOLD,
     },
     iconButtonBottomSheet: {
         justifyContent: 'center',

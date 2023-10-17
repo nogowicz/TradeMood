@@ -19,4 +19,5 @@ export const ACTIVE_OPACITY = {
 
 export const STROKE_WIDTH = {
   MEDIUM: 1.5,
+  BOLD: 3,
 };
