@@ -135,14 +135,30 @@ export default function InstrumentDetails({ navigation, route }: InstrumentDetai
                         </View>
                         <Animated.View
                             style={[
-                                { marginLeft: -(backIconMargin), alignItems: 'center', justifyContent: 'center', transform: [{ scale: logoScale }, { translateY: logoTranslateY }] },
+                                {
+                                    marginLeft: -(backIconMargin),
+                                    alignItems: 'center',
+                                    justifyContent: 'center',
+                                    transform: [{ scale: logoScale },
+                                    { translateY: logoTranslateY }],
+                                    maxWidth: '50%',
+                                },
                             ]}
                         >
                             <FastImage
                                 source={{ uri: instrument.photoUrl }}
                                 style={styles.image}
                             />
-                            <Text style={[styles.sectionTitle, { color: theme.TERTIARY }]}>{instrument.crypto}</Text>
+                            <Text
+                                style={[
+                                    styles.sectionTitle,
+                                    { color: theme.TERTIARY }
+                                ]}
+                                ellipsizeMode='tail'
+                                numberOfLines={2}
+                            >
+                                {instrument.crypto}
+                            </Text>
                         </Animated.View>
                         {!user?.isAnonymous ?
                             <TouchableOpacity
@@ -233,6 +249,7 @@ const styles = StyleSheet.create({
         ...typography.FONT_BOLD,
         fontSize: typography.FONT_SIZE_32,
         fontWeight: typography.FONT_WEIGHT_BOLD,
+        textAlign: 'center',
     },
     mainContainer: {
         flex: 1,
