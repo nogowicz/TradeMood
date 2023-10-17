@@ -3,18 +3,15 @@ import {
     Text,
     View,
     SafeAreaView,
-    useWindowDimensions,
 } from 'react-native'
 import React, {
-    useCallback,
     useContext,
     useEffect,
-    useRef,
     useState,
 } from 'react'
 import { NativeStackScreenProps } from '@react-navigation/native-stack';
 import { RootStackParamList } from '@views/navigation/Navigation';
-import { FormattedMessage } from 'react-intl';
+import { FormattedMessage, useIntl } from 'react-intl';
 import { constants, spacing, typography } from 'styles';
 import storage from '@react-native-firebase/storage';
 import { AuthContext } from '@views/navigation/AuthProvider';
@@ -46,7 +43,17 @@ export default function EditPicture({ navigation }: EditPictureProps) {
     const theme = useTheme();
     const [imageUrl, setImageUrl] = useState<string | null | undefined>(user?.photoURL);
     const [oldImageUrl, setOldImageUrl] = useState<string | null | undefined>();
+    const intl = useIntl();
 
+    //translations:
+    const uploadingImageErrorTranslation = intl.formatMessage({
+        id: "views.home.profile.edit-picture.uploading-error",
+        defaultMessage: "Error occurred while uploading image"
+    });
+    const deletingImageErrorTranslation = intl.formatMessage({
+        id: "views.home.profile.edit-picture.deleting-error",
+        defaultMessage: "Error occurred while deleting image"
+    });
 
     useEffect(() => {
         if (oldImageUrl) {
@@ -85,6 +92,10 @@ export default function EditPicture({ navigation }: EditPictureProps) {
                         (error) => {
                             console.log(error);
                             setUploadingImage(false);
+                            Snackbar.show({
+                                text: uploadingImageErrorTranslation,
+                                duration: Snackbar.LENGTH_SHORT,
+                            });
                         },
                         () => {
                             if (uploadTask.snapshot !== null) {
@@ -98,7 +109,7 @@ export default function EditPicture({ navigation }: EditPictureProps) {
                                 });
                             } else {
                                 Snackbar.show({
-                                    text: 'Error occurred while uploading.',
+                                    text: uploadingImageErrorTranslation,
                                     duration: Snackbar.LENGTH_SHORT,
                                 });
                                 console.log('Error occurred while uploading.');
@@ -109,6 +120,10 @@ export default function EditPicture({ navigation }: EditPictureProps) {
 
                 } else {
                     console.error('Error no data in file');
+                    Snackbar.show({
+                        text: uploadingImageErrorTranslation,
+                        duration: Snackbar.LENGTH_SHORT,
+                    });
                 }
             }
         });
@@ -137,6 +152,10 @@ export default function EditPicture({ navigation }: EditPictureProps) {
                         (error) => {
                             console.log(error);
                             setUploadingImage(false);
+                            Snackbar.show({
+                                text: uploadingImageErrorTranslation,
+                                duration: Snackbar.LENGTH_SHORT,
+                            });
                         },
                         () => {
                             if (uploadTask.snapshot !== null) {
@@ -151,11 +170,19 @@ export default function EditPicture({ navigation }: EditPictureProps) {
                             } else {
                                 console.log('Error occurred while uploading image.');
                                 setUploadingImage(false);
+                                Snackbar.show({
+                                    text: uploadingImageErrorTranslation,
+                                    duration: Snackbar.LENGTH_SHORT,
+                                });
                             }
                         }
                     );
                 } else {
                     console.error('Błąd: brak danych pliku');
+                    Snackbar.show({
+                        text: uploadingImageErrorTranslation,
+                        duration: Snackbar.LENGTH_SHORT,
+                    });
                 }
             }
         });
@@ -179,6 +206,10 @@ export default function EditPicture({ navigation }: EditPictureProps) {
             } catch (error) {
                 console.error('Error occurred while deleting:', error);
                 setUploadingImage(false);
+                Snackbar.show({
+                    text: deletingImageErrorTranslation,
+                    duration: Snackbar.LENGTH_SHORT,
+                });
             }
         }
 
@@ -189,7 +220,11 @@ export default function EditPicture({ navigation }: EditPictureProps) {
         try {
             await updateProfilePicture(imageUrl)
         } catch (error: any) {
-            console.log(error)
+            console.log(error);
+            Snackbar.show({
+                text: uploadingImageErrorTranslation,
+                duration: Snackbar.LENGTH_SHORT,
+            });
         }
     }
 

@@ -121,5 +121,7 @@
   "views.home.profile.app-settings.theme.light": "Light",
   "views.home.profile.app-settings.theme.system": "System",
   "views.home.notifications.login": "Log in to see your notifications",
-  "views.home.profile.log-in-or-sign-in": "Log in or Sign in"
+  "views.home.profile.log-in-or-sign-in": "Log in or Sign in",
+  "views.home.profile.edit-picture.uploading-error": "Error occurred while uploading image",
+  "views.home.profile.edit-picture.deleting-error": "Error occurred while deleting image"
 }

@@ -121,5 +121,7 @@
   "views.home.profile.app-settings.theme.light": "Jasny",
   "views.home.profile.app-settings.theme.system": "System",
   "views.home.notifications.login": "Zaloguj się, aby zobaczyć swoje powiadomienia",
-  "views.home.profile.log-in-or-sign-in": "Zaloguj Się / Zarejestruj Się"
+  "views.home.profile.log-in-or-sign-in": "Zaloguj Się / Zarejestruj Się",
+  "views.home.profile.edit-picture.uploading-error": "Wystąpił błąd podczas dodawania zdjęcia",
+  "views.home.profile.edit-picture.deleting-error": "Wystąpił błąd podczas usuwania zdjęcia"
 }
