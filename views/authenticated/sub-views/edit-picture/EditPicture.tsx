@@ -5,27 +5,35 @@ import {
     SafeAreaView,
     useWindowDimensions,
 } from 'react-native'
-import React, { useCallback, useContext, useRef, useState } from 'react'
+import React, {
+    useCallback,
+    useContext,
+    useEffect,
+    useRef,
+    useState,
+} from 'react'
 import { NativeStackScreenProps } from '@react-navigation/native-stack';
 import { RootStackParamList } from '@views/navigation/Navigation';
-import IconButton from 'components/buttons/icon-button';
 import { FormattedMessage } from 'react-intl';
 import { constants, spacing, typography } from 'styles';
-
-import GoBack from 'assets/icons/Go-back.svg'
-import SmallLogo from 'assets/logo/logo-smaller.svg'
 import storage from '@react-native-firebase/storage';
-import ProfileImagePicker from 'components/profile-image-picker';
 import { AuthContext } from '@views/navigation/AuthProvider';
+import { launchCamera, launchImageLibrary } from 'react-native-image-picker';
+import { useTheme } from 'store/themeContext';
+
+import ProfileImagePicker from 'components/profile-image-picker';
 import BottomSheet from 'components/bottom-sheet';
+import IconButton from 'components/buttons/icon-button';
 import ProgressBar from 'components/progress-bar';
+import { BottomSheetRefProps } from 'components/bottom-sheet/BottomSheet';
 
 import Gallery from 'assets/icons/Gallery.svg'
 import DeletePhoto from 'assets/icons/DeletePhoto.svg'
 import Camera from 'assets/icons/Camera.svg'
-import { BottomSheetRefProps } from 'components/bottom-sheet/BottomSheet';
-import { launchCamera, launchImageLibrary } from 'react-native-image-picker';
-import { useTheme } from 'store/themeContext';
+import GoBack from 'assets/icons/Go-back.svg'
+import SmallLogo from 'assets/logo/logo-smaller.svg'
+import image from 'components/image';
+
 
 type EditPictureScreenNavigationProp = NativeStackScreenProps<RootStackParamList, 'EditPicture'>;
 
@@ -41,7 +49,9 @@ export default function EditPicture({ navigation }: EditPictureProps) {
     const theme = useTheme();
     const ref = useRef<BottomSheetRefProps>(null);
     const [imageUrl, setImageUrl] = useState<string | null | undefined>(user?.photoURL);
+    const [oldImageUrl, setOldImageUrl] = useState<string | null | undefined>();
     const { height } = useWindowDimensions();
+
     const handleShowBottomSheet = useCallback(() => {
         const isActive = ref?.current?.isActive();
         if (isActive) {
@@ -55,6 +65,18 @@ export default function EditPicture({ navigation }: EditPictureProps) {
         ref?.current?.scrollTo(0);
 
     }, []);
+
+    useEffect(() => {
+        if (oldImageUrl) {
+            deleteImage(oldImageUrl, true).then(() => {
+                console.log('Old image has been deleted.');
+            }).catch((deleteError) => {
+                console.error('Error occurred while deleting old photo:', deleteError);
+            }).finally(() => {
+                setOldImageUrl(null);
+            });
+        }
+    }, [oldImageUrl]);
 
     const uploadImage = async () => {
         launchImageLibrary({
@@ -75,7 +97,7 @@ export default function EditPicture({ navigation }: EditPictureProps) {
                         (snapshot) => {
                             setUploadingImage(true);
                             const progress = (snapshot.bytesTransferred / snapshot.totalBytes) * 100;
-                            console.log(`Postęp przesyłania: ${progress}%`);
+                            console.log(`Uploading progress: ${progress}%`);
                         },
                         (error) => {
                             console.log(error);
@@ -86,15 +108,15 @@ export default function EditPicture({ navigation }: EditPictureProps) {
                             if (uploadTask.snapshot !== null) {
                                 console.log('Upload is ' + uploadTask.snapshot.bytesTransferred + ' bytes done.');
                                 uploadTask.snapshot.ref.getDownloadURL().then((downloadURL) => {
+                                    setOldImageUrl(imageUrl);
                                     console.log('File available at', downloadURL);
                                     setUploadingImage(false);
                                     handleHideBottomSheet();
                                     setImageUrl(downloadURL);
                                     onSubmit(downloadURL);
                                 });
-
                             } else {
-                                console.log('Wystąpił błąd podczas przesyłania pliku.');
+                                console.log('Error occurred while uploading.');
                                 setUploadingImage(false);
                                 handleHideBottomSheet();
                             }
@@ -102,7 +124,7 @@ export default function EditPicture({ navigation }: EditPictureProps) {
                     )
 
                 } else {
-                    console.error('Błąd: brak danych pliku');
+                    console.error('Error no data in file');
                 }
             }
         });
@@ -137,6 +159,7 @@ export default function EditPicture({ navigation }: EditPictureProps) {
                             if (uploadTask.snapshot !== null) {
                                 console.log('Upload is ' + uploadTask.snapshot.bytesTransferred + ' bytes done.');
                                 uploadTask.snapshot.ref.getDownloadURL().then((downloadURL) => {
+                                    setOldImageUrl(imageUrl);
                                     setUploadingImage(false);
                                     handleHideBottomSheet();
                                     console.log('File available at', downloadURL);
@@ -144,7 +167,7 @@ export default function EditPicture({ navigation }: EditPictureProps) {
                                     onSubmit(downloadURL);
                                 });
                             } else {
-                                console.log('Wystąpił błąd podczas przesyłania pliku.');
+                                console.log('Error occurred while uploading image.');
                                 setUploadingImage(false);
                                 handleHideBottomSheet();
                             }
@@ -157,22 +180,24 @@ export default function EditPicture({ navigation }: EditPictureProps) {
         });
     };
 
-    const deleteImage = async () => {
-        if (imageUrl) {
+    const deleteImage = async (imageUrlToDelete: string, isUploadingNewPicture: boolean) => {
+        if (imageUrlToDelete) {
             try {
-                const ref = storage().refFromURL(imageUrl);
+                const ref = storage().refFromURL(imageUrlToDelete);
 
                 await ref.delete().then(() => {
                     setUploadingImage(true);
-                    setImageUrl(null);
-                    onSubmit(null);
+                    if (!isUploadingNewPicture) {
+                        setImageUrl(null);
+                        onSubmit(null);
+                    }
                 });
 
-                console.log('Plik został usunięty.');
+                console.log('File has been deleted.');
                 setUploadingImage(false);
                 handleHideBottomSheet();
             } catch (error) {
-                console.error('Wystąpił błąd podczas usuwania pliku:', error);
+                console.error('Error occurred while deleting:', error);
                 setUploadingImage(false);
                 handleHideBottomSheet();
             }
@@ -244,12 +269,12 @@ export default function EditPicture({ navigation }: EditPictureProps) {
                             </View>
                             :
                             <View style={styles.bottomSheetActionContainer}>
-                                <View style={[styles.iconButtonBottomSheet, imageUrl ? { opacity: constants.ACTIVE_OPACITY.HIGH } : {}]}>
+                                <View style={[styles.iconButtonBottomSheet]}>
                                     <IconButton
                                         onPress={uploadImage}
                                         size={80}
                                     >
-                                        <Gallery stroke={theme.TERTIARY} strokeWidth={1.5} />
+                                        <Gallery stroke={theme.TERTIARY} strokeWidth={constants.STROKE_WIDTH.MEDIUM} />
                                     </IconButton>
                                     <Text style={[styles.iconButtonBottomSheetText, { color: theme.TERTIARY }]}>
                                         <FormattedMessage
@@ -259,12 +284,12 @@ export default function EditPicture({ navigation }: EditPictureProps) {
                                     </Text>
                                 </View>
 
-                                <View style={[styles.iconButtonBottomSheet, imageUrl ? { opacity: constants.ACTIVE_OPACITY.HIGH } : {}]}>
+                                <View style={[styles.iconButtonBottomSheet]}>
                                     <IconButton
                                         onPress={takePhoto}
                                         size={80}
                                     >
-                                        <Camera stroke={theme.TERTIARY} strokeWidth={1.5} />
+                                        <Camera stroke={theme.TERTIARY} strokeWidth={constants.STROKE_WIDTH.MEDIUM} />
                                     </IconButton>
                                     <Text style={[styles.iconButtonBottomSheetText, { color: theme.TERTIARY }]}>
                                         <FormattedMessage
@@ -276,7 +301,7 @@ export default function EditPicture({ navigation }: EditPictureProps) {
                                 {imageUrl &&
                                     <View style={styles.iconButtonBottomSheet}>
                                         <IconButton
-                                            onPress={deleteImage}
+                                            onPress={() => deleteImage(imageUrl, false)}
                                             size={80}
                                         >
                                             <DeletePhoto strokeWidth={1.5} />
