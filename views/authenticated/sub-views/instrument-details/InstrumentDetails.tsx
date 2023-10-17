@@ -7,7 +7,7 @@ import {
     TouchableOpacity,
     Animated,
 } from 'react-native'
-import React, { useContext, useRef } from 'react'
+import React, { useContext, useEffect, useRef } from 'react'
 import { NativeStackScreenProps } from '@react-navigation/native-stack';
 import { RootStackParamList } from '@views/navigation/Navigation';
 import { RouteProp } from '@react-navigation/native';
@@ -25,6 +25,7 @@ import TrendingNow from 'components/trending-now';
 import ActivityCompare from 'components/activity-compare';
 import { useTheme } from 'store/themeContext';
 import { AuthContext } from '@views/navigation/AuthProvider';
+
 type InstrumentDetailsScreenNavigationProp = NativeStackScreenProps<RootStackParamList, 'InstrumentDetails'>;
 type InstrumentDetailsScreenRouteProp = RouteProp<RootStackParamList, 'InstrumentDetails'>
 type InstrumentDetailsProps = {
@@ -48,6 +49,40 @@ export default function InstrumentDetails({ navigation, route }: InstrumentDetai
     const dateLocationLanguage = language === 'pl' ? 'pl-PL' : 'en-US';
     const theme = useTheme();
     const { user } = useContext(AuthContext);
+
+    useEffect(() => {
+        if (instrument?.stockSymbol) {
+            async function getData() {
+                let currentTimestamp = Math.floor(Date.now() / 1000);
+                let date = new Date();
+                date.setFullYear(date.getFullYear() - 1);
+                date.setHours(0, 0, 0, 0);
+
+                let newTimestamp = Math.floor(date.getTime() / 1000);
+
+                fetch(`https://query1.finance.yahoo.com/v7/finance/download/${instrument?.stockSymbol}-USD?period1=${newTimestamp}&period2=${currentTimestamp}&interval=1wk&events=history`)
+                    .then(response => response.text())
+                    .then(data => {
+                        const lines: string[] = data.split('\n');
+                        const headers: string[] = lines[0].split(',');
+                        const json: any[] = lines.slice(1).map((line: string) => {
+                            const values: string[] = line.split(',');
+                            return headers.reduce((object: { [key: string]: string }, header: string, index: number) => {
+                                object[header] = values[index];
+                                return object;
+                            }, {});
+                        });
+
+                        console.log(json);
+                    });
+
+
+            }
+            getData();
+        }
+
+    }, []);
+
     if (!instrument) {
         return (
             <SafeAreaView style={[styles.root, { backgroundColor: theme.BACKGROUND }]}>
