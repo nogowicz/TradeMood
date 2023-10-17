@@ -19,11 +19,12 @@ type ProgressBarProps = {
 
 }
 
-export default function ProgressBar({ step, steps, height }: any) {
+export default function ProgressBar({ step, steps, height }: ProgressBarProps) {
     const [width, setWidth] = useState(0);
     const animatedValue = useRef(new Animated.Value(-1000)).current;
     const reactive = useRef(new Animated.Value(-1000)).current;
     const theme = useTheme();
+
 
     useEffect(() => {
         Animated.timing(animatedValue, {

@@ -20,20 +20,17 @@ import storage from '@react-native-firebase/storage';
 import { AuthContext } from '@views/navigation/AuthProvider';
 import { launchCamera, launchImageLibrary } from 'react-native-image-picker';
 import { useTheme } from 'store/themeContext';
+import Snackbar from "react-native-snackbar"
 
 import ProfileImagePicker from 'components/profile-image-picker';
-import BottomSheet from 'components/bottom-sheet';
 import IconButton from 'components/buttons/icon-button';
 import ProgressBar from 'components/progress-bar';
-import { BottomSheetRefProps } from 'components/bottom-sheet/BottomSheet';
 
 import Gallery from 'assets/icons/Gallery.svg'
 import DeletePhoto from 'assets/icons/DeletePhoto.svg'
 import Camera from 'assets/icons/Camera.svg'
 import GoBack from 'assets/icons/Go-back.svg'
 import SmallLogo from 'assets/logo/logo-smaller.svg'
-import image from 'components/image';
-
 
 type EditPictureScreenNavigationProp = NativeStackScreenProps<RootStackParamList, 'EditPicture'>;
 
@@ -47,24 +44,9 @@ export default function EditPicture({ navigation }: EditPictureProps) {
     const [uploadingImage, setUploadingImage] = useState(false);
     const [step, setStep] = useState(0);
     const theme = useTheme();
-    const ref = useRef<BottomSheetRefProps>(null);
     const [imageUrl, setImageUrl] = useState<string | null | undefined>(user?.photoURL);
     const [oldImageUrl, setOldImageUrl] = useState<string | null | undefined>();
-    const { height } = useWindowDimensions();
 
-    const handleShowBottomSheet = useCallback(() => {
-        const isActive = ref?.current?.isActive();
-        if (isActive) {
-            ref?.current?.scrollTo(0);
-        } else {
-            ref?.current?.scrollTo(-(height - constants.BOTTOM_SHEET_HEIGHT.PICTURE_SELECTION));
-        }
-    }, []);
-
-    const handleHideBottomSheet = useCallback(() => {
-        ref?.current?.scrollTo(0);
-
-    }, []);
 
     useEffect(() => {
         if (oldImageUrl) {
@@ -97,12 +79,12 @@ export default function EditPicture({ navigation }: EditPictureProps) {
                         (snapshot) => {
                             setUploadingImage(true);
                             const progress = (snapshot.bytesTransferred / snapshot.totalBytes) * 100;
+                            setStep(Math.floor(progress));
                             console.log(`Uploading progress: ${progress}%`);
                         },
                         (error) => {
                             console.log(error);
                             setUploadingImage(false);
-                            handleHideBottomSheet();
                         },
                         () => {
                             if (uploadTask.snapshot !== null) {
@@ -111,14 +93,16 @@ export default function EditPicture({ navigation }: EditPictureProps) {
                                     setOldImageUrl(imageUrl);
                                     console.log('File available at', downloadURL);
                                     setUploadingImage(false);
-                                    handleHideBottomSheet();
                                     setImageUrl(downloadURL);
                                     onSubmit(downloadURL);
                                 });
                             } else {
+                                Snackbar.show({
+                                    text: 'Error occurred while uploading.',
+                                    duration: Snackbar.LENGTH_SHORT,
+                                });
                                 console.log('Error occurred while uploading.');
                                 setUploadingImage(false);
-                                handleHideBottomSheet();
                             }
                         }
                     )
@@ -153,7 +137,6 @@ export default function EditPicture({ navigation }: EditPictureProps) {
                         (error) => {
                             console.log(error);
                             setUploadingImage(false);
-                            handleHideBottomSheet();
                         },
                         () => {
                             if (uploadTask.snapshot !== null) {
@@ -161,7 +144,6 @@ export default function EditPicture({ navigation }: EditPictureProps) {
                                 uploadTask.snapshot.ref.getDownloadURL().then((downloadURL) => {
                                     setOldImageUrl(imageUrl);
                                     setUploadingImage(false);
-                                    handleHideBottomSheet();
                                     console.log('File available at', downloadURL);
                                     setImageUrl(downloadURL);
                                     onSubmit(downloadURL);
@@ -169,7 +151,6 @@ export default function EditPicture({ navigation }: EditPictureProps) {
                             } else {
                                 console.log('Error occurred while uploading image.');
                                 setUploadingImage(false);
-                                handleHideBottomSheet();
                             }
                         }
                     );
@@ -195,11 +176,9 @@ export default function EditPicture({ navigation }: EditPictureProps) {
 
                 console.log('File has been deleted.');
                 setUploadingImage(false);
-                handleHideBottomSheet();
             } catch (error) {
                 console.error('Error occurred while deleting:', error);
                 setUploadingImage(false);
-                handleHideBottomSheet();
             }
         }
 
@@ -319,7 +298,6 @@ export default function EditPicture({ navigation }: EditPictureProps) {
                             }
                         </View>}
                 </View>
-
             </View>
         </SafeAreaView>
     )
