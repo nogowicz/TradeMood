@@ -1,5 +1,4 @@
 import {
-    useContext,
     useEffect,
     useRef,
     useState,
@@ -9,7 +8,7 @@ import {
     View,
     StyleSheet
 } from "react-native";
-import { themeContext } from "store/themeContext";
+import { useTheme } from "store/themeContext";
 
 import { constants } from "styles";
 
@@ -20,11 +19,12 @@ type ProgressBarProps = {
 
 }
 
-export default function ProgressBar({ step, steps, height }: any) {
+export default function ProgressBar({ step, steps, height }: ProgressBarProps) {
     const [width, setWidth] = useState(0);
     const animatedValue = useRef(new Animated.Value(-1000)).current;
     const reactive = useRef(new Animated.Value(-1000)).current;
-    const theme = useContext(themeContext);
+    const theme = useTheme();
+
 
     useEffect(() => {
         Animated.timing(animatedValue, {

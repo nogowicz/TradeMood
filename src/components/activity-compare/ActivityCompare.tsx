@@ -1,8 +1,8 @@
 import { StyleSheet, Text, View } from 'react-native'
-import React, { ReactNode, useContext } from 'react'
+import React, { ReactNode } from 'react'
 import { constants, spacing, typography } from 'styles';
 import Arrow from 'assets/icons/Go-forward.svg';
-import { themeContext } from 'store/themeContext';
+import { useTheme } from 'store/themeContext';
 
 type ActivityCompareProps = {
     name: string | ReactNode;
@@ -10,7 +10,7 @@ type ActivityCompareProps = {
 }
 
 export default function ActivityCompare({ name, activity }: ActivityCompareProps) {
-    const theme = useContext(themeContext);
+    const theme = useTheme();;
     return (
         <View style={[styles.container, { borderColor: theme.LIGHT_HINT }]}>
             <Text style={[styles.text, { color: theme.TERTIARY }]}>{name}</Text>

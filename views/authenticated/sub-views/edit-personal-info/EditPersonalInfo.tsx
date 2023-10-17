@@ -21,7 +21,7 @@ import { schema } from '../edit-personal-info/validationSchema';
 import GoBack from 'assets/icons/Go-back.svg'
 import SmallLogo from 'assets/logo/logo-smaller.svg'
 import Person from 'assets/icons/Person.svg'
-import { themeContext } from 'store/themeContext';
+import { useTheme } from 'store/themeContext';
 import auth from '@react-native-firebase/auth';
 
 type EditPersonalInfoScreenNavigationProp = NativeStackScreenProps<RootStackParamList, 'EditPersonalInfo'>;
@@ -34,7 +34,7 @@ export default function EditPersonalInfo({ navigation }: EditPersonalInfoProps) 
     const [loading, setLoading] = useState(false);
     const [messageVisible, setMessageVisible] = useState(false);
     const { updatePersonalData } = useContext(AuthContext);
-    const theme = useContext(themeContext);
+    const theme = useTheme();
     const user = auth().currentUser;
     const { control, handleSubmit, setError, formState: { errors } } = useForm({
         resolver: yupResolver(schema)

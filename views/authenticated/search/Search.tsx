@@ -14,7 +14,7 @@ import { FormattedMessage, useIntl } from 'react-intl';
 import InstrumentRecord from 'components/instrument-record';
 import TextField from 'components/text-field';
 import { SCREENS } from '@views/navigation/constants';
-import { themeContext } from 'store/themeContext';
+import { useTheme } from 'store/themeContext';
 
 type SearchScreenNavigationProp = NativeStackScreenProps<RootStackParamList, 'Search'>;
 
@@ -23,7 +23,7 @@ type SearchProps = {
 }
 
 export default function Search({ navigation }: SearchProps) {
-    const theme = useContext(themeContext);
+    const theme = useTheme();
     const instruments = useContext(InstrumentContext);
     const intl = useIntl();
     const [search, setSearch] = useState('');

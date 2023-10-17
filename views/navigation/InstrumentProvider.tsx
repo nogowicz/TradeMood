@@ -1,6 +1,9 @@
 import React, { ReactNode, createContext, useEffect, useState } from 'react';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import firestore, { FirebaseFirestoreTypes } from '@react-native-firebase/firestore';
+import Snackbar from 'react-native-snackbar';
+import { useIntl } from 'react-intl';
+import { useTheme } from 'store/themeContext';
 
 export const InstrumentContext = createContext<InstrumentProps[] | undefined>(undefined);
 
@@ -26,6 +29,18 @@ export type InstrumentProps = {
 export function InstrumentProvider({ children }: InstrumentProviderProps) {
     const [instruments, setInstruments] = useState<InstrumentProps[]>();
     const collectionRef = firestore().collection('instruments');
+    const intl = useIntl();
+    const theme = useTheme();
+
+    //translations:
+    const fetchingDataErrorTranslation = intl.formatMessage({
+        id: "views.home.profile.provider.error.fetching-data",
+        defaultMessage: "Error occurred while fetching data"
+    });
+    const tryAgainTranslation = intl.formatMessage({
+        id: "views.home.profile.provider.error.try-again",
+        defaultMessage: "Try again"
+    });
 
     useEffect(() => {
         const fetchInstruments = async () => {
@@ -37,6 +52,15 @@ export function InstrumentProvider({ children }: InstrumentProviderProps) {
                 }
             } catch (error) {
                 console.log('Error while fetching instruments from AsyncStorage', error);
+                Snackbar.show({
+                    text: fetchingDataErrorTranslation,
+                    duration: Snackbar.LENGTH_SHORT,
+                    action: {
+                        text: tryAgainTranslation,
+                        onPress: fetchInstruments,
+                        textColor: theme.PRIMARY
+                    }
+                });
             }
         };
 
@@ -94,12 +118,24 @@ export function InstrumentProvider({ children }: InstrumentProviderProps) {
                         transaction.set(documentRef, newData);
                         AsyncStorage.setItem('instruments', JSON.stringify(list));
                     })
-                    .catch((error) => console.log('Error while saving instruments', error));
+                    .catch((error) => {
+                        console.log('Error while saving instruments', error)
+                        Snackbar.show({
+                            text: fetchingDataErrorTranslation,
+                            duration: Snackbar.LENGTH_LONG,
+                        });
+                    });
             });
 
             Promise.all(transactionPromises)
                 .then(() => console.log('Instruments list saved to Firestore and AsyncStorage'))
-                .catch((error) => console.log('Error while saving instruments', error));
+                .catch((error) => {
+                    console.log('Error while saving instruments', error)
+                    Snackbar.show({
+                        text: fetchingDataErrorTranslation,
+                        duration: Snackbar.LENGTH_SHORT,
+                    });
+                });
         });
 
         return () => unsubscribe();

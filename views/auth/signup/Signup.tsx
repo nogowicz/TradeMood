@@ -6,7 +6,7 @@ import {
     View,
 } from 'react-native'
 import { RootStackParamList } from '../../navigation/Navigation';
-import { Dispatch, SetStateAction, useCallback, useContext, useRef, useState } from 'react';
+import { Dispatch, SetStateAction, useCallback, useRef, useState } from 'react';
 import { spacing } from 'styles';
 import storage from '@react-native-firebase/storage';
 import { FormattedMessage } from 'react-intl';
@@ -21,7 +21,7 @@ import Gallery from 'assets/icons/Gallery.svg'
 import DeletePhoto from 'assets/icons/DeletePhoto.svg'
 import Camera from 'assets/icons/Camera.svg'
 import ProgressBar from 'components/progress-bar';
-import { themeContext } from 'store/themeContext';
+import { useTheme } from 'store/themeContext';
 
 
 
@@ -51,7 +51,7 @@ export default function Signup({ navigation }: SignupProps) {
     const [imageUrl, setImageUrl] = useState<string | null | undefined>(null);
     const [loading, setLoading] = useState(false);
     const [step, setStep] = useState(0);
-    const theme = useContext(themeContext);
+    const theme = useTheme();
 
     const ref = useRef<BottomSheetRefProps>(null);
 

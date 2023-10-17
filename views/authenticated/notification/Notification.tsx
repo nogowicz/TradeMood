@@ -10,11 +10,12 @@ import React, { useContext, useEffect, useState } from 'react'
 import { NativeStackScreenProps } from '@react-navigation/native-stack';
 import { RootStackParamList } from '../../../views/navigation/Navigation';
 import { spacing, typography } from 'styles';
-import { FormattedMessage } from 'react-intl';
+import { FormattedMessage, useIntl } from 'react-intl';
 import NotificationWidget from 'components/notification-widget';
 import { getItem } from 'utils/asyncStorage';
-import { themeContext } from 'store/themeContext';
+import { useTheme } from 'store/themeContext';
 import { AuthContext } from '@views/navigation/AuthProvider';
+import Snackbar from 'react-native-snackbar';
 
 
 type NotificationScreenNavigationProp = NativeStackScreenProps<RootStackParamList, 'Notification'>;
@@ -34,7 +35,18 @@ const windowHeight = Dimensions.get('window').height;
 export default function Notification({ navigation }: NotificationProps) {
     const [notifications, setNotifications] = useState<Notification[]>([]);
     const { user } = useContext(AuthContext);
-    const theme = useContext(themeContext);
+    const theme = useTheme();
+    const intl = useIntl();
+
+    //translations:
+    const fetchingNotificationsErrorTranslation = intl.formatMessage({
+        id: "views.home.notifications.error.fetching-error",
+        defaultMessage: "Error occurred while fetching notifications"
+    });
+    const tryAgainTranslation = intl.formatMessage({
+        id: "views.home.profile.provider.error.try-again",
+        defaultMessage: "Try again"
+    });
 
     useEffect(() => {
         const fetchNotifications = async () => {
@@ -46,6 +58,15 @@ export default function Notification({ navigation }: NotificationProps) {
                 }
             } catch (error) {
                 console.log(error);
+                Snackbar.show({
+                    text: fetchingNotificationsErrorTranslation,
+                    duration: Snackbar.LENGTH_LONG,
+                    action: {
+                        text: tryAgainTranslation,
+                        onPress: fetchNotifications,
+                        textColor: theme.PRIMARY
+                    }
+                })
             }
         };
 

@@ -5,7 +5,6 @@ import {
     StyleSheet,
     Animated,
     Keyboard,
-    Alert,
 } from 'react-native'
 import { NativeStackScreenProps } from '@react-navigation/native-stack';
 import { RootStackParamList } from '../../navigation/Navigation';
@@ -25,7 +24,7 @@ import { yupResolver } from '@hookform/resolvers/yup';
 import { schema } from './validationSchema'
 import TextField from 'components/text-field';
 import { SCREENS } from '@views/navigation/constants';
-import { themeContext } from 'store/themeContext';
+import { useTheme } from 'store/themeContext';
 
 type LoginScreenNavigationProp = NativeStackScreenProps<RootStackParamList, 'Login'>;
 
@@ -36,7 +35,7 @@ type LoginProps = {
 export default function Login({ navigation }: LoginProps) {
     const [loading, setLoading] = useState(false);
     const { login } = useContext(AuthContext);
-    const theme = useContext(themeContext);
+    const theme = useTheme();
     const { control, handleSubmit, setError, formState: { errors } } = useForm({
         resolver: yupResolver(schema)
     });

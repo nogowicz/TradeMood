@@ -1,5 +1,5 @@
 import { Dimensions, StyleSheet, Text, View } from 'react-native'
-import React, { ReactNode, forwardRef, useCallback, useContext, useImperativeHandle } from 'react'
+import React, { ReactNode, forwardRef, useCallback, useImperativeHandle } from 'react'
 import { constants, spacing } from 'styles'
 import { GestureDetector, Gesture } from 'react-native-gesture-handler';
 import
@@ -11,7 +11,7 @@ Animated,
     useSharedValue,
     withSpring,
 } from 'react-native-reanimated';
-import { themeContext } from 'store/themeContext';
+import { useTheme } from 'store/themeContext';
 
 const {
     height: SCREEN_HEIGHT,
@@ -31,7 +31,7 @@ const BottomSheet = forwardRef<BottomSheetRefProps, BottomSheetProps>(({ childre
     const MAX_TRANSLATE_Y = -SCREEN_HEIGHT + height;
     const translateY = useSharedValue(0);
     const active = useSharedValue(false);
-    const theme = useContext(themeContext);
+    const theme = useTheme();
 
     const isActive = useCallback(() => {
         return active.value;

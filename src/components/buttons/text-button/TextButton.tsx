@@ -3,11 +3,11 @@ import {
     Text,
     StyleSheet,
 } from 'react-native'
-import { ReactNode, useContext } from 'react'
+import { ReactNode } from 'react'
 
 
 import { spacing, typography } from '../../../styles';
-import { themeContext } from 'store/themeContext';
+import { useTheme } from 'store/themeContext';
 
 type TextButtonProps = {
     label: ReactNode,
@@ -20,7 +20,7 @@ export default function TextButton({
     activeOpacity = 0.75,
     onPress,
 }: TextButtonProps) {
-    const theme = useContext(themeContext);
+    const theme = useTheme();
     return (
         <TouchableOpacity
             activeOpacity={activeOpacity}

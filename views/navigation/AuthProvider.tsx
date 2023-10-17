@@ -1,5 +1,7 @@
 import { ReactNode, createContext, useState } from "react";
 import auth, { FirebaseAuthTypes } from '@react-native-firebase/auth';
+import { useIntl } from "react-intl";
+import Snackbar from "react-native-snackbar";
 
 
 type AuthContextType = {
@@ -39,6 +41,18 @@ type AuthProviderProps = {
 
 export function AuthProvider({ children }: AuthProviderProps) {
     const [user, setUser] = useState<FirebaseAuthTypes.User | null>(null);
+    const intl = useIntl();
+
+    //translations:
+    const logoutErrorTranslation = intl.formatMessage({
+        id: "views.home.profile.provider.error.logout",
+        defaultMessage: "Error occurred while logging out"
+    });
+    const singInAnonymouslyErrorTranslation = intl.formatMessage({
+        id: "views.home.profile.provider.error.sign-in-anonymously",
+        defaultMessage: "Error occurred while logging in"
+    });
+
     return <AuthContext.Provider
         value={{
             user,
@@ -74,6 +88,10 @@ export function AuthProvider({ children }: AuthProviderProps) {
                     await auth().signOut();
                 } catch (error) {
                     console.log(error);
+                    Snackbar.show({
+                        text: logoutErrorTranslation,
+                        duration: Snackbar.LENGTH_SHORT
+                    });
                 }
             },
             resetPassword: async (email: string) => {
@@ -84,6 +102,10 @@ export function AuthProvider({ children }: AuthProviderProps) {
                     await auth().signInAnonymously();
                 } catch (error) {
                     console.log(error);
+                    Snackbar.show({
+                        text: singInAnonymouslyErrorTranslation,
+                        duration: Snackbar.LENGTH_SHORT
+                    });
                 }
             },
             updateEmail: async (newEmail: string) => {

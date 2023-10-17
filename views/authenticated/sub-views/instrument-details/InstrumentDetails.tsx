@@ -23,7 +23,7 @@ import { FormattedMessage } from 'react-intl';
 import { LangContext } from 'lang/LangProvider';
 import TrendingNow from 'components/trending-now';
 import ActivityCompare from 'components/activity-compare';
-import { themeContext } from 'store/themeContext';
+import { useTheme } from 'store/themeContext';
 import { AuthContext } from '@views/navigation/AuthProvider';
 type InstrumentDetailsScreenNavigationProp = NativeStackScreenProps<RootStackParamList, 'InstrumentDetails'>;
 type InstrumentDetailsScreenRouteProp = RouteProp<RootStackParamList, 'InstrumentDetails'>
@@ -46,7 +46,7 @@ export default function InstrumentDetails({ navigation, route }: InstrumentDetai
     const [language] = useContext(LangContext);
     const backIconMargin = 8;
     const dateLocationLanguage = language === 'pl' ? 'pl-PL' : 'en-US';
-    const theme = useContext(themeContext);
+    const theme = useTheme();
     const { user } = useContext(AuthContext);
     if (!instrument) {
         return (

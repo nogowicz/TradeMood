@@ -8,19 +8,15 @@ import {
 import {
     Dispatch,
     SetStateAction,
-    useContext,
     useEffect,
     useRef,
     useState,
 } from 'react';
-
 import { spacing, typography } from 'styles';
-
 import SubmitButton from 'components/buttons/submit-button';
 import { SignupPagesArrayType } from '../Signup';
-import Pagination from 'components/pagination/Pagination';
-import { theme } from 'styles/colors';
-import { themeContext } from 'store/themeContext';
+import Pagination from 'components/pagination/Pagination';;
+import { useTheme } from 'store/themeContext';
 
 
 type SignupPanelProps = {
@@ -52,7 +48,7 @@ export default function SignupPanel({
     const translateYValue = useRef(new Animated.Value(0)).current;
     const [isKeyboardVisible, setKeyboardVisible] = useState(false);
     const animationDuration = 400;
-    const theme = useContext(themeContext);
+    const theme = useTheme();
     useEffect(() => {
         const keyboardDidShowListener = Keyboard.addListener(
             'keyboardDidShow',

@@ -4,7 +4,7 @@ import {
     Text,
     View,
 } from 'react-native'
-import React, { useContext } from 'react'
+import React from 'react'
 import { NativeStackScreenProps } from '@react-navigation/native-stack';
 import { RootStackParamList } from '@views/navigation/Navigation';
 import { constants, spacing, typography } from 'styles';
@@ -21,7 +21,7 @@ import Picture from 'assets/icons/Picture.svg'
 import GoBack from 'assets/icons/Go-back.svg'
 import SmallLogo from 'assets/logo/logo-smaller.svg'
 import Password from 'assets/icons/Password-light.svg'
-import { themeContext } from 'store/themeContext';
+import { useTheme } from 'store/themeContext';
 
 type EditProfileScreenNavigationProp = NativeStackScreenProps<RootStackParamList, 'EditProfile'>;
 
@@ -31,7 +31,7 @@ type EditProfileProps = {
 
 
 export default function EditProfile({ navigation }: EditProfileProps) {
-    const theme = useContext(themeContext);
+    const theme = useTheme();
     return (
         <SafeAreaView style={[styles.root, { backgroundColor: theme.BACKGROUND }]}>
             <View style={styles.container}>

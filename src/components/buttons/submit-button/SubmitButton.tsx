@@ -4,12 +4,12 @@ import {
     StyleSheet,
     View,
 } from 'react-native'
-import { Dispatch, ReactNode, SetStateAction, useContext } from 'react'
+import { Dispatch, ReactNode, SetStateAction } from 'react'
 
 import { constants, spacing, typography } from '../../../styles';
 
 import GoForward from '../../../assets/icons/Go-forward.svg';
-import { themeContext } from 'store/themeContext';
+import { useTheme } from 'store/themeContext';
 
 
 type SubmitButtonProps = {
@@ -31,7 +31,7 @@ export default function SubmitButton({
     mode,
     icon
 }: SubmitButtonProps) {
-    const theme = useContext(themeContext);
+    const theme = useTheme();
     if (mode === 'submit') {
         return (
             <TouchableOpacity

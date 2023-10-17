@@ -22,7 +22,7 @@ import SmallLogo from 'assets/logo/logo-smaller.svg';
 import Password from 'assets/icons/Password.svg';
 import { NativeStackScreenProps } from '@react-navigation/native-stack';
 import { RootStackParamList } from '@views/navigation/Navigation';
-import { themeContext } from 'store/themeContext';
+import { useTheme } from 'store/themeContext';
 
 type EditPasswordScreenNavigationProp = NativeStackScreenProps<RootStackParamList, 'EditPassword'>;
 
@@ -34,7 +34,7 @@ export default function EditPassword({ navigation }: EditEmailProps) {
     const [loading, setLoading] = useState(false);
     const [messageVisible, setMessageVisible] = useState(false);
     const { updatePassword } = useContext(AuthContext);
-    const theme = useContext(themeContext);
+    const theme = useTheme();
     const { control, handleSubmit, setError, formState: { errors } } = useForm({
         resolver: yupResolver(schema)
     });

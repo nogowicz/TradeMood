@@ -1,9 +1,9 @@
 import { StyleSheet, Text, View } from 'react-native'
-import React, { useContext } from 'react'
+import React from 'react'
 import { spacing, typography } from 'styles';
 import { TouchableOpacity } from 'react-native-gesture-handler';
 import { formatDateTime } from 'helpers/dateFormat';
-import { themeContext } from 'store/themeContext';
+import { useTheme } from 'store/themeContext';
 
 export type NavigationWidgetProps = {
     title: string;
@@ -13,7 +13,7 @@ export type NavigationWidgetProps = {
 };
 
 export default function NotificationWidget({ title, content, date, activeOpacity = 0.7 }: NavigationWidgetProps) {
-    const theme = useContext(themeContext);
+    const theme = useTheme();
     return (
         <TouchableOpacity activeOpacity={activeOpacity} style={[styles.container, { borderBottomColor: theme.LIGHT_HINT }]}>
             <View style={styles.notificationTop}>

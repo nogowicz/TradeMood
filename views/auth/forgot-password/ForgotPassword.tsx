@@ -1,6 +1,5 @@
 import { NativeStackScreenProps } from "@react-navigation/native-stack";
 import { RootStackParamList } from "@views/navigation/Navigation";
-import { SCREENS } from "@views/navigation/constants";
 import IconButton from "components/buttons/icon-button";
 import SubmitButton from "components/buttons/submit-button";
 import TextField from "components/text-field";
@@ -16,7 +15,7 @@ import Email from 'assets/icons/Email.svg';
 import { yupResolver } from "@hookform/resolvers/yup";
 import { AuthContext } from "@views/navigation/AuthProvider";
 import { schema } from "./validationSchema"
-import { themeContext } from "store/themeContext";
+import { useTheme } from "store/themeContext";
 
 type ForgotPasswordScreenNavigationProp = NativeStackScreenProps<RootStackParamList, 'ForgotPassword'>;
 
@@ -29,7 +28,7 @@ export default function ForgotPassword({ navigation }: ForgotPasswordProps) {
     const [loading, setLoading] = useState(false);
     const [messageVisible, setMessageVisible] = useState(false);
     const { resetPassword } = useContext(AuthContext);
-    const theme = useContext(themeContext);
+    const theme = useTheme();
     const { control, handleSubmit, setError, formState: { errors } } = useForm({
         resolver: yupResolver(schema)
     });

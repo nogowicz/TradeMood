@@ -1,4 +1,4 @@
-import { Dispatch, SetStateAction, useContext, useRef, useState } from 'react';
+import { Dispatch, SetStateAction, useRef, useState } from 'react';
 import {
     FlexAlignType,
     PanResponder,
@@ -14,8 +14,7 @@ import { RootStackParamList } from '../../navigation/Navigation';
 
 import Panel from './panel';
 import { preparePages } from './helpers';
-import { theme } from 'styles/colors';
-import { themeContext } from 'store/themeContext';
+import { useTheme } from 'store/themeContext';
 
 export type OnBoardingScreenNavigationProp = NativeStackNavigationProp<RootStackParamList, 'ONBOARDING'>;
 
@@ -39,7 +38,7 @@ type OnBoardingProps = {
 }
 
 export default function OnBoarding({ navigation }: OnBoardingProps) {
-    const theme = useContext(themeContext);
+    const theme = useTheme();
     const [page, setPage] = useState(0);
 
     function handleNextPage() {
