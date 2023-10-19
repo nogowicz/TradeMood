@@ -3,6 +3,7 @@ export const BORDER_RADIUS = {
   INPUT: 20,
   BOTTOM_SHEET: 25,
   PROFILE_BAR: 40,
+  CIRCLE: 100,
 };
 
 export const BOTTOM_SHEET_HEIGHT = {
@@ -20,4 +21,8 @@ export const ACTIVE_OPACITY = {
 export const STROKE_WIDTH = {
   MEDIUM: 1.5,
   BOLD: 3,
+};
+
+export const ICON_SIZE = {
+  ACTIVITY_INDICATOR: 40,
 };
