@@ -128,5 +128,10 @@
   "views.home.profile.provider.error.try-again": "Spróbuj ponownie",
   "views.home.notifications.error.fetching-error": "Wystąpił błąd podczas pobierania danych powiadomień",
   "views.home.profile.provider.error.logout": "Wystąpił błąd podczas wylogowywania",
-  "views.home.profile.provider.error.sign-in-anonymously": "Wystąpił błąd podczas logowania"
+  "views.home.profile.provider.error.sign-in-anonymously": "Wystąpił błąd podczas logowania",
+  "views.home.instrument-details.error.network": "Wystąpił błąd sieci",
+  "views.home.instrument-details.error.fetching-data": "Wystąpił błąd podczas pobierania danych",
+  "views.home.instrument-details.error.loading-chart-data": "Nie udało się załadować danych wykresu",
+  "views.home.instrument-details.error.try-again": "Spróbuj ponownie",
+  "views.home.instrument-details.loading-data": "Ładowanie wykresu..."
 }

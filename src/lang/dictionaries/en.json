@@ -128,5 +128,10 @@
   "views.home.profile.provider.error.try-again": "Try again",
   "views.home.notifications.error.fetching-error": "Error occurred while fetching notifications",
   "views.home.profile.provider.error.logout": "Error occurred while logging out",
-  "views.home.profile.provider.error.sign-in-anonymously": "Error occurred while logging in"
+  "views.home.profile.provider.error.sign-in-anonymously": "Error occurred while logging in",
+  "views.home.instrument-details.error.network": "Network error occurred",
+  "views.home.instrument-details.error.fetching-data": "Error occurred while fetching data",
+  "views.home.instrument-details.error.loading-chart-data": "We couldn't load chart data",
+  "views.home.instrument-details.error.try-again": "Try again",
+  "views.home.instrument-details.loading-chart": "Loading chart..."
 }
