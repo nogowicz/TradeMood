@@ -30,6 +30,7 @@ import { AuthContext } from '@views/navigation/AuthProvider';
 import { LineChart } from "react-native-chart-kit";
 import Snackbar from 'react-native-snackbar';
 import TextButton from 'components/buttons/text-button';
+import { formatDateToShortDate, formatLongDate } from 'utils/dateFormat';
 
 type InstrumentDetailsScreenNavigationProp = NativeStackScreenProps<RootStackParamList, 'InstrumentDetails'>;
 type InstrumentDetailsScreenRouteProp = RouteProp<RootStackParamList, 'InstrumentDetails'>
@@ -47,8 +48,6 @@ export default function InstrumentDetails({ navigation, route }: InstrumentDetai
     const scrollY = useRef(new Animated.Value(0)).current;
     const { instrument }: { instrument?: InstrumentProps } = route.params ?? {};
     const favoriteCryptoCtx = useContext(FavoritesContext);
-    const [language] = useContext(LangContext);
-    const dateLocationLanguage = language === 'pl' ? 'pl-PL' : 'en-US';
     const theme = useTheme();
     const { user } = useContext(AuthContext);
     const [data, setData] = useState<any>();
@@ -136,20 +135,10 @@ export default function InstrumentDetails({ navigation, route }: InstrumentDetai
         setChartDataError(false);
         let currentTimestamp = Math.floor(Date.now() / 1000);
         let date = new Date();
-        // date.setFullYear(date.getFullYear() - 1);
-        // date.setHours(0, 0, 0, 0);
-        // let newTimestamp = Math.floor(date.getTime() / 1000);
-
-
         date.setDate(date.getDate() - 7);
-
-
-
-        // Konwersja na znacznik czasu
         const timestamp = Math.floor(date.getTime() / 1000);
 
         try {
-            // const response = await fetch(`https://query1.finance.yahoo.com/v7/finance/download/${instrument?.stockSymbol}-USD?period1=${newTimestamp}&period2=${currentTimestamp}&interval=3mo&events=history`);
             const response = await fetch(`https://query1.finance.yahoo.com/v7/finance/download/${instrument?.stockSymbol}-USD?period1=${timestamp}&period2=${currentTimestamp}&interval=1d&events=history`);
 
             if (!response.ok) {
@@ -235,7 +224,8 @@ export default function InstrumentDetails({ navigation, route }: InstrumentDetai
             hour: '2-digit',
             minute: '2-digit'
         };
-        const formattedDate = date.toLocaleDateString(dateLocationLanguage, options);
+        // const formattedDate = date.toLocaleDateString(dateLocationLanguage, options);
+        const formattedUpdateDate = formatLongDate(date, intl);
 
         const cryptoIsFavorite = favoriteCryptoCtx.ids.includes(instrument.id);
 
@@ -402,10 +392,7 @@ export default function InstrumentDetails({ navigation, route }: InstrumentDetai
 
                                     formatXLabel={(xValue) => {
                                         const date = new Date(xValue);
-                                        const monthNames = ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"];
-                                        const month = monthNames[date.getMonth()];
-                                        const day = date.getDate();
-                                        return `${day} ${month}`;
+                                        return formatDateToShortDate(date, intl);
                                     }}
 
 
@@ -475,7 +462,7 @@ export default function InstrumentDetails({ navigation, route }: InstrumentDetai
                                     defaultMessage='Update time:'
                                     id='views.home.instrument-details.update-time'
                                 />
-                                {formattedDate}
+                                {formattedUpdateDate}
                             </Text>
                         </View>
                     </Animated.ScrollView>
