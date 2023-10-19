@@ -1,12 +1,12 @@
 import { Animated, Dimensions, Easing, StyleSheet, Text, View } from 'react-native'
 import React, { useEffect, useRef, useState } from 'react'
 import TextButton from 'components/buttons/text-button';
-import { FormattedMessage, useIntl } from 'react-intl';
+import Snackbar from 'react-native-snackbar';
 import { LineChart } from 'react-native-chart-kit';
+import { FormattedMessage, useIntl } from 'react-intl';
 import { constants, spacing, typography } from 'styles';
 import { formatDateToShortDate } from 'utils/dateFormat';
 import { useTheme } from 'store/themeContext';
-import Snackbar from 'react-native-snackbar';
 import { InstrumentProps } from '@views/navigation/InstrumentProvider';
 import { YAHOO_FINANCE_API } from "@env"
 

@@ -1,11 +1,4 @@
-import {
-    StyleSheet,
-    SafeAreaView,
-    Text,
-    View,
-    TouchableOpacity,
-    Animated
-} from 'react-native'
+import { StyleSheet, SafeAreaView, Text, View, TouchableOpacity, Animated } from 'react-native'
 import React, { useContext, useRef } from 'react'
 import { NativeStackScreenProps } from '@react-navigation/native-stack';
 import { RootStackParamList } from '@views/navigation/Navigation';
@@ -13,18 +6,14 @@ import { RouteProp } from '@react-navigation/native';
 import { spacing, typography } from 'styles';
 import GoBack from 'assets/icons/Go-back.svg'
 import IconButton from 'components/buttons/icon-button';
-import Bookmark from 'assets/icons/Bookmark.svg'
-import BookmarkSelected from 'assets/icons/Bookmark-selected.svg'
-import FastImage from 'react-native-fast-image';
-import { FavoritesContext } from '@views/navigation/FavoritesProvider';
 import { InstrumentProps } from '@views/navigation/InstrumentProvider';
 import { FormattedMessage, useIntl } from 'react-intl';
 import TrendingNow from 'components/trending-now';
 import ActivityCompare from 'components/activity-compare';
 import { useTheme } from 'store/themeContext';
-import { AuthContext } from '@views/navigation/AuthProvider';
 import { formatLongDate } from 'utils/dateFormat';
 import CustomChart from './CustomChart';
+import AnimatedNavigationBar from './AnimatedNavigationBar';
 
 type InstrumentDetailsScreenNavigationProp = NativeStackScreenProps<RootStackParamList, 'InstrumentDetails'>;
 type InstrumentDetailsScreenRouteProp = RouteProp<RootStackParamList, 'InstrumentDetails'>
@@ -40,12 +29,9 @@ type InstrumentDetailsProps = {
 
 export default function InstrumentDetails({ navigation, route }: InstrumentDetailsProps) {
     const scrollY = useRef(new Animated.Value(0)).current;
-    const { instrument }: { instrument?: InstrumentProps } = route.params ?? {};
-    const favoriteCryptoCtx = useContext(FavoritesContext);
     const theme = useTheme();
-    const { user } = useContext(AuthContext);
-    const backIconMargin = 8;
     const intl = useIntl();
+    const { instrument }: { instrument?: InstrumentProps } = route.params ?? {};
 
     if (!instrument) {
         return (
@@ -76,94 +62,20 @@ export default function InstrumentDetails({ navigation, route }: InstrumentDetai
         const milliseconds = instrument.time.seconds * 1000 + instrument.time.nanoseconds / 1000000;
         const date = new Date(milliseconds);
         const formattedUpdateDate = formatLongDate(date, intl);
-        const cryptoIsFavorite = favoriteCryptoCtx.ids.includes(instrument.id);
-
-        function changeFavoriteStatusHandler() {
-            if (instrument) {
-                if (cryptoIsFavorite) {
-                    favoriteCryptoCtx.removeFavorite(instrument.id);
-                } else {
-                    favoriteCryptoCtx.addFavorite(instrument.id);
-                }
-            }
-        }
 
         const onScroll = Animated.event(
             [{ nativeEvent: { contentOffset: { y: scrollY } } }],
             { useNativeDriver: false }
         );
 
-        const logoScale = scrollY.interpolate({
-            inputRange: [0, 100],
-            outputRange: [1, 0.5],
-            extrapolate: 'clamp',
-        });
-
-        const logoTranslateY = scrollY.interpolate({
-            inputRange: [0, 100],
-            outputRange: [0, -50],
-            extrapolate: 'clamp',
-        });
-
-        const marginBottom = scrollY.interpolate({
-            inputRange: [0, 100],
-            outputRange: [0, -50],
-            extrapolate: 'clamp',
-        });
-
-
         return (
             <SafeAreaView style={[styles.root, { backgroundColor: theme.BACKGROUND }]}>
                 <View style={styles.container}>
-                    <Animated.View style={[styles.actionContainer, { marginBottom }]}>
-                        <View style={styles.actionContainerComponent} >
-                            <IconButton
-                                onPress={() => navigation.goBack()}
-                                size={42}
-                            >
-                                <GoBack fill={theme.TERTIARY} />
-                            </IconButton>
-                        </View>
-                        <Animated.View
-                            style={[
-                                {
-                                    marginLeft: -(backIconMargin),
-                                    alignItems: 'center',
-                                    justifyContent: 'center',
-                                    transform: [{ scale: logoScale },
-                                    { translateY: logoTranslateY }],
-                                    maxWidth: '50%',
-                                },
-                            ]}
-                        >
-                            <FastImage
-                                source={{ uri: instrument.photoUrl }}
-                                style={styles.image}
-                            />
-                            <Text
-                                style={[
-                                    styles.sectionTitle,
-                                    { color: theme.TERTIARY }
-                                ]}
-                                ellipsizeMode='tail'
-                                numberOfLines={2}
-                            >
-                                {instrument.crypto}
-                            </Text>
-                        </Animated.View>
-                        {!user?.isAnonymous ?
-                            <TouchableOpacity
-                                onPress={changeFavoriteStatusHandler}
-                                style={{ marginTop: backIconMargin }}
-                            >
-                                {cryptoIsFavorite ?
-                                    <BookmarkSelected width={32} height={32} /> :
-                                    <Bookmark stroke={theme.TERTIARY} width={32} height={32} />
-                                }
-                            </TouchableOpacity> :
-                            <View style={{ width: 32 }} />
-                        }
-                    </Animated.View>
+                    <AnimatedNavigationBar
+                        instrument={instrument}
+                        navigation={navigation}
+                        scrollY={scrollY}
+                    />
                     <Animated.ScrollView
                         style={styles.mainContainer}
                         showsVerticalScrollIndicator={false}
