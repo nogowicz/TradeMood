@@ -8,6 +8,7 @@ import { formatDateToShortDate } from 'utils/dateFormat';
 import { useTheme } from 'store/themeContext';
 import Snackbar from 'react-native-snackbar';
 import { InstrumentProps } from '@views/navigation/InstrumentProvider';
+import { YAHOO_FINANCE_API } from "@env"
 
 type CustomChartProps = {
     instrument?: InstrumentProps;
@@ -56,7 +57,7 @@ export default function CustomChart({ instrument }: CustomChartProps) {
         const timestamp = Math.floor(date.getTime() / 1000);
 
         try {
-            const response = await fetch(`https://query1.finance.yahoo.com/v7/finance/download/${instrument?.stockSymbol}-USD?period1=${timestamp}&period2=${currentTimestamp}&interval=1d&events=history`);
+            const response = await fetch(`${YAHOO_FINANCE_API}/${instrument?.stockSymbol}-USD?period1=${timestamp}&period2=${currentTimestamp}&interval=1d&events=history`);
 
             if (!response.ok) {
                 Snackbar.show({
@@ -162,16 +163,16 @@ export default function CustomChart({ instrument }: CustomChartProps) {
                         backgroundGradientFrom: theme.BACKGROUND,
                         backgroundGradientTo: theme.BACKGROUND,
                         decimalPlaces: 2,
-                        color: (opacity = 1) => `rgba(255, 255, 255, ${opacity})`,
-                        labelColor: (opacity = 1) => `rgba(255, 255, 255, ${opacity})`,
+                        color: (opacity = 1) => theme.PRIMARY,
+                        labelColor: (opacity = 1) => theme.TERTIARY,
                         style: {
                             borderRadius: 16,
                         },
                         propsForDots: {
-                            r: "4",
-                            strokeWidth: "1",
-                            stroke: theme.PRIMARY
-                        }
+                            r: "6",
+                            strokeWidth: "2",
+                            fill: theme.PRIMARY
+                        },
                     }}
                     bezier
                     verticalLabelRotation={50}
@@ -197,7 +198,7 @@ export default function CustomChart({ instrument }: CustomChartProps) {
                         borderRadius: constants.BORDER_RADIUS.BOTTOM_SHEET,
                         borderWidth: 2,
                         borderColor: theme.LIGHT_HINT,
-                        paddingTop: 20,
+                        paddingTop: spacing.SCALE_20,
                         justifyContent: 'center',
                         alignItems: 'center',
                     }}
@@ -253,8 +254,8 @@ export default function CustomChart({ instrument }: CustomChartProps) {
 
 const styles = StyleSheet.create({
     indicator: {
+        borderRadius: constants.BORDER_RADIUS.CIRCLE,
         width: constants.ICON_SIZE.ACTIVITY_INDICATOR,
         height: constants.ICON_SIZE.ACTIVITY_INDICATOR,
-        borderRadius: constants.BORDER_RADIUS.CIRCLE
     },
 })
