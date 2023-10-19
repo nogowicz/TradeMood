@@ -14,16 +14,37 @@ type CustomChartProps = {
     instrument?: InstrumentProps;
 };
 
+type Dataset = {
+    data: number[];
+};
+
+type DataSets = {
+    datasets: Dataset[];
+    labels: string[];
+};
+
+type StockData = {
+    "Adj Close": string;
+    "Close": string;
+    "Date": string;
+    "High": string;
+    "Low": string;
+    "Open": string;
+    "Volume": string;
+};
+
 export default function CustomChart({ instrument }: CustomChartProps) {
-    const [chartData, setChartData] = useState<any>();
+    const [chartData, setChartData] = useState<DataSets>();
     const [chartDataError, setChartDataError] = useState(false);
+    const [data, setData] = useState<StockData[]>();
     const theme = useTheme();
     const intl = useIntl();
-    const chartWidth = (Dimensions.get("window").width) - 50
-    const chartHeight = 380;
+
     const lowestScale = 0.4;
     const scaleAnim = useRef(new Animated.Value(lowestScale)).current;
-    const [data, setData] = useState<any>();
+
+    const chartWidth = (Dimensions.get("window").width) - 50
+    const chartHeight = 380;
 
     //translations:
     const chartLoadingErrorTranslation = intl.formatMessage({

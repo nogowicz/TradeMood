@@ -4,15 +4,13 @@ import {
     Text,
     View,
     TouchableOpacity,
-    Animated,
-    Dimensions,
-    Easing,
+    Animated
 } from 'react-native'
-import React, { useContext, useEffect, useRef, useState } from 'react'
+import React, { useContext, useRef } from 'react'
 import { NativeStackScreenProps } from '@react-navigation/native-stack';
 import { RootStackParamList } from '@views/navigation/Navigation';
 import { RouteProp } from '@react-navigation/native';
-import { constants, spacing, typography } from 'styles';
+import { spacing, typography } from 'styles';
 import GoBack from 'assets/icons/Go-back.svg'
 import IconButton from 'components/buttons/icon-button';
 import Bookmark from 'assets/icons/Bookmark.svg'
@@ -21,12 +19,10 @@ import FastImage from 'react-native-fast-image';
 import { FavoritesContext } from '@views/navigation/FavoritesProvider';
 import { InstrumentProps } from '@views/navigation/InstrumentProvider';
 import { FormattedMessage, useIntl } from 'react-intl';
-import { LangContext } from 'lang/LangProvider';
 import TrendingNow from 'components/trending-now';
 import ActivityCompare from 'components/activity-compare';
 import { useTheme } from 'store/themeContext';
 import { AuthContext } from '@views/navigation/AuthProvider';
-import Snackbar from 'react-native-snackbar';
 import { formatLongDate } from 'utils/dateFormat';
 import CustomChart from './CustomChart';
 
