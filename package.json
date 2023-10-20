@@ -33,6 +33,7 @@
     "react-intl": "^6.3.2",
     "react-native": "0.72.3",
     "react-native-chart-kit": "^6.12.0",
+    "react-native-dropdown-select-list": "^2.0.5",
     "react-native-event-listeners": "^1.0.7",
     "react-native-fast-image": "^8.6.3",
     "react-native-gesture-handler": "^2.9.0",

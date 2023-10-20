@@ -31,11 +31,19 @@ function getDayName(day: number, intl: IntlShape): string {
   return intl.formatMessage({ id: dayId[day.toString()] });
 }
 
-export function formatDateToShortDate(date: Date, intl: IntlShape): string {
+export function formatDateToShortDate(
+  date: Date,
+  intl: IntlShape,
+  isYear: boolean,
+): string {
   const monthAbbreviation: string = getShortMonthName(date.getMonth(), intl);
   const day: number = date.getDate();
-
-  return `${day} ${monthAbbreviation}`;
+  const year: string = date.getFullYear().toString().slice(2);
+  if (isYear) {
+    return `${day} ${monthAbbreviation} '${year}`;
+  } else {
+    return `${day} ${monthAbbreviation}`;
+  }
 }
 
 export function formatLongDate(date: Date, intl: IntlShape): string {

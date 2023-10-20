@@ -8,7 +8,9 @@ import { constants, spacing, typography } from 'styles';
 import { formatDateToShortDate } from 'utils/dateFormat';
 import { useTheme } from 'store/themeContext';
 import { InstrumentProps } from '@views/navigation/InstrumentProvider';
-import { YAHOO_FINANCE_API } from "@env"
+import { YAHOO_FINANCE_API } from "@env";
+import { SelectList } from 'react-native-dropdown-select-list';
+import ArrowDownIcon from 'assets/icons/Arrow-down.svg';
 
 type CustomChartProps = {
     instrument?: InstrumentProps;
@@ -33,6 +35,11 @@ type StockData = {
     "Volume": string;
 };
 
+type PickListElementType = {
+    key: string;
+    value: string;
+}
+
 export default function CustomChart({ instrument }: CustomChartProps) {
     const [chartData, setChartData] = useState<DataSets>();
     const [chartDataError, setChartDataError] = useState(false);
@@ -45,6 +52,8 @@ export default function CustomChart({ instrument }: CustomChartProps) {
 
     const chartWidth = (Dimensions.get("window").width) - 50
     const chartHeight = 380;
+
+
 
     //translations:
     const chartLoadingErrorTranslation = intl.formatMessage({
@@ -63,6 +72,27 @@ export default function CustomChart({ instrument }: CustomChartProps) {
         defaultMessage: "Error occurred while fetching data",
         id: 'views.home.instrument-details.error.fetching-data'
     });
+    const lastWeekTranslation = intl.formatMessage({
+        defaultMessage: "Last week",
+        id: 'views.home.instrument-details.chart.last-week'
+    });
+    const lastMonthTranslation = intl.formatMessage({
+        defaultMessage: "Last month",
+        id: 'views.home.instrument-details.chart.last-month'
+    });
+    const lastYearTranslation = intl.formatMessage({
+        defaultMessage: "Last year",
+        id: 'views.home.instrument-details.chart.last-year'
+    });
+
+    const [selected, setSelected] = useState(lastWeekTranslation);
+
+    const pickListData: { key: string, value: string }[] = [
+        { key: '1', value: lastWeekTranslation },
+        { key: '2', value: lastMonthTranslation },
+        { key: '3', value: lastYearTranslation },
+    ]
+
 
     useEffect(() => {
         if (data) {
@@ -70,15 +100,41 @@ export default function CustomChart({ instrument }: CustomChartProps) {
         }
     }, [data]);
 
-    async function fetchData() {
-        setChartDataError(false);
+    function selectDateForChart(timeRange: string) {
         let currentTimestamp = Math.floor(Date.now() / 1000);
         let date = new Date();
-        date.setDate(date.getDate() - 7);
-        const timestamp = Math.floor(date.getTime() / 1000);
+        let interval;
 
+        if (timeRange === lastWeekTranslation) {
+            date.setDate(date.getDate() - 7);
+            interval = '1d';
+        } else if (timeRange === lastMonthTranslation) {
+            date.setMonth(date.getMonth() - 1);
+            interval = '1wk';
+        } else if (timeRange === lastYearTranslation) {
+            date.setFullYear(date.getFullYear() - 1);
+            interval = '3mo';
+        }
+        else {
+            console.error('Unrecognized time range:', timeRange);
+        }
+        const timestamp = Math.floor(date.getTime() / 1000);
+        console.log(interval)
+        return {
+            currentTimestamp,
+            timestamp,
+            interval: interval || '1d'
+        }
+    }
+
+
+    async function fetchData() {
+        setChartDataError(false);
+        const { currentTimestamp, timestamp, interval } = selectDateForChart(selected);
         try {
-            const response = await fetch(`${YAHOO_FINANCE_API}/${instrument?.stockSymbol}-USD?period1=${timestamp}&period2=${currentTimestamp}&interval=1d&events=history`);
+            const URL = `${YAHOO_FINANCE_API}/${instrument?.stockSymbol}-USD?period1=${timestamp}&period2=${currentTimestamp}&interval=${interval}&events=history`
+            console.log(URL);
+            const response = await fetch(URL);
 
             if (!response.ok) {
                 Snackbar.show({
@@ -124,7 +180,7 @@ export default function CustomChart({ instrument }: CustomChartProps) {
         if (instrument?.stockSymbol) {
             fetchData();
         }
-    }, []);
+    }, [selected]);
 
 
     useEffect(() => {
@@ -171,6 +227,40 @@ export default function CustomChart({ instrument }: CustomChartProps) {
 
     return (
         <View>
+            <View style={{
+                marginBottom: spacing.SCALE_20,
+            }}>
+                <SelectList
+                    setSelected={(val: any) => setSelected(val)}
+                    data={pickListData}
+                    save="value"
+                    placeholder={lastWeekTranslation}
+                    search={false}
+                    arrowicon={<ArrowDownIcon fill={theme.LIGHT_HINT} />}
+                    inputStyles={{
+                        color: theme.TERTIARY,
+                    }}
+                    boxStyles={{
+                        borderColor: theme.LIGHT_HINT,
+                        borderRadius: constants.BORDER_RADIUS.INPUT,
+                        alignItems: 'center'
+                    }}
+                    dropdownStyles={{
+                        borderColor: theme.LIGHT_HINT,
+                        borderRadius: constants.BORDER_RADIUS.INPUT,
+                    }}
+                    dropdownTextStyles={{
+                        color: theme.TERTIARY,
+                        backgroundColor: theme.BACKGROUND,
+                    }}
+                    dropdownItemStyles={{
+                        backgroundColor: theme.BACKGROUND
+                    }}
+                    disabledItemStyles={{
+                        backgroundColor: theme.BACKGROUND
+                    }}
+                />
+            </View>
             {chartData
                 ?
                 <LineChart
@@ -207,7 +297,8 @@ export default function CustomChart({ instrument }: CustomChartProps) {
 
                     formatXLabel={(xValue) => {
                         const date = new Date(xValue);
-                        return formatDateToShortDate(date, intl);
+                        const isYear = selected === lastYearTranslation;
+                        return formatDateToShortDate(date, intl, isYear);
                     }}
 
 
