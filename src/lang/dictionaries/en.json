@@ -152,5 +152,8 @@
   "date.day.wednesday": "Wednesday",
   "date.day.thursday": "Thursday",
   "date.day.friday": "Friday",
-  "date.day.saturday": "Saturday"
+  "date.day.saturday": "Saturday",
+  "views.home.instrument-details.chart.last-week": "Last week",
+  "views.home.instrument-details.chart.last-month": "Last Month",
+  "views.home.instrument-details.chart.last-year": "Last Year"
 }

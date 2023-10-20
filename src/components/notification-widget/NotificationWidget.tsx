@@ -4,6 +4,8 @@ import { spacing, typography } from 'styles';
 import { TouchableOpacity } from 'react-native-gesture-handler';
 import { formatDateTime } from 'helpers/dateFormat';
 import { useTheme } from 'store/themeContext';
+import { useNavigation } from '@react-navigation/native';
+import { SCREENS } from '@views/navigation/constants';
 
 export type NavigationWidgetProps = {
     title: string;
@@ -14,8 +16,13 @@ export type NavigationWidgetProps = {
 
 export default function NotificationWidget({ title, content, date, activeOpacity = 0.7 }: NavigationWidgetProps) {
     const theme = useTheme();
+    const navigation = useNavigation();
     return (
-        <TouchableOpacity activeOpacity={activeOpacity} style={[styles.container, { borderBottomColor: theme.LIGHT_HINT }]}>
+        <TouchableOpacity
+            activeOpacity={activeOpacity}
+            style={[styles.container, { borderBottomColor: theme.LIGHT_HINT }]}
+            onPress={() => navigation.navigate(SCREENS.HOME.SEARCH.ID as never)}
+        >
             <View style={styles.notificationTop}>
                 <Text style={[styles.titleText, { color: theme.TERTIARY }]}>{title}</Text>
                 <Text style={[styles.dateText, { color: theme.HINT }]}>{formatDateTime(date)}</Text>
