@@ -2,18 +2,13 @@ import { StyleSheet, Text, View, SafeAreaView, ScrollView, RefreshControl, FlatL
 import React, { useCallback, useContext, useEffect, useRef, useState } from 'react'
 import { NativeStackScreenProps } from '@react-navigation/native-stack';
 import { RootStackParamList } from '../../navigation/Navigation';
-import { constants, spacing, typography } from 'styles';
-import { FormattedMessage, useIntl } from 'react-intl';
+import { spacing, typography } from 'styles';
+import { FormattedMessage } from 'react-intl';
 import { useTheme } from 'store/themeContext';
 import { AuthContext } from '@views/navigation/AuthProvider';
 import DiscussionTextArea from 'components/discussion-text-area';
 import firestore from '@react-native-firebase/firestore';
 import Post, { PostType } from 'components/post/Post';
-import BottomSheet from 'components/bottom-sheet';
-import { BottomSheetRefProps } from 'components/bottom-sheet/BottomSheet';
-import TrashIcon from 'assets/icons/Trash-icon.svg';
-import post from 'components/post';
-
 
 
 type DiscussionScreenNavigationProp = NativeStackScreenProps<RootStackParamList, 'Discussion'>;
@@ -22,20 +17,11 @@ type DiscussionProps = {
     navigation: DiscussionScreenNavigationProp['navigation']
 }
 
-
-
-
 export default function Discussion({ navigation }: DiscussionProps) {
     const [posts, setPosts] = useState<PostType[]>([]);
     const { user } = useContext(AuthContext);
     const [refreshing, setRefreshing] = useState(false);
     const theme = useTheme();
-    const refDeletePost = useRef<BottomSheetRefProps>(null);
-    const deletePostSheetOpen = useRef(false);
-    const intl = useIntl();
-    const { height } = useWindowDimensions();
-
-
 
     const onRefresh = useCallback(() => {
         const subscriber = firestore()
@@ -82,7 +68,21 @@ export default function Discussion({ navigation }: DiscussionProps) {
                             id='views.home.discussion.title'
                         />
                     </Text>
-                    <DiscussionTextArea />
+                    {user?.isAnonymous ?
+                        <View>
+                            <Text style={[
+                                styles.anonymousText,
+                                {
+                                    color: theme.TERTIARY
+                                }]}>
+                                <FormattedMessage
+                                    defaultMessage='Log in or register to add posts'
+                                    id='views.home.discussion.anonymous.login-or-register'
+                                />
+                            </Text>
+                        </View>
+                        :
+                        <DiscussionTextArea />}
                     <FlatList
                         style={{
                             flex: 1
@@ -139,5 +139,10 @@ const styles = StyleSheet.create({
         marginVertical: spacing.SCALE_18,
         flex: 1,
     },
+    anonymousText: {
+        fontSize: typography.FONT_SIZE_20,
+        textAlign: 'center',
+        marginVertical: spacing.SCALE_20,
+    }
 
 })

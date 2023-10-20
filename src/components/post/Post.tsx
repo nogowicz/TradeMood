@@ -166,7 +166,7 @@ export default function Post({
                 <View style={styles.likesContainer}>
                     <IconButton
                         onPress={() => {
-                            if (user) {
+                            if (user && !user.isAnonymous) {
                                 toggleLikePost(uid, user?.uid, likes);
                             }
                         }}

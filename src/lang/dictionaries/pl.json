@@ -156,5 +156,6 @@
   "views.home.discussion.text-input.placeholder": "Chcesz się czymś podzielić?",
   "views.home.discussion.error.like": "Wystąpił błąd podczas próby polubienia posta",
   "views.home.discussion.error.deleting": "Wystąpił błąd podczas próby usunięcia posta",
-  "views.home.discussion.error.adding": "Wystąpił błąd podczas próby dodania posta"
+  "views.home.discussion.error.adding": "Wystąpił błąd podczas próby dodania posta",
+  "views.home.discussion.anonymous.login-or-register": "Zaloguj się lub zarejestruj aby móc dodawać posty"
 }
