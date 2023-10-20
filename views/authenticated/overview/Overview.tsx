@@ -57,7 +57,7 @@ export default function Overview({ navigation }: OverviewProps) {
                             <Search stroke={theme.TERTIARY} strokeWidth={1.5} />
                         </IconButton>
                         <IconButton
-                            onPress={() => navigation.navigate(SCREENS.HOME.NOTIFICATION.ID)}
+                            onPress={() => navigation.navigate(SCREENS.HOME.DISCUSSION.ID)}
                             size={48}
                             backgroundColor={theme.LIGHT_HINT}
                         >

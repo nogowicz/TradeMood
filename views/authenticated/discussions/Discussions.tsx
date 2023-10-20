@@ -1,5 +1,5 @@
-import { StyleSheet, Text, View, SafeAreaView, } from 'react-native'
-import React, { useContext, useEffect, useState } from 'react'
+import { StyleSheet, Text, View, SafeAreaView, ScrollView, RefreshControl, FlatList } from 'react-native'
+import React, { useCallback, useContext, useEffect, useState } from 'react'
 import { NativeStackScreenProps } from '@react-navigation/native-stack';
 import { RootStackParamList } from '../../navigation/Navigation';
 import { spacing, typography } from 'styles';
@@ -8,6 +8,7 @@ import { useTheme } from 'store/themeContext';
 import { AuthContext } from '@views/navigation/AuthProvider';
 import DiscussionTextArea from 'components/discussion-text-area';
 import firestore from '@react-native-firebase/firestore';
+import Post, { PostType } from 'components/post/Post';
 
 
 
@@ -18,30 +19,47 @@ type DiscussionProps = {
 }
 
 
+
+
 export default function Discussion({ navigation }: DiscussionProps) {
-    const [posts, setPosts] = useState<any[]>([]);
+    const [posts, setPosts] = useState<PostType[]>([]);
     const { user } = useContext(AuthContext);
+    const [refreshing, setRefreshing] = useState(false);
     const theme = useTheme();
     const intl = useIntl();
 
-    useEffect(() => {
+
+    const onRefresh = useCallback(() => {
         const subscriber = firestore()
             .collection('posts')
             .onSnapshot((querySnapshot) => {
-                const posts: any[] = [];
+                const posts: PostType[] = [];
 
                 querySnapshot.forEach((documentSnapshot) => {
-                    posts.push({
-                        ...documentSnapshot.data(),
-                        key: documentSnapshot.id,
-                    });
+                    const data = documentSnapshot.data();
+                    if (data.createdAt) {
+                        posts.push({
+                            createdAt: (data.createdAt.seconds * 1000 + data.createdAt.nanoseconds / 1000000),
+                            key: documentSnapshot.id,
+                            likes: data.likes,
+                            text: data.text,
+                            uid: documentSnapshot.id,
+                            name: data.name,
+                            photoURL: data.photoURL,
+                        });
+                    }
                 });
 
-                setPosts(posts);
+                const sortedPosts = [...posts].sort((a, b) => b.createdAt - a.createdAt);
+                console.log(sortedPosts)
+                setPosts(sortedPosts);
             });
-
-        console.log(posts)
         return () => subscriber();
+    }, []);
+
+
+    useEffect(() => {
+        onRefresh();
     }, []);
 
 
@@ -56,6 +74,31 @@ export default function Discussion({ navigation }: DiscussionProps) {
                         />
                     </Text>
                     <DiscussionTextArea />
+                    <FlatList
+                        style={{
+                            flex: 1
+                        }}
+                        data={posts}
+                        keyExtractor={(item: PostType) => (item.key || '').toString()}
+                        renderItem={({ item: post }) => (
+                            <Post
+                                createdAt={post.createdAt}
+                                likes={post.likes}
+                                text={post.text}
+                                uid={post.uid}
+                                name={post.name}
+                                photoURL={post.photoURL}
+                            />
+                        )}
+                        showsVerticalScrollIndicator={false}
+                        refreshControl={
+                            <RefreshControl
+                                refreshing={refreshing}
+                                onRefresh={onRefresh}
+                                colors={[theme.LIGHT_HINT]}
+                                progressBackgroundColor={theme.PRIMARY}
+                            />}
+                    />
                 </View>
             </View>
         </SafeAreaView>
@@ -78,6 +121,7 @@ const styles = StyleSheet.create({
     },
     mainContainer: {
         marginVertical: spacing.SCALE_18,
+        flex: 1,
     },
 
 })
