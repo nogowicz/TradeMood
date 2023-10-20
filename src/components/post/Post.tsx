@@ -1,5 +1,5 @@
 import { StyleSheet, Text, View } from 'react-native'
-import React, { useContext } from 'react'
+import React, { useContext, useState } from 'react'
 import Image from 'components/image';
 import { useTheme } from 'store/themeContext';
 import { constants, spacing, typography } from 'styles';
@@ -9,6 +9,9 @@ import IconButton from 'components/buttons/icon-button';
 import { AuthContext } from '@views/navigation/AuthProvider';
 import { formatLongDate } from 'utils/dateFormat';
 import { useIntl } from 'react-intl';
+import ThreeDotsIcon from 'assets/icons/ThreeDots-icon.svg';
+import TrashIcon from 'assets/icons/Trash-icon.svg';
+import Animated, { useSharedValue, withTiming, Easing, useAnimatedStyle } from 'react-native-reanimated';
 
 
 export type PostType = {
@@ -19,6 +22,7 @@ export type PostType = {
     uid: string;
     name: string;
     photoURL: string;
+    userUID: string;
 };
 
 export default function Post({
@@ -27,15 +31,15 @@ export default function Post({
     text,
     uid,
     name,
-    photoURL
+    photoURL,
+    userUID,
 }: PostType) {
     const imageSize = 40;
     const theme = useTheme();
     const { user } = useContext(AuthContext);
     const intl = useIntl();
     const date = new Date(createdAt);
-
-    console.log(uid)
+    const [isTrashVisible, setIsTrashVisible] = useState(false);
 
     async function toggleLikePost(postUID: string, currentUserUID: string, likes: string[]) {
         const userIndex = likes.indexOf(currentUserUID);
@@ -54,6 +58,35 @@ export default function Post({
             console.error('Error occurred while updating firebase collection:  ', error);
         }
     }
+
+
+
+    const trashScale = useSharedValue(0);
+
+    function handleToggleTrash() {
+        setIsTrashVisible(!isTrashVisible);
+        trashScale.value = withTiming(isTrashVisible ? 1 : 0, {
+            duration: 300,
+            easing: Easing.inOut(Easing.ease),
+        });
+    }
+
+    const animatedStyle = useAnimatedStyle(() => {
+        return {
+            transform: [{ scale: trashScale.value }],
+        };
+    });
+
+    async function deletePost(postUID: string) {
+        try {
+            const postRef = firestore().collection('posts').doc(postUID);
+            await postRef.delete();
+            console.log('Post was successfully deleted.');
+        } catch (error) {
+            console.error('An error occurred while deleting the post:', error);
+        }
+    }
+
     return (
         <View style={[
             styles.container,
@@ -62,22 +95,49 @@ export default function Post({
             }
         ]}>
             <View style={styles.upperContainer}>
-                {photoURL ? (
-                    <Image
-                        url={photoURL}
-                        style={{ width: imageSize, height: imageSize, borderRadius: imageSize / 2 }}
-                    />
-                ) : (
-                    <Image
-                        source={require('assets/profile/profile-picture.png')}
-                        style={{ width: imageSize, height: imageSize, borderRadius: imageSize / 2 }}
-                    />
-                )}
-                <Text style={[
-                    styles.nameText,
-                    {
-                        color: theme.TERTIARY,
-                    }]}>{name}</Text>
+                <View style={styles.upperLeftContainer}>
+                    {photoURL ? (
+                        <Image
+                            url={photoURL}
+                            style={{ width: imageSize, height: imageSize, borderRadius: imageSize / 2 }}
+                        />
+                    ) : (
+                        <Image
+                            source={require('assets/profile/profile-picture.png')}
+                            style={{ width: imageSize, height: imageSize, borderRadius: imageSize / 2 }}
+                        />
+                    )}
+                    <Text style={[
+                        styles.nameText,
+                        {
+                            color: theme.TERTIARY,
+                        }]}>{name}</Text>
+                </View>
+                {(user && userUID === user.uid) &&
+                    <View style={{
+                        flexDirection: 'row',
+                        gap: spacing.SCALE_8,
+                    }}>
+
+                        <Animated.View style={animatedStyle}>
+                            <IconButton
+                                onPress={() => deletePost(uid)}
+                                size={40}
+                            >
+                                <TrashIcon stroke={theme.NEGATIVE} strokeWidth={constants.STROKE_WIDTH.MEDIUM} />
+                            </IconButton>
+                        </Animated.View>
+
+
+                        <IconButton
+                            onPress={handleToggleTrash}
+                            size={40}
+                            isBorder={false}
+                        >
+                            <ThreeDotsIcon fill={theme.TERTIARY} width={20} height={20} />
+                        </IconButton>
+                    </View>
+                }
             </View>
             <Text style={[
                 styles.contentText,
@@ -107,7 +167,7 @@ export default function Post({
                 </View>
                 <Text style={{ color: theme.HINT }}>{formatLongDate(date, intl)}</Text>
             </View>
-        </View>
+        </View >
 
     );
 
@@ -122,6 +182,12 @@ const styles = StyleSheet.create({
         marginVertical: spacing.SCALE_12,
     },
     upperContainer: {
+        flexDirection: 'row',
+        alignItems: 'center',
+        justifyContent: 'space-between',
+        gap: spacing.SCALE_20,
+    },
+    upperLeftContainer: {
         flexDirection: 'row',
         alignItems: 'center',
         gap: spacing.SCALE_20,
@@ -144,5 +210,5 @@ const styles = StyleSheet.create({
         flexDirection: 'row',
         justifyContent: 'center',
         alignItems: 'center',
-    }
+    },
 })

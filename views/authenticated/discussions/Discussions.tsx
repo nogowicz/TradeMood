@@ -1,14 +1,18 @@
-import { StyleSheet, Text, View, SafeAreaView, ScrollView, RefreshControl, FlatList } from 'react-native'
-import React, { useCallback, useContext, useEffect, useState } from 'react'
+import { StyleSheet, Text, View, SafeAreaView, ScrollView, RefreshControl, FlatList, useWindowDimensions, TouchableOpacity } from 'react-native'
+import React, { useCallback, useContext, useEffect, useRef, useState } from 'react'
 import { NativeStackScreenProps } from '@react-navigation/native-stack';
 import { RootStackParamList } from '../../navigation/Navigation';
-import { spacing, typography } from 'styles';
+import { constants, spacing, typography } from 'styles';
 import { FormattedMessage, useIntl } from 'react-intl';
 import { useTheme } from 'store/themeContext';
 import { AuthContext } from '@views/navigation/AuthProvider';
 import DiscussionTextArea from 'components/discussion-text-area';
 import firestore from '@react-native-firebase/firestore';
 import Post, { PostType } from 'components/post/Post';
+import BottomSheet from 'components/bottom-sheet';
+import { BottomSheetRefProps } from 'components/bottom-sheet/BottomSheet';
+import TrashIcon from 'assets/icons/Trash-icon.svg';
+import post from 'components/post';
 
 
 
@@ -26,7 +30,20 @@ export default function Discussion({ navigation }: DiscussionProps) {
     const { user } = useContext(AuthContext);
     const [refreshing, setRefreshing] = useState(false);
     const theme = useTheme();
+    const refDeletePost = useRef<BottomSheetRefProps>(null);
+    const deletePostSheetOpen = useRef(false);
     const intl = useIntl();
+    const { height } = useWindowDimensions();
+
+    const handleShowDeleteButton = useCallback(() => {
+        deletePostSheetOpen.current = !deletePostSheetOpen.current;
+        if (!deletePostSheetOpen.current) {
+            refDeletePost.current?.scrollTo(0);
+        } else {
+            refDeletePost.current?.scrollTo(-(height - constants.BOTTOM_SHEET_HEIGHT.DELETE_POST));
+        }
+    }, []);
+
 
 
     const onRefresh = useCallback(() => {
@@ -46,6 +63,7 @@ export default function Discussion({ navigation }: DiscussionProps) {
                             uid: documentSnapshot.id,
                             name: data.name,
                             photoURL: data.photoURL,
+                            userUID: data.userUID
                         });
                     }
                 });
@@ -80,16 +98,23 @@ export default function Discussion({ navigation }: DiscussionProps) {
                         }}
                         data={posts}
                         keyExtractor={(item: PostType) => (item.key || '').toString()}
-                        renderItem={({ item: post }) => (
-                            <Post
-                                createdAt={post.createdAt}
-                                likes={post.likes}
-                                text={post.text}
-                                uid={post.uid}
-                                name={post.name}
-                                photoURL={post.photoURL}
-                            />
-                        )}
+                        renderItem={({ item: post }) => {
+                            if (post) {
+                                return (
+                                    <Post
+                                        createdAt={post.createdAt}
+                                        likes={post.likes}
+                                        text={post.text}
+                                        uid={post.uid}
+                                        name={post.name}
+                                        photoURL={post.photoURL}
+                                        userUID={post.userUID}
+                                    />
+                                );
+                            } else {
+                                return null;
+                            }
+                        }}
                         showsVerticalScrollIndicator={false}
                         refreshControl={
                             <RefreshControl

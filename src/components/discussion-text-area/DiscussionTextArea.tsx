@@ -1,5 +1,5 @@
-import { StyleSheet, Text, TextInput, View } from 'react-native'
-import React, { useContext, useState } from 'react'
+import { Keyboard, StyleSheet, Text, TextInput, View } from 'react-native'
+import React, { useContext, useEffect, useState } from 'react'
 import { constants, spacing } from 'styles';
 import { useTheme } from 'store/themeContext';
 import { AuthContext } from '@views/navigation/AuthProvider';
@@ -34,12 +34,25 @@ export default function DiscussionTextArea() {
                     likes: [],
                     text: text,
                     createdAt: firestore.FieldValue.serverTimestamp(),
+                    userUID: user?.uid,
                 })
                 .then(() => {
                     setText('');
                 });
         }
     };
+
+    useEffect(() => {
+        const handleKeyboardDidHide = () => {
+            setFocus(false);
+        };
+
+        const keyboardDidHideListener = Keyboard.addListener('keyboardDidHide', handleKeyboardDidHide);
+
+        return () => {
+            keyboardDidHideListener.remove();
+        };
+    }, []);
 
     return (
         <View style={[
