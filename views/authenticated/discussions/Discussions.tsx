@@ -1,21 +1,14 @@
-import {
-    StyleSheet,
-    Text,
-    View,
-    SafeAreaView,
-    FlatList,
-    Dimensions,
-} from 'react-native'
+import { StyleSheet, Text, View, SafeAreaView, } from 'react-native'
 import React, { useContext, useEffect, useState } from 'react'
 import { NativeStackScreenProps } from '@react-navigation/native-stack';
 import { RootStackParamList } from '../../navigation/Navigation';
 import { spacing, typography } from 'styles';
 import { FormattedMessage, useIntl } from 'react-intl';
-import NotificationWidget from 'components/notification-widget';
-import { getItem } from 'utils/asyncStorage';
 import { useTheme } from 'store/themeContext';
 import { AuthContext } from '@views/navigation/AuthProvider';
-import Snackbar from 'react-native-snackbar';
+import DiscussionTextArea from 'components/discussion-text-area';
+import firestore from '@react-native-firebase/firestore';
+
 
 
 type DiscussionScreenNavigationProp = NativeStackScreenProps<RootStackParamList, 'Discussion'>;
@@ -25,15 +18,31 @@ type DiscussionProps = {
 }
 
 
-
-const windowHeight = Dimensions.get('window').height;
-
 export default function Discussion({ navigation }: DiscussionProps) {
-
+    const [posts, setPosts] = useState<any[]>([]);
     const { user } = useContext(AuthContext);
     const theme = useTheme();
     const intl = useIntl();
 
+    useEffect(() => {
+        const subscriber = firestore()
+            .collection('posts')
+            .onSnapshot((querySnapshot) => {
+                const posts: any[] = [];
+
+                querySnapshot.forEach((documentSnapshot) => {
+                    posts.push({
+                        ...documentSnapshot.data(),
+                        key: documentSnapshot.id,
+                    });
+                });
+
+                setPosts(posts);
+            });
+
+        console.log(posts)
+        return () => subscriber();
+    }, []);
 
 
     return (
@@ -46,7 +55,7 @@ export default function Discussion({ navigation }: DiscussionProps) {
                             id='views.home.discussion.title'
                         />
                     </Text>
-
+                    <DiscussionTextArea />
                 </View>
             </View>
         </SafeAreaView>
@@ -69,15 +78,6 @@ const styles = StyleSheet.create({
     },
     mainContainer: {
         marginVertical: spacing.SCALE_18,
-    },
-    subtitleContainer: {
-        height: windowHeight - 200,
-        justifyContent: 'center',
-        alignItems: 'center',
-    },
-    subtitleText: {
-        fontSize: typography.FONT_SIZE_16,
-        textAlign: 'center',
     },
 
 })

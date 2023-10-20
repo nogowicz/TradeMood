@@ -152,5 +152,6 @@
   "date.day.saturday": "Saturday",
   "views.home.instrument-details.chart.last-week": "Last week",
   "views.home.instrument-details.chart.last-month": "Last Month",
-  "views.home.instrument-details.chart.last-year": "Last Year"
+  "views.home.instrument-details.chart.last-year": "Last Year",
+  "views.home.discussion.text-input.placeholder": "Want to share something?"
 }

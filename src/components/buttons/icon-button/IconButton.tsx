@@ -25,6 +25,7 @@ type IconButtonProps = {
     ContainerProps?: ViewProps;
     size: number;
     backgroundColor?: string;
+    isBorder?: boolean;
 }
 
 export default function IconButton({
@@ -34,7 +35,8 @@ export default function IconButton({
     TouchableOpacityProps,
     ContainerProps,
     size,
-    backgroundColor = 'transparent'
+    backgroundColor = 'transparent',
+    isBorder = true
 }: IconButtonProps) {
     const theme = useTheme();
     return (
@@ -46,7 +48,8 @@ export default function IconButton({
                     height: size,
                     borderRadius: size,
                     borderColor: theme.LIGHT_HINT,
-                    backgroundColor: backgroundColor
+                    backgroundColor: backgroundColor,
+                    borderWidth: isBorder ? 1 : 0,
                 }]}
             activeOpacity={activeOpacity}
             onPress={onPress}
@@ -64,7 +67,6 @@ export default function IconButton({
 
 const styles = StyleSheet.create({
     container: {
-        borderWidth: 1,
         justifyContent: 'center',
         alignItems: 'center',
         padding: spacing.SCALE_8,
