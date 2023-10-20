@@ -27,4 +27,5 @@ export const STROKE_WIDTH = {
 export const ICON_SIZE = {
   ACTIVITY_INDICATOR: 40,
   ICON: 30,
+  BIG_ICON: 48,
 };
