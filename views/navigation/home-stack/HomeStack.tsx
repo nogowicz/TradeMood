@@ -4,7 +4,7 @@ import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 
 import Overview from '@views/authenticated/overview';
 import Search from '@views/authenticated/search';
-import Notification from '@views/authenticated/notification';
+import Discussion from '@views/authenticated/discussions';
 import Profile from '@views/authenticated/profile';
 
 import OverviewActive from 'assets/icons/Overview-Active.svg'
@@ -13,8 +13,8 @@ import OverviewInactive from 'assets/icons/Overview-Inactive.svg'
 import SearchActive from 'assets/icons/Search-Active.svg'
 import SearchInactive from 'assets/icons/Search.svg'
 
-import NotificationInactive from 'assets/icons/Notification.svg'
-import NotificationActive from 'assets/icons/Notification-Active.svg'
+import DiscussionInactive from 'assets/icons/Discussion-Inactive.svg'
+import DiscussionActive from 'assets/icons/Discussion-Active.svg'
 
 import ProfileInactive from 'assets/icons/Profile.svg'
 import ProfileActive from 'assets/icons/Profile-Active.svg'
@@ -67,11 +67,11 @@ export default function HomeStack() {
                     }}
                 />
                 <Tab.Screen
-                    name={SCREENS.HOME.NOTIFICATION.ID}
-                    component={Notification}
+                    name={SCREENS.HOME.DISCUSSION.ID}
+                    component={Discussion}
                     options={{
                         tabBarIcon: ({ focused }) => (
-                            focused ? <NotificationActive /> : <NotificationInactive stroke={theme.TERTIARY} strokeWidth={1.5} />
+                            focused ? <DiscussionActive /> : <DiscussionInactive stroke={theme.TERTIARY} strokeWidth={1.5} />
                         ),
                     }}
                 />

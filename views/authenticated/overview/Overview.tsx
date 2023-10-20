@@ -11,18 +11,18 @@ import { FormattedMessage } from 'react-intl';
 
 import { RootStackParamList } from '../../navigation/Navigation';
 import { AuthContext } from '@views/navigation/AuthProvider';
-import { spacing, typography } from 'styles';
+import { constants, spacing, typography } from 'styles';
 import ProfileBar from 'components/profile-bar';
 import IconButton from 'components/buttons/icon-button';
-
-import Bell from 'assets/icons/Bell-icon.svg'
-import Search from 'assets/icons/Search.svg'
 import { SCREENS } from '@views/navigation/constants';
 import TrendingNow from 'components/trending-now';
 import { InstrumentContext, InstrumentProps } from '@views/navigation/InstrumentProvider';
 import { FavoritesContext } from '@views/navigation/FavoritesProvider';
 import InstrumentRecord from 'components/instrument-record';
 import { useTheme } from 'store/themeContext';
+
+import Discussion from 'assets/icons/Discussion-Inactive.svg'
+import Search from 'assets/icons/Search.svg'
 
 
 type OverviewScreenNavigationProp = NativeStackScreenProps<RootStackParamList, 'Overview'>;
@@ -51,17 +51,17 @@ export default function Overview({ navigation }: OverviewProps) {
                     <View style={styles.actionContainerLeftSide}>
                         <IconButton
                             onPress={() => navigation.navigate(SCREENS.HOME.SEARCH.ID)}
-                            size={48}
+                            size={constants.ICON_SIZE.BIG_ICON}
                             backgroundColor={theme.LIGHT_HINT}
                         >
-                            <Search stroke={theme.TERTIARY} strokeWidth={1.5} />
+                            <Search stroke={theme.TERTIARY} strokeWidth={constants.STROKE_WIDTH.MEDIUM} />
                         </IconButton>
                         <IconButton
-                            onPress={() => navigation.navigate(SCREENS.HOME.NOTIFICATION.ID)}
-                            size={48}
+                            onPress={() => navigation.navigate(SCREENS.HOME.DISCUSSION.ID)}
+                            size={constants.ICON_SIZE.BIG_ICON}
                             backgroundColor={theme.LIGHT_HINT}
                         >
-                            <Bell stroke={theme.TERTIARY} strokeWidth={1.5} />
+                            <Discussion stroke={theme.TERTIARY} strokeWidth={constants.STROKE_WIDTH.MEDIUM} />
                         </IconButton>
                     </View>
                     <ProfileBar

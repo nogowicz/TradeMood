@@ -10,6 +10,7 @@ export const BOTTOM_SHEET_HEIGHT = {
   PICTURE_SELECTION: 580,
   LANGUAGE_SELECTION: 560,
   THEME_SELECTION: 560,
+  DELETE_POST: 600,
 };
 
 export const ACTIVE_OPACITY = {
@@ -25,4 +26,6 @@ export const STROKE_WIDTH = {
 
 export const ICON_SIZE = {
   ACTIVITY_INDICATOR: 40,
+  ICON: 30,
+  BIG_ICON: 48,
 };

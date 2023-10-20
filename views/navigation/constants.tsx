@@ -24,8 +24,8 @@ export const SCREENS = {
     SEARCH: {
       ID: 'SEARCH',
     },
-    NOTIFICATION: {
-      ID: 'NOTIFICATION',
+    DISCUSSION: {
+      ID: 'DISCUSSION',
     },
     PROFILE: {
       ID: 'PROFILE'
