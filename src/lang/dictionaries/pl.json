@@ -153,5 +153,7 @@
   "views.home.instrument-details.chart.last-week": "Ostatni tydzień",
   "views.home.instrument-details.chart.last-month": "Ostatni miesiąc",
   "views.home.instrument-details.chart.last-year": "Ostatni rok",
-  "views.home.discussion.text-input.placeholder": "Chcesz się czymś podzielić?"
+  "views.home.discussion.text-input.placeholder": "Chcesz się czymś podzielić?",
+  "views.home.discussion.error.like": "Wystąpił błąd podczas próby polubienia posta",
+  "views.home.discussion.error.deleting": "Wystąpił błąd podczas próby usunięcia posta"
 }

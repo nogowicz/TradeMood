@@ -4,15 +4,16 @@ import Image from 'components/image';
 import { useTheme } from 'store/themeContext';
 import { constants, spacing, typography } from 'styles';
 import firestore from '@react-native-firebase/firestore';
-import HeartIcon from 'assets/icons/Heart-icon.svg';
-import IconButton from 'components/buttons/icon-button';
 import { AuthContext } from '@views/navigation/AuthProvider';
 import { formatLongDate } from 'utils/dateFormat';
 import { useIntl } from 'react-intl';
+import Animated, { useSharedValue, withTiming, Easing, useAnimatedStyle } from 'react-native-reanimated';
+import IconButton from 'components/buttons/icon-button';
+
+import HeartIcon from 'assets/icons/Heart-icon.svg';
 import ThreeDotsIcon from 'assets/icons/ThreeDots-icon.svg';
 import TrashIcon from 'assets/icons/Trash-icon.svg';
-import Animated, { useSharedValue, withTiming, Easing, useAnimatedStyle } from 'react-native-reanimated';
-
+import Snackbar from 'react-native-snackbar';
 
 export type PostType = {
     createdAt: number;
@@ -40,6 +41,18 @@ export default function Post({
     const intl = useIntl();
     const date = new Date(createdAt);
     const [isTrashVisible, setIsTrashVisible] = useState(false);
+    const trashScale = useSharedValue(0);
+
+    //translations:
+    const likeError = intl.formatMessage({
+        id: 'views.home.discussion.error.like',
+        defaultMessage: 'An error occurred while trying to like a post'
+    });
+    const deletingError = intl.formatMessage({
+        id: 'views.home.discussion.error.deleting',
+        defaultMessage: 'An error occurred while trying to delete a post'
+    });
+
 
     async function toggleLikePost(postUID: string, currentUserUID: string, likes: string[]) {
         const userIndex = likes.indexOf(currentUserUID);
@@ -53,15 +66,15 @@ export default function Post({
         const postRef = firestore().collection('posts').doc(postUID)
         try {
             await postRef.update({ likes });
-            console.log('updated firebase collection.');
         } catch (error) {
-            console.error('Error occurred while updating firebase collection:  ', error);
+            console.log('Error occurred while updating firebase collection:  ', error);
+            Snackbar.show({
+                text: likeError,
+                duration: Snackbar.LENGTH_SHORT
+
+            });
         }
     }
-
-
-
-    const trashScale = useSharedValue(0);
 
     function handleToggleTrash() {
         setIsTrashVisible(!isTrashVisible);
@@ -81,9 +94,13 @@ export default function Post({
         try {
             const postRef = firestore().collection('posts').doc(postUID);
             await postRef.delete();
-            console.log('Post was successfully deleted.');
         } catch (error) {
-            console.error('An error occurred while deleting the post:', error);
+            console.log('An error occurred while deleting the post:', error);
+            Snackbar.show({
+                text: deletingError,
+                duration: Snackbar.LENGTH_SHORT
+
+            });
         }
     }
 
@@ -122,7 +139,7 @@ export default function Post({
                         <Animated.View style={animatedStyle}>
                             <IconButton
                                 onPress={() => deletePost(uid)}
-                                size={40}
+                                size={constants.ICON_SIZE.ACTIVITY_INDICATOR}
                             >
                                 <TrashIcon stroke={theme.NEGATIVE} strokeWidth={constants.STROKE_WIDTH.MEDIUM} />
                             </IconButton>
@@ -131,10 +148,10 @@ export default function Post({
 
                         <IconButton
                             onPress={handleToggleTrash}
-                            size={40}
+                            size={constants.ICON_SIZE.ACTIVITY_INDICATOR}
                             isBorder={false}
                         >
-                            <ThreeDotsIcon fill={theme.TERTIARY} width={20} height={20} />
+                            <ThreeDotsIcon fill={theme.TERTIARY} width={constants.ICON_SIZE.ACTIVITY_INDICATOR / 2} height={constants.ICON_SIZE.ACTIVITY_INDICATOR / 2} />
                         </IconButton>
                     </View>
                 }
@@ -163,7 +180,7 @@ export default function Post({
                             height={35}
                         />
                     </IconButton>
-                    <Text style={{ color: theme.LIGHT_HINT }}>{likes.length}</Text>
+                    <Text style={{ color: theme.LIGHT_HINT, fontSize: typography.FONT_SIZE_18 }}>{likes.length}</Text>
                 </View>
                 <Text style={{ color: theme.HINT }}>{formatLongDate(date, intl)}</Text>
             </View>
@@ -210,5 +227,6 @@ const styles = StyleSheet.create({
         flexDirection: 'row',
         justifyContent: 'center',
         alignItems: 'center',
+        gap: spacing.SCALE_4,
     },
 })
