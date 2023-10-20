@@ -35,15 +35,6 @@ export default function Discussion({ navigation }: DiscussionProps) {
     const intl = useIntl();
     const { height } = useWindowDimensions();
 
-    const handleShowDeleteButton = useCallback(() => {
-        deletePostSheetOpen.current = !deletePostSheetOpen.current;
-        if (!deletePostSheetOpen.current) {
-            refDeletePost.current?.scrollTo(0);
-        } else {
-            refDeletePost.current?.scrollTo(-(height - constants.BOTTOM_SHEET_HEIGHT.DELETE_POST));
-        }
-    }, []);
-
 
 
     const onRefresh = useCallback(() => {

@@ -155,5 +155,6 @@
   "views.home.instrument-details.chart.last-year": "Last Year",
   "views.home.discussion.text-input.placeholder": "Want to share something?",
   "views.home.discussion.error.like": "An error occurred while trying to like a post",
-  "views.home.discussion.error.deleting": "An error occurred while trying to delete a post"
+  "views.home.discussion.error.deleting": "An error occurred while trying to delete a post",
+  "views.home.discussion.error.adding": "An error occurred while trying to add a post"
 }

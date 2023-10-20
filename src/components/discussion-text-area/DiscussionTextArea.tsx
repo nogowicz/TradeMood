@@ -3,42 +3,57 @@ import React, { useContext, useEffect, useState } from 'react'
 import { constants, spacing } from 'styles';
 import { useTheme } from 'store/themeContext';
 import { AuthContext } from '@views/navigation/AuthProvider';
-import SendIcon from 'assets/icons/Send-icon.svg';
 import Image from 'components/image';
 import IconButton from 'components/buttons/icon-button';
 import { useIntl } from 'react-intl';
 import firestore from '@react-native-firebase/firestore';
+import Snackbar from 'react-native-snackbar';
+
+import SendIcon from 'assets/icons/Send-icon.svg';
 
 export default function DiscussionTextArea() {
     const theme = useTheme();
     const intl = useIntl();
     const { user } = useContext(AuthContext);
-    const imageSize = 55;
-
     const [focus, setFocus] = useState(false);
     const [text, setText] = useState('');
+    const imageSize = 55;
+    const maxInputLength = 280;
 
     //translations:
     const placeholderTranslation = intl.formatMessage({
         defaultMessage: 'Want to share something?',
         id: 'views.home.discussion.text-input.placeholder'
     });
+    const addingError = intl.formatMessage({
+        id: 'views.home.discussion.error.adding',
+        defaultMessage: 'An error occurred while trying to add a post'
+    });
 
     const addPost = () => {
         if (text.length > 0) {
-            firestore()
-                .collection('posts')
-                .add({
-                    name: user?.displayName,
-                    photoURL: user?.photoURL,
-                    likes: [],
-                    text: text,
-                    createdAt: firestore.FieldValue.serverTimestamp(),
-                    userUID: user?.uid,
-                })
-                .then(() => {
-                    setText('');
+            try {
+                firestore()
+                    .collection('posts')
+                    .add({
+                        name: user?.displayName,
+                        photoURL: user?.photoURL,
+                        likes: [],
+                        text: text,
+                        createdAt: firestore.FieldValue.serverTimestamp(),
+                        userUID: user?.uid,
+                    })
+                    .then(() => {
+                        setText('');
+                    });
+            } catch (error) {
+                console.log("An error occurred while trying to add a post: ", error);
+                Snackbar.show({
+                    text: addingError,
+                    duration: Snackbar.LENGTH_SHORT
+
                 });
+            }
         }
     };
 
@@ -79,7 +94,7 @@ export default function DiscussionTextArea() {
             ]}>
                 <TextInput
                     placeholder={placeholderTranslation}
-                    maxLength={280}
+                    maxLength={maxInputLength}
                     placeholderTextColor={theme.HINT}
                     multiline={true}
                     onFocus={() => setFocus(true)}
@@ -94,7 +109,7 @@ export default function DiscussionTextArea() {
                 <View style={styles.rightContainer}>
                     <IconButton
                         onPress={addPost}
-                        size={20}
+                        size={constants.ICON_SIZE.ICON}
                         isBorder={false}
                     >
                         <SendIcon
