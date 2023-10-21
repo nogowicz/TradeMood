@@ -10,6 +10,7 @@ import DiscussionTextArea from 'components/discussion-text-area';
 import firestore from '@react-native-firebase/firestore';
 import Post, { PostType } from 'components/post/Post';
 import ActivityIndicator from 'components/activity-indicator';
+import Snackbar from 'react-native-snackbar';
 
 
 type DiscussionScreenNavigationProp = NativeStackScreenProps<RootStackParamList, 'Discussion'>;
@@ -30,6 +31,14 @@ export default function Discussion({ navigation }: DiscussionProps) {
     const loadingPostsTranslation = intl.formatMessage({
         defaultMessage: "Loading posts...",
         id: "views.home.discussion.loading-posts"
+    });
+    const loadingPostsErrorTranslation = intl.formatMessage({
+        defaultMessage: "Error occurred while loading posts",
+        id: 'views.home.discussion.error.loading-data'
+    });
+    const tryAgainTranslation = intl.formatMessage({
+        defaultMessage: "Try again",
+        id: 'views.home.instrument-details.error.try-again'
     });
 
     const onRefresh = useCallback(() => {
@@ -60,6 +69,15 @@ export default function Discussion({ navigation }: DiscussionProps) {
                     setIsLoading(false);
                 } catch (error) {
                     console.error('Error occurred while downloading data:', error);
+                    Snackbar.show({
+                        text: loadingPostsErrorTranslation,
+                        duration: Snackbar.LENGTH_INDEFINITE,
+                        action: {
+                            text: tryAgainTranslation,
+                            textColor: theme.PRIMARY,
+                            onPress: onRefresh
+                        }
+                    });
                     setIsLoading(false);
                 }
             });

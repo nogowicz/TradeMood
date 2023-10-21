@@ -85,6 +85,7 @@ export default function CustomChart({ instrument }: CustomChartProps) {
         id: 'views.home.instrument-details.loading-chart'
     });
 
+
     const [selected, setSelected] = useState(lastWeekTranslation);
 
     const pickListData: { key: string, value: string }[] = [
