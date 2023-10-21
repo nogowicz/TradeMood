@@ -1,14 +1,15 @@
-import { StyleSheet, Text, View, SafeAreaView, ScrollView, RefreshControl, FlatList, useWindowDimensions, TouchableOpacity } from 'react-native'
+import { StyleSheet, Text, View, SafeAreaView, ScrollView, RefreshControl, FlatList, useWindowDimensions, TouchableOpacity, Animated, Easing } from 'react-native'
 import React, { useCallback, useContext, useEffect, useRef, useState } from 'react'
 import { NativeStackScreenProps } from '@react-navigation/native-stack';
 import { RootStackParamList } from '../../navigation/Navigation';
-import { spacing, typography } from 'styles';
-import { FormattedMessage } from 'react-intl';
+import { constants, spacing, typography } from 'styles';
+import { FormattedMessage, useIntl } from 'react-intl';
 import { useTheme } from 'store/themeContext';
 import { AuthContext } from '@views/navigation/AuthProvider';
 import DiscussionTextArea from 'components/discussion-text-area';
 import firestore from '@react-native-firebase/firestore';
 import Post, { PostType } from 'components/post/Post';
+import ActivityIndicator from 'components/activity-indicator';
 
 
 type DiscussionScreenNavigationProp = NativeStackScreenProps<RootStackParamList, 'Discussion'>;
@@ -20,42 +21,59 @@ type DiscussionProps = {
 export default function Discussion({ navigation }: DiscussionProps) {
     const [posts, setPosts] = useState<PostType[]>([]);
     const { user } = useContext(AuthContext);
-    const [refreshing, setRefreshing] = useState(false);
     const theme = useTheme();
+    const intl = useIntl();
+    const [refreshing, setRefreshing] = useState(false);
+    const [isLoading, setIsLoading] = useState(false);
+
+    //translation:
+    const loadingPostsTranslation = intl.formatMessage({
+        defaultMessage: "Loading posts...",
+        id: "views.home.discussion.loading-posts"
+    });
 
     const onRefresh = useCallback(() => {
+        setIsLoading(true);
         const subscriber = firestore()
             .collection('posts')
             .onSnapshot((querySnapshot) => {
-                const posts: PostType[] = [];
+                try {
+                    const posts: PostType[] = [];
+                    querySnapshot.forEach((documentSnapshot) => {
+                        const data = documentSnapshot.data();
+                        if (data.createdAt) {
+                            posts.push({
+                                createdAt: (data.createdAt.seconds * 1000 + data.createdAt.nanoseconds / 1000000),
+                                key: documentSnapshot.id,
+                                likes: data.likes,
+                                text: data.text,
+                                uid: documentSnapshot.id,
+                                name: data.name,
+                                photoURL: data.photoURL,
+                                userUID: data.userUID
+                            });
+                        }
+                    });
 
-                querySnapshot.forEach((documentSnapshot) => {
-                    const data = documentSnapshot.data();
-                    if (data.createdAt) {
-                        posts.push({
-                            createdAt: (data.createdAt.seconds * 1000 + data.createdAt.nanoseconds / 1000000),
-                            key: documentSnapshot.id,
-                            likes: data.likes,
-                            text: data.text,
-                            uid: documentSnapshot.id,
-                            name: data.name,
-                            photoURL: data.photoURL,
-                            userUID: data.userUID
-                        });
-                    }
-                });
-
-                const sortedPosts = [...posts].sort((a, b) => b.createdAt - a.createdAt);
-                console.log(sortedPosts)
-                setPosts(sortedPosts);
+                    const sortedPosts = [...posts].sort((a, b) => b.createdAt - a.createdAt);
+                    setPosts(sortedPosts);
+                    setIsLoading(false);
+                } catch (error) {
+                    console.error('Error occurred while downloading data:', error);
+                    setIsLoading(false);
+                }
             });
         return () => subscriber();
     }, []);
 
 
+
     useEffect(() => {
         onRefresh();
     }, []);
+
+
+
 
 
     return (
@@ -83,38 +101,42 @@ export default function Discussion({ navigation }: DiscussionProps) {
                         </View>
                         :
                         <DiscussionTextArea />}
-                    <FlatList
-                        style={{
-                            flex: 1
-                        }}
-                        data={posts}
-                        keyExtractor={(item: PostType) => (item.key || '').toString()}
-                        renderItem={({ item: post }) => {
-                            if (post) {
-                                return (
-                                    <Post
-                                        createdAt={post.createdAt}
-                                        likes={post.likes}
-                                        text={post.text}
-                                        uid={post.uid}
-                                        name={post.name}
-                                        photoURL={post.photoURL}
-                                        userUID={post.userUID}
-                                    />
-                                );
-                            } else {
-                                return null;
-                            }
-                        }}
-                        showsVerticalScrollIndicator={false}
-                        refreshControl={
-                            <RefreshControl
-                                refreshing={refreshing}
-                                onRefresh={onRefresh}
-                                colors={[theme.LIGHT_HINT]}
-                                progressBackgroundColor={theme.PRIMARY}
-                            />}
-                    />
+
+                    {isLoading ?
+                        <ActivityIndicator text={loadingPostsTranslation} /> :
+                        <FlatList
+                            style={{
+                                flex: 1
+                            }}
+                            data={posts}
+                            keyExtractor={(item: PostType) => (item.key || '').toString()}
+                            renderItem={({ item: post }) => {
+                                if (post) {
+                                    return (
+                                        <Post
+                                            createdAt={post.createdAt}
+                                            likes={post.likes}
+                                            text={post.text}
+                                            uid={post.uid}
+                                            name={post.name}
+                                            photoURL={post.photoURL}
+                                            userUID={post.userUID}
+                                        />
+                                    );
+                                } else {
+                                    return null;
+                                }
+                            }}
+                            showsVerticalScrollIndicator={false}
+                            refreshControl={
+                                <RefreshControl
+                                    refreshing={refreshing}
+                                    onRefresh={onRefresh}
+                                    colors={[theme.LIGHT_HINT]}
+                                    progressBackgroundColor={theme.PRIMARY}
+                                />}
+                        />
+                    }
                 </View>
             </View>
         </SafeAreaView>
@@ -143,6 +165,6 @@ const styles = StyleSheet.create({
         fontSize: typography.FONT_SIZE_20,
         textAlign: 'center',
         marginVertical: spacing.SCALE_20,
-    }
+    },
 
 })
