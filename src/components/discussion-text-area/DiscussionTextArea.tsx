@@ -1,8 +1,8 @@
 import { Keyboard, StyleSheet, Text, TextInput, View } from 'react-native'
-import React, { useContext, useEffect, useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import { constants, spacing } from 'styles';
 import { useTheme } from 'store/ThemeContext';
-import { AuthContext } from 'store/AuthProvider';
+import { useAuth } from 'store/AuthProvider';
 import Image from 'components/image';
 import IconButton from 'components/buttons/icon-button';
 import { useIntl } from 'react-intl';
@@ -14,7 +14,7 @@ import SendIcon from 'assets/icons/Send-icon.svg';
 export default function DiscussionTextArea() {
     const theme = useTheme();
     const intl = useIntl();
-    const { user } = useContext(AuthContext);
+    const { user } = useAuth();
     const [focus, setFocus] = useState(false);
     const [text, setText] = useState('');
     const imageSize = 55;

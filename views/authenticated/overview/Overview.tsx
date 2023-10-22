@@ -3,7 +3,7 @@ import { useContext, useEffect, useState } from 'react';
 import { NativeStackScreenProps } from '@react-navigation/native-stack';
 import { FormattedMessage } from 'react-intl';
 import { RootStackParamList } from '../../navigation/Navigation';
-import { AuthContext } from 'store/AuthProvider';
+import { useAuth } from 'store/AuthProvider';
 import { constants, spacing, typography } from 'styles';
 import ProfileBar from 'components/profile-bar';
 import IconButton from 'components/buttons/icon-button';
@@ -26,7 +26,7 @@ type OverviewProps = {
 
 
 export default function Overview({ navigation }: OverviewProps) {
-    const { user } = useContext(AuthContext);
+    const { user } = useAuth();
     const instruments = useContext(InstrumentContext);
     const favoriteCryptoCtx = useContext(FavoritesContext);
     const theme = useTheme();

@@ -1,12 +1,5 @@
-import {
-    StyleSheet,
-    Text,
-    View,
-    SafeAreaView,
-    Animated,
-    Keyboard,
-} from 'react-native'
-import React, { useContext, useEffect, useRef, useState } from 'react'
+import { StyleSheet, Text, View, SafeAreaView, Animated, Keyboard, } from 'react-native'
+import React, { useEffect, useRef, useState } from 'react'
 import { spacing, typography } from 'styles'
 
 import GoBack from 'assets/icons/Go-back.svg'
@@ -20,7 +13,7 @@ import TextField from 'components/text-field'
 import { Controller, FieldValues, SubmitHandler, useForm } from 'react-hook-form'
 import { yupResolver } from '@hookform/resolvers/yup'
 import { schema } from '@views/authenticated/sub-views/edit-email/validationSchema';
-import { AuthContext } from 'store/AuthProvider'
+import { useAuth } from 'store/AuthProvider'
 import auth from '@react-native-firebase/auth';
 
 import Email from 'assets/icons/Email.svg';
@@ -36,7 +29,7 @@ type EditEmailProps = {
 export default function EditEmail({ navigation }: EditEmailProps) {
     const [loading, setLoading] = useState(false);
     const [messageVisible, setMessageVisible] = useState(false);
-    const { updateEmail } = useContext(AuthContext);
+    const { updateEmail } = useAuth();
     const theme = useTheme();
     const user = auth().currentUser;
 

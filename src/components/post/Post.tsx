@@ -1,10 +1,10 @@
 import { StyleSheet, Text, View } from 'react-native'
-import React, { useContext, useState } from 'react'
+import React, { useState } from 'react'
 import Image from 'components/image';
 import { useTheme } from 'store/ThemeContext';
 import { constants, spacing, typography } from 'styles';
 import firestore from '@react-native-firebase/firestore';
-import { AuthContext } from 'store/AuthProvider';
+import { useAuth } from 'store/AuthProvider';
 import { formatLongDate } from 'utils/dateFormat';
 import { useIntl } from 'react-intl';
 import Animated, { useSharedValue, withTiming, Easing, useAnimatedStyle } from 'react-native-reanimated';
@@ -37,7 +37,7 @@ export default function Post({
 }: PostType) {
     const imageSize = 40;
     const theme = useTheme();
-    const { user } = useContext(AuthContext);
+    const { user } = useAuth();
     const intl = useIntl();
     const date = new Date(createdAt);
     const [isTrashVisible, setIsTrashVisible] = useState(false);

@@ -1,12 +1,5 @@
-import {
-    Animated,
-    Keyboard,
-    StyleSheet,
-    Text,
-    View,
-    SafeAreaView,
-} from 'react-native'
-import React, { useContext, useEffect, useRef, useState } from 'react'
+import { Animated, Keyboard, StyleSheet, Text, View, SafeAreaView, } from 'react-native'
+import React, { useEffect, useRef, useState } from 'react'
 import { NativeStackScreenProps } from '@react-navigation/native-stack';
 import { RootStackParamList } from '@views/navigation/Navigation';
 import IconButton from 'components/buttons/icon-button';
@@ -14,7 +7,7 @@ import { FormattedMessage } from 'react-intl';
 import { Controller, FieldValues, SubmitHandler, useForm } from 'react-hook-form';
 import TextField from 'components/text-field';
 import { yupResolver } from '@hookform/resolvers/yup';
-import { AuthContext } from 'store/AuthProvider';
+import { useAuth } from 'store/AuthProvider';
 import SubmitButton from 'components/buttons/submit-button';
 import { spacing, typography } from 'styles';
 import { schema } from '../edit-personal-info/validationSchema';
@@ -33,7 +26,7 @@ type EditPersonalInfoProps = {
 export default function EditPersonalInfo({ navigation }: EditPersonalInfoProps) {
     const [loading, setLoading] = useState(false);
     const [messageVisible, setMessageVisible] = useState(false);
-    const { updatePersonalData } = useContext(AuthContext);
+    const { updatePersonalData } = useAuth();
     const theme = useTheme();
     const user = auth().currentUser;
     const { control, handleSubmit, setError, formState: { errors } } = useForm({

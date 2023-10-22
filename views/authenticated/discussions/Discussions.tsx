@@ -1,11 +1,11 @@
-import { StyleSheet, Text, View, SafeAreaView, ScrollView, RefreshControl, FlatList, useWindowDimensions, TouchableOpacity, Animated, Easing } from 'react-native'
-import React, { useCallback, useContext, useEffect, useRef, useState } from 'react'
+import { StyleSheet, Text, View, SafeAreaView, RefreshControl, FlatList } from 'react-native'
+import React, { useCallback, useEffect, useState } from 'react'
 import { NativeStackScreenProps } from '@react-navigation/native-stack';
 import { RootStackParamList } from '../../navigation/Navigation';
-import { constants, spacing, typography } from 'styles';
+import { spacing, typography } from 'styles';
 import { FormattedMessage, useIntl } from 'react-intl';
 import { useTheme } from 'store/ThemeContext';
-import { AuthContext } from 'store/AuthProvider';
+import { useAuth } from 'store/AuthProvider';
 import DiscussionTextArea from 'components/discussion-text-area';
 import firestore from '@react-native-firebase/firestore';
 import Post, { PostType } from 'components/post/Post';
@@ -21,7 +21,7 @@ type DiscussionProps = {
 
 export default function Discussion({ navigation }: DiscussionProps) {
     const [posts, setPosts] = useState<PostType[]>([]);
-    const { user } = useContext(AuthContext);
+    const { user } = useAuth();
     const theme = useTheme();
     const intl = useIntl();
     const [refreshing, setRefreshing] = useState(false);

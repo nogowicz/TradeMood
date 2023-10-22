@@ -1,13 +1,8 @@
-import {
-    StyleSheet,
-    Text,
-    View,
-    SafeAreaView,
-} from 'react-native'
-import React, { useContext, useEffect } from 'react'
+import { StyleSheet, Text, View, SafeAreaView, } from 'react-native'
+import React from 'react'
 import { NativeStackScreenProps } from '@react-navigation/native-stack';
 import { RootStackParamList } from '../../../views/navigation/Navigation';
-import { AuthContext } from 'store/AuthProvider';
+import { useAuth } from 'store/AuthProvider';
 import { constants, spacing, typography } from 'styles';
 import { FormattedMessage } from 'react-intl';
 import SubmitButton from 'components/buttons/submit-button';
@@ -34,7 +29,7 @@ type ProfileProps = {
 
 
 export default function Profile({ navigation }: ProfileProps) {
-    const { user, logout } = useContext(AuthContext);
+    const { user, logout } = useAuth();
     const theme = useTheme();
     const imageSize = 80;
 

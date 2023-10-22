@@ -1,8 +1,8 @@
 import { View, Text, SafeAreaView, StyleSheet, Animated, Keyboard, } from 'react-native'
 import { NativeStackScreenProps } from '@react-navigation/native-stack';
 import { RootStackParamList } from '../../navigation/Navigation';
-import { useContext, useEffect, useRef, useState } from 'react';
-import { AuthContext } from '../../../src/store/AuthProvider';
+import { useEffect, useRef, useState } from 'react';
+import { useAuth } from 'store/AuthProvider';
 import SubmitButton from 'components/buttons/submit-button';
 import { spacing, typography } from 'styles';
 import IconButton from 'components/buttons/icon-button';
@@ -27,7 +27,7 @@ type LoginProps = {
 
 export default function Login({ navigation }: LoginProps) {
     const [loading, setLoading] = useState(false);
-    const { login } = useContext(AuthContext);
+    const { login } = useAuth();
     const theme = useTheme();
     const { control, handleSubmit, setError, formState: { errors } } = useForm({
         resolver: yupResolver(schema)

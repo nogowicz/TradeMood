@@ -1,14 +1,7 @@
-import {
-    Animated,
-    Keyboard,
-    SafeAreaView,
-    StyleSheet,
-    Text,
-    View,
-} from 'react-native'
-import React, { useContext, useEffect, useRef, useState } from 'react'
+import { Animated, Keyboard, SafeAreaView, StyleSheet, Text, View, } from 'react-native'
+import React, { useEffect, useRef, useState } from 'react'
 import { yupResolver } from '@hookform/resolvers/yup';
-import { AuthContext } from 'store/AuthProvider';
+import { useAuth } from 'store/AuthProvider';
 import IconButton from 'components/buttons/icon-button';
 import SubmitButton from 'components/buttons/submit-button';
 import TextField from 'components/text-field';
@@ -33,7 +26,7 @@ type EditEmailProps = {
 export default function EditPassword({ navigation }: EditEmailProps) {
     const [loading, setLoading] = useState(false);
     const [messageVisible, setMessageVisible] = useState(false);
-    const { updatePassword } = useContext(AuthContext);
+    const { updatePassword } = useAuth();
     const theme = useTheme();
     const { control, handleSubmit, setError, formState: { errors } } = useForm({
         resolver: yupResolver(schema)
