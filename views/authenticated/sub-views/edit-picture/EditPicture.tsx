@@ -1,31 +1,18 @@
-import {
-    StyleSheet,
-    Text,
-    View,
-    SafeAreaView,
-} from 'react-native'
-import React, {
-    useContext,
-    useEffect,
-    useState,
-} from 'react'
+import { StyleSheet, Text, View, SafeAreaView } from 'react-native'
+import React, { useContext, useState, } from 'react'
 import { NativeStackScreenProps } from '@react-navigation/native-stack';
 import { RootStackParamList } from '@views/navigation/Navigation';
 import { FormattedMessage, useIntl } from 'react-intl';
 import { constants, spacing, typography } from 'styles';
-import storage from '@react-native-firebase/storage';
 import { AuthContext } from '@views/navigation/AuthProvider';
-import { launchCamera, launchImageLibrary } from 'react-native-image-picker';
 import { useTheme } from 'store/themeContext';
-import Snackbar from "react-native-snackbar"
 
 import ProfileImagePicker from 'components/profile-image-picker';
 import IconButton from 'components/buttons/icon-button';
 import ProgressBar from 'components/progress-bar';
+import ImagePickerButtons from 'components/profile-image-picker/ImagePickerButtons';
 
-import Gallery from 'assets/icons/Gallery.svg'
-import DeletePhoto from 'assets/icons/DeletePhoto.svg'
-import Camera from 'assets/icons/Camera.svg'
+
 import GoBack from 'assets/icons/Go-back.svg'
 import SmallLogo from 'assets/logo/logo-smaller.svg'
 
@@ -37,197 +24,11 @@ type EditPictureProps = {
 
 
 export default function EditPicture({ navigation }: EditPictureProps) {
-    const { user, updateProfilePicture } = useContext(AuthContext);
+    const { user } = useContext(AuthContext);
     const [uploadingImage, setUploadingImage] = useState(false);
     const [step, setStep] = useState(0);
     const theme = useTheme();
     const [imageUrl, setImageUrl] = useState<string | null | undefined>(user?.photoURL);
-    const [oldImageUrl, setOldImageUrl] = useState<string | null | undefined>();
-    const intl = useIntl();
-
-    //translations:
-    const uploadingImageErrorTranslation = intl.formatMessage({
-        id: "views.home.profile.edit-picture.uploading-error",
-        defaultMessage: "Error occurred while uploading image"
-    });
-    const deletingImageErrorTranslation = intl.formatMessage({
-        id: "views.home.profile.edit-picture.deleting-error",
-        defaultMessage: "Error occurred while deleting image"
-    });
-
-    useEffect(() => {
-        if (oldImageUrl) {
-            deleteImage(oldImageUrl, true).then(() => {
-                console.log('Old image has been deleted.');
-            }).catch((deleteError) => {
-                console.error('Error occurred while deleting old photo:', deleteError);
-            }).finally(() => {
-                setOldImageUrl(null);
-            });
-        }
-    }, [oldImageUrl]);
-
-    const uploadImage = async () => {
-        launchImageLibrary({
-            mediaType: 'photo'
-        }, async (response) => {
-            if (response.assets && response.assets.length > 0) {
-                const { uri, fileName } = response.assets[0];
-
-                const storageRef = storage().ref(`usersProfilePictures/${fileName}`);
-
-                const blob = uri ? await fetch(uri).then((response) => response.blob()) : null;
-
-                if (blob) {
-                    const uploadTask = storageRef.put(blob);
-
-                    uploadTask.on(
-                        'state_changed',
-                        (snapshot) => {
-                            setUploadingImage(true);
-                            const progress = (snapshot.bytesTransferred / snapshot.totalBytes) * 100;
-                            setStep(Math.floor(progress));
-                            console.log(`Uploading progress: ${progress}%`);
-                        },
-                        (error) => {
-                            console.log(error);
-                            setUploadingImage(false);
-                            Snackbar.show({
-                                text: uploadingImageErrorTranslation,
-                                duration: Snackbar.LENGTH_SHORT,
-                            });
-                        },
-                        () => {
-                            if (uploadTask.snapshot !== null) {
-                                console.log('Upload is ' + uploadTask.snapshot.bytesTransferred + ' bytes done.');
-                                uploadTask.snapshot.ref.getDownloadURL().then((downloadURL) => {
-                                    setOldImageUrl(imageUrl);
-                                    console.log('File available at', downloadURL);
-                                    setUploadingImage(false);
-                                    setImageUrl(downloadURL);
-                                    onSubmit(downloadURL);
-                                });
-                            } else {
-                                Snackbar.show({
-                                    text: uploadingImageErrorTranslation,
-                                    duration: Snackbar.LENGTH_SHORT,
-                                });
-                                console.log('Error occurred while uploading.');
-                                setUploadingImage(false);
-                            }
-                        }
-                    )
-
-                } else {
-                    console.error('Error no data in file');
-                    Snackbar.show({
-                        text: uploadingImageErrorTranslation,
-                        duration: Snackbar.LENGTH_SHORT,
-                    });
-                }
-            }
-        });
-    }
-
-    const takePhoto = async () => {
-        launchCamera({ mediaType: 'photo' }, async (response) => {
-            if (response.assets && response.assets.length > 0) {
-                const { uri, fileName } = response.assets[0];
-
-                const storageRef = storage().ref(`usersProfilePictures/${fileName}`);
-
-                const blob = uri ? await fetch(uri).then((response) => response.blob()) : null;
-
-                if (blob) {
-                    const uploadTask = storageRef.put(blob);
-
-                    uploadTask.on(
-                        'state_changed',
-                        (snapshot) => {
-                            setUploadingImage(true);
-                            const progress = (snapshot.bytesTransferred / snapshot.totalBytes) * 100;
-                            setStep(Math.floor(progress));
-                            console.log(`Uploading progress: ${progress}%`);
-                        },
-                        (error) => {
-                            console.log(error);
-                            setUploadingImage(false);
-                            Snackbar.show({
-                                text: uploadingImageErrorTranslation,
-                                duration: Snackbar.LENGTH_SHORT,
-                            });
-                        },
-                        () => {
-                            if (uploadTask.snapshot !== null) {
-                                console.log('Upload is ' + uploadTask.snapshot.bytesTransferred + ' bytes done.');
-                                uploadTask.snapshot.ref.getDownloadURL().then((downloadURL) => {
-                                    setOldImageUrl(imageUrl);
-                                    setUploadingImage(false);
-                                    console.log('File available at', downloadURL);
-                                    setImageUrl(downloadURL);
-                                    onSubmit(downloadURL);
-                                });
-                            } else {
-                                console.log('Error occurred while uploading image.');
-                                setUploadingImage(false);
-                                Snackbar.show({
-                                    text: uploadingImageErrorTranslation,
-                                    duration: Snackbar.LENGTH_SHORT,
-                                });
-                            }
-                        }
-                    );
-                } else {
-                    console.error('Error: no file data');
-                    Snackbar.show({
-                        text: uploadingImageErrorTranslation,
-                        duration: Snackbar.LENGTH_SHORT,
-                    });
-                }
-            }
-        });
-    };
-
-    const deleteImage = async (imageUrlToDelete: string, isUploadingNewPicture: boolean) => {
-        if (imageUrlToDelete) {
-            try {
-                const ref = storage().refFromURL(imageUrlToDelete);
-
-                await ref.delete().then(() => {
-                    setUploadingImage(true);
-                    if (!isUploadingNewPicture) {
-                        setImageUrl(null);
-                        onSubmit(null);
-                    }
-                });
-
-                console.log('File has been deleted.');
-                setUploadingImage(false);
-            } catch (error) {
-                console.error('Error occurred while deleting:', error);
-                setUploadingImage(false);
-                Snackbar.show({
-                    text: deletingImageErrorTranslation,
-                    duration: Snackbar.LENGTH_SHORT,
-                });
-            }
-        }
-
-    }
-
-
-    const onSubmit = async (imageUrl: string | undefined | null) => {
-        try {
-            await updateProfilePicture(imageUrl)
-        } catch (error: any) {
-            console.log(error);
-            Snackbar.show({
-                text: uploadingImageErrorTranslation,
-                duration: Snackbar.LENGTH_SHORT,
-            });
-        }
-    }
-
 
     return (
         <SafeAreaView style={[styles.root, { backgroundColor: theme.BACKGROUND }]}>
@@ -270,7 +71,7 @@ export default function EditPicture({ navigation }: EditPictureProps) {
                         <ProfileImagePicker
                             imageUrl={imageUrl}
                             setImageUrl={setImageUrl}
-                            size={250}
+                            size={constants.ICON_SIZE.IMAGE_PICKER_BIG}
                         />
                     </View>
                 </View>
@@ -278,60 +79,15 @@ export default function EditPicture({ navigation }: EditPictureProps) {
                 <View>
                     {uploadingImage ?
                         <View style={styles.progressBar}>
-                            <ProgressBar step={step} steps={100} height={40} />
+                            <ProgressBar step={step} steps={100} height={constants.ICON_SIZE.PROGRESS_BAR_HEIGHT} />
                         </View>
                         :
-                        <View style={styles.bottomSheetActionContainer}>
-                            <View style={[styles.iconButtonBottomSheet]}>
-                                <IconButton
-                                    onPress={uploadImage}
-                                    size={80}
-                                >
-                                    <Gallery stroke={theme.TERTIARY} strokeWidth={constants.STROKE_WIDTH.BOLD} />
-                                </IconButton>
-                                <Text style={[styles.iconButtonBottomSheetText, { color: theme.TERTIARY }]}>
-                                    <FormattedMessage
-                                        defaultMessage='Gallery'
-                                        id='views.auth.signup.gallery'
-                                    />
-                                </Text>
-                            </View>
-
-                            <View style={[styles.iconButtonBottomSheet]}>
-                                <IconButton
-                                    onPress={takePhoto}
-                                    size={80}
-                                >
-                                    <Camera stroke={theme.TERTIARY} strokeWidth={constants.STROKE_WIDTH.BOLD} />
-                                </IconButton>
-                                <Text style={[styles.iconButtonBottomSheetText, { color: theme.TERTIARY }]}>
-                                    <FormattedMessage
-                                        defaultMessage='Camera'
-                                        id='views.auth.signup.camera'
-                                    />
-                                </Text>
-                            </View>
-                            {imageUrl &&
-                                <View style={styles.iconButtonBottomSheet}>
-                                    <IconButton
-                                        onPress={() => deleteImage(imageUrl, false)}
-                                        size={80}
-                                    >
-                                        <DeletePhoto strokeWidth={constants.STROKE_WIDTH.BOLD} />
-                                    </IconButton>
-                                    <Text
-                                        style={[
-                                            styles.iconButtonBottomSheetText,
-                                            { color: theme.NEGATIVE }
-                                        ]}>
-                                        <FormattedMessage
-                                            defaultMessage='Delete'
-                                            id='views.auth.signup.delete'
-                                        />
-                                    </Text>
-                                </View>
-                            }
-                        </View>}
+                        <ImagePickerButtons
+                            setUploadingImage={setUploadingImage}
+                            setStep={setStep}
+                            setImageUrl={setImageUrl}
+                            imageUrl={imageUrl}
+                        />}
                 </View>
             </View>
         </SafeAreaView>

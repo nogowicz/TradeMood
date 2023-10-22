@@ -1,7 +1,18 @@
 import { Dispatch, SetStateAction, useContext, useEffect, useState } from "react"
-import { SignupScreenNavigationProp } from "./Signup"
+import { SignUpScreenNavigationProp } from "./Signup"
 import IconButton from "components/buttons/icon-button";
-
+import { FormattedMessage } from "react-intl";
+import { Controller, FieldValues, SubmitHandler, useForm } from "react-hook-form";
+import TextField from "components/text-field";
+import { yupResolver } from "@hookform/resolvers/yup";
+import { schema } from './validationSchema';
+import { StyleSheet, Text, View } from "react-native";
+import { constants, spacing } from "styles";
+import { AuthContext } from "@views/navigation/AuthProvider";
+import ProfileImagePicker from "components/profile-image-picker";
+import { useTheme } from "store/themeContext";
+import ProgressBar from "components/progress-bar";
+import ImagePickerButtons from "components/profile-image-picker/ImagePickerButtons";
 
 import GoBack from 'assets/icons/Go-back.svg';
 import SmallLogo from 'assets/logo/logo-smaller.svg';
@@ -10,38 +21,33 @@ import Password from 'assets/icons/Password.svg';
 import Person from 'assets/icons/Person.svg';
 
 
-import { FormattedMessage } from "react-intl";
-import { Controller, FieldValues, SubmitHandler, useForm } from "react-hook-form";
-import TextField from "components/text-field";
-import { yupResolver } from "@hookform/resolvers/yup";
-import { schema } from './validationSchema';
-import { GestureResponderEvent, View } from "react-native";
-import { spacing } from "styles";
-import { AuthContext } from "@views/navigation/AuthProvider";
-import ProfileImagePicker from "components/profile-image-picker";
-import { useTheme } from "store/themeContext";
-
-type PrepareSignupPagesType = {
-    navigation: SignupScreenNavigationProp;
+type PrepareSignUpPagesType = {
+    navigation: SignUpScreenNavigationProp;
     handleBack: Dispatch<SetStateAction<number>>;
     handleNextPage: Dispatch<SetStateAction<number>>;
     handlePageWithError: Function;
-    handleShowBottomSheet: (event: GestureResponderEvent) => void;
     imageUrl: string | null | undefined;
     setImageUrl: Dispatch<SetStateAction<string | null | undefined>>;
     deleteImage: Function;
+    setStep: Dispatch<SetStateAction<number>>;
+    step: number;
+    uploadingImage: boolean;
+    setUploadingImage: Dispatch<SetStateAction<boolean>>;
 }
 
-export function prepareSignupPages({
+export function prepareSignUpPages({
     navigation,
     handleBack,
     handleNextPage,
     handlePageWithError,
-    handleShowBottomSheet,
     imageUrl,
     setImageUrl,
     deleteImage,
-}: PrepareSignupPagesType) {
+    setStep,
+    step,
+    uploadingImage,
+    setUploadingImage
+}: PrepareSignUpPagesType) {
     const [loading, setLoading] = useState(false);
     const { register } = useContext(AuthContext);
     const { control, handleSubmit, setError, formState: { errors } } = useForm({
@@ -100,7 +106,7 @@ export function prepareSignupPages({
                     onPress={() => {
                         navigation.goBack()
                         if (imageUrl) {
-                            deleteImage();
+                            deleteImage(imageUrl);
                         }
                     }}
                     size={42}
@@ -310,7 +316,7 @@ export function prepareSignupPages({
             action: (
                 <IconButton
                     onPress={handleBack}
-                    size={42}>
+                    size={constants.ICON_SIZE.GO_BACK}>
                     <GoBack fill={theme.TERTIARY} />
                 </IconButton>
             ),
@@ -333,15 +339,28 @@ export function prepareSignupPages({
                 <>
                     <View style={{
                         alignItems: 'center',
-                        marginTop: spacing.SCALE_90,
-                        marginBottom: spacing.SCALE_40
+                        marginVertical: 40
                     }}>
                         <ProfileImagePicker
                             imageUrl={imageUrl}
                             setImageUrl={setImageUrl}
-                            onPress={handleShowBottomSheet}
+                            size={constants.ICON_SIZE.IMAGE_PICKER_MEDIUM}
+
                         />
 
+                    </View>
+                    <View>
+                        {uploadingImage ?
+                            <View style={styles.progressBar}>
+                                <ProgressBar step={step} steps={100} height={constants.ICON_SIZE.PROGRESS_BAR_HEIGHT} />
+                            </View>
+                            :
+                            <ImagePickerButtons
+                                setUploadingImage={setUploadingImage}
+                                setStep={setStep}
+                                setImageUrl={setImageUrl}
+                                imageUrl={imageUrl}
+                            />}
                     </View>
 
                 </>
@@ -363,3 +382,25 @@ export function prepareSignupPages({
 
     ];
 }
+
+const styles = StyleSheet.create({
+    bottomSheetActionContainer: {
+        flexDirection: 'row',
+        justifyContent: 'space-around',
+        alignItems: 'center',
+    },
+    iconButtonBottomSheetText: {
+        textAlign: 'center',
+    },
+    iconButtonBottomSheet: {
+        justifyContent: 'center',
+        alignItems: 'center',
+        gap: spacing.SCALE_8,
+        marginBottom: spacing.SCALE_20,
+    },
+    progressBar: {
+        paddingHorizontal: spacing.SCALE_20,
+        justifyContent: 'center',
+        marginVertical: spacing.SCALE_40,
+    }
+});
