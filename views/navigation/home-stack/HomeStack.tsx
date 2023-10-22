@@ -28,11 +28,20 @@ import AppSettings from '@views/authenticated/sub-views/app-settings';
 import AboutUs from '@views/authenticated/sub-views/about-us';
 import InstrumentDetails from '@views/authenticated/sub-views/instrument-details';;
 import { useTheme } from 'store/themeContext';
+import { useContext, useEffect } from 'react';
+import { AuthContext } from '../AuthProvider';
+import { getFCMToken } from 'helpers/pushNotificationHelper';
 
 export default function HomeStack() {
     const theme = useTheme();
     const Stack = createNativeStackNavigator();
     const Tab = createBottomTabNavigator();
+    const { user } = useContext(AuthContext);
+    useEffect(() => {
+        if (user) {
+            getFCMToken(user?.uid);
+        }
+    }, []);
 
     function MyTabs() {
         return (

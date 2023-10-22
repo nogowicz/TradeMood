@@ -11,6 +11,7 @@ import { InstrumentProps } from '@views/navigation/InstrumentProvider';
 import { YAHOO_FINANCE_API } from "@env";
 import { SelectList } from 'react-native-dropdown-select-list';
 import ArrowDownIcon from 'assets/icons/Arrow-down.svg';
+import ActivityIndicator from 'components/activity-indicator';
 
 type CustomChartProps = {
     instrument?: InstrumentProps;
@@ -34,11 +35,6 @@ type StockData = {
     "Open": string;
     "Volume": string;
 };
-
-type PickListElementType = {
-    key: string;
-    value: string;
-}
 
 export default function CustomChart({ instrument }: CustomChartProps) {
     const [chartData, setChartData] = useState<DataSets>();
@@ -84,6 +80,11 @@ export default function CustomChart({ instrument }: CustomChartProps) {
         defaultMessage: "Last year",
         id: 'views.home.instrument-details.chart.last-year'
     });
+    const loadingChartTranslation = intl.formatMessage({
+        defaultMessage: "Loading chart...",
+        id: 'views.home.instrument-details.loading-chart'
+    });
+
 
     const [selected, setSelected] = useState(lastWeekTranslation);
 
@@ -333,29 +334,7 @@ export default function CustomChart({ instrument }: CustomChartProps) {
                             />
                         </View>
                         :
-                        <View style={{
-                            justifyContent: 'center',
-                            alignItems: 'center',
-                            gap: spacing.SCALE_12
-                        }}>
-                            <Animated.View
-                                style={{
-                                    ...styles.indicator,
-                                    scaleX: scaleAnim,
-                                    scaleY: scaleAnim,
-                                    backgroundColor: theme.PRIMARY,
-                                    opacity: constants.ACTIVE_OPACITY.LOW
-                                }} />
-                            <Text style={{
-                                color: theme.TERTIARY,
-                                fontSize: typography.FONT_SIZE_18,
-                            }}>
-                                <FormattedMessage
-                                    defaultMessage="Loading chart..."
-                                    id='views.home.instrument-details.loading-chart'
-                                />
-                            </Text>
-                        </View>
+                        <ActivityIndicator text={loadingChartTranslation} />
                     }
 
                 </View>

@@ -1,6 +1,7 @@
 import notifee, { AuthorizationStatus } from '@notifee/react-native';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import messaging from '@react-native-firebase/messaging';
+import firestore from '@react-native-firebase/firestore';
 import { setItem } from 'utils/asyncStorage';
 
 export async function checkNotificationPermission() {
@@ -11,7 +12,6 @@ export async function checkNotificationPermission() {
     settings.authorizationStatus == AuthorizationStatus.PROVISIONAL
   ) {
     console.log('Notification permissions have been authorized');
-    getFCMToken();
   } else if (
     settings.authorizationStatus == AuthorizationStatus.DENIED ||
     settings.authorizationStatus == AuthorizationStatus.NOT_DETERMINED
@@ -21,7 +21,7 @@ export async function checkNotificationPermission() {
   }
 }
 
-export async function getFCMToken() {
+export async function getFCMToken(userId: string) {
   const token = await AsyncStorage.getItem('fcmToken');
   console.log('Old FCM Token: ', token);
 
@@ -31,13 +31,18 @@ export async function getFCMToken() {
       if (token) {
         console.log('New FCM Token: ', token);
         await AsyncStorage.setItem('fcmToken', token);
+
+        const docRef = firestore().collection('users').doc(userId);
+        docRef.set({ fcmToken: token }, { merge: true });
       }
     } catch (error) {
       console.log('FCMToken error occurred:', error);
     }
+  } else {
+    const docRef = firestore().collection('users').doc(userId);
+    docRef.update({ fcmToken: token });
   }
 }
-
 export function notificationListener() {
   messaging().onNotificationOpenedApp(remoteMessage => {
     console.log(
