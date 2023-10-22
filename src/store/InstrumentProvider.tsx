@@ -1,4 +1,4 @@
-import React, { ReactNode, createContext, useEffect, useState } from 'react';
+import React, { ReactNode, createContext, useContext, useEffect, useState } from 'react';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import firestore, { FirebaseFirestoreTypes } from '@react-native-firebase/firestore';
 import Snackbar from 'react-native-snackbar';
@@ -146,4 +146,14 @@ export function InstrumentProvider({ children }: InstrumentProviderProps) {
             {children}
         </InstrumentContext.Provider>
     );
+}
+
+export function useInstrument() {
+    const instruments = useContext(InstrumentContext);
+
+    if (instruments === undefined) {
+        throw new Error('useInstrument must be used within an InstrumentProvider');
+    }
+
+    return instruments;
 }

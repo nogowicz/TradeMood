@@ -1,9 +1,9 @@
 import { Animated, StyleSheet, Text, TouchableOpacity, View } from 'react-native'
-import React, { useContext } from 'react'
+import React from 'react'
 import IconButton from 'components/buttons/icon-button'
 import FastImage from 'react-native-fast-image'
 import { useAuth } from 'store/AuthProvider'
-import { FavoritesContext } from 'store/FavoritesProvider'
+import { useFavoriteInstrument } from 'store/FavoritesProvider'
 import Bookmark from 'assets/icons/Bookmark.svg'
 import BookmarkSelected from 'assets/icons/Bookmark-selected.svg'
 import GoBack from 'assets/icons/Go-back.svg'
@@ -21,7 +21,7 @@ type AnimatedNavigationBarProps = {
 };
 
 export default function AnimatedNavigationBar({ scrollY, instrument, navigation }: AnimatedNavigationBarProps) {
-    const favoriteCryptoCtx = useContext(FavoritesContext);
+    const favoriteCryptoCtx = useFavoriteInstrument();
     const cryptoIsFavorite = favoriteCryptoCtx.ids.includes(instrument.id);
     const { user } = useAuth();
     const theme = useTheme();

@@ -1,5 +1,5 @@
 import { SafeAreaView, StyleSheet, Text, View, ScrollView, } from 'react-native';
-import { useContext, useEffect, useState } from 'react';
+import { useEffect, useState } from 'react';
 import { NativeStackScreenProps } from '@react-navigation/native-stack';
 import { FormattedMessage } from 'react-intl';
 import { RootStackParamList } from '../../navigation/Navigation';
@@ -9,8 +9,8 @@ import ProfileBar from 'components/profile-bar';
 import IconButton from 'components/buttons/icon-button';
 import { SCREENS } from '@views/navigation/constants';
 import TrendingNow from 'components/trending-now';
-import { InstrumentContext, InstrumentProps } from 'store/InstrumentProvider';
-import { FavoritesContext } from 'store/FavoritesProvider';
+import { InstrumentProps, useInstrument } from 'store/InstrumentProvider';
+import { useFavoriteInstrument } from 'store/FavoritesProvider';
 import InstrumentRecord from 'components/instrument-record';
 import { useTheme } from 'store/ThemeContext';
 
@@ -27,8 +27,8 @@ type OverviewProps = {
 
 export default function Overview({ navigation }: OverviewProps) {
     const { user } = useAuth();
-    const instruments = useContext(InstrumentContext);
-    const favoriteCryptoCtx = useContext(FavoritesContext);
+    const instruments = useInstrument();
+    const favoriteCryptoCtx = useFavoriteInstrument();
     const theme = useTheme();
     const [favoriteCrypto, setFavoriteCrypto] = useState<InstrumentProps[] | undefined>();
 
