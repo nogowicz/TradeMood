@@ -60,7 +60,7 @@ export default function Signup({ navigation }: SignupProps) {
     }
 
 
-    const deleteImage = async (imageUrlToDelete: string, isUploadingNewPicture: boolean) => {
+    const deleteImage = async (imageUrlToDelete: string) => {
         if (imageUrlToDelete) {
             try {
                 const ref = storage().refFromURL(imageUrlToDelete);

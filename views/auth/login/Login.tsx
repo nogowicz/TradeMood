@@ -1,11 +1,4 @@
-import {
-    View,
-    Text,
-    SafeAreaView,
-    StyleSheet,
-    Animated,
-    Keyboard,
-} from 'react-native'
+import { View, Text, SafeAreaView, StyleSheet, Animated, Keyboard, } from 'react-native'
 import { NativeStackScreenProps } from '@react-navigation/native-stack';
 import { RootStackParamList } from '../../navigation/Navigation';
 import { useContext, useEffect, useRef, useState } from 'react';
@@ -46,7 +39,6 @@ export default function Login({ navigation }: LoginProps) {
             await login(email, password)
                 .then(() => setLoading(false))
         } catch (error: any) {
-            console.log(error)
             if (error.code === 'auth/user-not-found') {
                 setError('email', { message: 'User not found' });
             } else if (error.code === 'auth/wrong-password') {

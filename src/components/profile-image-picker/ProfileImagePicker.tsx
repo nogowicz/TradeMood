@@ -7,6 +7,8 @@ import { Dispatch, SetStateAction } from 'react';
 import Image from 'components/image/Image';
 import { useTheme } from 'store/themeContext';
 
+import ProfileIcon from 'assets/icons/ProfileExperimantal.svg'
+
 type ProfileImagePickerProps = {
     activeOpacity?: number;
     size?: number;
@@ -37,7 +39,7 @@ export default function ProfileImagePicker({
                     url={imageUrl}
                 />
             ) : (
-                <AddPhoto stroke={theme.TERTIARY} height={size} width={size} strokeWidth={3} />
+                <ProfileIcon stroke={theme.TERTIARY} height={size} width={size} strokeWidth={3} />
             )}
         </Pressable>
     );

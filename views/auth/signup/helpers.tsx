@@ -1,13 +1,6 @@
 import { Dispatch, SetStateAction, useContext, useEffect, useState } from "react"
 import { SignUpScreenNavigationProp } from "./Signup"
 import IconButton from "components/buttons/icon-button";
-
-import GoBack from 'assets/icons/Go-back.svg';
-import SmallLogo from 'assets/logo/logo-smaller.svg';
-import Email from 'assets/icons/Email.svg';
-import Password from 'assets/icons/Password.svg';
-import Person from 'assets/icons/Person.svg';
-
 import { FormattedMessage } from "react-intl";
 import { Controller, FieldValues, SubmitHandler, useForm } from "react-hook-form";
 import TextField from "components/text-field";
@@ -20,6 +13,13 @@ import ProfileImagePicker from "components/profile-image-picker";
 import { useTheme } from "store/themeContext";
 import ProgressBar from "components/progress-bar";
 import ImagePickerButtons from "components/profile-image-picker/ImagePickerButtons";
+
+import GoBack from 'assets/icons/Go-back.svg';
+import SmallLogo from 'assets/logo/logo-smaller.svg';
+import Email from 'assets/icons/Email.svg';
+import Password from 'assets/icons/Password.svg';
+import Person from 'assets/icons/Person.svg';
+
 
 type PrepareSignUpPagesType = {
     navigation: SignUpScreenNavigationProp;
@@ -106,7 +106,7 @@ export function prepareSignUpPages({
                     onPress={() => {
                         navigation.goBack()
                         if (imageUrl) {
-                            deleteImage();
+                            deleteImage(imageUrl);
                         }
                     }}
                     size={42}
