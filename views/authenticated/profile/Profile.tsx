@@ -7,7 +7,7 @@ import {
 import React, { useContext, useEffect } from 'react'
 import { NativeStackScreenProps } from '@react-navigation/native-stack';
 import { RootStackParamList } from '../../../views/navigation/Navigation';
-import { AuthContext } from '@views/navigation/AuthProvider';
+import { AuthContext } from 'store/AuthProvider';
 import { constants, spacing, typography } from 'styles';
 import { FormattedMessage } from 'react-intl';
 import SubmitButton from 'components/buttons/submit-button';
@@ -21,8 +21,7 @@ import LogIn from 'assets/icons/Log-in.svg'
 import { SCREENS } from '@views/navigation/constants';
 import { handleLogout } from 'utils/asyncStorage';
 import Image from 'components/image';
-import { useTheme } from 'store/themeContext';
-import AsyncStorage from '@react-native-async-storage/async-storage';
+import { useTheme } from 'store/ThemeContext';
 
 
 

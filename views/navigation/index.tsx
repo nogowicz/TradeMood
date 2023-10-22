@@ -1,7 +1,7 @@
 import Routes from './Routes';
-import { AuthProvider } from './AuthProvider';
-import { InstrumentProvider } from './InstrumentProvider';
-import FavoritesContextProvider from './FavoritesProvider';
+import { AuthProvider } from '../../src/store/AuthProvider';
+import { InstrumentProvider } from '../../src/store/InstrumentProvider';
+import FavoritesContextProvider from '../../src/store/FavoritesProvider';
 
 
 export default function Providers() {

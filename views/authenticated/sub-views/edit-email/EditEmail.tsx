@@ -20,11 +20,11 @@ import TextField from 'components/text-field'
 import { Controller, FieldValues, SubmitHandler, useForm } from 'react-hook-form'
 import { yupResolver } from '@hookform/resolvers/yup'
 import { schema } from '@views/authenticated/sub-views/edit-email/validationSchema';
-import { AuthContext } from '@views/navigation/AuthProvider'
+import { AuthContext } from 'store/AuthProvider'
 import auth from '@react-native-firebase/auth';
 
 import Email from 'assets/icons/Email.svg';
-import { useTheme } from 'store/themeContext'
+import { useTheme } from 'store/ThemeContext'
 
 type EditEmailScreenNavigationProp = NativeStackScreenProps<RootStackParamList, 'EditEmail'>;
 

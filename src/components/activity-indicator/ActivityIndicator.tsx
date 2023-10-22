@@ -1,7 +1,7 @@
 import { Animated, Easing, StyleSheet, Text, View } from 'react-native'
 import React, { useEffect, useRef } from 'react'
 import { constants, spacing, typography } from 'styles';
-import { useTheme } from 'store/themeContext';
+import { useTheme } from 'store/ThemeContext';
 
 type ActivityIndicatorProps = {
     text: String;

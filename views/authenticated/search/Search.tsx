@@ -3,12 +3,12 @@ import React, { useContext, useState } from 'react'
 import { NativeStackScreenProps } from '@react-navigation/native-stack';
 import { RootStackParamList } from '@views/navigation/Navigation';
 import { spacing, typography } from 'styles';
-import { InstrumentContext, InstrumentProps } from '@views/navigation/InstrumentProvider';
+import { InstrumentContext, InstrumentProps } from 'store/InstrumentProvider';
 import { FormattedMessage, useIntl } from 'react-intl';
 import InstrumentRecord from 'components/instrument-record';
 import TextField from 'components/text-field';
 import { SCREENS } from '@views/navigation/constants';
-import { useTheme } from 'store/themeContext';
+import { useTheme } from 'store/ThemeContext';
 
 type SearchScreenNavigationProp = NativeStackScreenProps<RootStackParamList, 'Search'>;
 

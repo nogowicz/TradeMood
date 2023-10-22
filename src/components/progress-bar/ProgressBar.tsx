@@ -8,7 +8,7 @@ import {
     View,
     StyleSheet
 } from "react-native";
-import { useTheme } from "store/themeContext";
+import { useTheme } from "store/ThemeContext";
 
 import { constants } from "styles";
 

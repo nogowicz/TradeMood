@@ -13,9 +13,9 @@ import GoBack from 'assets/icons/Go-back.svg';
 import SmallLogo from 'assets/logo/logo-smaller.svg';
 import Email from 'assets/icons/Email.svg';
 import { yupResolver } from "@hookform/resolvers/yup";
-import { AuthContext } from "@views/navigation/AuthProvider";
+import { AuthContext } from "store/AuthProvider";
 import { schema } from "./validationSchema"
-import { useTheme } from "store/themeContext";
+import { useTheme } from "store/ThemeContext";
 
 type ForgotPasswordScreenNavigationProp = NativeStackScreenProps<RootStackParamList, 'ForgotPassword'>;
 

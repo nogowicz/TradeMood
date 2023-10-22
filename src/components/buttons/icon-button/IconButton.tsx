@@ -14,7 +14,7 @@ import {
 import {
     spacing,
 } from 'styles';
-import { useTheme } from 'store/themeContext';
+import { useTheme } from 'store/ThemeContext';
 
 
 type IconButtonProps = {

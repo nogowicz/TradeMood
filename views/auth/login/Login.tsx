@@ -2,7 +2,7 @@ import { View, Text, SafeAreaView, StyleSheet, Animated, Keyboard, } from 'react
 import { NativeStackScreenProps } from '@react-navigation/native-stack';
 import { RootStackParamList } from '../../navigation/Navigation';
 import { useContext, useEffect, useRef, useState } from 'react';
-import { AuthContext } from '../../navigation/AuthProvider';
+import { AuthContext } from '../../../src/store/AuthProvider';
 import SubmitButton from 'components/buttons/submit-button';
 import { spacing, typography } from 'styles';
 import IconButton from 'components/buttons/icon-button';
@@ -17,7 +17,7 @@ import { yupResolver } from '@hookform/resolvers/yup';
 import { schema } from './validationSchema'
 import TextField from 'components/text-field';
 import { SCREENS } from '@views/navigation/constants';
-import { useTheme } from 'store/themeContext';
+import { useTheme } from 'store/ThemeContext';
 
 type LoginScreenNavigationProp = NativeStackScreenProps<RootStackParamList, 'Login'>;
 

@@ -22,7 +22,7 @@ import { BottomSheetRefProps } from 'components/bottom-sheet/BottomSheet';
 import LanguageRadioButton from 'components/radio-button/LanguageRadioButton';
 import { LANGUAGES } from 'lang/constants';
 import ThemeRadioButton from 'components/radio-button/ThemeRadioButton';
-import { useTheme } from 'store/themeContext';
+import { useTheme } from 'store/ThemeContext';
 
 type AppSettingsScreenNavigationProp = NativeStackScreenProps<RootStackParamList, 'AppSettings'>;
 

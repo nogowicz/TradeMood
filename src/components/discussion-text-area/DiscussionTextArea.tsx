@@ -1,8 +1,8 @@
 import { Keyboard, StyleSheet, Text, TextInput, View } from 'react-native'
 import React, { useContext, useEffect, useState } from 'react'
 import { constants, spacing } from 'styles';
-import { useTheme } from 'store/themeContext';
-import { AuthContext } from '@views/navigation/AuthProvider';
+import { useTheme } from 'store/ThemeContext';
+import { AuthContext } from 'store/AuthProvider';
 import Image from 'components/image';
 import IconButton from 'components/buttons/icon-button';
 import { useIntl } from 'react-intl';

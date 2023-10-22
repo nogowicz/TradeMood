@@ -8,9 +8,9 @@ import { yupResolver } from "@hookform/resolvers/yup";
 import { schema } from './validationSchema';
 import { StyleSheet, Text, View } from "react-native";
 import { constants, spacing } from "styles";
-import { AuthContext } from "@views/navigation/AuthProvider";
+import { AuthContext } from "store/AuthProvider";
 import ProfileImagePicker from "components/profile-image-picker";
-import { useTheme } from "store/themeContext";
+import { useTheme } from "store/ThemeContext";
 import ProgressBar from "components/progress-bar";
 import ImagePickerButtons from "components/profile-image-picker/ImagePickerButtons";
 

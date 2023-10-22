@@ -1,10 +1,10 @@
 import { StyleSheet, Text, View } from 'react-native'
 import React, { useContext, useState } from 'react'
 import Image from 'components/image';
-import { useTheme } from 'store/themeContext';
+import { useTheme } from 'store/ThemeContext';
 import { constants, spacing, typography } from 'styles';
 import firestore from '@react-native-firebase/firestore';
-import { AuthContext } from '@views/navigation/AuthProvider';
+import { AuthContext } from 'store/AuthProvider';
 import { formatLongDate } from 'utils/dateFormat';
 import { useIntl } from 'react-intl';
 import Animated, { useSharedValue, withTiming, Easing, useAnimatedStyle } from 'react-native-reanimated';

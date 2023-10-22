@@ -11,7 +11,7 @@ import { FormattedMessage } from 'react-intl';
 import { RootStackParamList } from '@views/navigation/Navigation';
 import { spacing, typography } from 'styles';
 import { useContext } from 'react';
-import { AuthContext } from '@views/navigation/AuthProvider';
+import { AuthContext } from 'store/AuthProvider';
 
 
 import TextButton from 'components/buttons/text-button';
@@ -20,7 +20,7 @@ import LargeLogo from 'assets/logo/logo-bigger.svg'
 import SubmitButton from 'components/buttons/submit-button';
 import { SCREENS } from '@views/navigation/constants';
 import OutlinedButton from 'components/buttons/outlined-button';
-import { useTheme } from 'store/themeContext';
+import { useTheme } from 'store/ThemeContext';
 
 
 

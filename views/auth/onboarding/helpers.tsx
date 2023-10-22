@@ -11,7 +11,7 @@ import TextButton from "components/buttons/text-button";
 import { OnBoardingScreenNavigationProp } from "./OnBoarding";
 import IconButton from "components/buttons/icon-button";
 import { SCREENS } from '../../../views/navigation/constants';
-import { useTheme } from "store/themeContext";
+import { useTheme } from "store/ThemeContext";
 
 export type PreparePagesType = {
     navigation: OnBoardingScreenNavigationProp,

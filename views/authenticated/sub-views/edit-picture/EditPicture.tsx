@@ -4,8 +4,8 @@ import { NativeStackScreenProps } from '@react-navigation/native-stack';
 import { RootStackParamList } from '@views/navigation/Navigation';
 import { FormattedMessage, useIntl } from 'react-intl';
 import { constants, spacing, typography } from 'styles';
-import { AuthContext } from '@views/navigation/AuthProvider';
-import { useTheme } from 'store/themeContext';
+import { AuthContext } from 'store/AuthProvider';
+import { useTheme } from 'store/ThemeContext';
 
 import ProfileImagePicker from 'components/profile-image-picker';
 import IconButton from 'components/buttons/icon-button';

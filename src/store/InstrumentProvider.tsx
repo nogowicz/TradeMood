@@ -3,7 +3,7 @@ import AsyncStorage from '@react-native-async-storage/async-storage';
 import firestore, { FirebaseFirestoreTypes } from '@react-native-firebase/firestore';
 import Snackbar from 'react-native-snackbar';
 import { useIntl } from 'react-intl';
-import { useTheme } from 'store/themeContext';
+import { useTheme } from 'store/ThemeContext';
 
 export const InstrumentContext = createContext<InstrumentProps[] | undefined>(undefined);
 

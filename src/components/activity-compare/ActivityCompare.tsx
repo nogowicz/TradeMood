@@ -2,7 +2,7 @@ import { StyleSheet, Text, View } from 'react-native'
 import React, { ReactNode } from 'react'
 import { constants, spacing, typography } from 'styles';
 import Arrow from 'assets/icons/Go-forward.svg';
-import { useTheme } from 'store/themeContext';
+import { useTheme } from 'store/ThemeContext';
 
 type ActivityCompareProps = {
     name: string | ReactNode;

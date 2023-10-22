@@ -3,16 +3,16 @@ import { useContext, useEffect, useState } from 'react';
 import { NativeStackScreenProps } from '@react-navigation/native-stack';
 import { FormattedMessage } from 'react-intl';
 import { RootStackParamList } from '../../navigation/Navigation';
-import { AuthContext } from '@views/navigation/AuthProvider';
+import { AuthContext } from 'store/AuthProvider';
 import { constants, spacing, typography } from 'styles';
 import ProfileBar from 'components/profile-bar';
 import IconButton from 'components/buttons/icon-button';
 import { SCREENS } from '@views/navigation/constants';
 import TrendingNow from 'components/trending-now';
-import { InstrumentContext, InstrumentProps } from '@views/navigation/InstrumentProvider';
-import { FavoritesContext } from '@views/navigation/FavoritesProvider';
+import { InstrumentContext, InstrumentProps } from 'store/InstrumentProvider';
+import { FavoritesContext } from 'store/FavoritesProvider';
 import InstrumentRecord from 'components/instrument-record';
-import { useTheme } from 'store/themeContext';
+import { useTheme } from 'store/ThemeContext';
 
 import Discussion from 'assets/icons/Discussion-Inactive.svg'
 import Search from 'assets/icons/Search.svg'

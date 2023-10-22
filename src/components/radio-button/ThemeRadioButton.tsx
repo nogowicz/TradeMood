@@ -8,7 +8,7 @@ import {
 import React, { useEffect, useState } from 'react'
 import { spacing } from 'styles';
 import { FormattedMessage } from 'react-intl';
-import { useTheme } from 'store/themeContext';
+import { useTheme } from 'store/ThemeContext';
 import { EventRegister } from 'react-native-event-listeners';
 import { getItem, setItem } from 'utils/asyncStorage';
 

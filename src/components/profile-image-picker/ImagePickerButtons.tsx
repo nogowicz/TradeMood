@@ -2,11 +2,11 @@ import { StyleSheet, Text, View } from 'react-native'
 import React, { Dispatch, SetStateAction, useContext, useEffect, useState } from 'react'
 import { FormattedMessage, useIntl } from 'react-intl'
 import { constants, spacing, typography } from 'styles'
-import { useTheme } from 'store/themeContext'
+import { useTheme } from 'store/ThemeContext'
 import { launchCamera, launchImageLibrary } from 'react-native-image-picker'
 import storage from '@react-native-firebase/storage';
 import IconButton from 'components/buttons/icon-button'
-import { AuthContext } from '@views/navigation/AuthProvider'
+import { AuthContext } from 'store/AuthProvider'
 import Snackbar from 'react-native-snackbar'
 
 import Gallery from 'assets/icons/Gallery.svg'

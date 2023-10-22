@@ -27,9 +27,9 @@ import EditPassword from '@views/authenticated/sub-views/edit-password';
 import AppSettings from '@views/authenticated/sub-views/app-settings';
 import AboutUs from '@views/authenticated/sub-views/about-us';
 import InstrumentDetails from '@views/authenticated/sub-views/instrument-details';;
-import { useTheme } from 'store/themeContext';
+import { useTheme } from 'store/ThemeContext';
 import { useContext, useEffect } from 'react';
-import { AuthContext } from '../AuthProvider';
+import { AuthContext } from '../../../src/store/AuthProvider';
 import { getFCMToken } from 'helpers/pushNotificationHelper';
 
 export default function HomeStack() {

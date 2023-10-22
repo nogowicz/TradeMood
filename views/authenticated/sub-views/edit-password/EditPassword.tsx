@@ -8,7 +8,7 @@ import {
 } from 'react-native'
 import React, { useContext, useEffect, useRef, useState } from 'react'
 import { yupResolver } from '@hookform/resolvers/yup';
-import { AuthContext } from '@views/navigation/AuthProvider';
+import { AuthContext } from 'store/AuthProvider';
 import IconButton from 'components/buttons/icon-button';
 import SubmitButton from 'components/buttons/submit-button';
 import TextField from 'components/text-field';
@@ -22,7 +22,7 @@ import SmallLogo from 'assets/logo/logo-smaller.svg';
 import Password from 'assets/icons/Password.svg';
 import { NativeStackScreenProps } from '@react-navigation/native-stack';
 import { RootStackParamList } from '@views/navigation/Navigation';
-import { useTheme } from 'store/themeContext';
+import { useTheme } from 'store/ThemeContext';
 
 type EditPasswordScreenNavigationProp = NativeStackScreenProps<RootStackParamList, 'EditPassword'>;
 

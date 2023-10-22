@@ -14,14 +14,14 @@ import { FormattedMessage } from 'react-intl';
 import { Controller, FieldValues, SubmitHandler, useForm } from 'react-hook-form';
 import TextField from 'components/text-field';
 import { yupResolver } from '@hookform/resolvers/yup';
-import { AuthContext } from '@views/navigation/AuthProvider';
+import { AuthContext } from 'store/AuthProvider';
 import SubmitButton from 'components/buttons/submit-button';
 import { spacing, typography } from 'styles';
 import { schema } from '../edit-personal-info/validationSchema';
 import GoBack from 'assets/icons/Go-back.svg'
 import SmallLogo from 'assets/logo/logo-smaller.svg'
 import Person from 'assets/icons/Person.svg'
-import { useTheme } from 'store/themeContext';
+import { useTheme } from 'store/ThemeContext';
 import auth from '@react-native-firebase/auth';
 
 type EditPersonalInfoScreenNavigationProp = NativeStackScreenProps<RootStackParamList, 'EditPersonalInfo'>;

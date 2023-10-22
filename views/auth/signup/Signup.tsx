@@ -6,7 +6,7 @@ import { spacing } from 'styles';
 import storage from '@react-native-firebase/storage';
 import SignupPanel from './signup-panel/SignupPanel';
 import { prepareSignUpPages } from './helpers';
-import { useTheme } from 'store/themeContext';
+import { useTheme } from 'store/ThemeContext';
 import Snackbar from 'react-native-snackbar';
 import { useIntl } from 'react-intl';
 

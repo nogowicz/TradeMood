@@ -5,7 +5,7 @@ import {
 import AddPhoto from 'assets/signup-screen/AddPhoto.svg';
 import { Dispatch, SetStateAction } from 'react';
 import Image from 'components/image/Image';
-import { useTheme } from 'store/themeContext';
+import { useTheme } from 'store/ThemeContext';
 
 import ProfileIcon from 'assets/icons/ProfileExperimantal.svg'
 

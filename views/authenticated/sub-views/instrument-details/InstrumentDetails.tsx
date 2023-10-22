@@ -6,11 +6,11 @@ import { RouteProp } from '@react-navigation/native';
 import { spacing, typography } from 'styles';
 import GoBack from 'assets/icons/Go-back.svg'
 import IconButton from 'components/buttons/icon-button';
-import { InstrumentProps } from '@views/navigation/InstrumentProvider';
+import { InstrumentProps } from 'store/InstrumentProvider';
 import { FormattedMessage, useIntl } from 'react-intl';
 import TrendingNow from 'components/trending-now';
 import ActivityCompare from 'components/activity-compare';
-import { useTheme } from 'store/themeContext';
+import { useTheme } from 'store/ThemeContext';
 import { formatLongDate } from 'utils/dateFormat';
 import CustomChart from './CustomChart';
 import AnimatedNavigationBar from './AnimatedNavigationBar';
