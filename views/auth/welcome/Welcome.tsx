@@ -1,17 +1,10 @@
 import { NativeStackScreenProps } from '@react-navigation/native-stack';
 import IconButton from 'components/buttons/icon-button/IconButton';
-import {
-    SafeAreaView,
-    StyleSheet,
-    View,
-    Text,
-} from 'react-native'
+import { SafeAreaView, StyleSheet, View, Text, } from 'react-native'
 import { FormattedMessage } from 'react-intl';
-
 import { RootStackParamList } from '@views/navigation/Navigation';
 import { spacing, typography } from 'styles';
-import { useContext } from 'react';
-import { AuthContext } from '@views/navigation/AuthProvider';
+import { useAuth } from 'store/AuthProvider';
 
 
 import TextButton from 'components/buttons/text-button';
@@ -20,7 +13,7 @@ import LargeLogo from 'assets/logo/logo-bigger.svg'
 import SubmitButton from 'components/buttons/submit-button';
 import { SCREENS } from '@views/navigation/constants';
 import OutlinedButton from 'components/buttons/outlined-button';
-import { useTheme } from 'store/themeContext';
+import { useTheme } from 'store/ThemeContext';
 
 
 
@@ -31,7 +24,7 @@ type WelcomeProps = {
 }
 
 export default function Welcome({ navigation }: WelcomeProps) {
-    const { signInAnonymously } = useContext(AuthContext);
+    const { signInAnonymously } = useAuth();
     const theme = useTheme();
 
     return (

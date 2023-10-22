@@ -14,7 +14,7 @@ import GoBack from 'assets/icons/Go-back.svg'
 import SmallLogo from 'assets/logo/logo-smaller.svg'
 import { NativeStackScreenProps } from '@react-navigation/native-stack'
 import { RootStackParamList } from '@views/navigation/Navigation'
-import { useTheme } from 'store/themeContext'
+import { useTheme } from 'store/ThemeContext'
 
 
 type AboutUsScreenNavigationProp = NativeStackScreenProps<RootStackParamList, 'AboutUs'>;

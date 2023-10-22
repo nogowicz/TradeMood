@@ -1,5 +1,5 @@
 import { firebase } from '@react-native-firebase/auth';
-import { ReactNode, createContext, useEffect, useState } from 'react';
+import { ReactNode, createContext, useContext, useEffect, useState } from 'react';
 
 export const FavoritesContext = createContext<{
     ids: string[];
@@ -26,13 +26,11 @@ function FavoritesContextProvider({ children }: FavoritesContextProviderProps) {
                 const userRef = firebase.firestore().collection('users').doc(user.uid);
                 const doc = await userRef.get();
                 if (doc.exists) {
-                    console.log('Doc exists');
                     const data = doc.data();
                     if (data && data.favoriteCryptoIds) {
                         setFavoriteCryptoIds(data.favoriteCryptoIds);
                     }
                 } else {
-                    console.log('Doc does not exist');
                     const newData = {
                         favoriteCryptoIds: [],
                     };
@@ -94,3 +92,15 @@ function FavoritesContextProvider({ children }: FavoritesContextProviderProps) {
 }
 
 export default FavoritesContextProvider;
+
+
+
+export function useFavoriteInstrument() {
+    const favoriteInstrument = useContext(FavoritesContext);
+
+    if (favoriteInstrument === undefined) {
+        throw new Error('useFavoriteInstrument must be used within an FavoritesContext');
+    }
+
+    return favoriteInstrument;
+}

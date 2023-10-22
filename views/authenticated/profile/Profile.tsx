@@ -1,13 +1,8 @@
-import {
-    StyleSheet,
-    Text,
-    View,
-    SafeAreaView,
-} from 'react-native'
-import React, { useContext } from 'react'
+import { StyleSheet, Text, View, SafeAreaView, } from 'react-native'
+import React from 'react'
 import { NativeStackScreenProps } from '@react-navigation/native-stack';
 import { RootStackParamList } from '../../../views/navigation/Navigation';
-import { AuthContext } from '@views/navigation/AuthProvider';
+import { useAuth } from 'store/AuthProvider';
 import { constants, spacing, typography } from 'styles';
 import { FormattedMessage } from 'react-intl';
 import SubmitButton from 'components/buttons/submit-button';
@@ -21,7 +16,7 @@ import LogIn from 'assets/icons/Log-in.svg'
 import { SCREENS } from '@views/navigation/constants';
 import { handleLogout } from 'utils/asyncStorage';
 import Image from 'components/image';
-import { useTheme } from 'store/themeContext';
+import { useTheme } from 'store/ThemeContext';
 
 
 
@@ -34,9 +29,10 @@ type ProfileProps = {
 
 
 export default function Profile({ navigation }: ProfileProps) {
-    const { user, logout } = useContext(AuthContext);
+    const { user, logout } = useAuth();
     const theme = useTheme();
     const imageSize = 80;
+
     return (
         <SafeAreaView style={[styles.root, { backgroundColor: theme.BACKGROUND }]}>
             <View style={styles.container}>

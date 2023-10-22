@@ -1,6 +1,6 @@
-import { useContext, useState, useEffect } from 'react'
+import { useState, useEffect } from 'react'
 import { NavigationContainer } from '@react-navigation/native';
-import { AuthContext } from './AuthProvider';
+import { useAuth } from 'store/AuthProvider';
 import auth, { FirebaseAuthTypes } from '@react-native-firebase/auth';
 
 import AuthStack from './auth-stack';
@@ -8,7 +8,7 @@ import HomeStack from './home-stack';
 
 
 export default function Routes() {
-    const { user, setUser } = useContext(AuthContext);
+    const { user, setUser } = useAuth();
     const [initializing, setInitializing] = useState(true);
 
     function onAuthStateChange(newUser: FirebaseAuthTypes.User | null) {

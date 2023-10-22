@@ -3,7 +3,7 @@ import { RootStackParamList } from "@views/navigation/Navigation";
 import IconButton from "components/buttons/icon-button";
 import SubmitButton from "components/buttons/submit-button";
 import TextField from "components/text-field";
-import React, { useContext, useEffect, useRef, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import { Controller, FieldValues, SubmitHandler, useForm } from "react-hook-form";
 import { FormattedMessage } from "react-intl";
 import { Animated, Keyboard, SafeAreaView, StyleSheet, Text, View } from "react-native";
@@ -13,9 +13,9 @@ import GoBack from 'assets/icons/Go-back.svg';
 import SmallLogo from 'assets/logo/logo-smaller.svg';
 import Email from 'assets/icons/Email.svg';
 import { yupResolver } from "@hookform/resolvers/yup";
-import { AuthContext } from "@views/navigation/AuthProvider";
+import { useAuth } from "store/AuthProvider";
 import { schema } from "./validationSchema"
-import { useTheme } from "store/themeContext";
+import { useTheme } from "store/ThemeContext";
 
 type ForgotPasswordScreenNavigationProp = NativeStackScreenProps<RootStackParamList, 'ForgotPassword'>;
 
@@ -27,7 +27,7 @@ type ForgotPasswordProps = {
 export default function ForgotPassword({ navigation }: ForgotPasswordProps) {
     const [loading, setLoading] = useState(false);
     const [messageVisible, setMessageVisible] = useState(false);
-    const { resetPassword } = useContext(AuthContext);
+    const { resetPassword } = useAuth();
     const theme = useTheme();
     const { control, handleSubmit, setError, formState: { errors } } = useForm({
         resolver: yupResolver(schema)

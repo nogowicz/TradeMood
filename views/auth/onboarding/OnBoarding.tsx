@@ -14,7 +14,7 @@ import { RootStackParamList } from '../../navigation/Navigation';
 
 import Panel from './panel';
 import { preparePages } from './helpers';
-import { useTheme } from 'store/themeContext';
+import { useTheme } from 'store/ThemeContext';
 
 export type OnBoardingScreenNavigationProp = NativeStackNavigationProp<RootStackParamList, 'ONBOARDING'>;
 

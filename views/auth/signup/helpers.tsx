@@ -1,4 +1,4 @@
-import { Dispatch, SetStateAction, useContext, useEffect, useState } from "react"
+import { Dispatch, SetStateAction, useEffect, useState } from "react"
 import { SignUpScreenNavigationProp } from "./Signup"
 import IconButton from "components/buttons/icon-button";
 import { FormattedMessage } from "react-intl";
@@ -8,9 +8,9 @@ import { yupResolver } from "@hookform/resolvers/yup";
 import { schema } from './validationSchema';
 import { StyleSheet, Text, View } from "react-native";
 import { constants, spacing } from "styles";
-import { AuthContext } from "@views/navigation/AuthProvider";
+import { useAuth } from "store/AuthProvider";
 import ProfileImagePicker from "components/profile-image-picker";
-import { useTheme } from "store/themeContext";
+import { useTheme } from "store/ThemeContext";
 import ProgressBar from "components/progress-bar";
 import ImagePickerButtons from "components/profile-image-picker/ImagePickerButtons";
 
@@ -49,7 +49,7 @@ export function prepareSignUpPages({
     setUploadingImage
 }: PrepareSignUpPagesType) {
     const [loading, setLoading] = useState(false);
-    const { register } = useContext(AuthContext);
+    const { register } = useAuth();
     const { control, handleSubmit, setError, formState: { errors } } = useForm({
         resolver: yupResolver(schema)
     });

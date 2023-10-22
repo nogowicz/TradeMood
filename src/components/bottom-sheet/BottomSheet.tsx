@@ -11,7 +11,7 @@ Animated,
     useSharedValue,
     withSpring,
 } from 'react-native-reanimated';
-import { useTheme } from 'store/themeContext';
+import { useTheme } from 'store/ThemeContext';
 
 const {
     height: SCREEN_HEIGHT,

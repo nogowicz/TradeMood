@@ -16,7 +16,7 @@ import { spacing, typography } from 'styles';
 import SubmitButton from 'components/buttons/submit-button';
 import { SignupPagesArrayType } from '../Signup';
 import Pagination from 'components/pagination/Pagination';;
-import { useTheme } from 'store/themeContext';
+import { useTheme } from 'store/ThemeContext';
 
 
 type SignupPanelProps = {

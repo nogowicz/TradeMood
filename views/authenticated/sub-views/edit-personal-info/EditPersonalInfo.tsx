@@ -1,12 +1,5 @@
-import {
-    Animated,
-    Keyboard,
-    StyleSheet,
-    Text,
-    View,
-    SafeAreaView,
-} from 'react-native'
-import React, { useContext, useEffect, useRef, useState } from 'react'
+import { Animated, Keyboard, StyleSheet, Text, View, SafeAreaView, } from 'react-native'
+import React, { useEffect, useRef, useState } from 'react'
 import { NativeStackScreenProps } from '@react-navigation/native-stack';
 import { RootStackParamList } from '@views/navigation/Navigation';
 import IconButton from 'components/buttons/icon-button';
@@ -14,14 +7,14 @@ import { FormattedMessage } from 'react-intl';
 import { Controller, FieldValues, SubmitHandler, useForm } from 'react-hook-form';
 import TextField from 'components/text-field';
 import { yupResolver } from '@hookform/resolvers/yup';
-import { AuthContext } from '@views/navigation/AuthProvider';
+import { useAuth } from 'store/AuthProvider';
 import SubmitButton from 'components/buttons/submit-button';
 import { spacing, typography } from 'styles';
 import { schema } from '../edit-personal-info/validationSchema';
 import GoBack from 'assets/icons/Go-back.svg'
 import SmallLogo from 'assets/logo/logo-smaller.svg'
 import Person from 'assets/icons/Person.svg'
-import { useTheme } from 'store/themeContext';
+import { useTheme } from 'store/ThemeContext';
 import auth from '@react-native-firebase/auth';
 
 type EditPersonalInfoScreenNavigationProp = NativeStackScreenProps<RootStackParamList, 'EditPersonalInfo'>;
@@ -33,7 +26,7 @@ type EditPersonalInfoProps = {
 export default function EditPersonalInfo({ navigation }: EditPersonalInfoProps) {
     const [loading, setLoading] = useState(false);
     const [messageVisible, setMessageVisible] = useState(false);
-    const { updatePersonalData } = useContext(AuthContext);
+    const { updatePersonalData } = useAuth();
     const theme = useTheme();
     const user = auth().currentUser;
     const { control, handleSubmit, setError, formState: { errors } } = useForm({

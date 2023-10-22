@@ -8,7 +8,7 @@ import React from 'react'
 import { constants, spacing, typography } from 'styles'
 import { FormattedMessage } from 'react-intl';
 import Image from 'components/image';
-import { useTheme } from 'store/themeContext';
+import { useTheme } from 'store/ThemeContext';
 
 type ProfileBarProps = {
     displayName: string | null | undefined;

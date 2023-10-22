@@ -6,7 +6,7 @@ import { FormattedMessage } from 'react-intl';
 import Placeholder from 'assets/icons/crypto-placeholder.svg'
 import Arrow from 'assets/icons/Go-forward.svg';
 import FastImage from 'react-native-fast-image';
-import { useTheme } from 'store/themeContext';
+import { useTheme } from 'store/ThemeContext';
 
 type InstrumentRecordProps = {
     crypto: string;

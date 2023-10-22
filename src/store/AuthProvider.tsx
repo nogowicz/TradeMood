@@ -1,4 +1,4 @@
-import { ReactNode, createContext, useState } from "react";
+import { ReactNode, createContext, useContext, useState } from "react";
 import auth, { FirebaseAuthTypes } from '@react-native-firebase/auth';
 import { useIntl } from "react-intl";
 import Snackbar from "react-native-snackbar";
@@ -138,4 +138,14 @@ export function AuthProvider({ children }: AuthProviderProps) {
                 }
             },
         }}>{children}</AuthContext.Provider>
+}
+
+export function useAuth() {
+    const authContext = useContext(AuthContext);
+
+    if (!authContext) {
+        throw new Error("useAuth must be used within an AuthProvider");
+    }
+
+    return authContext;
 }

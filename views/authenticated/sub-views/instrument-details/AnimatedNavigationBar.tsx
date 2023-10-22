@@ -1,15 +1,15 @@
 import { Animated, StyleSheet, Text, TouchableOpacity, View } from 'react-native'
-import React, { useContext } from 'react'
+import React from 'react'
 import IconButton from 'components/buttons/icon-button'
 import FastImage from 'react-native-fast-image'
-import { AuthContext } from '@views/navigation/AuthProvider'
-import { FavoritesContext } from '@views/navigation/FavoritesProvider'
+import { useAuth } from 'store/AuthProvider'
+import { useFavoriteInstrument } from 'store/FavoritesProvider'
 import Bookmark from 'assets/icons/Bookmark.svg'
 import BookmarkSelected from 'assets/icons/Bookmark-selected.svg'
 import GoBack from 'assets/icons/Go-back.svg'
-import { useTheme } from 'store/themeContext'
+import { useTheme } from 'store/ThemeContext'
 import { spacing, typography } from 'styles'
-import { InstrumentProps } from '@views/navigation/InstrumentProvider'
+import { InstrumentProps } from 'store/InstrumentProvider'
 import { NavigationProp } from '@react-navigation/native'
 import { RootStackParamList } from '@views/navigation/Navigation'
 
@@ -21,9 +21,9 @@ type AnimatedNavigationBarProps = {
 };
 
 export default function AnimatedNavigationBar({ scrollY, instrument, navigation }: AnimatedNavigationBarProps) {
-    const favoriteCryptoCtx = useContext(FavoritesContext);
+    const favoriteCryptoCtx = useFavoriteInstrument();
     const cryptoIsFavorite = favoriteCryptoCtx.ids.includes(instrument.id);
-    const { user } = useContext(AuthContext);
+    const { user } = useAuth();
     const theme = useTheme();
     const backIconMargin = 8;
 

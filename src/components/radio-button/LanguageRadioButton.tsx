@@ -10,7 +10,7 @@ import { LangContext } from '../../lang/LangProvider';
 import { FormattedMessage } from 'react-intl';
 import { Entry } from '@views/authenticated/sub-views/app-settings/AppSettings';
 import { languagesCodes } from 'lang/constants';
-import { useTheme } from 'store/themeContext';
+import { useTheme } from 'store/ThemeContext';
 
 type LanguageObject = {
     [key: string]: () => JSX.Element;

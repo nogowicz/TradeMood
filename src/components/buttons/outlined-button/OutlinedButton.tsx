@@ -9,7 +9,7 @@ import { Dispatch, ReactNode, SetStateAction } from 'react'
 import { constants, spacing, typography } from '../../../styles';
 
 import GoForward from '../../../assets/icons/Go-forward.svg';
-import { useTheme } from 'store/themeContext';
+import { useTheme } from 'store/ThemeContext';
 
 
 type OutlinedButtonProps = {

@@ -1,8 +1,8 @@
 import { View, Text, SafeAreaView, StyleSheet, Animated, Keyboard, } from 'react-native'
 import { NativeStackScreenProps } from '@react-navigation/native-stack';
 import { RootStackParamList } from '../../navigation/Navigation';
-import { useContext, useEffect, useRef, useState } from 'react';
-import { AuthContext } from '../../navigation/AuthProvider';
+import { useEffect, useRef, useState } from 'react';
+import { useAuth } from 'store/AuthProvider';
 import SubmitButton from 'components/buttons/submit-button';
 import { spacing, typography } from 'styles';
 import IconButton from 'components/buttons/icon-button';
@@ -17,7 +17,7 @@ import { yupResolver } from '@hookform/resolvers/yup';
 import { schema } from './validationSchema'
 import TextField from 'components/text-field';
 import { SCREENS } from '@views/navigation/constants';
-import { useTheme } from 'store/themeContext';
+import { useTheme } from 'store/ThemeContext';
 
 type LoginScreenNavigationProp = NativeStackScreenProps<RootStackParamList, 'Login'>;
 
@@ -27,7 +27,7 @@ type LoginProps = {
 
 export default function Login({ navigation }: LoginProps) {
     const [loading, setLoading] = useState(false);
-    const { login } = useContext(AuthContext);
+    const { login } = useAuth();
     const theme = useTheme();
     const { control, handleSubmit, setError, formState: { errors } } = useForm({
         resolver: yupResolver(schema)

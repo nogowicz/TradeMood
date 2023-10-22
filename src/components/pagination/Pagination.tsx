@@ -4,7 +4,7 @@ import { View, StyleSheet } from 'react-native'
 import { spacing } from '../../styles';
 import { PagesArrayType } from '../../../views/auth/onboarding/OnBoarding';
 import { SignupPagesArrayType } from '@views/auth/signup/Signup';
-import { useTheme } from 'store/themeContext';
+import { useTheme } from 'store/ThemeContext';
 
 type PaginationProps = {
     pages: PagesArrayType | SignupPagesArrayType,

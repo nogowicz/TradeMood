@@ -6,7 +6,7 @@ import Routes from './views/navigation';
 import { GestureHandlerRootView } from 'react-native-gesture-handler';
 import { checkNotificationPermission, notificationListener } from 'helpers/pushNotificationHelper';
 import { EventRegister } from 'react-native-event-listeners';
-import { ThemeContext } from 'store/themeContext';
+import { ThemeContext } from 'store/ThemeContext';
 import { theme } from 'styles/colors';
 import { getItem } from 'utils/asyncStorage';
 import Snackbar from 'react-native-snackbar';

@@ -23,7 +23,7 @@ import PasswordInvisible from 'assets/icons/Password-invisible.svg';
 import Clear from 'assets/icons/Clear.svg';
 import { FormattedMessage } from 'react-intl';
 import { FieldError, FieldErrorsImpl, Merge } from 'react-hook-form';
-import { useTheme } from 'store/themeContext';
+import { useTheme } from 'store/ThemeContext';
 
 
 

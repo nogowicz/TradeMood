@@ -7,7 +7,7 @@ import { ReactNode } from 'react'
 
 
 import { spacing, typography } from '../../../styles';
-import { useTheme } from 'store/themeContext';
+import { useTheme } from 'store/ThemeContext';
 
 type TextButtonProps = {
     label: ReactNode,

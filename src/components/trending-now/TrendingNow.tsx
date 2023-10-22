@@ -9,7 +9,7 @@ import { constants, spacing, typography } from 'styles'
 import Pie from 'react-native-pie'
 import GoFroward from 'assets/icons/Go-forward.svg'
 import { FormattedMessage } from 'react-intl'
-import { useTheme } from 'store/themeContext'
+import { useTheme } from 'store/ThemeContext'
 
 type TrendingNowProps = {
     name?: string;

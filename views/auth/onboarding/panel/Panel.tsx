@@ -11,7 +11,7 @@ import Pagination from 'components/pagination';
 import SubmitButton from 'components/buttons/submit-button';
 import { Dispatch, SetStateAction } from 'react';
 import { PagesArrayType } from '../OnBoarding';
-import { useTheme } from 'store/themeContext';
+import { useTheme } from 'store/ThemeContext';
 
 
 

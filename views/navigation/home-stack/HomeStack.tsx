@@ -27,16 +27,16 @@ import EditPassword from '@views/authenticated/sub-views/edit-password';
 import AppSettings from '@views/authenticated/sub-views/app-settings';
 import AboutUs from '@views/authenticated/sub-views/about-us';
 import InstrumentDetails from '@views/authenticated/sub-views/instrument-details';;
-import { useTheme } from 'store/themeContext';
-import { useContext, useEffect } from 'react';
-import { AuthContext } from '../AuthProvider';
+import { useTheme } from 'store/ThemeContext';
+import { useEffect } from 'react';
+import { useAuth } from '../../../src/store/AuthProvider';
 import { getFCMToken } from 'helpers/pushNotificationHelper';
 
 export default function HomeStack() {
     const theme = useTheme();
     const Stack = createNativeStackNavigator();
     const Tab = createBottomTabNavigator();
-    const { user } = useContext(AuthContext);
+    const { user } = useAuth();
     useEffect(() => {
         if (user) {
             getFCMToken(user?.uid);
