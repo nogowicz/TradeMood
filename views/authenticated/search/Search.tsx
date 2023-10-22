@@ -1,10 +1,4 @@
-import {
-    StyleSheet,
-    Text,
-    View,
-    SafeAreaView,
-    ScrollView,
-} from 'react-native'
+import { StyleSheet, Text, View, SafeAreaView, ScrollView, } from 'react-native'
 import React, { useContext, useState } from 'react'
 import { NativeStackScreenProps } from '@react-navigation/native-stack';
 import { RootStackParamList } from '@views/navigation/Navigation';

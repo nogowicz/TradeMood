@@ -26,13 +26,11 @@ function FavoritesContextProvider({ children }: FavoritesContextProviderProps) {
                 const userRef = firebase.firestore().collection('users').doc(user.uid);
                 const doc = await userRef.get();
                 if (doc.exists) {
-                    console.log('Doc exists');
                     const data = doc.data();
                     if (data && data.favoriteCryptoIds) {
                         setFavoriteCryptoIds(data.favoriteCryptoIds);
                     }
                 } else {
-                    console.log('Doc does not exist');
                     const newData = {
                         favoriteCryptoIds: [],
                     };

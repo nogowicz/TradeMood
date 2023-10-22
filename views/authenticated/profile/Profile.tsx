@@ -4,7 +4,7 @@ import {
     View,
     SafeAreaView,
 } from 'react-native'
-import React, { useContext } from 'react'
+import React, { useContext, useEffect } from 'react'
 import { NativeStackScreenProps } from '@react-navigation/native-stack';
 import { RootStackParamList } from '../../../views/navigation/Navigation';
 import { AuthContext } from '@views/navigation/AuthProvider';
@@ -22,6 +22,7 @@ import { SCREENS } from '@views/navigation/constants';
 import { handleLogout } from 'utils/asyncStorage';
 import Image from 'components/image';
 import { useTheme } from 'store/themeContext';
+import AsyncStorage from '@react-native-async-storage/async-storage';
 
 
 
@@ -37,6 +38,7 @@ export default function Profile({ navigation }: ProfileProps) {
     const { user, logout } = useContext(AuthContext);
     const theme = useTheme();
     const imageSize = 80;
+
     return (
         <SafeAreaView style={[styles.root, { backgroundColor: theme.BACKGROUND }]}>
             <View style={styles.container}>

@@ -1,14 +1,7 @@
-import {
-    SafeAreaView,
-    StyleSheet,
-    Text,
-    View,
-    ScrollView,
-} from 'react-native';
-import { useContext, useEffect } from 'react';
+import { SafeAreaView, StyleSheet, Text, View, ScrollView, } from 'react-native';
+import { useContext, useEffect, useState } from 'react';
 import { NativeStackScreenProps } from '@react-navigation/native-stack';
 import { FormattedMessage } from 'react-intl';
-
 import { RootStackParamList } from '../../navigation/Navigation';
 import { AuthContext } from '@views/navigation/AuthProvider';
 import { constants, spacing, typography } from 'styles';
@@ -36,14 +29,16 @@ export default function Overview({ navigation }: OverviewProps) {
     const { user } = useContext(AuthContext);
     const instruments = useContext(InstrumentContext);
     const favoriteCryptoCtx = useContext(FavoritesContext);
-
-    const favoriteCrypto = instruments?.filter((instrument) =>
-        favoriteCryptoCtx.ids.includes(instrument.id)
-    );
     const theme = useTheme();
+    const [favoriteCrypto, setFavoriteCrypto] = useState<InstrumentProps[] | undefined>();
+
     useEffect(() => {
-        console.log(favoriteCrypto);
-    }, [])
+        const favoriteCryptoFilter: InstrumentProps[] | undefined = instruments?.filter((instrument) =>
+            favoriteCryptoCtx.ids.includes(instrument.id)
+        );
+        setFavoriteCrypto(favoriteCryptoFilter);
+    }, [instruments, favoriteCryptoCtx.ids]);
+
     return (
         <SafeAreaView style={[styles.root, { backgroundColor: theme.BACKGROUND }]}>
             <View style={styles.container}>
