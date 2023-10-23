@@ -36,8 +36,6 @@ export default function DiscussionTextArea() {
                 firestore()
                     .collection('posts')
                     .add({
-                        name: user?.displayName,
-                        photoURL: user?.photoURL,
                         likes: [],
                         text: text,
                         createdAt: firestore.FieldValue.serverTimestamp(),

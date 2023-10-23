@@ -3,7 +3,7 @@ import React, { useEffect, useRef, useState } from 'react'
 import TextButton from 'components/buttons/text-button';
 import Snackbar from 'react-native-snackbar';
 import { LineChart } from 'react-native-chart-kit';
-import { FormattedMessage, useIntl } from 'react-intl';
+import { useIntl } from 'react-intl';
 import { constants, spacing, typography } from 'styles';
 import { formatDateToShortDate } from 'utils/dateFormat';
 import { useTheme } from 'store/ThemeContext';

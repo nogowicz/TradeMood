@@ -57,8 +57,6 @@ export default function Discussion({ navigation }: DiscussionProps) {
                                 likes: data.likes,
                                 text: data.text,
                                 uid: documentSnapshot.id,
-                                name: data.name,
-                                photoURL: data.photoURL,
                                 userUID: data.userUID
                             });
                         }
