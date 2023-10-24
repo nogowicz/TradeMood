@@ -209,13 +209,21 @@ export default function CustomChart({ instrument }: CustomChartProps) {
         ).start();
     }, [scaleAnim]);
 
-    function convertData(data: any) {
+    function convertData(data: StockData[]) {
         let labels = [];
         let dataset = [];
 
         for (let i = 0; i < data.length; i++) {
-            labels.push(data[i].Date);
-            dataset.push(data[i].Close);
+            const date = data[i].Date;
+            const close = data[i].Close;
+
+            // Check for null values and skip them
+            if (date === 'null' || close === 'null') {
+                continue;
+            }
+
+            labels.push(date);
+            dataset.push(parseFloat(close));
         }
 
         return {
@@ -225,6 +233,9 @@ export default function CustomChart({ instrument }: CustomChartProps) {
             }],
         };
     }
+
+
+
 
     return (
         <View>
@@ -339,7 +350,7 @@ export default function CustomChart({ instrument }: CustomChartProps) {
 
                 </View>
             }
-        </View>
+        </View >
     )
 }
 
