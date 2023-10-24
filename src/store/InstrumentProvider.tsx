@@ -114,6 +114,8 @@ export function InstrumentProvider({ children }: InstrumentProviderProps) {
                     .runTransaction(async (transaction) => {
                         const snapshot = await transaction.get(documentRef);
                         const existingData = snapshot.data();
+                        const newData = { ...existingData, instruments: instrument };
+                        transaction.set(documentRef, newData);
                         AsyncStorage.setItem('instruments', JSON.stringify(list));
                     })
                     .catch((error) => {
