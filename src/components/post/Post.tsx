@@ -1,5 +1,5 @@
 import { StyleSheet, Text, View } from 'react-native'
-import React, { useState } from 'react'
+import React, { useLayoutEffect, useState } from 'react'
 import Image from 'components/image';
 import { useTheme } from 'store/ThemeContext';
 import { constants, spacing, typography } from 'styles';
@@ -21,8 +21,6 @@ export type PostType = {
     likes: string[];
     text: string;
     uid: string;
-    name: string;
-    photoURL: string;
     userUID: string;
 };
 
@@ -31,8 +29,6 @@ export default function Post({
     likes,
     text,
     uid,
-    name,
-    photoURL,
     userUID,
 }: PostType) {
     const imageSize = 40;
@@ -42,6 +38,8 @@ export default function Post({
     const date = new Date(createdAt);
     const [isTrashVisible, setIsTrashVisible] = useState(false);
     const trashScale = useSharedValue(0);
+    const [photoURL, setPhotoURL] = useState();
+    const [displayName, setDisplayName] = useState();
 
     //translations:
     const likeError = intl.formatMessage({
@@ -53,6 +51,16 @@ export default function Post({
         defaultMessage: 'An error occurred while trying to delete a post'
     });
 
+    useLayoutEffect(() => {
+        async function getUserDetails() {
+            const userDoc = await firestore().collection('users').doc(userUID).get();
+            const userData = userDoc.data();
+
+            setDisplayName(userData?.displayName);
+            setPhotoURL(userData?.photoURL);
+        }
+        getUserDetails();
+    }, [userUID]);
 
     async function toggleLikePost(postUID: string, currentUserUID: string, likes: string[]) {
         const userIndex = likes.indexOf(currentUserUID);
@@ -128,7 +136,7 @@ export default function Post({
                         styles.nameText,
                         {
                             color: theme.TERTIARY,
-                        }]}>{name}</Text>
+                        }]}>{displayName}</Text>
                 </View>
                 {(user && userUID === user.uid) &&
                     <View style={{

@@ -2,6 +2,7 @@ import { ReactNode, createContext, useContext, useState } from "react";
 import auth, { FirebaseAuthTypes } from '@react-native-firebase/auth';
 import { useIntl } from "react-intl";
 import Snackbar from "react-native-snackbar";
+import firestore from '@react-native-firebase/firestore';
 
 
 type AuthContextType = {
@@ -64,21 +65,27 @@ export function AuthProvider({ children }: AuthProviderProps) {
                 await auth().createUserWithEmailAndPassword(email, password)
                     .then((userCredential) => {
                         const user = userCredential.user;
-                        if (imageUrl) {
-                            user.updateProfile({
-                                displayName: `${firstName.trim()} ${lastName.trim()}`,
-                                photoURL: imageUrl
-                            })
+                        let displayName = `${firstName.trim()} ${lastName.trim()}`;
+                        let photoURL = imageUrl || null;
 
+                        if (photoURL) {
+                            user.updateProfile({
+                                displayName: displayName,
+                                photoURL: photoURL
+                            })
                         } else {
                             user.updateProfile({
-                                displayName: `${firstName.trim()} ${lastName.trim()}`
+                                displayName: displayName
                             })
-
                         }
 
 
                         user.sendEmailVerification();
+                        firestore().collection('users').doc(user.uid).set({
+                            email: email,
+                            displayName: displayName,
+                            photoURL: photoURL
+                        });
 
                     })
 
@@ -113,13 +120,21 @@ export function AuthProvider({ children }: AuthProviderProps) {
                 if (user) {
                     await user.updateEmail(newEmail);
                     await user.sendEmailVerification();
+
+                    firestore().collection('users').doc(user.uid).update({
+                        email: newEmail
+                    });
                 }
             },
             updatePersonalData: async (firstName: string, lastName: string) => {
                 const user = auth().currentUser;
                 if (user) {
+                    let displayName = `${firstName.trim()} ${lastName.trim()}`;
                     await user.updateProfile({
-                        displayName: `${firstName.trim()} ${lastName.trim()}`
+                        displayName: displayName
+                    });
+                    firestore().collection('users').doc(user.uid).update({
+                        displayName: displayName
                     });
                 }
             },
@@ -127,6 +142,9 @@ export function AuthProvider({ children }: AuthProviderProps) {
                 const user = auth().currentUser;
                 if (user) {
                     await user.updateProfile({
+                        photoURL: imageUrl
+                    });
+                    firestore().collection('users').doc(user.uid).update({
                         photoURL: imageUrl
                     });
                 }

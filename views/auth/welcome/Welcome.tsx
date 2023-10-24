@@ -3,7 +3,7 @@ import IconButton from 'components/buttons/icon-button/IconButton';
 import { SafeAreaView, StyleSheet, View, Text, } from 'react-native'
 import { FormattedMessage } from 'react-intl';
 import { RootStackParamList } from '@views/navigation/Navigation';
-import { spacing, typography } from 'styles';
+import { constants, spacing, typography } from 'styles';
 import { useAuth } from 'store/AuthProvider';
 
 
@@ -33,7 +33,7 @@ export default function Welcome({ navigation }: WelcomeProps) {
                 <View style={styles.actionContainer}>
                     <IconButton
                         onPress={() => navigation.goBack()}
-                        size={42}
+                        size={constants.ICON_SIZE.GO_BACK}
                     >
                         <GoBack fill={theme.TERTIARY} />
                     </IconButton>

@@ -3,7 +3,7 @@ import React, { useEffect, useRef, useState } from 'react'
 import TextButton from 'components/buttons/text-button';
 import Snackbar from 'react-native-snackbar';
 import { LineChart } from 'react-native-chart-kit';
-import { FormattedMessage, useIntl } from 'react-intl';
+import { useIntl } from 'react-intl';
 import { constants, spacing, typography } from 'styles';
 import { formatDateToShortDate } from 'utils/dateFormat';
 import { useTheme } from 'store/ThemeContext';
@@ -209,13 +209,20 @@ export default function CustomChart({ instrument }: CustomChartProps) {
         ).start();
     }, [scaleAnim]);
 
-    function convertData(data: any) {
+    function convertData(data: StockData[]) {
         let labels = [];
         let dataset = [];
 
         for (let i = 0; i < data.length; i++) {
-            labels.push(data[i].Date);
-            dataset.push(data[i].Close);
+            const date = data[i].Date;
+            const close = data[i].Close;
+
+            if (date === 'null' || close === 'null') {
+                continue;
+            }
+
+            labels.push(date);
+            dataset.push(parseFloat(close));
         }
 
         return {
@@ -225,6 +232,7 @@ export default function CustomChart({ instrument }: CustomChartProps) {
             }],
         };
     }
+
 
     return (
         <View>
@@ -339,7 +347,7 @@ export default function CustomChart({ instrument }: CustomChartProps) {
 
                 </View>
             }
-        </View>
+        </View >
     )
 }
 

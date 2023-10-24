@@ -120,7 +120,7 @@ export default function Login({ navigation }: LoginProps) {
                         <View style={styles.actionContainerComponent} >
                             <IconButton
                                 onPress={() => navigation.goBack()}
-                                size={42}
+                                size={constants.ICON_SIZE.GO_BACK}
                             >
                                 <GoBack fill={theme.TERTIARY} />
                             </IconButton>

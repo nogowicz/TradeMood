@@ -9,7 +9,7 @@ import TextField from 'components/text-field';
 import { yupResolver } from '@hookform/resolvers/yup';
 import { useAuth } from 'store/AuthProvider';
 import SubmitButton from 'components/buttons/submit-button';
-import { spacing, typography } from 'styles';
+import { constants, spacing, typography } from 'styles';
 import { schema } from '../edit-personal-info/validationSchema';
 import GoBack from 'assets/icons/Go-back.svg'
 import SmallLogo from 'assets/logo/logo-smaller.svg'
@@ -117,7 +117,7 @@ export default function EditPersonalInfo({ navigation }: EditPersonalInfoProps) 
                         <View style={styles.actionContainerComponent} >
                             <IconButton
                                 onPress={() => navigation.goBack()}
-                                size={42}
+                                size={constants.ICON_SIZE.GO_BACK}
                             >
                                 <GoBack fill={theme.TERTIARY} />
                             </IconButton>

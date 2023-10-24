@@ -12,6 +12,7 @@ import { OnBoardingScreenNavigationProp } from "./OnBoarding";
 import IconButton from "components/buttons/icon-button";
 import { SCREENS } from '../../../views/navigation/constants';
 import { useTheme } from "store/ThemeContext";
+import { constants } from "styles";
 
 export type PreparePagesType = {
     navigation: OnBoardingScreenNavigationProp,
@@ -90,7 +91,7 @@ export function preparePages({
             action: (
                 <IconButton
                     onPress={handleBack}
-                    size={42}
+                    size={constants.ICON_SIZE.GO_BACK}
                 >
                     <GoBack fill={theme.TERTIARY} />
                 </IconButton>
@@ -123,7 +124,7 @@ export function preparePages({
             submitButtonAction: () => navigation.navigate(SCREENS.AUTH.WELCOME.ID),
             action: (
                 <IconButton onPress={handleBack}
-                    size={42}
+                    size={constants.ICON_SIZE.GO_BACK}
                 >
                     <GoBack fill={theme.TERTIARY} />
                 </IconButton>

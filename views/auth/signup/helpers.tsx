@@ -109,7 +109,7 @@ export function prepareSignUpPages({
                             deleteImage(imageUrl);
                         }
                     }}
-                    size={42}
+                    size={constants.ICON_SIZE.GO_BACK}
                 >
                     <GoBack fill={theme.TERTIARY} />
                 </IconButton>
@@ -224,7 +224,7 @@ export function prepareSignUpPages({
             action: (
                 <IconButton
                     onPress={handleBack}
-                    size={42}
+                    size={constants.ICON_SIZE.GO_BACK}
                 >
                     <GoBack fill={theme.TERTIARY} />
                 </IconButton>
