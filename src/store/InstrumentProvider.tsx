@@ -15,7 +15,7 @@ export type InstrumentProps = {
     id: string;
     stockSymbol: string;
     crypto: string;
-    activityTM: number;
+    activityTY: number;
     activityTW: number;
     sentimentPositive: number;
     sentimentNeutral: number;
@@ -74,7 +74,7 @@ export function InstrumentProvider({ children }: InstrumentProviderProps) {
                 const {
                     stockSymbol,
                     crypto,
-                    activityTM,
+                    activityTY,
                     activityTW,
                     sentimentPositive,
                     sentimentNeutral,
@@ -89,7 +89,7 @@ export function InstrumentProvider({ children }: InstrumentProviderProps) {
                     id: doc.id,
                     stockSymbol,
                     crypto,
-                    activityTM,
+                    activityTY,
                     activityTW,
                     sentimentPositive,
                     sentimentNeutral,
@@ -114,8 +114,6 @@ export function InstrumentProvider({ children }: InstrumentProviderProps) {
                     .runTransaction(async (transaction) => {
                         const snapshot = await transaction.get(documentRef);
                         const existingData = snapshot.data();
-                        const newData = { ...existingData, instruments: instrument };
-                        transaction.set(documentRef, newData);
                         AsyncStorage.setItem('instruments', JSON.stringify(list));
                     })
                     .catch((error) => {

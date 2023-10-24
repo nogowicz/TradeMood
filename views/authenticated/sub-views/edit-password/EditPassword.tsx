@@ -7,7 +7,7 @@ import SubmitButton from 'components/buttons/submit-button';
 import TextField from 'components/text-field';
 import { useForm, SubmitHandler, FieldValues, Controller } from 'react-hook-form';
 import { FormattedMessage } from 'react-intl';
-import { spacing, typography } from 'styles';
+import { constants, spacing, typography } from 'styles';
 import { schema } from '../edit-password/validationSchema';
 
 import GoBack from 'assets/icons/Go-back.svg';
@@ -120,7 +120,7 @@ export default function EditPassword({ navigation }: EditEmailProps) {
                         <View style={styles.actionContainerComponent} >
                             <IconButton
                                 onPress={() => navigation.goBack()}
-                                size={42}
+                                size={constants.ICON_SIZE.GO_BACK}
                             >
                                 <GoBack fill={theme.TERTIARY} />
                             </IconButton>

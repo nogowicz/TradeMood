@@ -8,7 +8,7 @@ import Bookmark from 'assets/icons/Bookmark.svg'
 import BookmarkSelected from 'assets/icons/Bookmark-selected.svg'
 import GoBack from 'assets/icons/Go-back.svg'
 import { useTheme } from 'store/ThemeContext'
-import { spacing, typography } from 'styles'
+import { constants, spacing, typography } from 'styles'
 import { InstrumentProps } from 'store/InstrumentProvider'
 import { NavigationProp } from '@react-navigation/native'
 import { RootStackParamList } from '@views/navigation/Navigation'
@@ -51,6 +51,7 @@ export default function AnimatedNavigationBar({ scrollY, instrument, navigation 
             if (cryptoIsFavorite) {
                 favoriteCryptoCtx.removeFavorite(instrument.id);
             } else {
+                console.log(cryptoIsFavorite)
                 favoriteCryptoCtx.addFavorite(instrument.id);
             }
         }
@@ -61,7 +62,7 @@ export default function AnimatedNavigationBar({ scrollY, instrument, navigation 
             <View style={styles.actionContainerComponent} >
                 <IconButton
                     onPress={() => navigation.goBack()}
-                    size={42}
+                    size={constants.ICON_SIZE.GO_BACK}
                 >
                     <GoBack fill={theme.TERTIARY} />
                 </IconButton>

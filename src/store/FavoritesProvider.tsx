@@ -54,6 +54,9 @@ function FavoritesContextProvider({ children }: FavoritesContextProviderProps) {
                         const updatedIds = [...data.favoriteCryptoIds, id];
                         transaction.update(userRef, { favoriteCryptoIds: updatedIds });
                         setFavoriteCryptoIds(updatedIds);
+                    } else {
+                        transaction.set(userRef, { favoriteCryptoIds: [id] }, { merge: true });
+                        setFavoriteCryptoIds([id]);
                     }
                 }
             });

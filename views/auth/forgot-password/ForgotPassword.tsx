@@ -7,7 +7,7 @@ import React, { useEffect, useRef, useState } from "react";
 import { Controller, FieldValues, SubmitHandler, useForm } from "react-hook-form";
 import { FormattedMessage } from "react-intl";
 import { Animated, Keyboard, SafeAreaView, StyleSheet, Text, View } from "react-native";
-import { spacing, typography } from "styles";
+import { constants, spacing, typography } from "styles";
 
 import GoBack from 'assets/icons/Go-back.svg';
 import SmallLogo from 'assets/logo/logo-smaller.svg';
@@ -121,7 +121,7 @@ export default function ForgotPassword({ navigation }: ForgotPasswordProps) {
                         <View style={styles.actionContainerComponent} >
                             <IconButton
                                 onPress={() => navigation.goBack()}
-                                size={42}
+                                size={constants.ICON_SIZE.GO_BACK}
                             >
                                 <GoBack fill={theme.TERTIARY} />
                             </IconButton>

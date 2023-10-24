@@ -1,9 +1,9 @@
-import { StyleSheet, SafeAreaView, Text, View, TouchableOpacity, Animated } from 'react-native'
-import React, { useContext, useRef } from 'react'
+import { StyleSheet, SafeAreaView, Text, View, Animated } from 'react-native'
+import React, { useRef } from 'react'
 import { NativeStackScreenProps } from '@react-navigation/native-stack';
 import { RootStackParamList } from '@views/navigation/Navigation';
 import { RouteProp } from '@react-navigation/native';
-import { spacing, typography } from 'styles';
+import { constants, spacing, typography } from 'styles';
 import GoBack from 'assets/icons/Go-back.svg'
 import IconButton from 'components/buttons/icon-button';
 import { InstrumentProps } from 'store/InstrumentProvider';
@@ -41,7 +41,7 @@ export default function InstrumentDetails({ navigation, route }: InstrumentDetai
                         <View style={styles.actionContainerComponent} >
                             <IconButton
                                 onPress={() => navigation.goBack()}
-                                size={42}
+                                size={constants.ICON_SIZE.GO_BACK}
                             >
                                 <GoBack />
                             </IconButton>
@@ -99,8 +99,8 @@ export default function InstrumentDetails({ navigation, route }: InstrumentDetai
                             <ActivityCompare
                                 name={
                                     <FormattedMessage
-                                        defaultMessage="Today's Activity vs Week"
-                                        id='views.home.instrument-details.todays-activity.week'
+                                        defaultMessage="Today's Activity vs Week's"
+                                        id='views.home.instrument-details.todays-activity.weeks'
                                     />
                                 }
                                 activity={instrument.activityTW}
@@ -109,11 +109,11 @@ export default function InstrumentDetails({ navigation, route }: InstrumentDetai
                             <ActivityCompare
                                 name={
                                     <FormattedMessage
-                                        defaultMessage="Today's Activity vs Month"
-                                        id='views.home.instrument-details.todays-activity.month'
+                                        defaultMessage="Today's Activity vs Yesterday's"
+                                        id='views.home.instrument-details.todays-activity.yesterdays'
                                     />
                                 }
-                                activity={instrument.activityTM}
+                                activity={instrument.activityTY}
                             />
                         </View>
                         <CustomChart

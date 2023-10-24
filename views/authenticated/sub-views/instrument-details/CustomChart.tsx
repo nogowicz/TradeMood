@@ -217,7 +217,6 @@ export default function CustomChart({ instrument }: CustomChartProps) {
             const date = data[i].Date;
             const close = data[i].Close;
 
-            // Check for null values and skip them
             if (date === 'null' || close === 'null') {
                 continue;
             }
@@ -233,8 +232,6 @@ export default function CustomChart({ instrument }: CustomChartProps) {
             }],
         };
     }
-
-
 
 
     return (

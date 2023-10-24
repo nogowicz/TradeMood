@@ -1,6 +1,6 @@
 import { StyleSheet, Text, View, SafeAreaView, Animated, Keyboard, } from 'react-native'
 import React, { useEffect, useRef, useState } from 'react'
-import { spacing, typography } from 'styles'
+import { constants, spacing, typography } from 'styles'
 
 import GoBack from 'assets/icons/Go-back.svg'
 import SmallLogo from 'assets/logo/logo-smaller.svg'
@@ -128,7 +128,7 @@ export default function EditEmail({ navigation }: EditEmailProps) {
                         <View style={styles.actionContainerComponent} >
                             <IconButton
                                 onPress={() => navigation.goBack()}
-                                size={42}
+                                size={constants.ICON_SIZE.GO_BACK}
                             >
                                 <GoBack fill={theme.TERTIARY} />
                             </IconButton>

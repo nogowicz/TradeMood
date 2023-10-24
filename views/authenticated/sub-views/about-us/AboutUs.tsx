@@ -8,7 +8,7 @@ import React from 'react'
 import IconButton from 'components/buttons/icon-button'
 
 import { FormattedMessage } from 'react-intl'
-import { spacing, typography } from 'styles'
+import { constants, spacing, typography } from 'styles'
 
 import GoBack from 'assets/icons/Go-back.svg'
 import SmallLogo from 'assets/logo/logo-smaller.svg'
@@ -32,7 +32,7 @@ export default function AboutUs({ navigation }: AboutUsProps) {
                     <View style={styles.actionContainerComponent} >
                         <IconButton
                             onPress={() => navigation.goBack()}
-                            size={42}
+                            size={constants.ICON_SIZE.GO_BACK}
                         >
                             <GoBack fill={theme.TERTIARY} />
                         </IconButton>
