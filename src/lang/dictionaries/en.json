@@ -159,5 +159,15 @@
   "views.home.discussion.error.adding": "An error occurred while trying to add a post",
   "views.home.discussion.anonymous.login-or-register": "Log in or register to add posts",
   "views.home.discussion.loading-posts": "Loading posts...",
-  "views.home.discussion.error.loading-data": "Error occurred while loading posts"
+  "views.home.discussion.error.loading-data": "Error occurred while loading posts",
+  "views.home.about-app.first-paragraph": "Welcome to our market sentiment analysis application! Our application is designed for investors, investment funds, and market analysts who are looking for a tool to enhance the effectiveness of their investment decisions.",
+  "views.home.about-app.first-subtitle": "Key Objectives of the Application:",
+  "views.home.about-app.market-sentiment-analysis": "Our application allows for the collection and analysis of vast amounts of data from various sources such as social media, websites, and discussion forums. This enables you to gauge investor sentiments and understand how they impact stock prices and market trends.",
+  "views.home.about-app.decision-support": "We provide information about market sentiment that helps investors make more informed investment decisions. Our application serves as a valuable source of knowledge for anyone who wants a deep understanding of the market.",
+  "views.home.about-app.research-applications": "The application can also be used for research purposes. It helps identify market sentiment trends and patterns, analyze the impact of events on investor sentiments, and evaluate the effectiveness of various sentiment analysis methods.",
+  "views.home.about-app.second-subtitle": "Application Features:",
+  "views.home.about-app.data-collection-and-processing": "The application allows for real-time data collection and processing from various sources, enabling real-time market analysis.",
+  "views.home.about-app.sentiment-analysis": "Using advanced sentiment analysis algorithms, we can determine whether investor sentiments are positive, neutral, or negative.",
+  "views.home.about-app.market-monitoring": "Our application tracks stock price changes, providing up-to-date information.",
+  "views.home.about-app.market-report-delivery": "We offer reports and analyses regarding market sentiment to assist in making investment decisions."
 }
