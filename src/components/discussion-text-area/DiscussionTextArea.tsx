@@ -105,16 +105,18 @@ export default function DiscussionTextArea() {
                     value={text}
                 />
                 <View style={styles.rightContainer}>
-                    <IconButton
-                        onPress={addPost}
-                        size={constants.ICON_SIZE.ICON}
-                        isBorder={false}
-                    >
-                        <SendIcon
-                            stroke={focus ? theme.PRIMARY : theme.LIGHT_HINT}
-                            strokeWidth={constants.STROKE_WIDTH.MEDIUM}
-                        />
-                    </IconButton>
+                    <View testID="sendPost">
+                        <IconButton
+                            onPress={addPost}
+                            size={constants.ICON_SIZE.ICON}
+                            isBorder={false}
+                        >
+                            <SendIcon
+                                stroke={focus ? theme.PRIMARY : theme.LIGHT_HINT}
+                                strokeWidth={constants.STROKE_WIDTH.MEDIUM}
+                            />
+                        </IconButton>
+                    </View>
                     {focus &&
                         <Text style={{ color: theme.LIGHT_HINT }}>{text.length > 9 ? text.length : '0' + text.length}/280</Text>}
                 </View>

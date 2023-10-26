@@ -4,7 +4,7 @@ import { RootStackParamList } from '../../navigation/Navigation';
 import { useEffect, useRef, useState } from 'react';
 import { useAuth } from 'store/AuthProvider';
 import SubmitButton from 'components/buttons/submit-button';
-import { spacing, typography } from 'styles';
+import { constants, spacing, typography } from 'styles';
 import IconButton from 'components/buttons/icon-button';
 
 import GoBack from 'assets/icons/Go-back.svg';
