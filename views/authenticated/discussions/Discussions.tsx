@@ -134,8 +134,6 @@ export default function Discussion({ navigation }: DiscussionProps) {
                                             likes={post.likes}
                                             text={post.text}
                                             uid={post.uid}
-                                            name={post.name}
-                                            photoURL={post.photoURL}
                                             userUID={post.userUID}
                                         />
                                     );

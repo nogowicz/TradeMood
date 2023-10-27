@@ -170,5 +170,6 @@
   "views.home.profile.about-us.sentiment-analysis": "Dzięki zaawansowanym algorytmom analizy sentymentu, jesteśmy w stanie określić, czy nastroje inwestorów są pozytywne, neutralne czy negatywne.",
   "views.home.profile.about-us.market-monitoring": "Nasza aplikacja śledzi zmiany cen akcji na rynkach giełdowych, dostarczając aktualne informacje.",
   "views.home.profile.about-us.market-report-delivery": "Oferujemy raporty i analizy dotyczące sentymentu rynkowego, które pomagają w podejmowaniu decyzji inwestycyjnych.",
-  "views.home.overview.no-favorites": "Nie obserwujesz jeszcze żadnego instrumentu"
+  "views.home.overview.no-favorites": "Nie obserwujesz jeszcze żadnego instrumentu",
+  "views.home.discussion.error.follow": "Wystąpił błąd podczas próby zaobserowania tej osoby"
 }
