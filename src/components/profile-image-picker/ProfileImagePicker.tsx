@@ -4,7 +4,7 @@ import {
 } from 'react-native'
 import AddPhoto from 'assets/signup-screen/AddPhoto.svg';
 import { Dispatch, SetStateAction } from 'react';
-import Image from 'components/image/Image';
+import Image from 'components/custom-image/CustomImage';
 import { useTheme } from 'store/ThemeContext';
 
 import ProfileIcon from 'assets/icons/ProfileExperimantal.svg'

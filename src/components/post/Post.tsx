@@ -1,6 +1,6 @@
 import { StyleSheet, Text, View } from 'react-native'
 import React, { useLayoutEffect, useState } from 'react'
-import Image from 'components/image';
+import Image from 'components/custom-image';
 import { useTheme } from 'store/ThemeContext';
 import { constants, spacing, typography } from 'styles';
 import firestore from '@react-native-firebase/firestore';
@@ -9,20 +9,15 @@ import { formatLongDate } from 'utils/dateFormat';
 import { useIntl } from 'react-intl';
 import Animated, { useSharedValue, withTiming, Easing, useAnimatedStyle } from 'react-native-reanimated';
 import IconButton from 'components/buttons/icon-button';
+import { PostType, usePosts } from 'store/PostsProvider';
 
 import HeartIcon from 'assets/icons/Heart-icon.svg';
 import ThreeDotsIcon from 'assets/icons/ThreeDots-icon.svg';
 import TrashIcon from 'assets/icons/Trash-icon.svg';
-import Snackbar from 'react-native-snackbar';
+import PlusIcon from 'assets/icons/Plus-icon.svg';
+import CheckIcon from 'assets/icons/Check-icon.svg';
+import { useFollowing } from 'store/FollowingProvider';
 
-export type PostType = {
-    createdAt: number;
-    key?: string;
-    likes: string[];
-    text: string;
-    uid: string;
-    userUID: string;
-};
 
 export default function Post({
     createdAt,
@@ -34,55 +29,41 @@ export default function Post({
     const imageSize = 40;
     const theme = useTheme();
     const { user } = useAuth();
+    const { deletePost, toggleLikePost } = usePosts();
     const intl = useIntl();
     const date = new Date(createdAt);
     const [isTrashVisible, setIsTrashVisible] = useState(false);
     const trashScale = useSharedValue(0);
     const [photoURL, setPhotoURL] = useState();
     const [displayName, setDisplayName] = useState();
+    const { follow, unFollow, isFollowing } = useFollowing();
+    const [isFollowingState, setIsFollowingState] = useState<boolean>();
 
-    //translations:
-    const likeError = intl.formatMessage({
-        id: 'views.home.discussion.error.like',
-        defaultMessage: 'An error occurred while trying to like a post'
-    });
-    const deletingError = intl.formatMessage({
-        id: 'views.home.discussion.error.deleting',
-        defaultMessage: 'An error occurred while trying to delete a post'
-    });
+    useLayoutEffect(() => {
+        setIsFollowingState(isFollowing(userUID));
+    }, [isFollowing, userUID]);
 
     useLayoutEffect(() => {
         async function getUserDetails() {
             const userDoc = await firestore().collection('users').doc(userUID).get();
             const userData = userDoc.data();
-
             setDisplayName(userData?.displayName);
             setPhotoURL(userData?.photoURL);
         }
         getUserDetails();
     }, [userUID]);
 
-    async function toggleLikePost(postUID: string, currentUserUID: string, likes: string[]) {
-        const userIndex = likes.indexOf(currentUserUID);
 
-        if (userIndex === -1) {
-            likes.push(currentUserUID);
-        } else {
-            likes.splice(userIndex, 1);
-        }
-
-        const postRef = firestore().collection('posts').doc(postUID)
-        try {
-            await postRef.update({ likes });
-        } catch (error) {
-            console.log('Error occurred while updating firebase collection:  ', error);
-            Snackbar.show({
-                text: likeError,
-                duration: Snackbar.LENGTH_SHORT
-
-            });
+    async function toggleFollowUser(userUID: string) {
+        if (user) {
+            if (isFollowing(userUID)) {
+                unFollow(userUID);
+            } else {
+                follow(userUID);
+            }
         }
     }
+
 
     function handleToggleTrash() {
         setIsTrashVisible(!isTrashVisible);
@@ -98,19 +79,7 @@ export default function Post({
         };
     });
 
-    async function deletePost(postUID: string) {
-        try {
-            const postRef = firestore().collection('posts').doc(postUID);
-            await postRef.delete();
-        } catch (error) {
-            console.log('An error occurred while deleting the post:', error);
-            Snackbar.show({
-                text: deletingError,
-                duration: Snackbar.LENGTH_SHORT
 
-            });
-        }
-    }
 
     return (
         <View style={[
@@ -137,6 +106,26 @@ export default function Post({
                         {
                             color: theme.TERTIARY,
                         }]}>{displayName}</Text>
+
+                    {(user && user.uid !== userUID) &&
+                        <IconButton
+                            onPress={() => toggleFollowUser(userUID)}
+                            size={constants.ICON_SIZE.ICON}
+                        >
+                            {isFollowingState ?
+                                <CheckIcon
+                                    strokeWidth={constants.STROKE_WIDTH.MEDIUM}
+                                    stroke={theme.TERTIARY}
+                                    width={constants.ICON_SIZE.ICON - 10}
+                                    height={constants.ICON_SIZE.ICON - 10}
+                                /> :
+                                <PlusIcon
+                                    strokeWidth={constants.STROKE_WIDTH.MEDIUM}
+                                    stroke={theme.TERTIARY}
+                                    width={constants.ICON_SIZE.ICON - 10}
+                                    height={constants.ICON_SIZE.ICON - 10}
+                                />}
+                        </IconButton>}
                 </View>
                 {(user && userUID === user.uid) &&
                     <View style={{

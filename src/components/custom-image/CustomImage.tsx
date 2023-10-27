@@ -1,16 +1,15 @@
-import { StyleProp, StyleSheet, Text, View, ImageSourcePropType, ImageURISource } from 'react-native';
+import { StyleProp, View, ImageSourcePropType, ImageURISource, Image, ImageStyle } from 'react-native';
 import React, { useState } from 'react';
-import FastImage, { ImageStyle, FastImageProps, Source } from 'react-native-fast-image';
 import SkeletonPlaceholder from 'react-native-skeleton-placeholder';
 
 type ImageProps = {
     url?: string;
-    source?: number | Source | undefined;
+    source?: number | undefined | ImageSourcePropType | any;
     style: StyleProp<ImageStyle>;
     size?: number;
 };
 
-export default function Image({ url, source, style, size }: ImageProps) {
+export default function CustomImage({ url, source, style, size }: ImageProps) {
     const [isImageDownloading, setIsImageDownloading] = useState(false);
 
     const handleImageLoad = () => {
@@ -24,7 +23,7 @@ export default function Image({ url, source, style, size }: ImageProps) {
                     <View style={style} />
                 </SkeletonPlaceholder>
             )}
-            <FastImage
+            <Image
                 source={url ? { uri: url } : source}
                 style={[
                     {

@@ -7,7 +7,7 @@ import {
 import React from 'react'
 import { constants, spacing, typography } from 'styles'
 import { FormattedMessage } from 'react-intl';
-import Image from 'components/image';
+import Image from 'components/custom-image';
 import { useTheme } from 'store/ThemeContext';
 
 type ProfileBarProps = {

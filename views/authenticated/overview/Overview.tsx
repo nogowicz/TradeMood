@@ -10,12 +10,15 @@ import IconButton from 'components/buttons/icon-button';
 import { SCREENS } from '@views/navigation/constants';
 import TrendingNow from 'components/trending-now';
 import { InstrumentContext, InstrumentProps } from 'store/InstrumentProvider';
-import { useFavoriteInstrument } from 'store/FavoritesProvider';
 import InstrumentRecord from 'components/instrument-record';
 import { useTheme } from 'store/ThemeContext';
 
 import Discussion from 'assets/icons/Discussion-Inactive.svg'
 import Search from 'assets/icons/Search.svg'
+import { useFavoriteCrypto } from 'hooks/useFavoriteCrypto';
+import { useFolloweesPosts } from 'hooks/useFolloweesPosts';
+import { PostType } from 'store/PostsProvider';
+import Post from 'components/post';
 
 
 type OverviewScreenNavigationProp = NativeStackScreenProps<RootStackParamList, 'Overview'>;
@@ -27,18 +30,11 @@ type OverviewProps = {
 
 export default function Overview({ navigation }: OverviewProps) {
     const { user } = useAuth();
-    const favoriteCryptoCtx = useFavoriteInstrument();
     const theme = useTheme();
-    const [favoriteCrypto, setFavoriteCrypto] = useState<InstrumentProps[] | undefined>();
-    // const instruments = useInstrument();
     const instruments = useContext(InstrumentContext);
+    const { favoriteCrypto } = useFavoriteCrypto();
+    const { followeesPosts } = useFolloweesPosts();
 
-    useEffect(() => {
-        const favoriteCryptoFilter: InstrumentProps[] | undefined = instruments?.filter((instrument) =>
-            favoriteCryptoCtx.ids.includes(instrument.id)
-        );
-        setFavoriteCrypto(favoriteCryptoFilter);
-    }, [instruments, favoriteCryptoCtx.ids]);
 
     return (
         <SafeAreaView style={[styles.root, { backgroundColor: theme.BACKGROUND }]}>
@@ -101,32 +97,87 @@ export default function Overview({ navigation }: OverviewProps) {
 
                         />
                     </View>
-                    {!user?.isAnonymous &&
+                    {!user?.isAnonymous && ((favoriteCrypto && favoriteCrypto?.length > 0) || followeesPosts && followeesPosts.length > 0) ?
                         <View>
-                            {favoriteCrypto && favoriteCrypto?.length > 0 &&
-                                <Text style={[styles.listTitleText, { color: theme.TERTIARY }]}>
-                                    <FormattedMessage
-                                        defaultMessage='Favorites'
-                                        id='views.home.overview.favorites'
-                                    />
-                                </Text>
-                            }
-                            {favoriteCrypto && favoriteCrypto.map((instrument: InstrumentProps) => {
-                                return (
-                                    <InstrumentRecord
-                                        key={instrument.id}
-                                        crypto={instrument.crypto}
-                                        sentimentDirection={instrument.sentimentDirection}
-                                        sentiment={instrument.sentiment}
-                                        photoUrl={instrument.photoUrl}
-                                        onPress={() => {
-                                            navigation.navigate(SCREENS.HOME.INSTRUMENT_DETAILS.ID, { instrument: instrument } as any);
-                                        }}
-                                    />
-                                )
+                            <View>
+                                {favoriteCrypto && favoriteCrypto?.length > 0 &&
+                                    <Text style={[styles.listTitleText, { color: theme.TERTIARY }]}>
+                                        <FormattedMessage
+                                            defaultMessage='Favorites'
+                                            id='views.home.overview.favorites'
+                                        />
+                                    </Text>}
+                                {(favoriteCrypto && favoriteCrypto.length > 0) && favoriteCrypto.map((instrument: InstrumentProps) => {
+                                    return (
+                                        <InstrumentRecord
+                                            key={instrument.id}
+                                            crypto={instrument.crypto}
+                                            sentimentDirection={instrument.sentimentDirection}
+                                            sentiment={instrument.sentiment}
+                                            photoUrl={instrument.photoUrl}
+                                            onPress={() => {
+                                                navigation.navigate(SCREENS.HOME.INSTRUMENT_DETAILS.ID, { instrument: instrument } as any);
+                                            }}
+                                        />
+                                    )
 
-                            })}
-                        </View>}
+                                })
+                                }
+                            </View>
+                            <View>
+                                {followeesPosts && followeesPosts.length > 0 &&
+                                    <Text style={[styles.listTitleText, { color: theme.TERTIARY }]}>
+                                        <FormattedMessage
+                                            defaultMessage='Following'
+                                            id='views.home.overview.following'
+                                        />
+                                    </Text>}
+                                {(followeesPosts && followeesPosts.length > 0) && followeesPosts.map((post: PostType) => {
+                                    return (
+                                        <Post
+                                            createdAt={post.createdAt}
+                                            likes={post.likes}
+                                            text={post.text}
+                                            uid={post.uid}
+                                            userUID={post.userUID}
+                                            key={post.key} />
+                                    )
+
+                                })}
+                            </View>
+                        </View> :
+                        <View>
+                            {user?.isAnonymous ?
+                                <View>
+                                    <Text
+                                        style={[{
+                                            ...styles.noItemsInfoText,
+                                            color: theme.LIGHT_HINT,
+                                        }]}
+                                    >
+                                        <FormattedMessage
+                                            defaultMessage='Log in or register'
+                                            id='views.home.overview.anonymous.login-or-register'
+                                        />
+                                    </Text>
+                                </View> :
+                                <View>
+                                    <Text
+                                        style={[{
+                                            ...styles.noItemsInfoText,
+                                            color: theme.LIGHT_HINT,
+                                        }]}
+                                    >
+                                        <FormattedMessage
+                                            defaultMessage='When you observe instruments or other people, something will appear'
+                                            id='views.home.overview.no-favorites-and-follows'
+                                        />
+                                    </Text>
+                                </View>
+                            }
+                        </View>
+
+                    }
                 </ScrollView>
             </View>
         </SafeAreaView>
@@ -163,5 +214,10 @@ const styles = StyleSheet.create({
         ...typography.FONT_BOLD,
         fontSize: typography.FONT_SIZE_24,
         fontWeight: typography.FONT_WEIGHT_BOLD,
+    },
+    noItemsInfoText: {
+        fontSize: typography.FONT_SIZE_24,
+        marginVertical: spacing.SCALE_16,
+        textAlign: 'center'
     }
 });

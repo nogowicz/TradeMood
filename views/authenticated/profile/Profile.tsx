@@ -6,18 +6,16 @@ import { useAuth } from 'store/AuthProvider';
 import { constants, spacing, typography } from 'styles';
 import { FormattedMessage } from 'react-intl';
 import SubmitButton from 'components/buttons/submit-button';
+import { SCREENS } from '@views/navigation/constants';
+import { handleLogout } from 'utils/asyncStorage';
+import Image from 'components/custom-image';
+import { useTheme } from 'store/ThemeContext';
 
 import EditProfile from 'assets/icons/Edit-profile.svg';
 import Logout from 'assets/icons/Logout.svg'
 import Settings from 'assets/icons/Settings.svg'
 import About from 'assets/icons/About.svg'
 import LogIn from 'assets/icons/Log-in.svg'
-
-import { SCREENS } from '@views/navigation/constants';
-import { handleLogout } from 'utils/asyncStorage';
-import Image from 'components/image';
-import { useTheme } from 'store/ThemeContext';
-
 
 
 
@@ -82,10 +80,10 @@ export default function Profile({ navigation }: ProfileProps) {
                                 onPress={() => navigation.navigate(SCREENS.HOME.EDIT_PROFILE.ID)}
                                 mode='option'
                                 icon={<EditProfile
-                                    strokeWidth={1.5}
+                                    strokeWidth={constants.STROKE_WIDTH.MEDIUM}
                                     stroke={theme.TERTIARY}
                                 />}
-                                activeOpacity={0.5}
+                                activeOpacity={constants.ACTIVE_OPACITY.MEDIUM}
                             />}
                         <SubmitButton
                             label={
@@ -98,9 +96,9 @@ export default function Profile({ navigation }: ProfileProps) {
                             mode='option'
                             icon={<Settings
                                 stroke={theme.TERTIARY}
-                                strokeWidth={1.5}
+                                strokeWidth={constants.STROKE_WIDTH.MEDIUM}
                             />}
-                            activeOpacity={0.5}
+                            activeOpacity={constants.ACTIVE_OPACITY.MEDIUM}
                         />
                         <SubmitButton
                             label={
@@ -112,10 +110,10 @@ export default function Profile({ navigation }: ProfileProps) {
                             onPress={() => navigation.navigate(SCREENS.HOME.ABOUT_US.ID)}
                             mode='option'
                             icon={<About
-                                strokeWidth={1.5}
+                                strokeWidth={constants.STROKE_WIDTH.MEDIUM}
                                 stroke={theme.TERTIARY}
                             />}
-                            activeOpacity={0.5}
+                            activeOpacity={constants.ACTIVE_OPACITY.MEDIUM}
                         />
                         {!user?.isAnonymous &&
                             <SubmitButton
@@ -134,10 +132,10 @@ export default function Profile({ navigation }: ProfileProps) {
                                 }}
                                 mode='option'
                                 icon={<Logout
-                                    strokeWidth={1.5}
+                                    strokeWidth={constants.STROKE_WIDTH.MEDIUM}
                                     stroke={theme.TERTIARY}
                                 />}
-                                activeOpacity={0.5}
+                                activeOpacity={constants.ACTIVE_OPACITY.MEDIUM}
                             />}
 
                         {user?.isAnonymous &&
@@ -157,17 +155,17 @@ export default function Profile({ navigation }: ProfileProps) {
                                 }}
                                 mode='option'
                                 icon={<LogIn
-                                    strokeWidth={1.5}
+                                    strokeWidth={constants.STROKE_WIDTH.MEDIUM}
                                     stroke={theme.TERTIARY}
                                 />}
-                                activeOpacity={0.5}
+                                activeOpacity={constants.ACTIVE_OPACITY.MEDIUM}
                             />}
                     </View>
                 </View>
             </View>
             <View style={styles.infoTextContainer}>
                 <Text style={[styles.infoText, { color: theme.HINT }]}>TradeMood</Text>
-                <Text style={[styles.infoText, { color: theme.HINT }]}>v1.0.2</Text>
+                <Text style={[styles.infoText, { color: theme.HINT }]}>v1.1.0</Text>
             </View>
         </SafeAreaView>
     )

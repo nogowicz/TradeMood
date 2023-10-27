@@ -31,6 +31,7 @@ import { useTheme } from 'store/ThemeContext';
 import { useEffect } from 'react';
 import { useAuth } from '../../../src/store/AuthProvider';
 import { getFCMToken } from 'helpers/pushNotificationHelper';
+import { View } from 'react-native';
 
 export default function HomeStack() {
     const theme = useTheme();
@@ -80,7 +81,7 @@ export default function HomeStack() {
                     component={Discussion}
                     options={{
                         tabBarIcon: ({ focused }) => (
-                            focused ? <DiscussionActive /> : <DiscussionInactive stroke={theme.TERTIARY} strokeWidth={1.5} />
+                            focused ? <DiscussionActive /> : <View testID="discussion"><DiscussionInactive stroke={theme.TERTIARY} strokeWidth={1.5} /></View>
                         ),
                     }}
                 />

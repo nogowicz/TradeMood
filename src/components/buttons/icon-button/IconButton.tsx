@@ -36,7 +36,7 @@ export default function IconButton({
     ContainerProps,
     size,
     backgroundColor = 'transparent',
-    isBorder = true
+    isBorder = true,
 }: IconButtonProps) {
     const theme = useTheme();
     return (
@@ -54,7 +54,6 @@ export default function IconButton({
             activeOpacity={activeOpacity}
             onPress={onPress}
             {...TouchableOpacityProps}
-
         >
             <View
                 {...ContainerProps}

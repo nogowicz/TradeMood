@@ -1,28 +1,21 @@
-import { Animated, StyleSheet, Text, TouchableOpacity, View, Image } from 'react-native'
+import { Animated, StyleSheet, Text, TouchableOpacity, View } from 'react-native'
 import React from 'react'
 import IconButton from 'components/buttons/icon-button'
-import { useAuth } from 'store/AuthProvider'
-import { useFavoriteInstrument } from 'store/FavoritesProvider'
-import Bookmark from 'assets/icons/Bookmark.svg'
-import BookmarkSelected from 'assets/icons/Bookmark-selected.svg'
+import SmallLogo from 'assets/logo/logo-smaller.svg'
 import GoBack from 'assets/icons/Go-back.svg'
 import { useTheme } from 'store/ThemeContext'
 import { constants, spacing, typography } from 'styles'
-import { InstrumentProps } from 'store/InstrumentProvider'
 import { NavigationProp } from '@react-navigation/native'
 import { RootStackParamList } from '@views/navigation/Navigation'
+import { FormattedMessage } from 'react-intl'
 
 
 type AnimatedNavigationBarProps = {
     scrollY: Animated.Value;
-    instrument: InstrumentProps;
     navigation: NavigationProp<RootStackParamList>;
 };
 
-export default function AnimatedNavigationBar({ scrollY, instrument, navigation }: AnimatedNavigationBarProps) {
-    const favoriteCryptoCtx = useFavoriteInstrument();
-    const cryptoIsFavorite = favoriteCryptoCtx.ids.includes(instrument.id);
-    const { user } = useAuth();
+export default function AnimatedNavigationBar({ scrollY, navigation }: AnimatedNavigationBarProps) {
     const theme = useTheme();
     const backIconMargin = 8;
 
@@ -45,16 +38,7 @@ export default function AnimatedNavigationBar({ scrollY, instrument, navigation 
         extrapolate: 'clamp',
     });
 
-    function changeFavoriteStatusHandler() {
-        if (instrument) {
-            if (cryptoIsFavorite) {
-                favoriteCryptoCtx.removeFavorite(instrument.id);
-            } else {
-                console.log(cryptoIsFavorite)
-                favoriteCryptoCtx.addFavorite(instrument.id);
-            }
-        }
-    }
+
 
     return (
         <Animated.View style={[styles.actionContainer, { marginBottom }]}>
@@ -78,10 +62,7 @@ export default function AnimatedNavigationBar({ scrollY, instrument, navigation 
                     },
                 ]}
             >
-                <Image
-                    source={{ uri: instrument.photoUrl }}
-                    style={styles.image}
-                />
+                <SmallLogo />
                 <Text
                     style={[
                         styles.sectionTitle,
@@ -90,21 +71,13 @@ export default function AnimatedNavigationBar({ scrollY, instrument, navigation 
                     ellipsizeMode='tail'
                     numberOfLines={2}
                 >
-                    {instrument.crypto}
+                    <FormattedMessage
+                        defaultMessage='About Us'
+                        id='views.home.profile.about-us.title'
+                    />
                 </Text>
             </Animated.View>
-            {!user?.isAnonymous ?
-                <TouchableOpacity
-                    onPress={changeFavoriteStatusHandler}
-                    style={{ marginTop: backIconMargin }}
-                >
-                    {cryptoIsFavorite ?
-                        <BookmarkSelected width={32} height={32} /> :
-                        <Bookmark stroke={theme.TERTIARY} width={32} height={32} />
-                    }
-                </TouchableOpacity> :
-                <View style={{ width: 32 }} />
-            }
+            <View style={styles.actionContainerComponent} />
         </Animated.View>
     )
 }
