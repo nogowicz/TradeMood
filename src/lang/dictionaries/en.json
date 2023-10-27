@@ -170,6 +170,8 @@
   "views.home.about-app.sentiment-analysis": "Using advanced sentiment analysis algorithms, we can determine whether investor sentiments are positive, neutral, or negative.",
   "views.home.about-app.market-monitoring": "Our application tracks stock price changes, providing up-to-date information.",
   "views.home.about-app.market-report-delivery": "We offer reports and analyses regarding market sentiment to assist in making investment decisions.",
-  "views.home.overview.no-favorites": "You don't follow any instruments yet",
-  "views.home.discussion.error.follow": "Error occurred while trying to follow that person"
+  "views.home.overview.no-favorites-and-follows": "When you observe instruments or other people, something will appear",
+  "views.home.discussion.error.follow": "Error occurred while trying to follow that person",
+  "views.home.overview.following": "Following",
+  "views.home.overview.anonymous.login-or-register": "Log in or register"
 }

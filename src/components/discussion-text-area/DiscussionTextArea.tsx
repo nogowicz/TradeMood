@@ -10,11 +10,13 @@ import firestore from '@react-native-firebase/firestore';
 import Snackbar from 'react-native-snackbar';
 
 import SendIcon from 'assets/icons/Send-icon.svg';
+import { usePosts } from 'store/PostsProvider';
 
 export default function DiscussionTextArea() {
     const theme = useTheme();
     const intl = useIntl();
     const { user } = useAuth();
+    const { addPost } = usePosts();
     const [focus, setFocus] = useState(false);
     const [text, setText] = useState('');
     const imageSize = 55;
@@ -25,35 +27,6 @@ export default function DiscussionTextArea() {
         defaultMessage: 'Want to share something?',
         id: 'views.home.discussion.text-input.placeholder'
     });
-    const addingError = intl.formatMessage({
-        id: 'views.home.discussion.error.adding',
-        defaultMessage: 'An error occurred while trying to add a post'
-    });
-
-    const addPost = () => {
-        if (text.length > 0) {
-            try {
-                firestore()
-                    .collection('posts')
-                    .add({
-                        likes: [],
-                        text: text,
-                        createdAt: firestore.FieldValue.serverTimestamp(),
-                        userUID: user?.uid,
-                    })
-                    .then(() => {
-                        setText('');
-                    });
-            } catch (error) {
-                console.log("An error occurred while trying to add a post: ", error);
-                Snackbar.show({
-                    text: addingError,
-                    duration: Snackbar.LENGTH_SHORT
-
-                });
-            }
-        }
-    };
 
     useEffect(() => {
         const handleKeyboardDidHide = () => {

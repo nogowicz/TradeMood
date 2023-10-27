@@ -1,5 +1,5 @@
 import { StyleSheet, Text, View } from 'react-native'
-import React, { useEffect, useLayoutEffect, useState } from 'react'
+import React, { useLayoutEffect, useState } from 'react'
 import Image from 'components/image';
 import { useTheme } from 'store/ThemeContext';
 import { constants, spacing, typography } from 'styles';
@@ -9,22 +9,15 @@ import { formatLongDate } from 'utils/dateFormat';
 import { useIntl } from 'react-intl';
 import Animated, { useSharedValue, withTiming, Easing, useAnimatedStyle } from 'react-native-reanimated';
 import IconButton from 'components/buttons/icon-button';
-import Snackbar from 'react-native-snackbar';
+import { PostType, usePosts } from 'store/PostsProvider';
 
 import HeartIcon from 'assets/icons/Heart-icon.svg';
 import ThreeDotsIcon from 'assets/icons/ThreeDots-icon.svg';
 import TrashIcon from 'assets/icons/Trash-icon.svg';
 import PlusIcon from 'assets/icons/Plus-icon.svg';
 import CheckIcon from 'assets/icons/Check-icon.svg';
+import { useFollowing } from 'store/FollowingProvider';
 
-export type PostType = {
-    createdAt: number;
-    key?: string;
-    likes: string[];
-    text: string;
-    uid: string;
-    userUID: string;
-};
 
 export default function Post({
     createdAt,
@@ -36,35 +29,19 @@ export default function Post({
     const imageSize = 40;
     const theme = useTheme();
     const { user } = useAuth();
+    const { deletePost, toggleLikePost } = usePosts();
     const intl = useIntl();
     const date = new Date(createdAt);
     const [isTrashVisible, setIsTrashVisible] = useState(false);
     const trashScale = useSharedValue(0);
     const [photoURL, setPhotoURL] = useState();
     const [displayName, setDisplayName] = useState();
-    const [isFollowing, setIsFollowing] = useState<boolean>();
+    const { follow, unFollow, isFollowing } = useFollowing();
+    const [isFollowingState, setIsFollowingState] = useState<boolean>();
 
-
-    //translations:
-    const likeError = intl.formatMessage({
-        id: 'views.home.discussion.error.like',
-        defaultMessage: 'An error occurred while trying to like a post'
-    });
-    const deletingError = intl.formatMessage({
-        id: 'views.home.discussion.error.deleting',
-        defaultMessage: 'An error occurred while trying to delete a post'
-    });
-    const followingError = intl.formatMessage({
-        id: 'views.home.discussion.error.follow',
-        defaultMessage: 'Error occurred while trying to follow that person'
-    });
-
-
-    useEffect(() => {
-        if (user) {
-            checkIfUserIsFollowing(user?.uid, userUID).then(setIsFollowing);
-        }
-    }, [user, userUID]);
+    useLayoutEffect(() => {
+        setIsFollowingState(isFollowing(userUID));
+    }, [isFollowing, userUID]);
 
     useLayoutEffect(() => {
         async function getUserDetails() {
@@ -76,83 +53,16 @@ export default function Post({
         getUserDetails();
     }, [userUID]);
 
-    const checkIfUserIsFollowing = async (currentUserID: string, targetUserID: string) => {
-        const userDoc = await firestore().collection('users').doc(currentUserID).get();
-        const userData = userDoc.data();
 
-        if (userData && userData.following.includes(targetUserID)) {
-            return true;
-        } else {
-            return false;
-        }
-    };
-
-
-
-    async function toggleLikePost(postUID: string, currentUserUID: string, likes: string[]) {
-        const userIndex = likes.indexOf(currentUserUID);
-
-        if (userIndex === -1) {
-            likes.push(currentUserUID);
-        } else {
-            likes.splice(userIndex, 1);
-        }
-
-        const postRef = firestore().collection('posts').doc(postUID)
-        try {
-            await postRef.update({ likes });
-        } catch (error) {
-            console.log('Error occurred while updating firebase collection:  ', error);
-            Snackbar.show({
-                text: likeError,
-                duration: Snackbar.LENGTH_SHORT
-
-            });
-        }
-    }
-
-    async function toggleFollowUser(currentUserID: string, targetUserID: string) {
-        try {
-            const targetUserDoc = await firestore().collection('users').doc(targetUserID).get();
-
-            if (!targetUserDoc.exists) {
-                console.log('That user do not exist');
-                return;
-            }
-            if (isFollowing) {
-                await firestore().collection('users').doc(currentUserID).update({
-                    following: firestore.FieldValue.arrayRemove(targetUserID)
-                });
-
-                await firestore().collection('users').doc(targetUserID).update({
-                    followers: firestore.FieldValue.arrayRemove(currentUserID)
-                });
-
-                console.log(`User ${currentUserID} unfollowed ${targetUserID}`);
+    async function toggleFollowUser(userUID: string) {
+        if (user) {
+            if (isFollowing(userUID)) {
+                unFollow(userUID);
             } else {
-                await firestore().collection('users').doc(currentUserID).update({
-                    following: firestore.FieldValue.arrayUnion(targetUserID)
-                });
-
-                await firestore().collection('users').doc(targetUserID).update({
-                    followers: firestore.FieldValue.arrayUnion(currentUserID)
-                });
-
-                console.log(`User ${currentUserID} followed ${targetUserID}`);
+                follow(userUID);
             }
-            if (user) {
-                const isNowFollowing = await checkIfUserIsFollowing(user?.uid, userUID);
-                setIsFollowing(isNowFollowing);
-            }
-        } catch (error) {
-            console.error('Error occurred while trying to follow/unfollow:', error);
-            Snackbar.show({
-                text: followingError,
-                duration: Snackbar.LENGTH_SHORT
-            });
         }
     }
-
 
 
     function handleToggleTrash() {
@@ -169,19 +79,7 @@ export default function Post({
         };
     });
 
-    async function deletePost(postUID: string) {
-        try {
-            const postRef = firestore().collection('posts').doc(postUID);
-            await postRef.delete();
-        } catch (error) {
-            console.log('An error occurred while deleting the post:', error);
-            Snackbar.show({
-                text: deletingError,
-                duration: Snackbar.LENGTH_SHORT
 
-            });
-        }
-    }
 
     return (
         <View style={[
@@ -211,10 +109,10 @@ export default function Post({
 
                     {(user && user.uid !== userUID) &&
                         <IconButton
-                            onPress={() => toggleFollowUser(user.uid, userUID)}
+                            onPress={() => toggleFollowUser(userUID)}
                             size={constants.ICON_SIZE.ICON}
                         >
-                            {isFollowing ?
+                            {isFollowingState ?
                                 <CheckIcon
                                     strokeWidth={constants.STROKE_WIDTH.MEDIUM}
                                     stroke={theme.TERTIARY}

@@ -1,5 +1,5 @@
 import { StyleSheet, Text, View, SafeAreaView, RefreshControl, FlatList } from 'react-native'
-import React, { useCallback, useEffect, useState } from 'react'
+import React, { useState } from 'react'
 import { NativeStackScreenProps } from '@react-navigation/native-stack';
 import { RootStackParamList } from '../../navigation/Navigation';
 import { spacing, typography } from 'styles';
@@ -7,10 +7,9 @@ import { FormattedMessage, useIntl } from 'react-intl';
 import { useTheme } from 'store/ThemeContext';
 import { useAuth } from 'store/AuthProvider';
 import DiscussionTextArea from 'components/discussion-text-area';
-import firestore from '@react-native-firebase/firestore';
-import Post, { PostType } from 'components/post/Post';
+import Post from 'components/post/Post';
 import ActivityIndicator from 'components/activity-indicator';
-import Snackbar from 'react-native-snackbar';
+import { PostType, usePosts } from 'store/PostsProvider';
 
 
 type DiscussionScreenNavigationProp = NativeStackScreenProps<RootStackParamList, 'Discussion'>;
@@ -20,76 +19,17 @@ type DiscussionProps = {
 }
 
 export default function Discussion({ navigation }: DiscussionProps) {
-    const [posts, setPosts] = useState<PostType[]>([]);
     const { user } = useAuth();
     const theme = useTheme();
     const intl = useIntl();
+    const { posts, fetchPosts, isLoading } = usePosts();
     const [refreshing, setRefreshing] = useState(false);
-    const [isLoading, setIsLoading] = useState(false);
 
     //translation:
     const loadingPostsTranslation = intl.formatMessage({
         defaultMessage: "Loading posts...",
         id: "views.home.discussion.loading-posts"
     });
-    const loadingPostsErrorTranslation = intl.formatMessage({
-        defaultMessage: "Error occurred while loading posts",
-        id: 'views.home.discussion.error.loading-data'
-    });
-    const tryAgainTranslation = intl.formatMessage({
-        defaultMessage: "Try again",
-        id: 'views.home.instrument-details.error.try-again'
-    });
-
-    const onRefresh = useCallback(() => {
-        setIsLoading(true);
-        const subscriber = firestore()
-            .collection('posts')
-            .onSnapshot((querySnapshot) => {
-                try {
-                    const posts: PostType[] = [];
-                    querySnapshot.forEach((documentSnapshot) => {
-                        const data = documentSnapshot.data();
-                        if (data.createdAt) {
-                            posts.push({
-                                createdAt: (data.createdAt.seconds * 1000 + data.createdAt.nanoseconds / 1000000),
-                                key: documentSnapshot.id,
-                                likes: data.likes,
-                                text: data.text,
-                                uid: documentSnapshot.id,
-                                userUID: data.userUID
-                            });
-                        }
-                    });
-
-                    const sortedPosts = [...posts].sort((a, b) => b.createdAt - a.createdAt);
-                    setPosts(sortedPosts);
-                    setIsLoading(false);
-                } catch (error) {
-                    console.error('Error occurred while downloading data:', error);
-                    Snackbar.show({
-                        text: loadingPostsErrorTranslation,
-                        duration: Snackbar.LENGTH_INDEFINITE,
-                        action: {
-                            text: tryAgainTranslation,
-                            textColor: theme.PRIMARY,
-                            onPress: onRefresh
-                        }
-                    });
-                    setIsLoading(false);
-                }
-            });
-        return () => subscriber();
-    }, []);
-
-
-
-    useEffect(() => {
-        onRefresh();
-    }, []);
-
-
-
 
 
     return (
@@ -135,7 +75,7 @@ export default function Discussion({ navigation }: DiscussionProps) {
                                             text={post.text}
                                             uid={post.uid}
                                             userUID={post.userUID}
-                                        />
+                                            key={post.key} />
                                     );
                                 } else {
                                     return null;
@@ -145,7 +85,7 @@ export default function Discussion({ navigation }: DiscussionProps) {
                             refreshControl={
                                 <RefreshControl
                                     refreshing={refreshing}
-                                    onRefresh={onRefresh}
+                                    onRefresh={fetchPosts}
                                     colors={[theme.LIGHT_HINT]}
                                     progressBackgroundColor={theme.PRIMARY}
                                 />}
