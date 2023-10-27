@@ -169,5 +169,6 @@
   "views.home.about-app.data-collection-and-processing": "The application allows for real-time data collection and processing from various sources, enabling real-time market analysis.",
   "views.home.about-app.sentiment-analysis": "Using advanced sentiment analysis algorithms, we can determine whether investor sentiments are positive, neutral, or negative.",
   "views.home.about-app.market-monitoring": "Our application tracks stock price changes, providing up-to-date information.",
-  "views.home.about-app.market-report-delivery": "We offer reports and analyses regarding market sentiment to assist in making investment decisions."
+  "views.home.about-app.market-report-delivery": "We offer reports and analyses regarding market sentiment to assist in making investment decisions.",
+  "views.home.overview.no-favorites": "You don't follow any instruments yet"
 }

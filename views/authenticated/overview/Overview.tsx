@@ -30,7 +30,6 @@ export default function Overview({ navigation }: OverviewProps) {
     const favoriteCryptoCtx = useFavoriteInstrument();
     const theme = useTheme();
     const [favoriteCrypto, setFavoriteCrypto] = useState<InstrumentProps[] | undefined>();
-    // const instruments = useInstrument();
     const instruments = useContext(InstrumentContext);
 
     useEffect(() => {
@@ -103,15 +102,13 @@ export default function Overview({ navigation }: OverviewProps) {
                     </View>
                     {!user?.isAnonymous &&
                         <View>
-                            {favoriteCrypto && favoriteCrypto?.length > 0 &&
-                                <Text style={[styles.listTitleText, { color: theme.TERTIARY }]}>
-                                    <FormattedMessage
-                                        defaultMessage='Favorites'
-                                        id='views.home.overview.favorites'
-                                    />
-                                </Text>
-                            }
-                            {favoriteCrypto && favoriteCrypto.map((instrument: InstrumentProps) => {
+                            <Text style={[styles.listTitleText, { color: theme.TERTIARY }]}>
+                                <FormattedMessage
+                                    defaultMessage='Favorites'
+                                    id='views.home.overview.favorites'
+                                />
+                            </Text>
+                            {(favoriteCrypto && favoriteCrypto.length > 0) ? favoriteCrypto.map((instrument: InstrumentProps) => {
                                 return (
                                     <InstrumentRecord
                                         key={instrument.id}
@@ -125,7 +122,18 @@ export default function Overview({ navigation }: OverviewProps) {
                                     />
                                 )
 
-                            })}
+                            }) :
+
+                                <Text style={[{
+                                    ...styles.noItemsInfoText,
+                                    color: theme.TERTIARY
+                                }]}>
+                                    <FormattedMessage
+                                        defaultMessage="You don't follow any instruments yet"
+                                        id='views.home.overview.no-favorites'
+                                    />
+                                </Text>
+                            }
                         </View>}
                 </ScrollView>
             </View>
@@ -163,5 +171,9 @@ const styles = StyleSheet.create({
         ...typography.FONT_BOLD,
         fontSize: typography.FONT_SIZE_24,
         fontWeight: typography.FONT_WEIGHT_BOLD,
+    },
+    noItemsInfoText: {
+        fontSize: typography.FONT_SIZE_16,
+        marginVertical: spacing.SCALE_16,
     }
 });
