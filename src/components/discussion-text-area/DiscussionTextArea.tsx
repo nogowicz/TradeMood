@@ -3,7 +3,7 @@ import React, { useEffect, useState } from 'react'
 import { constants, spacing } from 'styles';
 import { useTheme } from 'store/ThemeContext';
 import { useAuth } from 'store/AuthProvider';
-import Image from 'components/image';
+import Image from 'components/custom-image';
 import IconButton from 'components/buttons/icon-button';
 import { useIntl } from 'react-intl';
 import firestore from '@react-native-firebase/firestore';

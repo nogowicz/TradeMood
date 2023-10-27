@@ -1,6 +1,6 @@
 import { StyleSheet, Text, View } from 'react-native'
 import React, { useLayoutEffect, useState } from 'react'
-import Image from 'components/image';
+import Image from 'components/custom-image';
 import { useTheme } from 'store/ThemeContext';
 import { constants, spacing, typography } from 'styles';
 import firestore from '@react-native-firebase/firestore';

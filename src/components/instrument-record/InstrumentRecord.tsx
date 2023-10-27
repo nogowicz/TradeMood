@@ -1,11 +1,10 @@
-import { StyleSheet, Text, View, TouchableOpacity, } from 'react-native'
+import { StyleSheet, Text, View, TouchableOpacity, Image, } from 'react-native'
 import React from 'react'
 import { constants, spacing, typography } from 'styles'
 import { FormattedMessage } from 'react-intl';
 
 import Placeholder from 'assets/icons/crypto-placeholder.svg'
-import Arrow from 'assets/icons/Go-forward.svg';
-import FastImage from 'react-native-fast-image';
+import Arrow from 'assets/icons/Go-forward.svg';;
 import { useTheme } from 'store/ThemeContext';
 
 type InstrumentRecordProps = {
@@ -25,7 +24,7 @@ export default function InstrumentRecord({ crypto, sentiment, sentimentDirection
             onPress={onPress}
         >
             {photoUrl ?
-                <FastImage
+                <Image
                     source={{ uri: photoUrl }}
                     style={{
                         width: photoSize,

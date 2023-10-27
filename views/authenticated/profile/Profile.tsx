@@ -8,7 +8,7 @@ import { FormattedMessage } from 'react-intl';
 import SubmitButton from 'components/buttons/submit-button';
 import { SCREENS } from '@views/navigation/constants';
 import { handleLogout } from 'utils/asyncStorage';
-import Image from 'components/image';
+import Image from 'components/custom-image';
 import { useTheme } from 'store/ThemeContext';
 
 import EditProfile from 'assets/icons/Edit-profile.svg';
