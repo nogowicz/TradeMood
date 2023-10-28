@@ -1,10 +1,4 @@
-import {
-    SafeAreaView,
-    StyleSheet,
-    Text,
-    View,
-    useWindowDimensions,
-} from 'react-native'
+import { SafeAreaView, StyleSheet, Text, View, useWindowDimensions, } from 'react-native'
 import React, { useCallback, useRef } from 'react'
 import { NativeStackScreenProps } from '@react-navigation/native-stack';
 import { RootStackParamList } from '@views/navigation/Navigation';
@@ -186,7 +180,8 @@ const styles = StyleSheet.create({
     },
     sectionTitle: {
         ...typography.FONT_BOLD,
-        fontSize: typography.FONT_SIZE_32,
+        fontSize: typography.FONT_SIZE_28,
+        textAlign: 'center',
         fontWeight: typography.FONT_WEIGHT_BOLD,
     },
     mainContainer: {

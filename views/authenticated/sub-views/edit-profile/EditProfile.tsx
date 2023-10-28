@@ -136,7 +136,8 @@ const styles = StyleSheet.create({
     },
     sectionTitle: {
         ...typography.FONT_BOLD,
-        fontSize: typography.FONT_SIZE_32,
+        fontSize: typography.FONT_SIZE_28,
+        textAlign: 'center',
         fontWeight: typography.FONT_WEIGHT_BOLD,
     },
     mainContainer: {
