@@ -12,14 +12,14 @@ export type PostType = {
     text: string;
     uid: string;
     userUID: string;
-    key: string;
+    key?: string;
 };
 
 type PostsContextType = {
     posts: PostType[];
     fetchPosts: () => void;
     isLoading: boolean;
-    addPost: (post: PostType) => void;
+    addPost: (postText: string) => void;
     deletePost: (postUID: string) => void;
     toggleLikePost: (postUID: string, currentUserUID: string, likes: string[]) => void;
 };
@@ -104,28 +104,35 @@ export function PostsContextProvider({ children }: PostsContextProviderProps) {
         return () => subscriber();
     }
 
-    async function addPost(post: PostType) {
-        if (post.text.length > 0 && user) {
+    async function addPost(postText: string) {
+        if (postText.length > 0 && user) {
             try {
-                firestore()
+                const postRef = await firestore()
                     .collection('posts')
                     .add({
                         likes: [],
-                        text: post.text,
+                        text: postText,
                         createdAt: firestore.FieldValue.serverTimestamp(),
                         userUID: user.uid,
                     });
+
+                const newPost: PostType = {
+                    createdAt: new Date().getTime(),
+                    likes: [],
+                    text: postText,
+                    uid: postRef.id,
+                    userUID: user.uid,
+                };
+                setPosts([...posts, newPost]);
             } catch (error) {
                 console.log("An error occurred while trying to add a post: ", error);
                 Snackbar.show({
                     text: addingError,
                     duration: Snackbar.LENGTH_SHORT
-
                 });
             }
         }
-        setPosts([...posts, post]);
-    };
+    }
 
 
     async function deletePost(postUID: string) {

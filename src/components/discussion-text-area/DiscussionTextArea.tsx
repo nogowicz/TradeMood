@@ -6,8 +6,6 @@ import { useAuth } from 'store/AuthProvider';
 import Image from 'components/custom-image';
 import IconButton from 'components/buttons/icon-button';
 import { useIntl } from 'react-intl';
-import firestore from '@react-native-firebase/firestore';
-import Snackbar from 'react-native-snackbar';
 
 import SendIcon from 'assets/icons/Send-icon.svg';
 import { usePosts } from 'store/PostsProvider';
@@ -80,7 +78,10 @@ export default function DiscussionTextArea() {
                 <View style={styles.rightContainer}>
                     <View testID="sendPost">
                         <IconButton
-                            onPress={addPost}
+                            onPress={() => {
+                                addPost(text);
+                                setText('');
+                            }}
                             size={constants.ICON_SIZE.ICON}
                             isBorder={false}
                         >
