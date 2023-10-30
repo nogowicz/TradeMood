@@ -11,11 +11,13 @@ import { handleLogout } from 'utils/asyncStorage';
 import Image from 'components/custom-image';
 import { useTheme } from 'store/ThemeContext';
 
+import ProfileIcon from 'assets/icons/Profile.svg';
 import EditProfile from 'assets/icons/Edit-profile.svg';
 import Logout from 'assets/icons/Logout.svg'
 import Settings from 'assets/icons/Settings.svg'
 import About from 'assets/icons/About.svg'
 import LogIn from 'assets/icons/Log-in.svg'
+
 
 
 
@@ -73,6 +75,24 @@ export default function Profile({ navigation }: ProfileProps) {
                             <SubmitButton
                                 label={
                                     <FormattedMessage
+                                        defaultMessage='Your Profile'
+                                        id='views.home.profile.your-profile'
+                                    />
+                                }
+                                onPress={() => navigation.navigate(SCREENS.HOME.EDIT_PROFILE.ID)}
+                                mode='option'
+                                icon={<ProfileIcon
+                                    strokeWidth={constants.STROKE_WIDTH.MEDIUM}
+                                    stroke={theme.TERTIARY}
+                                    width={constants.ICON_SIZE.ICON_MEDIUM}
+                                    height={constants.ICON_SIZE.ICON_MEDIUM}
+                                />}
+                                activeOpacity={constants.ACTIVE_OPACITY.MEDIUM}
+                            />}
+                        {!user?.isAnonymous &&
+                            <SubmitButton
+                                label={
+                                    <FormattedMessage
                                         defaultMessage='Edit Profile'
                                         id='views.home.profile.edit-profile'
                                     />
@@ -82,6 +102,8 @@ export default function Profile({ navigation }: ProfileProps) {
                                 icon={<EditProfile
                                     strokeWidth={constants.STROKE_WIDTH.MEDIUM}
                                     stroke={theme.TERTIARY}
+                                    width={constants.ICON_SIZE.ICON_MEDIUM}
+                                    height={constants.ICON_SIZE.ICON_MEDIUM}
                                 />}
                                 activeOpacity={constants.ACTIVE_OPACITY.MEDIUM}
                             />}
@@ -97,6 +119,8 @@ export default function Profile({ navigation }: ProfileProps) {
                             icon={<Settings
                                 stroke={theme.TERTIARY}
                                 strokeWidth={constants.STROKE_WIDTH.MEDIUM}
+                                width={constants.ICON_SIZE.ICON_MEDIUM}
+                                height={constants.ICON_SIZE.ICON_MEDIUM}
                             />}
                             activeOpacity={constants.ACTIVE_OPACITY.MEDIUM}
                         />
@@ -112,6 +136,8 @@ export default function Profile({ navigation }: ProfileProps) {
                             icon={<About
                                 strokeWidth={constants.STROKE_WIDTH.MEDIUM}
                                 stroke={theme.TERTIARY}
+                                width={constants.ICON_SIZE.ICON_MEDIUM}
+                                height={constants.ICON_SIZE.ICON_MEDIUM}
                             />}
                             activeOpacity={constants.ACTIVE_OPACITY.MEDIUM}
                         />
@@ -134,6 +160,8 @@ export default function Profile({ navigation }: ProfileProps) {
                                 icon={<Logout
                                     strokeWidth={constants.STROKE_WIDTH.MEDIUM}
                                     stroke={theme.TERTIARY}
+                                    width={constants.ICON_SIZE.ICON_MEDIUM}
+                                    height={constants.ICON_SIZE.ICON_MEDIUM}
                                 />}
                                 activeOpacity={constants.ACTIVE_OPACITY.MEDIUM}
                             />}
@@ -157,6 +185,8 @@ export default function Profile({ navigation }: ProfileProps) {
                                 icon={<LogIn
                                     strokeWidth={constants.STROKE_WIDTH.MEDIUM}
                                     stroke={theme.TERTIARY}
+                                    width={constants.ICON_SIZE.ICON_MEDIUM}
+                                    height={constants.ICON_SIZE.ICON_MEDIUM}
                                 />}
                                 activeOpacity={constants.ACTIVE_OPACITY.MEDIUM}
                             />}

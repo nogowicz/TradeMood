@@ -14,12 +14,12 @@ import {
 } from 'react';
 import { spacing, typography } from 'styles';
 import SubmitButton from 'components/buttons/submit-button';
-import { SignupPagesArrayType } from '../Signup';
+import { SignUpPagesArrayType } from '../Signup';
 import Pagination from 'components/pagination/Pagination';;
 import { useTheme } from 'store/ThemeContext';
 
 
-type SignupPanelProps = {
+type SignUpPanelProps = {
     id: string;
     action: JSX.Element;
     logo: JSX.Element;
@@ -29,7 +29,7 @@ type SignupPanelProps = {
     buttonLabel: JSX.Element;
     buttonAction: Dispatch<SetStateAction<number>>;
     page: number;
-    pages: SignupPagesArrayType;
+    pages: SignUpPagesArrayType;
 }
 
 export default function SignupPanel({
@@ -43,7 +43,7 @@ export default function SignupPanel({
     buttonAction,
     page,
     pages
-}: SignupPanelProps) {
+}: SignUpPanelProps) {
     const scaleValue = useRef(new Animated.Value(1)).current;
     const translateYValue = useRef(new Animated.Value(0)).current;
     const [isKeyboardVisible, setKeyboardVisible] = useState(false);

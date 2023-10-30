@@ -112,8 +112,12 @@ export default function AppSettings({ navigation }: AppSettingsProps) {
                             }
                             onPress={() => handleShowLangBottomSheet()}
                             mode='option'
-                            icon={<Language fill={theme.TERTIARY} />}
-                            activeOpacity={0.5}
+                            icon={<Language
+                                fill={theme.TERTIARY}
+                                width={constants.ICON_SIZE.ICON_MEDIUM}
+                                height={constants.ICON_SIZE.ICON_MEDIUM}
+                            />}
+                            activeOpacity={constants.ACTIVE_OPACITY.MEDIUM}
                         />
 
                         <SubmitButton
@@ -128,9 +132,11 @@ export default function AppSettings({ navigation }: AppSettingsProps) {
                             icon={<Theme
                                 fill={theme.TERTIARY}
                                 stroke={theme.BACKGROUND}
+                                width={constants.ICON_SIZE.ICON_MEDIUM}
+                                height={constants.ICON_SIZE.ICON_MEDIUM}
                             />
                             }
-                            activeOpacity={0.5}
+                            activeOpacity={constants.ACTIVE_OPACITY.MEDIUM}
                         />
 
                     </View>

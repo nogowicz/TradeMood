@@ -173,5 +173,6 @@
   "views.home.overview.no-favorites-and-follows": "When you observe instruments or other people, something will appear",
   "views.home.discussion.error.follow": "Error occurred while trying to follow that person",
   "views.home.overview.following": "Following",
-  "views.home.overview.anonymous.login-or-register": "Log in or register"
+  "views.home.overview.anonymous.login-or-register": "Log in or register",
+  "views.home.profile.your-profile": "Your Profile"
 }
