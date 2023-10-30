@@ -3,7 +3,7 @@ import React, { useState } from 'react';
 import SkeletonPlaceholder from 'react-native-skeleton-placeholder';
 
 type ImageProps = {
-    url?: string;
+    url?: string | null;
     source?: number | undefined | ImageSourcePropType | any;
     style: StyleProp<ImageStyle>;
     size?: number;

@@ -154,6 +154,7 @@ export default function HomeStack() {
             />
             <Stack.Screen
                 name={SCREENS.HOME.PROFILE_WALL.ID}
+                //@ts-ignore
                 component={ProfileWall}
             />
         </Stack.Navigator>

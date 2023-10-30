@@ -79,7 +79,7 @@ export default function Profile({ navigation }: ProfileProps) {
                                         id='views.home.profile.your-profile'
                                     />
                                 }
-                                onPress={() => navigation.navigate(SCREENS.HOME.EDIT_PROFILE.ID)}
+                                onPress={() => navigation.navigate(SCREENS.HOME.PROFILE_WALL.ID)}
                                 mode='option'
                                 icon={<ProfileIcon
                                     strokeWidth={constants.STROKE_WIDTH.MEDIUM}

@@ -21,10 +21,12 @@ export const ACTIVE_OPACITY = {
 
 export const STROKE_WIDTH = {
   MEDIUM: 1.5,
+  HIGH: 2,
   BOLD: 3,
 };
 
 export const ICON_SIZE = {
+  SMALL_ICON: 25,
   ICON: 30,
   ICON_MEDIUM: 35,
   ACTIVITY_INDICATOR: 40,
@@ -32,6 +34,7 @@ export const ICON_SIZE = {
   GO_BACK: 42,
   BIG_ICON: 48,
   IMAGE_PICKER_BUTTON: 80,
+  PROFILE_WALL_PHOTO: 150,
   IMAGE_PICKER_MEDIUM: 200,
   IMAGE_PICKER_BIG: 250,
 };
