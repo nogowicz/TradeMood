@@ -15,6 +15,7 @@ import GoBack from 'assets/icons/Go-back.svg';
 import EditProfile from 'assets/icons/Edit-profile.svg';
 import PlusIcon from 'assets/icons/Plus-icon.svg';
 import CheckIcon from 'assets/icons/Check-icon.svg';
+import SaveButtonIcon from 'assets/icons/Save-icon.svg';
 
 
 type ProfileWallScreenNavigationProp = NativeStackScreenProps<RootStackParamList, 'ProfileWall'>;
@@ -33,9 +34,12 @@ type ProfileWallProps = {
 export default function ProfileWall({ navigation, route }: ProfileWallProps) {
     const theme = useTheme();
     const { userUID }: { userUID?: string } = route.params ?? {};
-    const { user } = useAuth();
+    const { user, updateAboutMe } = useAuth();
     const { follow, unFollow, isFollowing } = useFollowing();
     const [isFollowingState, setIsFollowingState] = useState<boolean>();
+    const [isSaveButtonAvailable, setIsSaveButtonAvailable] = useState<boolean>(false);
+    const [newAboutMe, setNewAboutMe] = useState<string>("");
+
 
     useLayoutEffect(() => {
         if (userUID) {
@@ -43,7 +47,6 @@ export default function ProfileWall({ navigation, route }: ProfileWallProps) {
         }
     }, [isFollowing, userUID]);
 
-    console.log(userUID)
 
     async function toggleFollowUser(userUID?: string) {
         if (user && userUID) {
@@ -70,17 +73,31 @@ export default function ProfileWall({ navigation, route }: ProfileWallProps) {
                         <GoBack fill={theme.TERTIARY} />
                     </IconButton>
                     {!userUID || userUID === user?.uid ?
-                        <IconButton
-                            onPress={() => navigation.navigate(SCREENS.HOME.EDIT_PROFILE.ID)}
-                            size={constants.ICON_SIZE.GO_BACK}
-                        >
-                            <EditProfile
-                                strokeWidth={constants.STROKE_WIDTH.HIGH}
-                                stroke={theme.TERTIARY}
-                                width={constants.ICON_SIZE.SMALL_ICON}
-                                height={constants.ICON_SIZE.SMALL_ICON}
-                            />
-                        </IconButton> :
+                        <View>
+                            {isSaveButtonAvailable ?
+                                <IconButton
+                                    onPress={() => updateAboutMe(newAboutMe)}
+                                    size={constants.ICON_SIZE.GO_BACK}
+                                >
+                                    <SaveButtonIcon
+                                        strokeWidth={constants.STROKE_WIDTH.MEDIUM}
+                                        stroke={theme.TERTIARY}
+                                        width={constants.ICON_SIZE.SMALL_ICON}
+                                        height={constants.ICON_SIZE.SMALL_ICON}
+                                    />
+                                </IconButton> :
+                                <IconButton
+                                    onPress={() => navigation.navigate(SCREENS.HOME.EDIT_PROFILE.ID)}
+                                    size={constants.ICON_SIZE.GO_BACK}
+                                >
+                                    <EditProfile
+                                        strokeWidth={constants.STROKE_WIDTH.HIGH}
+                                        stroke={theme.TERTIARY}
+                                        width={constants.ICON_SIZE.SMALL_ICON}
+                                        height={constants.ICON_SIZE.SMALL_ICON}
+                                    />
+                                </IconButton>}
+                        </View> :
                         <IconButton
                             onPress={() => toggleFollowUser(userUID)}
                             size={constants.ICON_SIZE.ICON}
@@ -102,7 +119,12 @@ export default function ProfileWall({ navigation, route }: ProfileWallProps) {
                     }
 
                 </View>
-                <UserInfo userUID={userUID} />
+                <UserInfo
+                    userUID={userUID}
+                    setIsSaveButtonAvailable={setIsSaveButtonAvailable}
+                    newAboutMe={newAboutMe}
+                    setNewAboutMe={setNewAboutMe}
+                />
             </View>
         </View>
     )

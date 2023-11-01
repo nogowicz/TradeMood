@@ -1,5 +1,5 @@
 import { StyleSheet, Text, TextInput, TouchableOpacity, View } from 'react-native'
-import React, { useLayoutEffect, useState } from 'react'
+import React, { Dispatch, SetStateAction, useEffect, useLayoutEffect, useState } from 'react'
 import { useTheme } from 'store/ThemeContext'
 import { useAuth } from 'store/AuthProvider';
 import CustomImage from 'components/custom-image';
@@ -8,16 +8,26 @@ import firestore from '@react-native-firebase/firestore';
 import { useNavigation } from '@react-navigation/native';
 import { SCREENS } from '@views/navigation/constants';
 import { useIntl } from 'react-intl';
+import { set } from 'react-hook-form';
 
 type UserInfoProps = {
     userUID?: string;
+    setIsSaveButtonAvailable: Dispatch<SetStateAction<boolean>>;
+    newAboutMe: string;
+    setNewAboutMe: Dispatch<SetStateAction<string>>;
 };
 
-export default function UserInfo({ userUID }: UserInfoProps) {
+export default function UserInfo({
+    userUID,
+    setIsSaveButtonAvailable,
+    newAboutMe,
+    setNewAboutMe
+}: UserInfoProps) {
     const theme = useTheme();
     const { user } = useAuth();
     const [photoURL, setPhotoURL] = useState();
     const [displayName, setDisplayName] = useState();
+    const [aboutMe, setAboutMe] = useState<string>("");
     const navigation = useNavigation();
     const isMyProfile = (user && (user.uid === userUID) || userUID === undefined) ? true : false;
     const intl = useIntl();
@@ -34,10 +44,28 @@ export default function UserInfo({ userUID }: UserInfoProps) {
                 const userData = userDoc.data();
                 setDisplayName(userData?.displayName);
                 setPhotoURL(userData?.photoURL);
+                setAboutMe(userData?.aboutMe);
+                setNewAboutMe(userData?.aboutMe);
+            } else {
+                const userDoc = await firestore().collection('users').doc(user?.uid).get();
+                const userData = userDoc.data();
+                setAboutMe(userData?.aboutMe);
+                setNewAboutMe(userData?.aboutMe);
             }
+
         }
         getUserDetails();
     }, [userUID]);
+
+
+
+    useEffect(() => {
+        if (newAboutMe !== aboutMe) {
+            setIsSaveButtonAvailable(true);
+        } else {
+            setIsSaveButtonAvailable(false);
+        }
+    }, [newAboutMe, aboutMe]);
 
     //image
     //name
@@ -81,8 +109,11 @@ export default function UserInfo({ userUID }: UserInfoProps) {
                     ...styles.aboutMeText,
                     borderWidth: isMyProfile ? 1 : 0,
                     borderColor: theme.LIGHT_HINT,
+                    color: theme.TERTIARY,
                 }]}
-                placeholder={aboutMeTranslation}
+                value={newAboutMe}
+                onChangeText={(text: string) => setNewAboutMe(text)}
+                placeholder={isMyProfile ? aboutMeTranslation : ""}
                 multiline={true}
                 editable={isMyProfile}
                 maxLength={280}
