@@ -218,7 +218,7 @@ export default function UserInfo({
                     </View> :
                     <IconButton
                         onPress={() => toggleFollowUser(userUID)}
-                        size={constants.ICON_SIZE.ICON}
+                        size={constants.ICON_SIZE.GO_BACK}
                     >
                         {isFollowingState ?
                             <CheckIcon
@@ -282,6 +282,7 @@ export default function UserInfo({
                 }],
                 opacity: animatedOpacity,
                 width: '100%',
+                minHeight: '100%'
             }}>
                 <TextInput
                     style={[{
