@@ -8,19 +8,20 @@ export function useFolloweesPosts() {
     const { ids, follow, unFollow, isFollowing } = useFollowing();
     const { posts } = usePosts();
 
-    useEffect(() => {
-        const fetchFolloweesPosts = async () => {
-            if (ids.length > 0) {
-                const postsFilter: PostType[] | undefined = posts?.filter((posts) =>
-                    ids.includes(posts.userUID)
-                );
-                console.log(posts)
-                setFolloweesPosts(postsFilter);
-            } else {
-                setFolloweesPosts([]);
-            }
-        };
 
+    const fetchFolloweesPosts = async () => {
+        if (ids.length > 0) {
+            const postsFilter: PostType[] | undefined = posts?.filter((posts) =>
+                ids.includes(posts.userUID)
+            );
+            console.log(posts)
+            setFolloweesPosts(postsFilter);
+        } else {
+            setFolloweesPosts([]);
+        }
+    };
+
+    useEffect(() => {
         fetchFolloweesPosts();
     }, [ids]);
 

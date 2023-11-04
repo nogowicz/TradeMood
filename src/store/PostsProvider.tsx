@@ -173,6 +173,8 @@ export function PostsContextProvider({ children }: PostsContextProviderProps) {
         }
     }
 
+
+
     return (
         <PostsContext.Provider value={{ posts, fetchPosts, isLoading, addPost, deletePost, toggleLikePost }}>
             {children}
