@@ -87,7 +87,7 @@ export default function ProfileWall({ navigation, route }: ProfileWallProps) {
                 />
                 <Animated.ScrollView
                     style={{ flex: 1 }}
-                    contentContainerStyle={{ paddingTop: HEADER_MAX_HEIGHT }}
+                    contentContainerStyle={{ paddingTop: HEADER_MAX_HEIGHT + 10 }}
                     onScroll={onScroll}
                     showsVerticalScrollIndicator={false}
                     scrollEventThrottle={16}

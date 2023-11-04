@@ -175,5 +175,6 @@
   "views.home.overview.following": "Following",
   "views.home.overview.anonymous.login-or-register": "Log in or register",
   "views.home.profile.your-profile": "Your Profile",
-  "views.home.profile-wall.about-me.placeholder": "Tell something about yourself"
+  "views.home.profile-wall.about-me.placeholder": "Tell something about yourself",
+  "views.home.profile-wall.about-me.error": "Error occurred, try again later"
 }
