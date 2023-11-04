@@ -1,33 +1,31 @@
 import { Animated, Keyboard, StyleSheet, Text, TextInput, TouchableOpacity, View } from 'react-native'
-import React, { Dispatch, SetStateAction, useEffect, useLayoutEffect, useState } from 'react'
+import React, { Dispatch, SetStateAction, useEffect, useState } from 'react'
 import { useTheme } from 'store/ThemeContext'
 import { useAuth } from 'store/AuthProvider';
-import CustomImage from 'components/custom-image';
 import { constants, spacing, typography } from 'styles';
 import firestore from '@react-native-firebase/firestore';
 import { useNavigation } from '@react-navigation/native';
 import { SCREENS } from '@views/navigation/constants';
 import { useIntl } from 'react-intl';
-
-import GoBack from 'assets/icons/Go-back.svg';
-import EditProfile from 'assets/icons/Edit-profile.svg';
-import PlusIcon from 'assets/icons/Plus-icon.svg';
-import CheckIcon from 'assets/icons/Check-icon.svg';
-import SaveButtonIcon from 'assets/icons/Save-icon.svg';
-import IconButton from 'components/buttons/icon-button';
 import { useFollowing } from 'store/FollowingProvider';
+import { RootStackParamList } from '@views/navigation/Navigation';
+import { NativeStackNavigationProp } from '@react-navigation/native-stack';
+import CustomImage from 'components/custom-image';
+import NavBar from './NavBar';
 
-type UserInfoProps = {
+
+
+type AnimatedProfileWallBarProps = {
     userUID?: string;
     newAboutMe: string;
     setNewAboutMe: Dispatch<SetStateAction<string>>;
-    value: any;
+    value: Animated.Value;
     HEADER_MAX_HEIGHT: number;
     HEADER_MIN_HEIGHT: number;
     SCROLL_DISTANCE: number;
 };
 
-export default function UserInfo({
+export default function AnimatedProfileWallBar({
     userUID,
     newAboutMe,
     setNewAboutMe,
@@ -35,19 +33,19 @@ export default function UserInfo({
     HEADER_MAX_HEIGHT,
     HEADER_MIN_HEIGHT,
     SCROLL_DISTANCE
-}: UserInfoProps) {
+}: AnimatedProfileWallBarProps) {
     const theme = useTheme();
-    const { user, updateAboutMe } = useAuth();
-    const navigation = useNavigation();
-    const isMyProfile = (user && (user.uid === userUID) || userUID === undefined) ? true : false;
     const intl = useIntl();
+    const { user } = useAuth();
+    const navigation = useNavigation<NativeStackNavigationProp<RootStackParamList>>();
+
     const [photoURL, setPhotoURL] = useState();
     const [displayName, setDisplayName] = useState();
     const [aboutMe, setAboutMe] = useState<string>("");
     const [focus, setFocus] = useState(false);
-    const { follow, unFollow, isFollowing } = useFollowing();
-    const [isFollowingState, setIsFollowingState] = useState<boolean>();
     const [isSaveButtonAvailable, setIsSaveButtonAvailable] = useState<boolean>(false);
+
+    const isMyProfile = (user && (user.uid === userUID) || userUID === undefined) ? true : false;
 
     //translations:
     const aboutMeTranslation = intl.formatMessage({
@@ -55,9 +53,7 @@ export default function UserInfo({
         defaultMessage: 'Tell something about yourself'
     });
 
-
-
-
+    //animations:
     const logoTranslateY = value.interpolate({
         inputRange: [0, SCROLL_DISTANCE],
         outputRange: [0, -300],
@@ -94,25 +90,6 @@ export default function UserInfo({
         extrapolate: 'clamp',
     });
 
-
-
-
-    useLayoutEffect(() => {
-        if (userUID) {
-            setIsFollowingState(isFollowing(userUID));
-        }
-    }, [isFollowing, userUID]);
-
-    async function toggleFollowUser(userUID?: string) {
-        if (user && userUID) {
-            if (isFollowing(userUID)) {
-                unFollow(userUID);
-            } else {
-                follow(userUID);
-            }
-        }
-    }
-
     useEffect(() => {
         const handleKeyboardDidHide = () => {
             setFocus(false);
@@ -125,7 +102,7 @@ export default function UserInfo({
         };
     }, []);
 
-    useLayoutEffect(() => {
+    useEffect(() => {
         async function getUserDetails() {
             if (userUID) {
                 const userDoc = await firestore().collection('users').doc(userUID).get();
@@ -140,12 +117,9 @@ export default function UserInfo({
                 setAboutMe(userData?.aboutMe);
                 setNewAboutMe(userData?.aboutMe);
             }
-
         }
         getUserDetails();
     }, [userUID]);
-
-
 
     useEffect(() => {
         if (newAboutMe !== aboutMe) {
@@ -171,71 +145,17 @@ export default function UserInfo({
 
     return (
         <Animated.View
-            style={[
-                styles.header,
-                {
-                    height: animatedHeaderHeight,
-                    backgroundColor: theme.BACKGROUND,
-                },
-            ]}>
-            <View style={styles.navbar}>
-                <IconButton
-                    onPress={() => navigation.goBack()}
-                    size={constants.ICON_SIZE.GO_BACK}
-                >
-                    <GoBack fill={theme.TERTIARY} />
-                </IconButton>
-                {!userUID || userUID === user?.uid ?
-                    <View>
-                        {isSaveButtonAvailable ?
-                            <IconButton
-                                onPress={() => {
-                                    updateAboutMe(newAboutMe)
-                                    setIsSaveButtonAvailable(false)
-                                    Keyboard.dismiss()
-                                }
-                                }
-                                size={constants.ICON_SIZE.GO_BACK}
-                            >
-                                <SaveButtonIcon
-                                    strokeWidth={constants.STROKE_WIDTH.MEDIUM}
-                                    stroke={theme.TERTIARY}
-                                    width={constants.ICON_SIZE.SMALL_ICON}
-                                    height={constants.ICON_SIZE.SMALL_ICON}
-                                />
-                            </IconButton> :
-                            <IconButton
-                                onPress={() => navigation.navigate(SCREENS.HOME.EDIT_PROFILE.ID as never)}
-                                size={constants.ICON_SIZE.GO_BACK}
-                            >
-                                <EditProfile
-                                    strokeWidth={constants.STROKE_WIDTH.HIGH}
-                                    stroke={theme.TERTIARY}
-                                    width={constants.ICON_SIZE.SMALL_ICON}
-                                    height={constants.ICON_SIZE.SMALL_ICON}
-                                />
-                            </IconButton>}
-                    </View> :
-                    <IconButton
-                        onPress={() => toggleFollowUser(userUID)}
-                        size={constants.ICON_SIZE.GO_BACK}
-                    >
-                        {isFollowingState ?
-                            <CheckIcon
-                                strokeWidth={constants.STROKE_WIDTH.MEDIUM}
-                                stroke={theme.TERTIARY}
-                                width={constants.ICON_SIZE.ICON - 10}
-                                height={constants.ICON_SIZE.ICON - 10}
-                            /> :
-                            <PlusIcon
-                                strokeWidth={constants.STROKE_WIDTH.MEDIUM}
-                                stroke={theme.TERTIARY}
-                                width={constants.ICON_SIZE.ICON - 10}
-                                height={constants.ICON_SIZE.ICON - 10}
-                            />}
-                    </IconButton>
-                }
-            </View>
+            style={[{
+                ...styles.header,
+                height: animatedHeaderHeight,
+                backgroundColor: theme.BACKGROUND,
+            }]}>
+            <NavBar
+                userUID={userUID}
+                setIsSaveButtonAvailable={setIsSaveButtonAvailable}
+                isSaveButtonAvailable={isSaveButtonAvailable}
+                newAboutMe={newAboutMe}
+            />
 
             <Animated.View style={{
                 transform: [{
@@ -341,9 +261,5 @@ const styles = StyleSheet.create({
         fontWeight: 'bold',
         fontSize: 20,
     },
-    navbar: {
-        justifyContent: 'space-between',
-        alignItems: 'center',
-        flexDirection: 'row',
-    },
+
 })
