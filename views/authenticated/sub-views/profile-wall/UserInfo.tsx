@@ -10,6 +10,7 @@ import { FormattedMessage, useIntl } from 'react-intl';
 import { useTheme } from 'store/ThemeContext';
 import CustomImage from 'components/custom-image';
 import { useFollowing } from 'store/FollowingProvider';
+import Snackbar from 'react-native-snackbar';
 
 type UserInfoProps = {
     userUID?: string;
@@ -46,6 +47,11 @@ export default function UserInfo({
     const aboutMeTranslation = intl.formatMessage({
         id: 'views.home.profile-wall.about-me.placeholder',
         defaultMessage: 'Tell something about yourself'
+    });
+
+    const followersErrorTranslation = intl.formatMessage({
+        id: "views.home.profile-wall.about-me.followers-error",
+        defaultMessage: "Error occurred while fetching followers"
     });
 
     //animations:
@@ -98,14 +104,22 @@ export default function UserInfo({
                     setFollowers(followersVar);
                 })
                 .catch(error => {
-                    console.error('Error occurred while fetching followers:', error);
+                    console.error(followersErrorTranslation + " " + error);
+                    Snackbar.show({
+                        text: followersErrorTranslation,
+                        duration: Snackbar.LENGTH_SHORT
+                    });
                 });
             getFollowingCount(userUID ? userUID : user?.uid)
                 .then(followersVar => {
                     setFollowing(followersVar);
                 })
                 .catch(error => {
-                    console.error('Error occurred while fetching following:', error);
+                    console.error(followersErrorTranslation + " " + error);
+                    Snackbar.show({
+                        text: followersErrorTranslation,
+                        duration: Snackbar.LENGTH_SHORT
+                    });
                 });
         }
     }, [user, userUID, getFollowersCount, getFollowingCount]);

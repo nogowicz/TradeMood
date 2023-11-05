@@ -176,5 +176,6 @@
   "views.home.overview.anonymous.login-or-register": "Zaloguj się lub zarejestruj",
   "views.home.profile.your-profile": "Twój Profil",
   "views.home.profile-wall.about-me.placeholder": "Opowiedz coś o sobie",
-  "views.home.profile-wall.about-me.error": "Wstąpił bład, spróbuj ponownie później"
+  "views.home.profile-wall.about-me.error": "Wstąpił bład, spróbuj ponownie później",
+  "views.home.profile-wall.about-me.followers-error": "Wystąpił błąd podczas pobierania informacji o obserwujących"
 }
