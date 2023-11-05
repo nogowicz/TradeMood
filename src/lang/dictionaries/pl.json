@@ -64,7 +64,7 @@
   "views.home.profile.title": "Cześć, ",
   "views.home.profile.edit-profile": "Edytuj Profil",
   "views.home.profile.app-settings": "Ustawienia Aplikacji",
-  "views.home.profile.about": "O nas",
+  "views.home.profile.about": "O Nas",
   "views.home.profile.logout": "Wyloguj",
   "views.home.profile.edit-profile.title": "Edytuj Swój Profil",
   "views.home.profile.edit-profile.email": "Email",
@@ -173,5 +173,9 @@
   "views.home.overview.no-favorites-and-follows": "Zaobserwuj instrumenty lub inne osoby",
   "views.home.discussion.error.follow": "Wystąpił błąd podczas próby zaobserowania tej osoby",
   "views.home.overview.following": "Obserwujesz",
-  "views.home.overview.anonymous.login-or-register": "Zaloguj się lub zarejestruj"
+  "views.home.overview.anonymous.login-or-register": "Zaloguj się lub zarejestruj",
+  "views.home.profile.your-profile": "Twój Profil",
+  "views.home.profile-wall.about-me.placeholder": "Opowiedz coś o sobie",
+  "views.home.profile-wall.about-me.error": "Wstąpił bład, spróbuj ponownie później",
+  "views.home.profile-wall.about-me.followers-error": "Wystąpił błąd podczas pobierania informacji o obserwujących"
 }

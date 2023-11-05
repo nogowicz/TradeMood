@@ -17,6 +17,7 @@ type AuthContextType = {
     updatePersonalData: (firstName: string, lastName: string) => Promise<void>,
     updateProfilePicture: (imageUrl: string | null | undefined) => Promise<void>,
     updatePassword: (newPassword: string) => Promise<void>;
+    updateAboutMe: (newAboutMe: string) => Promise<void>;
 }
 
 export const AuthContext = createContext<AuthContextType>({
@@ -31,6 +32,7 @@ export const AuthContext = createContext<AuthContextType>({
     updatePersonalData: async () => { },
     updateProfilePicture: async () => { },
     updatePassword: async () => { },
+    updateAboutMe: async () => { },
 });
 
 
@@ -67,6 +69,7 @@ export function AuthProvider({ children }: AuthProviderProps) {
                         const user = userCredential.user;
                         let displayName = `${firstName.trim()} ${lastName.trim()}`;
                         let photoURL = imageUrl || null;
+                        const aboutMe = "";
 
                         if (photoURL) {
                             user.updateProfile({
@@ -86,7 +89,8 @@ export function AuthProvider({ children }: AuthProviderProps) {
                             displayName: displayName,
                             photoURL: photoURL,
                             followers: [],
-                            following: []
+                            following: [],
+                            aboutMe: aboutMe
                         });
 
                     })
@@ -157,6 +161,14 @@ export function AuthProvider({ children }: AuthProviderProps) {
                     await user.updatePassword(newPassword);
                 }
             },
+            updateAboutMe: async (aboutMe: string) => {
+                const user = auth().currentUser;
+                if (user) {
+                    await firestore().collection('users').doc(user.uid).update({
+                        aboutMe: aboutMe
+                    });
+                }
+            }
         }}>{children}</AuthContext.Provider>
 }
 

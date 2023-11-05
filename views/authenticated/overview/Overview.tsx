@@ -60,7 +60,7 @@ export default function Overview({ navigation }: OverviewProps) {
                         displayName={user?.displayName}
                         imageUrl={user?.photoURL}
                         isAnonymous={user?.isAnonymous}
-                        onPress={() => navigation.navigate(SCREENS.HOME.EDIT_PROFILE.ID)}
+                        onPress={() => navigation.navigate(SCREENS.HOME.PROFILE_WALL.ID)}
                     />
                 </View>
                 <View style={styles.mainContainer}>
@@ -204,7 +204,7 @@ const styles = StyleSheet.create({
     },
     sectionTitle: {
         ...typography.FONT_BOLD,
-        fontSize: typography.FONT_SIZE_32,
+        fontSize: typography.FONT_SIZE_28,
         fontWeight: typography.FONT_WEIGHT_BOLD,
     },
     mainContainer: {

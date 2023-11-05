@@ -6,13 +6,15 @@ import { useAuth } from 'store/AuthProvider';
 import Image from 'components/custom-image';
 import IconButton from 'components/buttons/icon-button';
 import { useIntl } from 'react-intl';
-import firestore from '@react-native-firebase/firestore';
-import Snackbar from 'react-native-snackbar';
 
 import SendIcon from 'assets/icons/Send-icon.svg';
 import { usePosts } from 'store/PostsProvider';
 
-export default function DiscussionTextArea() {
+type DiscussionTextAreaProps = {
+    isProfileImage?: boolean;
+};
+
+export default function DiscussionTextArea({ isProfileImage = true }: DiscussionTextAreaProps) {
     const theme = useTheme();
     const intl = useIntl();
     const { user } = useAuth();
@@ -27,7 +29,6 @@ export default function DiscussionTextArea() {
         defaultMessage: 'Want to share something?',
         id: 'views.home.discussion.text-input.placeholder'
     });
-
     useEffect(() => {
         const handleKeyboardDidHide = () => {
             setFocus(false);
@@ -44,19 +45,20 @@ export default function DiscussionTextArea() {
         <View style={[
             styles.container,
         ]}>
-            <View style={styles.imageContainer}>
-                {user?.photoURL ?
-                    <Image
-                        url={user?.photoURL}
-                        style={{ width: imageSize, height: imageSize, borderRadius: imageSize / 2 }}
-                    />
-                    :
-                    <Image
-                        source={require('assets/profile/profile-picture.png')}
-                        style={{ width: imageSize, height: imageSize, borderRadius: imageSize / 2 }}
-                    />
-                }
-            </View>
+            {isProfileImage &&
+                <View style={styles.imageContainer}>
+                    {user?.photoURL ?
+                        <Image
+                            url={user?.photoURL}
+                            style={{ width: imageSize, height: imageSize, borderRadius: imageSize / 2 }}
+                        />
+                        :
+                        <Image
+                            source={require('assets/profile/profile-picture.png')}
+                            style={{ width: imageSize, height: imageSize, borderRadius: imageSize / 2 }}
+                        />
+                    }
+                </View>}
             <View style={[
                 styles.inputContainer,
                 {
@@ -68,19 +70,22 @@ export default function DiscussionTextArea() {
                     maxLength={maxInputLength}
                     placeholderTextColor={theme.HINT}
                     multiline={true}
-                    onFocus={() => setFocus(true)}
                     onChangeText={(text) => setText(text)}
                     style={[{
                         color: theme.TERTIARY,
                         flex: 1,
                     }]}
+                    onFocus={() => setFocus(true)}
                     onBlur={() => setFocus(false)}
                     value={text}
                 />
                 <View style={styles.rightContainer}>
                     <View testID="sendPost">
                         <IconButton
-                            onPress={addPost}
+                            onPress={() => {
+                                addPost(text);
+                                setText('');
+                            }}
                             size={constants.ICON_SIZE.ICON}
                             isBorder={false}
                         >

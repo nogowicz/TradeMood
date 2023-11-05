@@ -94,7 +94,7 @@ const styles = StyleSheet.create({
     },
     optionLabel: {
         fontWeight: typography.FONT_WEIGHT_BOLD,
-        fontSize: typography.FONT_SIZE_18,
+        fontSize: typography.FONT_SIZE_16,
     },
     actionLeftContainer: {
         flex: 1,

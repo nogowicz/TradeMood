@@ -68,7 +68,9 @@ export default function EditProfile({ navigation }: EditProfileProps) {
                             mode='option'
                             icon={<Email
                                 stroke={theme.TERTIARY}
-                                strokeWidth={1.5}
+                                strokeWidth={constants.STROKE_WIDTH.MEDIUM}
+                                width={constants.ICON_SIZE.ICON_MEDIUM}
+                                height={constants.ICON_SIZE.ICON_MEDIUM}
                             />}
                             activeOpacity={0.5}
                         />
@@ -81,7 +83,13 @@ export default function EditProfile({ navigation }: EditProfileProps) {
                             }
                             onPress={() => navigation.navigate(SCREENS.HOME.EDIT_PASSWORD.ID)}
                             mode='option'
-                            icon={<Password strokeWidth={1.5} stroke={theme.TERTIARY} />}
+                            icon={<Password
+                                stroke={theme.TERTIARY}
+                                strokeWidth={constants.STROKE_WIDTH.MEDIUM}
+                                width={constants.ICON_SIZE.ICON_MEDIUM}
+                                height={constants.ICON_SIZE.ICON_MEDIUM}
+                            />
+                            }
                             activeOpacity={0.5}
                         />
                         <SubmitButton
@@ -95,7 +103,9 @@ export default function EditProfile({ navigation }: EditProfileProps) {
                             mode='option'
                             icon={<Id
                                 stroke={theme.TERTIARY}
-                                strokeWidth={1.5}
+                                strokeWidth={constants.STROKE_WIDTH.MEDIUM}
+                                width={constants.ICON_SIZE.ICON_MEDIUM}
+                                height={constants.ICON_SIZE.ICON_MEDIUM}
                             />}
                             activeOpacity={0.5}
                         />
@@ -108,7 +118,12 @@ export default function EditProfile({ navigation }: EditProfileProps) {
                             }
                             onPress={() => navigation.navigate(SCREENS.HOME.EDIT_PICTURE.ID)}
                             mode='option'
-                            icon={<Picture strokeWidth={1.5} stroke={theme.TERTIARY} />}
+                            icon={<Picture
+                                stroke={theme.TERTIARY}
+                                strokeWidth={constants.STROKE_WIDTH.MEDIUM}
+                                width={constants.ICON_SIZE.ICON_MEDIUM}
+                                height={constants.ICON_SIZE.ICON_MEDIUM}
+                            />}
                             activeOpacity={0.5}
                         />
                     </View>
@@ -136,7 +151,8 @@ const styles = StyleSheet.create({
     },
     sectionTitle: {
         ...typography.FONT_BOLD,
-        fontSize: typography.FONT_SIZE_32,
+        fontSize: typography.FONT_SIZE_28,
+        textAlign: 'center',
         fontWeight: typography.FONT_WEIGHT_BOLD,
     },
     mainContainer: {

@@ -1,4 +1,4 @@
-import { StyleSheet, Text, View } from 'react-native'
+import { StyleSheet, Text, TouchableOpacity, View } from 'react-native'
 import React, { useLayoutEffect, useState } from 'react'
 import Image from 'components/custom-image';
 import { useTheme } from 'store/ThemeContext';
@@ -10,13 +10,18 @@ import { useIntl } from 'react-intl';
 import Animated, { useSharedValue, withTiming, Easing, useAnimatedStyle } from 'react-native-reanimated';
 import IconButton from 'components/buttons/icon-button';
 import { PostType, usePosts } from 'store/PostsProvider';
+import { useFollowing } from 'store/FollowingProvider';
+import { useNavigation } from '@react-navigation/native';
+import { SCREENS } from '@views/navigation/constants';
+import { NativeStackNavigationProp } from '@react-navigation/native-stack';
+import { RootStackParamList } from '@views/navigation/Navigation';
 
 import HeartIcon from 'assets/icons/Heart-icon.svg';
 import ThreeDotsIcon from 'assets/icons/ThreeDots-icon.svg';
 import TrashIcon from 'assets/icons/Trash-icon.svg';
 import PlusIcon from 'assets/icons/Plus-icon.svg';
 import CheckIcon from 'assets/icons/Check-icon.svg';
-import { useFollowing } from 'store/FollowingProvider';
+
 
 
 export default function Post({
@@ -38,6 +43,7 @@ export default function Post({
     const [displayName, setDisplayName] = useState();
     const { follow, unFollow, isFollowing } = useFollowing();
     const [isFollowingState, setIsFollowingState] = useState<boolean>();
+    const navigation = useNavigation<NativeStackNavigationProp<RootStackParamList>>();
 
     useLayoutEffect(() => {
         setIsFollowingState(isFollowing(userUID));
@@ -90,23 +96,31 @@ export default function Post({
         ]}>
             <View style={styles.upperContainer}>
                 <View style={styles.upperLeftContainer}>
-                    {photoURL ? (
-                        <Image
-                            url={photoURL}
-                            style={{ width: imageSize, height: imageSize, borderRadius: imageSize / 2 }}
-                        />
-                    ) : (
-                        <Image
-                            source={require('assets/profile/profile-picture.png')}
-                            style={{ width: imageSize, height: imageSize, borderRadius: imageSize / 2 }}
-                        />
-                    )}
-                    <Text style={[
-                        styles.nameText,
-                        {
-                            color: theme.TERTIARY,
-                        }]}>{displayName}</Text>
-
+                    <TouchableOpacity
+                        style={styles.upperLeftContainer}
+                        activeOpacity={constants.ACTIVE_OPACITY.MEDIUM}
+                        //@ts-ignore
+                        onPress={() => navigation.navigate(SCREENS.HOME.PROFILE_WALL.ID, {
+                            userUID: userUID
+                        })}
+                    >
+                        {photoURL ? (
+                            <Image
+                                url={photoURL}
+                                style={{ width: imageSize, height: imageSize, borderRadius: imageSize / 2 }}
+                            />
+                        ) : (
+                            <Image
+                                source={require('assets/profile/profile-picture.png')}
+                                style={{ width: imageSize, height: imageSize, borderRadius: imageSize / 2 }}
+                            />
+                        )}
+                        <Text style={[
+                            styles.nameText,
+                            {
+                                color: theme.TERTIARY,
+                            }]}>{displayName}</Text>
+                    </TouchableOpacity>
                     {(user && user.uid !== userUID) &&
                         <IconButton
                             onPress={() => toggleFollowUser(userUID)}

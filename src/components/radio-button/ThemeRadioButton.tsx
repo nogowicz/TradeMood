@@ -25,18 +25,23 @@ export default function ThemeRadioButton({ values }: RadioButtonProps) {
     const [themeMode, setThemeMode] = useState<boolean>();
     const colorScheme = Appearance.getColorScheme();
 
+
+
     useEffect(() => {
         const fetchThemeMode = async () => {
-            const storedTheme = await getItem('theme');
-            if (storedTheme) {
-                setThemeMode(storedTheme === "false" ? false : true);
-            } else {
-                setThemeMode(colorScheme === "dark" ? false : true);
-            }
+            await getItem('theme').then((storedTheme) => {
+                console.log(storedTheme)
+                if (storedTheme !== null) {
+                    setThemeMode(storedTheme === "false" ? false : true);
+                } else {
+                    setThemeMode(colorScheme === "dark" ? true : false);
+                }
+            });
         };
 
         fetchThemeMode();
     }, []);
+
 
 
     const themeTranslation: ThemeObject = {

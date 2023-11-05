@@ -32,6 +32,7 @@ import { useEffect } from 'react';
 import { useAuth } from '../../../src/store/AuthProvider';
 import { getFCMToken } from 'helpers/pushNotificationHelper';
 import { View } from 'react-native';
+import ProfileWall from '@views/authenticated/sub-views/profile-wall';
 
 export default function HomeStack() {
     const theme = useTheme();
@@ -150,6 +151,11 @@ export default function HomeStack() {
                 name={SCREENS.HOME.INSTRUMENT_DETAILS.ID}
                 //@ts-ignore
                 component={InstrumentDetails}
+            />
+            <Stack.Screen
+                name={SCREENS.HOME.PROFILE_WALL.ID}
+                //@ts-ignore
+                component={ProfileWall}
             />
         </Stack.Navigator>
     );

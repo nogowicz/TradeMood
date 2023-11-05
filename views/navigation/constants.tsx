@@ -53,6 +53,9 @@ export const SCREENS = {
     },
     INSTRUMENT_DETAILS: {
       ID: 'INSTRUMENT_DETAILS'
+    },
+    PROFILE_WALL: {
+      ID: 'PROFILE_WALL'
     }
   },
 };
