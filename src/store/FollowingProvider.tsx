@@ -1,16 +1,21 @@
 import { firebase } from '@react-native-firebase/auth';
-import { ReactNode, createContext, useContext, useEffect, useState } from 'react';
+import { ReactNode, createContext, useContext, useEffect, useState, } from 'react';
 
 export const FollowingContext = createContext<{
     ids: string[];
     follow: (userUID: string) => void;
     unFollow: (userUID: string) => void;
     isFollowing: (userUID: string) => boolean;
+    getFollowersCount: (userUID: string) => number;
+    getFollowingCount: (userUID: string) => number;
+
 }>({
     ids: [],
     follow: (userUID: string) => { },
     unFollow: (userUID: string) => { },
     isFollowing: (userUID: string) => false,
+    getFollowersCount: (userUID: string) => 0,
+    getFollowingCount: (userUID: string) => 0,
 });
 
 type FollowingContextProviderProps = {
@@ -19,24 +24,31 @@ type FollowingContextProviderProps = {
 
 function FollowingContextProvider({ children }: FollowingContextProviderProps) {
     const [followingPersonsIds, setFollowingPersonsIds] = useState<string[]>([]);
+    const [followersIds, setFollowersIds] = useState<string[]>([]);
 
     useEffect(() => {
         const fetchData = async () => {
-            console.log("Fetching following persons")
+            console.log("Fetching following persons and followers")
             const user = firebase.auth().currentUser;
             if (user) {
                 const userRef = firebase.firestore().collection('users').doc(user.uid);
                 const doc = await userRef.get();
                 if (doc.exists) {
                     const data = doc.data();
-                    if (data && data.following) {
-                        setFollowingPersonsIds(data.following);
+                    if (data) {
+                        if (data.following) {
+                            setFollowingPersonsIds(data.following);
+                        }
+                        if (data.followers) {
+                            setFollowersIds(data.followers);
+                        }
+                    } else {
+                        const newData = {
+                            following: [],
+                            followers: [],
+                        };
+                        await userRef.set(newData, { merge: true });
                     }
-                } else {
-                    const newData = {
-                        followingPersonsIds: [],
-                    };
-                    await userRef.set(newData);
                 }
             }
         };
@@ -68,17 +80,26 @@ function FollowingContextProvider({ children }: FollowingContextProviderProps) {
     function unFollow(userUID: string) {
         const user = firebase.auth().currentUser;
         if (user) {
-            const userRef = firebase.firestore().collection('users').doc(user.uid);
+            const userRefA = firebase.firestore().collection('users').doc(user.uid);
+            const userRefB = firebase.firestore().collection('users').doc(userUID);
+
             firebase.firestore().runTransaction(async (transaction) => {
-                const doc = await transaction.get(userRef);
-                if (doc.exists) {
-                    const data = doc.data();
-                    if (data && data.following) {
-                        const updatedIds = data.following.filter(
-                            (userUID: string) => userUID !== userUID
-                        );
-                        transaction.update(userRef, { following: updatedIds });
-                        setFollowingPersonsIds(updatedIds);
+                const docA = await transaction.get(userRefA);
+                const docB = await transaction.get(userRefB);
+
+                if (docA.exists && docB.exists) {
+                    const dataA = docA.data();
+                    const dataB = docB.data();
+
+                    if (dataA && dataB && dataA.following && dataB.followers) {
+                        const updatedFollowingA = dataA.following.filter((uid: string) => uid !== userUID);
+                        const updatedFollowersB = dataB.followers.filter((uid: string) => uid !== user.uid);
+
+                        transaction.update(userRefA, { following: updatedFollowingA });
+                        transaction.update(userRefB, { followers: updatedFollowersB });
+
+                        setFollowingPersonsIds(updatedFollowingA);
+                        setFollowersIds(updatedFollowersB);
                     }
                 }
             });
@@ -89,11 +110,21 @@ function FollowingContextProvider({ children }: FollowingContextProviderProps) {
         return followingPersonsIds.includes(userUID);
     }
 
+    function getFollowersCount() {
+        return followersIds.length;
+    }
+
+    function getFollowingCount() {
+        return followingPersonsIds.length;
+    }
+
     const value = {
         ids: followingPersonsIds,
         follow: follow,
         unFollow: unFollow,
         isFollowing: isFollowing,
+        getFollowersCount: getFollowersCount,
+        getFollowingCount: getFollowingCount
     };
 
     return (

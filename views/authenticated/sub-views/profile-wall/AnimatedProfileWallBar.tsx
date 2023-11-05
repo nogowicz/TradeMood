@@ -3,12 +3,11 @@ import React, { Dispatch, SetStateAction, useEffect, useState } from 'react'
 import { useTheme } from 'store/ThemeContext'
 import { useAuth } from 'store/AuthProvider';
 import { spacing, typography } from 'styles';
+import { FormattedMessage } from 'react-intl';
 import firestore from '@react-native-firebase/firestore';
 
 import NavBar from './NavBar';
 import UserInfo from './UserInfo';
-import { FormattedMessage } from 'react-intl';
-
 
 
 type AnimatedProfileWallBarProps = {
@@ -28,7 +27,7 @@ export default function AnimatedProfileWallBar({
     value,
     HEADER_MAX_HEIGHT,
     HEADER_MIN_HEIGHT,
-    SCROLL_DISTANCE
+    SCROLL_DISTANCE,
 }: AnimatedProfileWallBarProps) {
     const theme = useTheme();
     const { user } = useAuth();
@@ -74,7 +73,7 @@ export default function AnimatedProfileWallBar({
     }, [newAboutMe, aboutMe]);
 
 
-    if (user) {
+    if (!user) {
         return (
             <View style={styles.errorContainer}>
                 <Text style={{
@@ -146,6 +145,5 @@ const styles = StyleSheet.create({
         fontSize: typography.FONT_SIZE_20,
         textAlign: 'center',
 
-    }
-
-})
+    },
+});

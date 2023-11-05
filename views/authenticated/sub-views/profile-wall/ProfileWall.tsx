@@ -38,7 +38,7 @@ export default function ProfileWall({ navigation, route }: ProfileWallProps) {
     const scrollOffsetY = useRef(new Animated.Value(0)).current;
 
     const isMyProfile = (user && (user.uid === userUID) || userUID === undefined) ? true : false;
-    const HEADER_MAX_HEIGHT = 350;
+    const HEADER_MAX_HEIGHT = 360;
     const HEADER_MIN_HEIGHT = 80;
     const SCROLL_DISTANCE = HEADER_MAX_HEIGHT - HEADER_MIN_HEIGHT;
 

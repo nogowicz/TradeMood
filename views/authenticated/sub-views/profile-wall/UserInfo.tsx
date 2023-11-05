@@ -9,6 +9,7 @@ import { useAuth } from 'store/AuthProvider';
 import { FormattedMessage, useIntl } from 'react-intl';
 import { useTheme } from 'store/ThemeContext';
 import CustomImage from 'components/custom-image';
+import { useFollowing } from 'store/FollowingProvider';
 
 type UserInfoProps = {
     userUID?: string;
@@ -27,11 +28,12 @@ export default function UserInfo({
     photoURL,
     newAboutMe,
     setNewAboutMe,
-    displayName
+    displayName,
 }: UserInfoProps) {
     const { user } = useAuth();
     const intl = useIntl();
     const theme = useTheme();
+    const { getFollowersCount, getFollowingCount } = useFollowing();
     const navigation = useNavigation<NativeStackNavigationProp<RootStackParamList>>();
 
     const [focus, setFocus] = useState(false);
@@ -53,7 +55,7 @@ export default function UserInfo({
 
     const textTranslateY = value.interpolate({
         inputRange: [0, SCROLL_DISTANCE],
-        outputRange: [0, -225],
+        outputRange: [0, -195],
         extrapolate: 'clamp',
     });
 
@@ -135,12 +137,14 @@ export default function UserInfo({
                                 ...styles.profileImage
                             }} />
                     </TouchableOpacity>}
-            </Animated.View><Animated.Text style={{
+            </Animated.View>
+            <Animated.Text style={{
                 ...styles.nameText,
                 fontSize: textSize,
                 color: theme.TERTIARY,
                 transform: [{ translateY: textTranslateY }],
-            }}>{userUID ? displayName : user.displayName}</Animated.Text><Animated.View style={{
+            }}>{userUID ? displayName : user.displayName}</Animated.Text>
+            <Animated.View style={{
                 transform: [{
                     translateY: logoTranslateY,
                 }],
@@ -148,21 +152,36 @@ export default function UserInfo({
                 width: '100%',
                 minHeight: '100%'
             }}>
-                <TextInput
+                <View style={styles.followersContainer}>
+                    <Text style={{
+                        ...styles.followersText,
+                        color: theme.TERTIARY,
+                    }}>Followers: {isMyProfile ? getFollowersCount(user.uid) : userUID && getFollowersCount(userUID)}</Text>
+                    <Text style={{
+                        ...styles.followersText,
+                        color: theme.TERTIARY,
+                    }}>Following: {isMyProfile ? getFollowingCount(user.uid) : userUID && getFollowingCount(userUID)}</Text>
+                </View>
+                <View
                     style={[{
                         ...styles.aboutMeText,
                         borderWidth: isMyProfile ? 2 : 0,
                         borderColor: focus ? theme.PRIMARY : theme.LIGHT_HINT,
-                        color: theme.TERTIARY,
-                    }]}
-                    value={newAboutMe}
-                    onChangeText={(text: string) => setNewAboutMe(text)}
-                    placeholder={isMyProfile ? aboutMeTranslation : ""}
-                    multiline={true}
-                    editable={isMyProfile}
-                    maxLength={280}
-                    onFocus={() => setFocus(true)}
-                    onBlur={() => setFocus(false)} />
+                    }]}>
+                    <TextInput
+                        style={{
+                            color: theme.TERTIARY,
+                        }}
+                        value={newAboutMe}
+                        onChangeText={(text: string) => setNewAboutMe(text)}
+                        placeholder={isMyProfile ? aboutMeTranslation : ""}
+                        multiline={true}
+                        editable={isMyProfile}
+                        maxLength={120}
+                        onFocus={() => setFocus(true)}
+                        onBlur={() => setFocus(false)}
+                    />
+                </View>
             </Animated.View>
         </>
     )
@@ -180,12 +199,24 @@ const styles = StyleSheet.create({
         borderRadius: constants.BORDER_RADIUS.CIRCLE,
         width: constants.ICON_SIZE.PROFILE_WALL_PHOTO,
         height: constants.ICON_SIZE.PROFILE_WALL_PHOTO,
-        marginVertical: spacing.SCALE_20,
+        marginVertical: spacing.SCALE_12,
     },
     nameText: {
         ...typography.FONT_BOLD,
         fontWeight: typography.FONT_WEIGHT_BOLD,
         textAlign: 'center',
+    },
+    followersContainer: {
+        flexDirection: 'row',
+        justifyContent: 'center',
+        alignItems: 'center',
+        gap: spacing.SCALE_60,
+        marginTop: spacing.SCALE_8,
+    },
+    followersText: {
+        ...typography.FONT_BOLD,
+        fontWeight: typography.FONT_WEIGHT_BOLD,
+        fontSize: typography.FONT_SIZE_16
     },
     errorContainer: {
         justifyContent: 'center',
