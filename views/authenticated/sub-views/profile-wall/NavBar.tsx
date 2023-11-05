@@ -74,7 +74,7 @@ export default function NavBar({
                             size={constants.ICON_SIZE.GO_BACK}
                         >
                             <SaveButtonIcon
-                                strokeWidth={constants.STROKE_WIDTH.MEDIUM}
+                                strokeWidth={constants.STROKE_WIDTH.HIGH}
                                 stroke={theme.TERTIARY}
                                 width={constants.ICON_SIZE.SMALL_ICON}
                                 height={constants.ICON_SIZE.SMALL_ICON}
@@ -98,13 +98,13 @@ export default function NavBar({
                 >
                     {isFollowingState ?
                         <CheckIcon
-                            strokeWidth={constants.STROKE_WIDTH.MEDIUM}
+                            strokeWidth={constants.STROKE_WIDTH.HIGH}
                             stroke={theme.TERTIARY}
                             width={constants.ICON_SIZE.ICON - 10}
                             height={constants.ICON_SIZE.ICON - 10}
                         /> :
                         <PlusIcon
-                            strokeWidth={constants.STROKE_WIDTH.MEDIUM}
+                            strokeWidth={constants.STROKE_WIDTH.HIGH}
                             stroke={theme.TERTIARY}
                             width={constants.ICON_SIZE.ICON - 10}
                             height={constants.ICON_SIZE.ICON - 10}
