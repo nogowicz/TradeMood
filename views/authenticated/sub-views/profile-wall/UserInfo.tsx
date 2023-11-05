@@ -36,9 +36,11 @@ export default function UserInfo({
     const { getFollowersCount, getFollowingCount } = useFollowing();
     const navigation = useNavigation<NativeStackNavigationProp<RootStackParamList>>();
 
+    const [followers, setFollowers] = useState(0);
+    const [following, setFollowing] = useState(0);
     const [focus, setFocus] = useState(false);
 
-    const isMyProfile = (user && (user.uid === userUID) || userUID === undefined) ? true : false;
+    const isMyProfile = ((user && (user.uid === userUID)) || userUID === undefined) ? true : false;
 
     //translations:
     const aboutMeTranslation = intl.formatMessage({
@@ -55,7 +57,7 @@ export default function UserInfo({
 
     const textTranslateY = value.interpolate({
         inputRange: [0, SCROLL_DISTANCE],
-        outputRange: [0, -195],
+        outputRange: [0, -190],
         extrapolate: 'clamp',
     });
 
@@ -88,6 +90,25 @@ export default function UserInfo({
             keyboardDidHideListener.remove();
         };
     }, []);
+
+    useEffect(() => {
+        if (user) {
+            getFollowersCount(userUID ? userUID : user?.uid)
+                .then(followersVar => {
+                    setFollowers(followersVar);
+                })
+                .catch(error => {
+                    console.error('Error occurred while fetching followers:', error);
+                });
+            getFollowingCount(userUID ? userUID : user?.uid)
+                .then(followersVar => {
+                    setFollowing(followersVar);
+                })
+                .catch(error => {
+                    console.error('Error occurred while fetching following:', error);
+                });
+        }
+    }, [user, userUID, getFollowersCount, getFollowingCount]);
 
 
     if (!user) {
@@ -129,7 +150,7 @@ export default function UserInfo({
                         }} /> :
                     <TouchableOpacity
                         activeOpacity={constants.ACTIVE_OPACITY.HIGH}
-                        onPress={() => navigation.navigate(SCREENS.HOME.EDIT_PICTURE.ID as never)}
+                        onPress={() => navigation.navigate(SCREENS.HOME.EDIT_PICTURE.ID)}
                     >
                         <CustomImage
                             url={user.photoURL}
@@ -156,11 +177,11 @@ export default function UserInfo({
                     <Text style={{
                         ...styles.followersText,
                         color: theme.TERTIARY,
-                    }}>Followers: {isMyProfile ? getFollowersCount(user.uid) : userUID && getFollowersCount(userUID)}</Text>
+                    }}>Followers: {followers}</Text>
                     <Text style={{
                         ...styles.followersText,
                         color: theme.TERTIARY,
-                    }}>Following: {isMyProfile ? getFollowingCount(user.uid) : userUID && getFollowingCount(userUID)}</Text>
+                    }}>Following: {following}</Text>
                 </View>
                 <View
                     style={[{
