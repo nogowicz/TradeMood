@@ -1,5 +1,5 @@
 import { Animated, StyleSheet, Text, View } from 'react-native'
-import React, { useEffect, useRef, useState } from 'react'
+import React, { useLayoutEffect, useRef, useState } from 'react'
 import { NativeStackScreenProps } from '@react-navigation/native-stack';
 import { RootStackParamList } from '@views/navigation/Navigation';
 import { useTheme } from 'store/ThemeContext';
@@ -58,7 +58,7 @@ export default function ProfileWall({ navigation, route }: ProfileWallProps) {
 
 
 
-    useEffect(() => {
+    useLayoutEffect(() => {
         if (isMyProfile && user) {
             fetchUserPosts(user.uid);
         } else if (userUID) {

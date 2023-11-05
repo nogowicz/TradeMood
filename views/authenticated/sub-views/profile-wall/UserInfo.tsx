@@ -1,5 +1,5 @@
 import { Animated, Keyboard, StyleSheet, Text, TextInput, TouchableOpacity, View } from 'react-native';
-import React, { Dispatch, SetStateAction, useEffect, useState } from 'react';
+import React, { Dispatch, SetStateAction, useEffect, useLayoutEffect, useState } from 'react';
 import { SCREENS } from '@views/navigation/constants';
 import { constants, spacing, typography } from 'styles';
 import { useNavigation } from '@react-navigation/native';
@@ -8,8 +8,9 @@ import { RootStackParamList } from '@views/navigation/Navigation';
 import { useAuth } from 'store/AuthProvider';
 import { FormattedMessage, useIntl } from 'react-intl';
 import { useTheme } from 'store/ThemeContext';
-import CustomImage from 'components/custom-image';
 import { useFollowing } from 'store/FollowingProvider';
+
+import CustomImage from 'components/custom-image';
 import Snackbar from 'react-native-snackbar';
 
 type UserInfoProps = {
@@ -97,7 +98,7 @@ export default function UserInfo({
         };
     }, []);
 
-    useEffect(() => {
+    useLayoutEffect(() => {
         if (user) {
             getFollowersCount(userUID ? userUID : user?.uid)
                 .then(followersVar => {

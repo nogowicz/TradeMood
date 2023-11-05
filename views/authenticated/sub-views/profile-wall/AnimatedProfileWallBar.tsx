@@ -1,5 +1,5 @@
 import { Animated, Keyboard, StyleSheet, Text, View } from 'react-native'
-import React, { Dispatch, SetStateAction, useEffect, useState } from 'react'
+import React, { Dispatch, SetStateAction, useLayoutEffect, useState } from 'react'
 import { useTheme } from 'store/ThemeContext'
 import { useAuth } from 'store/AuthProvider';
 import { spacing, typography } from 'styles';
@@ -45,7 +45,7 @@ export default function AnimatedProfileWallBar({
 
 
 
-    useEffect(() => {
+    useLayoutEffect(() => {
         async function getUserDetails() {
             if (userUID) {
                 const userDoc = await firestore().collection('users').doc(userUID).get();
@@ -64,7 +64,7 @@ export default function AnimatedProfileWallBar({
         getUserDetails();
     }, [userUID]);
 
-    useEffect(() => {
+    useLayoutEffect(() => {
         if (newAboutMe !== aboutMe) {
             setIsSaveButtonAvailable(true);
         } else {
