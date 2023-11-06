@@ -9,13 +9,13 @@ import { useTheme } from 'store/ThemeContext';
 
 type InstrumentRecordProps = {
     crypto: string;
-    sentiment: string;
+    overallSentiment: string;
     sentimentDirection: string;
     photoUrl: string;
     onPress: () => void;
 }
 const photoSize = 50;
-export default function InstrumentRecord({ crypto, sentiment, sentimentDirection, photoUrl, onPress }: InstrumentRecordProps) {
+export default function InstrumentRecord({ crypto, overallSentiment, sentimentDirection, photoUrl, onPress }: InstrumentRecordProps) {
     const theme = useTheme();
     return (
         <TouchableOpacity
@@ -35,25 +35,25 @@ export default function InstrumentRecord({ crypto, sentiment, sentimentDirection
             <View style={styles.middleContainer}>
                 <Text style={[styles.titleText, { color: theme.TERTIARY }]}>{crypto}</Text>
                 <Text style={[styles.titleText, { color: theme.TERTIARY },
-                sentiment === 'Positive' && { color: theme.POSITIVE },
-                sentiment === 'Neutral' && { color: theme.HINT },
-                sentiment === 'Negative' && { color: theme.NEGATIVE }
+                overallSentiment === 'Positive' && { color: theme.POSITIVE },
+                overallSentiment === 'Neutral' && { color: theme.HINT },
+                overallSentiment === 'Negative' && { color: theme.NEGATIVE }
                 ]}>
-                    {sentiment === "Positive" &&
+                    {overallSentiment === "Positive" &&
                         <FormattedMessage
                             defaultMessage='Positive'
                             id='views.home.overview.trending-now.positive'
                         />
                     }
 
-                    {sentiment === "Neutral" &&
+                    {overallSentiment === "Neutral" &&
                         <FormattedMessage
                             defaultMessage='Neutral'
                             id='views.home.overview.trending-now.neutral'
                         />
                     }
 
-                    {sentiment === "Negative" &&
+                    {overallSentiment === "Negative" &&
                         <FormattedMessage
                             defaultMessage='Negative'
                             id='views.home.overview.trending-now.negative'

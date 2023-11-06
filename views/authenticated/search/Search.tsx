@@ -30,8 +30,8 @@ export default function Search({ navigation }: SearchProps) {
             const filtered = instruments?.filter((instrument: InstrumentProps) => {
                 return (
                     instrument.crypto.toLowerCase().includes(searchText.toLowerCase()) ||
-                    instrument.stockSymbol.toLowerCase().includes(searchText.toLowerCase()) ||
-                    instrument.sentiment.toLowerCase().includes(searchText.toLowerCase())
+                    instrument.cryptoSymbol.toLowerCase().includes(searchText.toLowerCase()) ||
+                    instrument.overallSentiment.toLowerCase().includes(searchText.toLowerCase())
                 );
             });
             setFilteredInstruments(filtered);
@@ -92,7 +92,7 @@ export default function Search({ navigation }: SearchProps) {
                                     key={instrument.id}
                                     crypto={instrument.crypto}
                                     sentimentDirection={instrument.sentimentDirection}
-                                    sentiment={instrument.sentiment}
+                                    overallSentiment={instrument.overallSentiment}
                                     photoUrl={instrument.photoUrl}
                                     onPress={() => {
                                         navigation.navigate(SCREENS.HOME.INSTRUMENT_DETAILS.ID, { instrument: instrument } as any);

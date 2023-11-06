@@ -34,7 +34,7 @@ export default function Overview({ navigation }: OverviewProps) {
     const instruments = useContext(InstrumentContext);
     const { favoriteCrypto } = useFavoriteCrypto();
     const { followeesPosts } = useFolloweesPosts();
-
+    console.log(instruments)
 
     return (
         <SafeAreaView style={[styles.root, { backgroundColor: theme.BACKGROUND }]}>
@@ -113,7 +113,7 @@ export default function Overview({ navigation }: OverviewProps) {
                                             key={instrument.id}
                                             crypto={instrument.crypto}
                                             sentimentDirection={instrument.sentimentDirection}
-                                            sentiment={instrument.sentiment}
+                                            overallSentiment={instrument.overallSentiment}
                                             photoUrl={instrument.photoUrl}
                                             onPress={() => {
                                                 navigation.navigate(SCREENS.HOME.INSTRUMENT_DETAILS.ID, { instrument: instrument } as any);

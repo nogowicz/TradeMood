@@ -13,16 +13,16 @@ type InstrumentProviderProps = {
 
 export type InstrumentProps = {
     id: string;
-    stockSymbol: string;
+    cryptoSymbol: string;
     crypto: string;
-    activityTY: number;
-    activityTW: number;
+    activityDaily: number;
+    activityWeekly: number;
     sentimentPositive: number;
     sentimentNeutral: number;
     sentimentNegative: number;
-    sentiment: string;
+    overallSentiment: string;
     sentimentDirection: string;
-    time: FirebaseFirestoreTypes.Timestamp;
+    datetime: number;
     photoUrl: string;
 }
 
@@ -72,31 +72,31 @@ export function InstrumentProvider({ children }: InstrumentProviderProps) {
             const list: InstrumentProps[] = [];
             querySnapshot.forEach((doc) => {
                 const {
-                    stockSymbol,
+                    cryptoSymbol,
                     crypto,
-                    activityTY,
-                    activityTW,
+                    activityDaily,
+                    activityWeekly,
                     sentimentPositive,
                     sentimentNeutral,
                     sentimentNegative,
-                    sentiment,
+                    overallSentiment,
                     sentimentDirection,
-                    time,
+                    datetime,
                     photoUrl
                 } = doc.data();
 
                 const instrument: InstrumentProps = {
                     id: doc.id,
-                    stockSymbol,
+                    cryptoSymbol,
                     crypto,
-                    activityTY,
-                    activityTW,
+                    activityDaily,
+                    activityWeekly,
                     sentimentPositive,
                     sentimentNeutral,
                     sentimentNegative,
-                    sentiment,
+                    overallSentiment,
                     sentimentDirection,
-                    time,
+                    datetime,
                     photoUrl
                 };
 
@@ -108,34 +108,37 @@ export function InstrumentProvider({ children }: InstrumentProviderProps) {
 
             setInstruments(list);
 
-            const transactionPromises = list.map((instrument) => {
-                const documentRef = collectionRef.doc(instrument.crypto);
-                return firestore()
-                    .runTransaction(async (transaction) => {
-                        const snapshot = await transaction.get(documentRef);
-                        const existingData = snapshot.data();
-                        const newData = { ...existingData, instruments: instrument };
-                        transaction.set(documentRef, newData);
-                        AsyncStorage.setItem('instruments', JSON.stringify(list));
-                    })
-                    .catch((error) => {
-                        console.log('Error while saving instruments', error)
-                        Snackbar.show({
-                            text: fetchingDataErrorTranslation,
-                            duration: Snackbar.LENGTH_LONG,
-                        });
-                    });
-            });
 
-            Promise.all(transactionPromises)
-                .then(() => console.log('Instruments list saved to Firestore and AsyncStorage'))
-                .catch((error) => {
-                    console.log('Error while saving instruments', error)
-                    Snackbar.show({
-                        text: fetchingDataErrorTranslation,
-                        duration: Snackbar.LENGTH_SHORT,
-                    });
-                });
+            // const transactionPromises = list.map((instrument) => {
+            //     const documentRef = collectionRef.doc(instrument.crypto);
+            //     return firestore()
+            //         .runTransaction(async (transaction) => {
+            //             const snapshot = await transaction.get(documentRef);
+            //             const existingData = snapshot.data();
+            //             const newData = { ...existingData, instruments: instrument };
+            //             transaction.set(documentRef, newData);
+            //             AsyncStorage.setItem('instruments', JSON.stringify(list));
+            //         })
+            //         .catch((error) => {
+            //             console.log('Error while saving instruments', error)
+            //             Snackbar.show({
+            //                 text: fetchingDataErrorTranslation,
+            //                 duration: Snackbar.LENGTH_LONG,
+            //             });
+            //         });
+            // });
+
+            // Promise.all(transactionPromises)
+            //     .then(() => console.log('Instruments list saved to Firestore and AsyncStorage'))
+            //     .catch((error) => {
+            //         console.log('Error while saving instruments', error)
+            //         Snackbar.show({
+            //             text: fetchingDataErrorTranslation,
+            //             duration: Snackbar.LENGTH_SHORT,
+            //         });
+            //     });
+
+            AsyncStorage.setItem('instruments', JSON.stringify(list));
         });
 
         return () => unsubscribe();

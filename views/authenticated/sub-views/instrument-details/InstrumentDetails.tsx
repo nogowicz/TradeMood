@@ -59,8 +59,7 @@ export default function InstrumentDetails({ navigation, route }: InstrumentDetai
             </SafeAreaView >
         );
     } else {
-        const milliseconds = instrument.time.seconds * 1000 + instrument.time.nanoseconds / 1000000;
-        const date = new Date(milliseconds);
+        const date = new Date(instrument.datetime * 1000);
         const formattedUpdateDate = formatLongDate(date, intl);
 
         const onScroll = Animated.event(
@@ -103,7 +102,7 @@ export default function InstrumentDetails({ navigation, route }: InstrumentDetai
                                         id='views.home.instrument-details.todays-activity.weeks'
                                     />
                                 }
-                                activity={instrument.activityTW}
+                                activity={instrument.activityWeekly}
                             />
 
                             <ActivityCompare
@@ -113,7 +112,7 @@ export default function InstrumentDetails({ navigation, route }: InstrumentDetai
                                         id='views.home.instrument-details.todays-activity.yesterdays'
                                     />
                                 }
-                                activity={instrument.activityTY}
+                                activity={instrument.activityDaily}
                             />
                         </View>
                         <CustomChart
