@@ -36,6 +36,7 @@ export default function ProfileWall({ navigation, route }: ProfileWallProps) {
     const [newAboutMe, setNewAboutMe] = useState<string>("");
     const [userPosts, setUserPosts] = useState<PostType[]>();
     const scrollOffsetY = useRef(new Animated.Value(0)).current;
+    const scrollRef = useRef(null);
 
     const isMyProfile = (user && (user.uid === userUID) || userUID === undefined) ? true : false;
     const HEADER_MAX_HEIGHT = 360;
@@ -91,12 +92,13 @@ export default function ProfileWall({ navigation, route }: ProfileWallProps) {
                     onScroll={onScroll}
                     showsVerticalScrollIndicator={false}
                     scrollEventThrottle={16}
+                    ref={scrollRef}
+
                 >
                     <Text style={[{
                         ...styles.sectionTitle,
                         color: theme.TERTIARY
                     }]}>Your wall</Text>
-                    {isMyProfile && <DiscussionTextArea isProfileImage={false} />}
                     <Animated.View>
                         {(userPosts && userPosts.length > 0) && userPosts.map((post: PostType) => (
                             <Post
