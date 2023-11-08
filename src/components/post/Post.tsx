@@ -121,7 +121,7 @@ export default function Post({
                                 color: theme.TERTIARY,
                             }]}>{displayName}</Text>
                     </TouchableOpacity>
-                    {(user && user.uid !== userUID) &&
+                    {(user && user.uid !== userUID && !user.isAnonymous) &&
                         <IconButton
                             onPress={() => toggleFollowUser(userUID)}
                             size={constants.ICON_SIZE.ICON}

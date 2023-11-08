@@ -29,7 +29,6 @@ function FollowingContextProvider({ children }: FollowingContextProviderProps) {
 
     useEffect(() => {
         const user = firebase.auth().currentUser;
-        console.log("kaka")
         if (user) {
             const userRef = firebase.firestore().collection('users').doc(user.uid);
             const unsubscribe = userRef.onSnapshot((doc) => {

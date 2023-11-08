@@ -12,13 +12,13 @@ import TrendingNow from 'components/trending-now';
 import { InstrumentContext, InstrumentProps, getMaxSentimentPositive } from 'store/InstrumentProvider';
 import InstrumentRecord from 'components/instrument-record';
 import { useTheme } from 'store/ThemeContext';
-
-import Discussion from 'assets/icons/Discussion-Inactive.svg'
-import Search from 'assets/icons/Search.svg'
 import { useFavoriteCrypto } from 'hooks/useFavoriteCrypto';
 import { useFolloweesPosts } from 'hooks/useFolloweesPosts';
 import { PostType } from 'store/PostsProvider';
 import Post from 'components/post';
+
+import Discussion from 'assets/icons/Discussion-Inactive.svg'
+import Search from 'assets/icons/Search.svg'
 
 
 type OverviewScreenNavigationProp = NativeStackScreenProps<RootStackParamList, 'Overview'>;
@@ -62,7 +62,13 @@ export default function Overview({ navigation }: OverviewProps) {
                         displayName={user?.displayName}
                         imageUrl={user?.photoURL}
                         isAnonymous={user?.isAnonymous}
-                        onPress={() => navigation.navigate(SCREENS.HOME.PROFILE_WALL.ID)}
+                        onPress={() => {
+                            if (user?.isAnonymous) {
+                                navigation.navigate(SCREENS.HOME.PROFILE.ID);
+                            } else {
+                                navigation.navigate(SCREENS.HOME.PROFILE_WALL.ID)
+                            }
+                        }}
                     />
                 </View>
                 <View style={styles.mainContainer}>

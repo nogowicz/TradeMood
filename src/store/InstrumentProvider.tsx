@@ -63,7 +63,7 @@ export function InstrumentProvider({ children }: InstrumentProviderProps) {
                 });
             }
         };
-
+        console.log("FETCH INSTRUMENTS:")
         fetchInstruments();
     }, []);
 
