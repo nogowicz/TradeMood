@@ -160,3 +160,21 @@ export function useInstrument() {
 
     return instruments;
 }
+
+export function getMaxSentimentPositive(data: InstrumentProps[] | undefined): InstrumentProps | undefined {
+    if (data) {
+
+        if (data.length === 0) {
+            return undefined;
+        }
+
+        let maxSentimentPositive = data[0];
+        for (let i = 1; i < data.length; i++) {
+            if (data[i].sentimentPositive > maxSentimentPositive.sentimentPositive) {
+                maxSentimentPositive = data[i];
+            }
+        }
+
+        return maxSentimentPositive;
+    }
+}

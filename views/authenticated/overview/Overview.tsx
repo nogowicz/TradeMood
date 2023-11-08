@@ -9,7 +9,7 @@ import ProfileBar from 'components/profile-bar';
 import IconButton from 'components/buttons/icon-button';
 import { SCREENS } from '@views/navigation/constants';
 import TrendingNow from 'components/trending-now';
-import { InstrumentContext, InstrumentProps } from 'store/InstrumentProvider';
+import { InstrumentContext, InstrumentProps, getMaxSentimentPositive } from 'store/InstrumentProvider';
 import InstrumentRecord from 'components/instrument-record';
 import { useTheme } from 'store/ThemeContext';
 
@@ -34,7 +34,9 @@ export default function Overview({ navigation }: OverviewProps) {
     const instruments = useContext(InstrumentContext);
     const { favoriteCrypto } = useFavoriteCrypto();
     const { followeesPosts } = useFolloweesPosts();
-    console.log(instruments)
+
+
+    const trendingInstrument: InstrumentProps | undefined = getMaxSentimentPositive(instruments);
 
     return (
         <SafeAreaView style={[styles.root, { backgroundColor: theme.BACKGROUND }]}>
@@ -78,16 +80,16 @@ export default function Overview({ navigation }: OverviewProps) {
                     <View>
 
                         <TrendingNow
-                            name={instruments ? instruments[0].crypto : ''}
+                            name={trendingInstrument ? trendingInstrument.crypto : ''}
                             title={
                                 <FormattedMessage
                                     defaultMessage='Trending Now'
                                     id='views.home.overview.trending-now.title'
                                 />
                             }
-                            positive={instruments ? instruments[0].sentimentPositive : 0}
-                            neutral={instruments ? instruments[0].sentimentNeutral : 0}
-                            negative={instruments ? instruments[0].sentimentNegative : 0}
+                            positive={trendingInstrument ? trendingInstrument.sentimentPositive : 0}
+                            neutral={trendingInstrument ? trendingInstrument.sentimentNeutral : 0}
+                            negative={trendingInstrument ? trendingInstrument.sentimentNegative : 0}
                             trendingWidget
                             onPress={() => {
                                 if (instruments && instruments.length > 0) {
