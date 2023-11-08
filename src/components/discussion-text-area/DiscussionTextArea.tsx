@@ -90,7 +90,7 @@ export default function DiscussionTextArea({ isProfileImage = true }: Discussion
                             isBorder={false}
                         >
                             <SendIcon
-                                stroke={focus ? theme.PRIMARY : theme.LIGHT_HINT}
+                                stroke={focus || text.length > 0 ? theme.PRIMARY : theme.LIGHT_HINT}
                                 strokeWidth={constants.STROKE_WIDTH.MEDIUM}
                             />
                         </IconButton>
