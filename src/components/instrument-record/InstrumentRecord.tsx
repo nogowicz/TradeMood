@@ -1,4 +1,4 @@
-import { StyleSheet, Text, View, TouchableOpacity, Image, } from 'react-native'
+import { StyleSheet, Text, View, TouchableOpacity, } from 'react-native'
 import React from 'react'
 import { constants, spacing, typography } from 'styles'
 import { FormattedMessage } from 'react-intl';
@@ -6,6 +6,7 @@ import { FormattedMessage } from 'react-intl';
 import Placeholder from 'assets/icons/crypto-placeholder.svg'
 import Arrow from 'assets/icons/Go-forward.svg';;
 import { useTheme } from 'store/ThemeContext';
+import CustomImage from 'components/custom-image';
 
 type InstrumentRecordProps = {
     crypto: string;
@@ -24,7 +25,7 @@ export default function InstrumentRecord({ crypto, overallSentiment, sentimentDi
             onPress={onPress}
         >
             {photoUrl ?
-                <Image
+                <CustomImage
                     source={{ uri: photoUrl }}
                     style={{
                         width: photoSize,
