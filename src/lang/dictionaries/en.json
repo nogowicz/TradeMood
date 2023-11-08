@@ -151,8 +151,8 @@
   "date.day.friday": "Friday",
   "date.day.saturday": "Saturday",
   "views.home.instrument-details.chart.last-week": "Last week",
-  "views.home.instrument-details.chart.last-month": "Last Month",
-  "views.home.instrument-details.chart.last-year": "Last Year",
+  "views.home.instrument-details.chart.last-month": "Last month",
+  "views.home.instrument-details.chart.last-year": "Last year",
   "views.home.discussion.text-input.placeholder": "Want to share something?",
   "views.home.discussion.error.like": "An error occurred while trying to like a post",
   "views.home.discussion.error.deleting": "An error occurred while trying to delete a post",
@@ -177,5 +177,6 @@
   "views.home.profile.your-profile": "Your Profile",
   "views.home.profile-wall.about-me.placeholder": "Tell something about yourself",
   "views.home.profile-wall.about-me.error": "Error occurred, try again later",
-  "views.home.profile-wall.about-me.followers-error": "Error occurred while fetching followers"
+  "views.home.profile-wall.about-me.followers-error": "Error occurred while fetching followers",
+  "views.home.instrument-details.chart.section-title.chart": "Price history"
 }

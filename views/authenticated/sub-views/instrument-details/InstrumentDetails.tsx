@@ -115,6 +115,15 @@ export default function InstrumentDetails({ navigation, route }: InstrumentDetai
                                 activity={instrument.activityDaily}
                             />
                         </View>
+                        <Text style={{
+                            ...styles.sectionTitle,
+                            color: theme.TERTIARY
+                        }}>
+                            <FormattedMessage
+                                defaultMessage='Price history'
+                                id='views.home.instrument-details.chart.section-title.chart'
+                            />
+                        </Text>
                         <CustomChart
                             instrument={instrument}
                         />
@@ -153,9 +162,9 @@ const styles = StyleSheet.create({
     },
     sectionTitle: {
         ...typography.FONT_BOLD,
-        fontSize: typography.FONT_SIZE_28,
+        fontSize: typography.FONT_SIZE_20,
         fontWeight: typography.FONT_WEIGHT_BOLD,
-        textAlign: 'center',
+        marginBottom: spacing.SCALE_20,
     },
     mainContainer: {
         flex: 1,
