@@ -5,7 +5,7 @@ import {
     View,
 } from 'react-native'
 import React, { useContext, useState } from 'react'
-import { spacing } from 'styles';
+import { constants, spacing } from 'styles';
 import { LangContext } from '../../lang/LangProvider';
 import { FormattedMessage } from 'react-intl';
 import { Entry } from '@views/authenticated/sub-views/app-settings/AppSettings';
@@ -43,19 +43,22 @@ export default function LanguageRadioButton({ values }: RadioButtonProps) {
         <View>
             {values.map(res => {
                 return (
-                    <View key={res.key} style={styles.container}>
-                        <TouchableOpacity
-                            style={[styles.radioCircle, { borderColor: theme.TERTIARY }]}
-                            onPress={() => {
-                                setLanguage(res.value)
-                                setValue(res.key);
-                            }}>
+                    <TouchableOpacity
+                        key={res.key}
+                        style={styles.container}
+                        activeOpacity={constants.ACTIVE_OPACITY.MEDIUM}
+                        onPress={() => {
+                            setLanguage(res.value)
+                            setValue(res.key);
+                        }}
+                    >
+                        <View style={[styles.radioCircle, { borderColor: theme.TERTIARY }]}>
                             {value === res.key && <View style={[styles.selectedRb, { backgroundColor: theme.TERTIARY }]} />}
-                        </TouchableOpacity>
+                        </View>
                         <Text style={[styles.radioText, { color: theme.TERTIARY }]}>
                             {languageTranslation[res.key]()}
                         </Text>
-                    </View>
+                    </TouchableOpacity>
                 );
             })}
         </View>

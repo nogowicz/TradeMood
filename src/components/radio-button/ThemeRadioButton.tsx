@@ -6,7 +6,7 @@ import {
     Appearance,
 } from 'react-native'
 import React, { useEffect, useState } from 'react'
-import { spacing } from 'styles';
+import { constants, spacing } from 'styles';
 import { FormattedMessage } from 'react-intl';
 import { useTheme } from 'store/ThemeContext';
 import { EventRegister } from 'react-native-event-listeners';
@@ -63,20 +63,23 @@ export default function ThemeRadioButton({ values }: RadioButtonProps) {
         <View>
             {values.map(res => {
                 return (
-                    <View key={res.key} style={styles.container}>
-                        <TouchableOpacity
-                            style={[styles.radioCircle, { borderColor: theme.TERTIARY }]}
-                            onPress={() => {
-                                EventRegister.emit("changeTheme", res.value);
-                                setThemeMode(res.value)
-                                setItem('theme', res.value.toString());
-                            }}>
+                    <TouchableOpacity
+                        key={res.key}
+                        style={styles.container}
+                        activeOpacity={constants.ACTIVE_OPACITY.MEDIUM}
+                        onPress={() => {
+                            EventRegister.emit("changeTheme", res.value);
+                            setThemeMode(res.value)
+                            setItem('theme', res.value.toString());
+                        }}
+                    >
+                        <View style={[styles.radioCircle, { borderColor: theme.TERTIARY }]}>
                             {themeMode === res.value && <View style={[styles.selectedRb, { backgroundColor: theme.TERTIARY }]} />}
-                        </TouchableOpacity>
+                        </View>
                         <Text style={[styles.radioText, { color: theme.TERTIARY }]}>
                             {themeTranslation[res.key]()}
                         </Text>
-                    </View>
+                    </TouchableOpacity>
                 );
             })}
         </View>
