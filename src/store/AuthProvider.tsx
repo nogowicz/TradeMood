@@ -68,7 +68,7 @@ export function AuthProvider({ children }: AuthProviderProps) {
                     .then((userCredential) => {
                         const user = userCredential.user;
                         let displayName = `${firstName.trim()} ${lastName.trim()}`;
-                        let photoURL = imageUrl || null;
+                        let photoURL = imageUrl || "";
                         const aboutMe = "";
 
                         if (photoURL) {
@@ -78,7 +78,8 @@ export function AuthProvider({ children }: AuthProviderProps) {
                             })
                         } else {
                             user.updateProfile({
-                                displayName: displayName
+                                displayName: displayName,
+                                photoURL: ""
                             })
                         }
 

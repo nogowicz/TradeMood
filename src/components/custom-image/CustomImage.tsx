@@ -1,9 +1,9 @@
 import { StyleProp, View, ImageSourcePropType, Image, ImageStyle, Text } from 'react-native';
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import SkeletonPlaceholder from 'react-native-skeleton-placeholder';
 
 type ImageProps = {
-    url?: string | null;
+    url?: string;
     source?: number | undefined | ImageSourcePropType | any;
     style: StyleProp<ImageStyle>;
     size?: number;
@@ -11,32 +11,33 @@ type ImageProps = {
 
 export default function CustomImage({ url, source, style, size }: ImageProps) {
     const [isImageDownloading, setIsImageDownloading] = useState(true);
-    const [isImageLoadError, setIsImageLoadError] = useState(false);
+    const [imageSource, setImageSource] = useState<ImageSourcePropType>();
 
     const handleImageLoadStart = () => {
         setIsImageDownloading(true);
-        setIsImageLoadError(false);
     };
 
     const handleImageLoadEnd = () => {
         setIsImageDownloading(false);
     };
 
-    const handleImageError = () => {
-        setIsImageDownloading(false);
-        setIsImageLoadError(true);
-    };
-
+    useEffect(() => {
+        if (url) {
+            setImageSource({ uri: url });
+        } else if (source) {
+            setImageSource(source);
+        }
+    }, [url, source]);
     return (
         <>
-            {(url || source) && isImageDownloading && !isImageLoadError && (
+            {(url || source) && isImageDownloading && (
                 <SkeletonPlaceholder>
                     <View style={style} />
                 </SkeletonPlaceholder>
             )}
-            {(
+            {imageSource && (
                 <Image
-                    source={url ? { uri: url } : source}
+                    source={imageSource}
                     style={[
                         {
                             height: size,
@@ -48,7 +49,6 @@ export default function CustomImage({ url, source, style, size }: ImageProps) {
                     ]}
                     onLoadStart={handleImageLoadStart}
                     onLoadEnd={handleImageLoadEnd}
-                    onError={handleImageError}
                 />
             )}
         </>

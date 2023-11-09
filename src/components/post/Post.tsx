@@ -1,6 +1,6 @@
 import { StyleSheet, Text, TouchableOpacity, View } from 'react-native'
 import React, { useLayoutEffect, useState } from 'react'
-import Image from 'components/custom-image';
+import CustomImage from 'components/custom-image';
 import { useTheme } from 'store/ThemeContext';
 import { constants, spacing, typography } from 'styles';
 import firestore from '@react-native-firebase/firestore';
@@ -105,12 +105,12 @@ export default function Post({
                         })}
                     >
                         {photoURL ? (
-                            <Image
+                            <CustomImage
                                 url={photoURL}
                                 style={{ width: imageSize, height: imageSize, borderRadius: imageSize / 2 }}
                             />
                         ) : (
-                            <Image
+                            <CustomImage
                                 source={require('assets/profile/profile-picture.png')}
                                 style={{ width: imageSize, height: imageSize, borderRadius: imageSize / 2 }}
                             />

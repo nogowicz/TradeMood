@@ -142,6 +142,7 @@ export default function UserInfo({
         );
     }
 
+
     return (
         <>
             <Animated.View style={{
@@ -157,22 +158,36 @@ export default function UserInfo({
                 flexDirection: 'column',
             }}>
 
-                {userUID && photoURL ?
+                {photoURL ?
                     <CustomImage
                         url={photoURL}
                         style={{
                             ...styles.profileImage
                         }} /> :
-                    <TouchableOpacity
-                        activeOpacity={constants.ACTIVE_OPACITY.HIGH}
-                        onPress={() => navigation.navigate(SCREENS.HOME.EDIT_PICTURE.ID)}
-                    >
+                    !userUID || userUID === user.uid ?
+                        <TouchableOpacity
+                            activeOpacity={constants.ACTIVE_OPACITY.HIGH}
+                            onPress={() => navigation.navigate(SCREENS.HOME.EDIT_PICTURE.ID)}
+                        >
+                            {user.photoURL ?
+                                <CustomImage
+                                    url={user.photoURL}
+                                    style={{
+                                        ...styles.profileImage
+                                    }} /> :
+                                <CustomImage
+                                    source={require('assets/profile/profile-picture.png')}
+                                    style={{
+                                        ...styles.profileImage
+                                    }} />
+                            }
+                        </TouchableOpacity> :
                         <CustomImage
-                            url={user.photoURL}
+                            source={require('assets/profile/profile-picture.png')}
                             style={{
                                 ...styles.profileImage
                             }} />
-                    </TouchableOpacity>}
+                }
             </Animated.View>
             <Animated.Text style={{
                 ...styles.nameText,
