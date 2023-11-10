@@ -201,7 +201,6 @@ export default function UserInfo({
                 }],
                 opacity: animatedOpacity,
                 width: '100%',
-                minHeight: '100%'
             }}>
                 <View style={styles.followersContainer}>
                     <Text style={{
