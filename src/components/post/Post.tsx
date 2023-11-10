@@ -1,5 +1,5 @@
 import { StyleSheet, Text, TouchableOpacity, View } from 'react-native'
-import React, { useLayoutEffect, useState } from 'react'
+import React, { useEffect, useLayoutEffect, useState } from 'react'
 import CustomImage from 'components/custom-image';
 import { useTheme } from 'store/ThemeContext';
 import { constants, spacing, typography } from 'styles';
@@ -69,14 +69,16 @@ export default function Post({
             }
         }
     }
+    useEffect(() => {
+        trashScale.value = withTiming(isTrashVisible ? 1 : 0, {
+            duration: 200,
+            easing: Easing.inOut(Easing.ease),
+        });
+    }, [isTrashVisible])
 
 
     function handleToggleTrash() {
         setIsTrashVisible(!isTrashVisible);
-        trashScale.value = withTiming(isTrashVisible ? 1 : 0, {
-            duration: 300,
-            easing: Easing.inOut(Easing.ease),
-        });
     }
 
     const animatedStyle = useAnimatedStyle(() => {
@@ -147,7 +149,7 @@ export default function Post({
                         gap: spacing.SCALE_8,
                     }}>
 
-                        <Animated.View style={animatedStyle}>
+                        <Animated.View style={animatedStyle} testID='trashIcon'>
                             <IconButton
                                 onPress={() => deletePost(uid)}
                                 size={constants.ICON_SIZE.ACTIVITY_INDICATOR}
@@ -157,16 +159,18 @@ export default function Post({
                         </Animated.View>
 
 
-                        <IconButton
-                            onPress={handleToggleTrash}
-                            size={constants.ICON_SIZE.ACTIVITY_INDICATOR}
-                            isBorder={false}
-                        >
-                            <ThreeDotsIcon fill={theme.TERTIARY} width={constants.ICON_SIZE.ACTIVITY_INDICATOR / 2} height={constants.ICON_SIZE.ACTIVITY_INDICATOR / 2} />
-                        </IconButton>
+                        <View testID='threeDotsIcon'>
+                            <IconButton
+                                onPress={handleToggleTrash}
+                                size={constants.ICON_SIZE.ACTIVITY_INDICATOR}
+                                isBorder={false}
+                            >
+                                <ThreeDotsIcon fill={theme.TERTIARY} width={constants.ICON_SIZE.ACTIVITY_INDICATOR / 2} height={constants.ICON_SIZE.ACTIVITY_INDICATOR / 2} />
+                            </IconButton>
+                        </View>
                     </View>
                 }
-            </View>
+            </View >
             <Text style={[
                 styles.contentText,
                 {

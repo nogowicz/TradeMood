@@ -29,14 +29,9 @@ function FavoritesContextProvider({ children }: FavoritesContextProviderProps) {
                 if (doc.exists) {
                     const data = doc.data();
                     if (data && data.favoriteCryptoIds) {
-                        console.log("FAVORITE CRYPTO ID'S: ", data.favoriteCryptoIds);
+                        console.log("FAVORITE CRYPTO IDS: ", data.favoriteCryptoIds);
                         setFavoriteCryptoIds(data.favoriteCryptoIds);
                     }
-                } else {
-                    const newData = {
-                        favoriteCryptoIds: [],
-                    };
-                    await userRef.set(newData);
                 }
             }
         };
