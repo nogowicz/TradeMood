@@ -178,5 +178,7 @@
   "views.home.profile-wall.about-me.placeholder": "Tell something about yourself",
   "views.home.profile-wall.about-me.error": "Error occurred, try again later",
   "views.home.profile-wall.about-me.followers-error": "Error occurred while fetching followers",
-  "views.home.instrument-details.chart.section-title.chart": "Price history"
+  "views.home.instrument-details.chart.section-title.chart": "Price history",
+  "views.home.profile-wall.about-me.your-wall": "Your wall",
+  "views.home.profile-wall.about-me.posts": "Posts"
 }

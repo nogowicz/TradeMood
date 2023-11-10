@@ -11,6 +11,7 @@ import { PostType, usePosts } from 'store/PostsProvider';
 import Post from 'components/post';
 import AnimatedProfileWallBar from './AnimatedProfileWallBar';
 import DiscussionTextArea from 'components/discussion-text-area/DiscussionTextArea';
+import { FormattedMessage } from 'react-intl';
 
 
 type ProfileWallScreenNavigationProp = NativeStackScreenProps<RootStackParamList, 'ProfileWall'>;
@@ -55,8 +56,6 @@ export default function ProfileWall({ navigation, route }: ProfileWallProps) {
         );
         setUserPosts(postsFilter);
     };
-
-
 
     useEffect(() => {
         if (isMyProfile && user) {
@@ -108,7 +107,17 @@ export default function ProfileWall({ navigation, route }: ProfileWallProps) {
                             <Text style={[{
                                 ...styles.sectionTitle,
                                 color: theme.TERTIARY
-                            }]}>Your wall</Text>
+                            }]}>
+                                {isMyProfile ?
+                                    <FormattedMessage
+                                        id='views.home.profile-wall.about-me.your-wall'
+                                        defaultMessage="Your Wall"
+                                    /> :
+                                    <FormattedMessage
+                                        id='views.home.profile-wall.about-me.posts'
+                                        defaultMessage="Posts"
+                                    />}
+                            </Text>
                             {isMyProfile && <DiscussionTextArea isProfileImage={false} />}
                         </>
                     )}

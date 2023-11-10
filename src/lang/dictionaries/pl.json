@@ -178,5 +178,7 @@
   "views.home.profile-wall.about-me.placeholder": "Opowiedz coś o sobie",
   "views.home.profile-wall.about-me.error": "Wstąpił bład, spróbuj ponownie później",
   "views.home.profile-wall.about-me.followers-error": "Wystąpił błąd podczas pobierania informacji o obserwujących",
-  "views.home.instrument-details.chart.section-title.chart": "Historia cen"
+  "views.home.instrument-details.chart.section-title.chart": "Historia cen",
+  "views.home.profile-wall.about-me.your-wall": "Twoje Posty",
+  "views.home.profile-wall.about-me.posts": "Posty"
 }
