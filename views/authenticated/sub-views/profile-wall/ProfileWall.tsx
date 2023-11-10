@@ -1,4 +1,4 @@
-import { Animated, StyleSheet, Text, View } from 'react-native'
+import { Animated, FlatList, StyleSheet, Text, View } from 'react-native'
 import React, { useLayoutEffect, useRef, useState } from 'react'
 import { NativeStackScreenProps } from '@react-navigation/native-stack';
 import { RootStackParamList } from '@views/navigation/Navigation';
@@ -36,7 +36,6 @@ export default function ProfileWall({ navigation, route }: ProfileWallProps) {
     const [newAboutMe, setNewAboutMe] = useState<string>("");
     const [userPosts, setUserPosts] = useState<PostType[]>();
     const scrollOffsetY = useRef(new Animated.Value(0)).current;
-    const scrollRef = useRef(null);
 
     const isMyProfile = (user && (user.uid === userUID) || userUID === undefined) ? true : false;
     const HEADER_MAX_HEIGHT = 360;
@@ -86,9 +85,12 @@ export default function ProfileWall({ navigation, route }: ProfileWallProps) {
                     HEADER_MAX_HEIGHT={HEADER_MAX_HEIGHT}
                     SCROLL_DISTANCE={SCROLL_DISTANCE}
                 />
-                <Animated.ScrollView
+                {/* <Animated.ScrollView
                     style={{ flex: 1 }}
-                    contentContainerStyle={{ paddingTop: HEADER_MAX_HEIGHT + 10 }}
+                    contentContainerStyle={{
+                        paddingTop: HEADER_MAX_HEIGHT + 10,
+                        flexGrow: 1
+                    }}
                     onScroll={onScroll}
                     showsVerticalScrollIndicator={false}
                     scrollEventThrottle={16}
@@ -107,10 +109,35 @@ export default function ProfileWall({ navigation, route }: ProfileWallProps) {
                                 text={post.text}
                                 uid={post.uid}
                                 userUID={post.userUID}
-                                key={post.key} />
+                                key={post.key}
+                            />
                         ))}
                     </Animated.View>
-                </Animated.ScrollView>
+                </Animated.ScrollView> */}
+                <FlatList
+                    data={userPosts}
+                    contentContainerStyle={{ paddingTop: HEADER_MAX_HEIGHT + 10 }}
+                    onScroll={onScroll}
+                    showsVerticalScrollIndicator={false}
+                    scrollEventThrottle={16}
+                    renderItem={({ item: post }) => (
+                        <Post
+                            createdAt={post.createdAt}
+                            likes={post.likes}
+                            text={post.text}
+                            uid={post.uid}
+                            userUID={post.userUID}
+                            key={post.key}
+                        />
+                    )}
+                    ListHeaderComponent={() => (
+                        <Text style={[{
+                            ...styles.sectionTitle,
+                            color: theme.TERTIARY
+                        }]}>Your wall</Text>
+                    )}
+                />
+
             </View>
         </View>
     )

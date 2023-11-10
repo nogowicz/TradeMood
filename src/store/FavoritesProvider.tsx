@@ -29,6 +29,7 @@ function FavoritesContextProvider({ children }: FavoritesContextProviderProps) {
                 if (doc.exists) {
                     const data = doc.data();
                     if (data && data.favoriteCryptoIds) {
+                        console.log("FAVORITE CRYPTO ID'S: ", data.favoriteCryptoIds);
                         setFavoriteCryptoIds(data.favoriteCryptoIds);
                     }
                 } else {
@@ -40,9 +41,10 @@ function FavoritesContextProvider({ children }: FavoritesContextProviderProps) {
             }
         };
         if (!user?.isAnonymous) {
+            console.log("User is not anonymous")
             fetchData();
         }
-    }, []);
+    }, [user]);
 
     function addFavorite(id: string) {
         const user = firebase.auth().currentUser;

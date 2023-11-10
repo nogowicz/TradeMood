@@ -91,7 +91,8 @@ export function AuthProvider({ children }: AuthProviderProps) {
                             photoURL: photoURL,
                             followers: [],
                             following: [],
-                            aboutMe: aboutMe
+                            aboutMe: aboutMe,
+                            favoriteCryptoIds: [],
                         });
 
                     })
