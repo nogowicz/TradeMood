@@ -1,6 +1,7 @@
 export const BORDER_RADIUS = {
   SKELETON_4: 4,
   SKELETON_5: 5,
+  SKELETON_15: 15,
   BUTTON: 20,
   INPUT: 20,
   BOTTOM_SHEET: 25,

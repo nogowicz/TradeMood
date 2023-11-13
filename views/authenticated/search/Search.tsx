@@ -88,16 +88,7 @@ export default function Search({ navigation }: SearchProps) {
                     <View>
                         {filteredInstruments && filteredInstruments.map((instrument: InstrumentProps) => {
                             return (
-                                <InstrumentRecord
-                                    key={instrument.id}
-                                    crypto={instrument.crypto}
-                                    sentimentDirection={instrument.sentimentDirection}
-                                    overallSentiment={instrument.overallSentiment}
-                                    photoUrl={instrument.photoUrl}
-                                    onPress={() => {
-                                        navigation.navigate(SCREENS.HOME.INSTRUMENT_DETAILS.ID, { instrument: instrument } as any);
-                                    }}
-                                />
+                                <InstrumentRecord {...instrument} key={instrument.id} />
                             )
 
                         })}

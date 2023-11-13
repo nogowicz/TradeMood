@@ -1,5 +1,5 @@
 import { StyleSheet, Text, View, TouchableOpacity, } from 'react-native'
-import React from 'react'
+import React, { useEffect, useState } from 'react'
 import { constants, spacing, typography } from 'styles'
 import { FormattedMessage } from 'react-intl';
 import { useTheme } from 'store/ThemeContext';
@@ -12,13 +12,20 @@ import { NativeStackNavigationProp } from '@react-navigation/native-stack';
 import CustomImage from 'components/custom-image';
 
 import Arrow from 'assets/icons/Go-forward.svg';
+import { SkeletonContent } from './SkeletonContent';
 
-const photoSize = 50;
 
 export default function InstrumentRecord(instrument: InstrumentProps) {
     const { crypto, overallSentiment, sentimentDirection, photoUrl } = instrument;
     const theme = useTheme();
     const navigation = useNavigation<NativeStackNavigationProp<RootStackParamList>>();
+    const [isLoading, setIsLoading] = useState(true);
+
+    useEffect(() => {
+        if (instrument) {
+            setIsLoading(false);
+        }
+    }, [instrument]);
 
     const onPress = () => {
         navigation.navigate(SCREENS.HOME.INSTRUMENT_DETAILS.ID, { instrument: instrument });
@@ -48,6 +55,10 @@ export default function InstrumentRecord(instrument: InstrumentProps) {
         down: theme.NEGATIVE,
     };
 
+    if (isLoading) {
+        return <SkeletonContent />
+    }
+
     return (
         <TouchableOpacity
             style={[styles.container, { borderColor: theme.LIGHT_HINT }]}
@@ -56,7 +67,7 @@ export default function InstrumentRecord(instrument: InstrumentProps) {
         >
             <CustomImage
                 source={{ uri: photoUrl }}
-                style={{ width: photoSize, height: photoSize, borderRadius: photoSize / 2 }}
+                style={{ width: spacing.SCALE_50, height: spacing.SCALE_50, borderRadius: spacing.SCALE_50 / 2 }}
             />
             <View style={styles.middleContainer}>
                 <Text style={[styles.titleText, { color: theme.TERTIARY }]}>{crypto}</Text>
@@ -103,7 +114,7 @@ const styles = StyleSheet.create({
         alignItems: 'center'
     },
     arrowContainer: {
-        width: photoSize,
+        width: spacing.SCALE_50,
         alignItems: 'center',
         justifyContent: 'center',
     }

@@ -1,7 +1,7 @@
-import { StyleSheet, View } from 'react-native'
-import React from 'react'
-import SkeletonPlaceholder from 'react-native-skeleton-placeholder'
-import { constants, spacing, typography } from 'styles'
+import { StyleSheet, View } from 'react-native';
+import React from 'react';
+import SkeletonPlaceholder from 'react-native-skeleton-placeholder';
+import { constants, spacing, typography } from 'styles';
 import { useTheme } from 'store/ThemeContext';
 
 export function SkeletonContent() {

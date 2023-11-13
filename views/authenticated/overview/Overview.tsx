@@ -87,7 +87,7 @@ export default function Overview({ navigation }: OverviewProps) {
                                         />
                                     </Text>}
                                 {favoriteCryptoAvailable && favoriteCrypto.map((instrument: InstrumentProps) => (
-                                    <InstrumentRecord {...instrument} />
+                                    <InstrumentRecord {...instrument} key={instrument.id} />
                                 ))}
                             </View>
                             <View>
