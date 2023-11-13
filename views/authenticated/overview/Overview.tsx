@@ -1,5 +1,5 @@
 import { SafeAreaView, StyleSheet, Text, View, ScrollView } from 'react-native';
-import React from 'react';
+import React, { useMemo } from 'react';
 import { NativeStackScreenProps } from '@react-navigation/native-stack';
 import { FormattedMessage } from 'react-intl';
 import { RootStackParamList } from '../../navigation/Navigation';
@@ -34,12 +34,11 @@ export default function Overview({ navigation }: OverviewProps) {
     const { favoriteCrypto } = useFavoriteCrypto();
     const { followeesPosts } = useFolloweesPosts();
 
+    const trendingInstrument = useMemo(() => getMaxSentimentPositive(instruments), [instruments]);
+    const dataAvailable = useMemo(() => instruments && favoriteCrypto && followeesPosts, [instruments, favoriteCrypto, followeesPosts]);
 
-    const trendingInstrument: InstrumentProps | undefined = getMaxSentimentPositive(instruments);
-    const dataAvailable = instruments && favoriteCrypto && followeesPosts;
     const followeesAvailable = followeesPosts && followeesPosts.length > 0;
-    const favoriteCryptoAvailable = favoriteCrypto && favoriteCrypto.length > 0;
-
+    const favoriteCryptoAvailable = favoriteCrypto && favoriteCrypto?.length > 0;
 
     return (
         <SafeAreaView style={[styles.root, { backgroundColor: theme.BACKGROUND }]}>

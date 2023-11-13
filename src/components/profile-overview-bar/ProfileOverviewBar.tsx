@@ -17,7 +17,6 @@ import Search from 'assets/icons/Search.svg'
 export default function ProfileOverviewBar() {
     const theme = useTheme();
     const navigation = useNavigation<NativeStackNavigationProp<RootStackParamList>>();
-    const { user } = useAuth();
     return (
         <View style={styles.actionContainer}>
             <View style={styles.actionContainerLeftSide}>
@@ -36,18 +35,7 @@ export default function ProfileOverviewBar() {
                     <Discussion stroke={theme.TERTIARY} strokeWidth={constants.STROKE_WIDTH.MEDIUM} />
                 </IconButton>
             </View>
-            <ProfileBar
-                displayName={user?.displayName}
-                imageUrl={user?.photoURL}
-                isAnonymous={user?.isAnonymous}
-                onPress={() => {
-                    if (user?.isAnonymous) {
-                        navigation.navigate(SCREENS.HOME.PROFILE.ID);
-                    } else {
-                        navigation.navigate(SCREENS.HOME.PROFILE_WALL.ID)
-                    }
-                }}
-            />
+            <ProfileBar />
         </View>
     )
 }
