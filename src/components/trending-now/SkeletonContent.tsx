@@ -3,7 +3,6 @@ import React from 'react'
 import SkeletonPlaceholder from 'react-native-skeleton-placeholder'
 import { constants, spacing, typography } from 'styles'
 import { useTheme } from 'store/ThemeContext';
-import { BORDER_RADIUS } from 'styles/constants';
 
 export function SkeletonContent() {
     const theme = useTheme();

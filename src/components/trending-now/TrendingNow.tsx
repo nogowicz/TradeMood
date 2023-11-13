@@ -1,16 +1,13 @@
-import {
-    StyleSheet,
-    Text,
-    View,
-    TouchableOpacity,
-} from 'react-native'
+import { StyleSheet, Text, View, TouchableOpacity, } from 'react-native'
 import React, { ReactNode, useEffect, useState } from 'react'
 import { constants, spacing, typography } from 'styles'
-import Pie from 'react-native-pie'
-import GoForward from 'assets/icons/Go-forward.svg'
 import { FormattedMessage } from 'react-intl'
 import { useTheme } from 'store/ThemeContext'
+
+import GoForward from 'assets/icons/Go-forward.svg'
+
 import { SkeletonContent } from './SkeletonContent'
+import Pie from 'react-native-pie'
 
 type TrendingNowProps = {
     name?: string;
@@ -70,14 +67,14 @@ export default function TrendingNow({ name, title, positive, neutral, negative, 
                                 id='views.home.overview.trending-now.details'
                             />
                         </Text>
-                        <GoForward width={6} style={{ color: theme.TERTIARY }} />
+                        <GoForward width={spacing.SCALE_6} style={{ color: theme.TERTIARY }} />
                     </TouchableOpacity>
                 }
             </View>
             <View style={styles.bottomContainer}>
                 <Pie
-                    radius={60}
-                    innerRadius={40}
+                    radius={spacing.SCALE_60}
+                    innerRadius={spacing.SCALE_40}
                     sections={data}
                     strokeCap='butt'
                 />
