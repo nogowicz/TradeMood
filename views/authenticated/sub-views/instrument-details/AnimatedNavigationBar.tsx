@@ -58,14 +58,14 @@ export default function AnimatedNavigationBar({ scrollY, instrument, navigation 
 
     return (
         <Animated.View style={[styles.actionContainer, { marginBottom }]}>
-            <View style={styles.actionContainerComponent} >
-                <IconButton
-                    onPress={() => navigation.goBack()}
-                    size={constants.ICON_SIZE.GO_BACK}
-                >
+            <IconButton
+                onPress={() => navigation.goBack()}
+                size={constants.ICON_SIZE.GO_BACK}
+            >
+                <View testID="goBack">
                     <GoBack fill={theme.TERTIARY} />
-                </IconButton>
-            </View>
+                </View>
+            </IconButton>
             <Animated.View
                 style={[
                     {
@@ -94,15 +94,19 @@ export default function AnimatedNavigationBar({ scrollY, instrument, navigation 
                 </Text>
             </Animated.View>
             {!user?.isAnonymous ?
+
                 <TouchableOpacity
                     onPress={changeFavoriteStatusHandler}
                     style={{ marginTop: backIconMargin }}
                 >
-                    {cryptoIsFavorite ?
-                        <BookmarkSelected width={32} height={32} /> :
-                        <Bookmark stroke={theme.TERTIARY} width={32} height={32} />
-                    }
-                </TouchableOpacity> :
+                    <View testID="bookmark">
+                        {cryptoIsFavorite ?
+                            <BookmarkSelected width={32} height={32} /> :
+                            <Bookmark stroke={theme.TERTIARY} width={32} height={32} />
+                        }
+                    </View>
+                </TouchableOpacity>
+                :
                 <View style={{ width: 32 }} />
             }
         </Animated.View>

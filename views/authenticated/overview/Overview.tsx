@@ -99,7 +99,7 @@ export default function Overview({ navigation }: OverviewProps) {
                             trendingWidget
                             onPress={() => {
                                 if (instruments && instruments.length > 0) {
-                                    navigation.navigate(SCREENS.HOME.INSTRUMENT_DETAILS.ID, { instrument: instruments[0] } as any);
+                                    navigation.navigate(SCREENS.HOME.INSTRUMENT_DETAILS.ID, { instrument: trendingInstrument } as any);
                                 }
                             }}
 

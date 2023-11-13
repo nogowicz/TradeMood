@@ -157,7 +157,9 @@ export default function TextField({
                         }}
                         activeOpacity={0.7}
                     >
-                        <Clear stroke={theme.TERTIARY} />
+                        <View testID='clear'>
+                            <Clear stroke={theme.TERTIARY} />
+                        </View>
                     </TouchableOpacity>
                     : null
                 }

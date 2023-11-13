@@ -117,7 +117,7 @@ export default function Post({
                                 style={{ width: imageSize, height: imageSize, borderRadius: imageSize / 2 }}
                             />
                         )}
-                        <Text style={[
+                        <Text testID='username' style={[
                             styles.nameText,
                             {
                                 color: theme.TERTIARY,
@@ -128,19 +128,21 @@ export default function Post({
                             onPress={() => toggleFollowUser(userUID)}
                             size={constants.ICON_SIZE.ICON}
                         >
-                            {isFollowingState ?
-                                <CheckIcon
-                                    strokeWidth={constants.STROKE_WIDTH.MEDIUM}
-                                    stroke={theme.TERTIARY}
-                                    width={constants.ICON_SIZE.ICON - 10}
-                                    height={constants.ICON_SIZE.ICON - 10}
-                                /> :
-                                <PlusIcon
-                                    strokeWidth={constants.STROKE_WIDTH.MEDIUM}
-                                    stroke={theme.TERTIARY}
-                                    width={constants.ICON_SIZE.ICON - 10}
-                                    height={constants.ICON_SIZE.ICON - 10}
-                                />}
+                            <View testID='follow'>
+                                {isFollowingState ?
+                                    <CheckIcon
+                                        strokeWidth={constants.STROKE_WIDTH.MEDIUM}
+                                        stroke={theme.TERTIARY}
+                                        width={constants.ICON_SIZE.ICON - 10}
+                                        height={constants.ICON_SIZE.ICON - 10}
+                                    /> :
+                                    <PlusIcon
+                                        strokeWidth={constants.STROKE_WIDTH.MEDIUM}
+                                        stroke={theme.TERTIARY}
+                                        width={constants.ICON_SIZE.ICON - 10}
+                                        height={constants.ICON_SIZE.ICON - 10}
+                                    />}
+                            </View>
                         </IconButton>}
                 </View>
                 {(user && userUID === user.uid) &&

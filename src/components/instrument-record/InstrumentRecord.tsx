@@ -62,7 +62,7 @@ export default function InstrumentRecord({ crypto, overallSentiment, sentimentDi
                     }
                 </Text>
             </View>
-            <View>
+            <View testID='sentimentDirection'>
                 {sentimentDirection === 'up' &&
                     <View style={[
                         styles.arrowContainer,
