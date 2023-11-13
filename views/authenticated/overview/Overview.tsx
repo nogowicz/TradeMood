@@ -37,6 +37,8 @@ export default function Overview({ navigation }: OverviewProps) {
 
     const trendingInstrument: InstrumentProps | undefined = getMaxSentimentPositive(instruments);
     const dataAvailable = instruments && favoriteCrypto && followeesPosts;
+    const followeesAvailable = followeesPosts && followeesPosts.length > 0;
+    const favoriteCryptoAvailable = favoriteCrypto && favoriteCrypto.length > 0;
 
 
     return (
@@ -55,75 +57,56 @@ export default function Overview({ navigation }: OverviewProps) {
                     showsVerticalScrollIndicator={false}
                     style={{ flex: 1, }}
                 >
-                    <View>
-
-                        <TrendingNow
-                            name={trendingInstrument ? trendingInstrument.crypto : ''}
-                            title={
-                                <FormattedMessage
-                                    defaultMessage='Trending Now'
-                                    id='views.home.overview.trending-now.title'
-                                />
+                    <TrendingNow
+                        name={trendingInstrument ? trendingInstrument.crypto : ''}
+                        positive={trendingInstrument ? trendingInstrument.sentimentPositive : 0}
+                        neutral={trendingInstrument ? trendingInstrument.sentimentNeutral : 0}
+                        negative={trendingInstrument ? trendingInstrument.sentimentNegative : 0}
+                        trendingWidget
+                        title={
+                            <FormattedMessage
+                                defaultMessage='Trending Now'
+                                id='views.home.overview.trending-now.title'
+                            />
+                        }
+                        onPress={() => {
+                            if (dataAvailable) {
+                                navigation.navigate(SCREENS.HOME.INSTRUMENT_DETAILS.ID, { instrument: trendingInstrument } as any);
                             }
-                            positive={trendingInstrument ? trendingInstrument.sentimentPositive : 0}
-                            neutral={trendingInstrument ? trendingInstrument.sentimentNeutral : 0}
-                            negative={trendingInstrument ? trendingInstrument.sentimentNegative : 0}
-                            trendingWidget
-                            onPress={() => {
-                                if (dataAvailable) {
-                                    navigation.navigate(SCREENS.HOME.INSTRUMENT_DETAILS.ID, { instrument: trendingInstrument } as any);
-                                }
-                            }}
+                        }}
 
-                        />
-                    </View>
-                    {!user?.isAnonymous && (dataAvailable || followeesPosts && followeesPosts.length > 0) ?
+                    />
+                    {!user?.isAnonymous && (dataAvailable || followeesAvailable) ?
                         <View>
                             <View>
-                                {favoriteCrypto && favoriteCrypto?.length > 0 &&
+                                {followeesAvailable &&
                                     <Text style={[styles.listTitleText, { color: theme.TERTIARY }]}>
                                         <FormattedMessage
                                             defaultMessage='Favorites'
                                             id='views.home.overview.favorites'
                                         />
                                     </Text>}
-                                {(favoriteCrypto && favoriteCrypto.length > 0) && favoriteCrypto.map((instrument: InstrumentProps) => {
-                                    return (
-                                        <InstrumentRecord
-                                            key={instrument.id}
-                                            crypto={instrument.crypto}
-                                            sentimentDirection={instrument.sentimentDirection}
-                                            overallSentiment={instrument.overallSentiment}
-                                            photoUrl={instrument.photoUrl}
-                                            onPress={() => {
-                                                navigation.navigate(SCREENS.HOME.INSTRUMENT_DETAILS.ID, { instrument: instrument } as any);
-                                            }}
-                                        />
-                                    )
-
-                                })
-                                }
+                                {favoriteCryptoAvailable && favoriteCrypto.map((instrument: InstrumentProps) => (
+                                    <InstrumentRecord {...instrument} />
+                                ))}
                             </View>
                             <View>
-                                {followeesPosts && followeesPosts.length > 0 &&
+                                {followeesAvailable &&
                                     <Text style={[styles.listTitleText, { color: theme.TERTIARY }]}>
                                         <FormattedMessage
                                             defaultMessage='Following'
                                             id='views.home.overview.following'
                                         />
                                     </Text>}
-                                {(followeesPosts && followeesPosts.length > 0) && followeesPosts.map((post: PostType) => {
-                                    return (
-                                        <Post
-                                            createdAt={post.createdAt}
-                                            likes={post.likes}
-                                            text={post.text}
-                                            uid={post.uid}
-                                            userUID={post.userUID}
-                                            key={post.key} />
-                                    )
-
-                                })}
+                                {followeesAvailable && followeesPosts.map((post: PostType) => (
+                                    <Post
+                                        createdAt={post.createdAt}
+                                        likes={post.likes}
+                                        text={post.text}
+                                        uid={post.uid}
+                                        userUID={post.userUID}
+                                        key={post.key} />
+                                ))}
                             </View>
                         </View> :
                         <View>

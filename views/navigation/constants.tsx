@@ -52,7 +52,7 @@ export const SCREENS = {
       ID: 'ABOUT_US'
     },
     INSTRUMENT_DETAILS: {
-      ID: 'INSTRUMENT_DETAILS'
+      ID: 'INSTRUMENT_DETAILS',
     },
     PROFILE_WALL: {
       ID: 'PROFILE_WALL'

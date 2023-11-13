@@ -2,98 +2,84 @@ import { StyleSheet, Text, View, TouchableOpacity, } from 'react-native'
 import React from 'react'
 import { constants, spacing, typography } from 'styles'
 import { FormattedMessage } from 'react-intl';
-
-import Placeholder from 'assets/icons/crypto-placeholder.svg'
-import Arrow from 'assets/icons/Go-forward.svg';;
 import { useTheme } from 'store/ThemeContext';
+import { InstrumentProps } from 'store/InstrumentProvider';
+import { useNavigation } from '@react-navigation/native';
+import { SCREENS } from '@views/navigation/constants';
+import { RootStackParamList } from '@views/navigation/Navigation';
+import { NativeStackNavigationProp } from '@react-navigation/native-stack';
+
 import CustomImage from 'components/custom-image';
 
-type InstrumentRecordProps = {
-    crypto: string;
-    overallSentiment: string;
-    sentimentDirection: string;
-    photoUrl: string;
-    onPress: () => void;
-}
+import Arrow from 'assets/icons/Go-forward.svg';
+
 const photoSize = 50;
-export default function InstrumentRecord({ crypto, overallSentiment, sentimentDirection, photoUrl, onPress }: InstrumentRecordProps) {
+
+export default function InstrumentRecord(instrument: InstrumentProps) {
+    const { crypto, overallSentiment, sentimentDirection, photoUrl } = instrument;
     const theme = useTheme();
+    const navigation = useNavigation<NativeStackNavigationProp<RootStackParamList>>();
+
+    const onPress = () => {
+        navigation.navigate(SCREENS.HOME.INSTRUMENT_DETAILS.ID, { instrument: instrument });
+    };
+
+    const sentimentColors: Record<InstrumentProps['overallSentiment'], string> = {
+        Positive: theme.POSITIVE,
+        Neutral: theme.HINT,
+        Negative: theme.NEGATIVE,
+    };
+
+    const sentimentMessages: Record<InstrumentProps['overallSentiment'], string> = {
+        Positive: 'views.home.overview.trending-now.positive',
+        Neutral: 'views.home.overview.trending-now.neutral',
+        Negative: 'views.home.overview.trending-now.negative',
+    };
+
+    const arrowDirections: Record<InstrumentProps['sentimentDirection'], string> = {
+        up: '-90deg',
+        steady: '0deg',
+        down: '90deg',
+    };
+
+    const arrowColors: Record<InstrumentProps['sentimentDirection'], string> = {
+        up: theme.POSITIVE,
+        steady: theme.HINT,
+        down: theme.NEGATIVE,
+    };
+
     return (
         <TouchableOpacity
             style={[styles.container, { borderColor: theme.LIGHT_HINT }]}
-            activeOpacity={0.6}
+            activeOpacity={constants.ACTIVE_OPACITY.MEDIUM}
             onPress={onPress}
         >
-            {photoUrl ?
-                <CustomImage
-                    source={{ uri: photoUrl }}
-                    style={{
-                        width: photoSize,
-                        height: photoSize,
-                        borderRadius: photoSize / 2,
-                    }} />
-                : <Placeholder width={photoSize} height={photoSize} />}
+            <CustomImage
+                source={{ uri: photoUrl }}
+                style={{ width: photoSize, height: photoSize, borderRadius: photoSize / 2 }}
+            />
             <View style={styles.middleContainer}>
                 <Text style={[styles.titleText, { color: theme.TERTIARY }]}>{crypto}</Text>
-                <Text style={[styles.titleText, { color: theme.TERTIARY },
-                overallSentiment === 'Positive' && { color: theme.POSITIVE },
-                overallSentiment === 'Neutral' && { color: theme.HINT },
-                overallSentiment === 'Negative' && { color: theme.NEGATIVE }
-                ]}>
-                    {overallSentiment === "Positive" &&
-                        <FormattedMessage
-                            defaultMessage='Positive'
-                            id='views.home.overview.trending-now.positive'
-                        />
-                    }
-
-                    {overallSentiment === "Neutral" &&
-                        <FormattedMessage
-                            defaultMessage='Neutral'
-                            id='views.home.overview.trending-now.neutral'
-                        />
-                    }
-
-                    {overallSentiment === "Negative" &&
-                        <FormattedMessage
-                            defaultMessage='Negative'
-                            id='views.home.overview.trending-now.negative'
-                        />
-                    }
+                <Text style={{
+                    ...styles.titleText,
+                    color: sentimentColors[overallSentiment],
+                }}>
+                    <FormattedMessage
+                        defaultMessage={overallSentiment}
+                        id={sentimentMessages[overallSentiment]}
+                    />
                 </Text>
             </View>
             <View testID='sentimentDirection'>
-                {sentimentDirection === 'up' &&
-                    <View style={[
-                        styles.arrowContainer,
-                        {
-                            transform: [{ rotate: '-90deg' }],
-                        }]}>
-                        <Arrow style={{ color: theme.POSITIVE }} />
-                    </View>
-                }
-                {sentimentDirection === 'steady' &&
-                    <View style={[
-                        styles.arrowContainer,
-                        {
-                            transform: [{ rotate: '0deg' }],
-                        }]}>
-                        <Arrow style={{ color: theme.HINT }} />
-                    </View>
-                }
-                {sentimentDirection === 'down' &&
-                    <View style={[
-                        styles.arrowContainer,
-                        {
-                            transform: [{ rotate: '90deg' }],
-                        }]}>
-                        <Arrow style={{ color: theme.NEGATIVE }} />
-                    </View>
-                }
+                <View style={{
+                    ...styles.arrowContainer,
+                    transform: [{ rotate: arrowDirections[sentimentDirection] }],
+                }}>
+                    <Arrow style={{ color: arrowColors[sentimentDirection] }} />
+                </View>
             </View>
-
-        </TouchableOpacity>
-    )
+        </TouchableOpacity >
+    );
 }
 
 const styles = StyleSheet.create({
@@ -121,4 +107,4 @@ const styles = StyleSheet.create({
         alignItems: 'center',
         justifyContent: 'center',
     }
-})
+});
