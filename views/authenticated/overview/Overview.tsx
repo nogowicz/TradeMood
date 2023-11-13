@@ -1,24 +1,23 @@
-import { SafeAreaView, StyleSheet, Text, View, ScrollView, } from 'react-native';
-import { useContext, useEffect, useState } from 'react';
+import { SafeAreaView, StyleSheet, Text, View, ScrollView } from 'react-native';
+import React from 'react';
 import { NativeStackScreenProps } from '@react-navigation/native-stack';
 import { FormattedMessage } from 'react-intl';
 import { RootStackParamList } from '../../navigation/Navigation';
 import { useAuth } from 'store/AuthProvider';
-import { constants, spacing, typography } from 'styles';
-import ProfileBar from 'components/profile-bar';
-import IconButton from 'components/buttons/icon-button';
+import { spacing, typography } from 'styles';
 import { SCREENS } from '@views/navigation/constants';
-import TrendingNow from 'components/trending-now';
-import { InstrumentContext, InstrumentProps, getMaxSentimentPositive } from 'store/InstrumentProvider';
-import InstrumentRecord from 'components/instrument-record';
+import { InstrumentProps, getMaxSentimentPositive, useInstrument } from 'store/InstrumentProvider';
 import { useTheme } from 'store/ThemeContext';
 import { useFavoriteCrypto } from 'hooks/useFavoriteCrypto';
 import { useFolloweesPosts } from 'hooks/useFolloweesPosts';
 import { PostType } from 'store/PostsProvider';
-import Post from 'components/post';
 
-import Discussion from 'assets/icons/Discussion-Inactive.svg'
-import Search from 'assets/icons/Search.svg'
+import Post from 'components/post';
+import TrendingNow from 'components/trending-now';
+import InstrumentRecord from 'components/instrument-record';
+import ProfileOverviewBar from 'components/profile-overview-bar';
+
+
 
 
 type OverviewScreenNavigationProp = NativeStackScreenProps<RootStackParamList, 'Overview'>;
@@ -31,46 +30,19 @@ type OverviewProps = {
 export default function Overview({ navigation }: OverviewProps) {
     const { user } = useAuth();
     const theme = useTheme();
-    const instruments = useContext(InstrumentContext);
+    const instruments = useInstrument();
     const { favoriteCrypto } = useFavoriteCrypto();
     const { followeesPosts } = useFolloweesPosts();
 
 
     const trendingInstrument: InstrumentProps | undefined = getMaxSentimentPositive(instruments);
+    const dataAvailable = instruments && favoriteCrypto && followeesPosts;
+
 
     return (
         <SafeAreaView style={[styles.root, { backgroundColor: theme.BACKGROUND }]}>
             <View style={styles.container}>
-                <View style={styles.actionContainer}>
-                    <View style={styles.actionContainerLeftSide}>
-                        <IconButton
-                            onPress={() => navigation.navigate(SCREENS.HOME.SEARCH.ID)}
-                            size={constants.ICON_SIZE.BIG_ICON}
-                            backgroundColor={theme.LIGHT_HINT}
-                        >
-                            <Search stroke={theme.TERTIARY} strokeWidth={constants.STROKE_WIDTH.MEDIUM} />
-                        </IconButton>
-                        <IconButton
-                            onPress={() => navigation.navigate(SCREENS.HOME.DISCUSSION.ID)}
-                            size={constants.ICON_SIZE.BIG_ICON}
-                            backgroundColor={theme.LIGHT_HINT}
-                        >
-                            <Discussion stroke={theme.TERTIARY} strokeWidth={constants.STROKE_WIDTH.MEDIUM} />
-                        </IconButton>
-                    </View>
-                    <ProfileBar
-                        displayName={user?.displayName}
-                        imageUrl={user?.photoURL}
-                        isAnonymous={user?.isAnonymous}
-                        onPress={() => {
-                            if (user?.isAnonymous) {
-                                navigation.navigate(SCREENS.HOME.PROFILE.ID);
-                            } else {
-                                navigation.navigate(SCREENS.HOME.PROFILE_WALL.ID)
-                            }
-                        }}
-                    />
-                </View>
+                <ProfileOverviewBar />
                 <View style={styles.mainContainer}>
                     <Text style={[styles.sectionTitle, { color: theme.TERTIARY }]}>
                         <FormattedMessage
@@ -98,14 +70,14 @@ export default function Overview({ navigation }: OverviewProps) {
                             negative={trendingInstrument ? trendingInstrument.sentimentNegative : 0}
                             trendingWidget
                             onPress={() => {
-                                if (instruments && instruments.length > 0) {
+                                if (dataAvailable) {
                                     navigation.navigate(SCREENS.HOME.INSTRUMENT_DETAILS.ID, { instrument: trendingInstrument } as any);
                                 }
                             }}
 
                         />
                     </View>
-                    {!user?.isAnonymous && ((favoriteCrypto && favoriteCrypto?.length > 0) || followeesPosts && followeesPosts.length > 0) ?
+                    {!user?.isAnonymous && (dataAvailable || followeesPosts && followeesPosts.length > 0) ?
                         <View>
                             <View>
                                 {favoriteCrypto && favoriteCrypto?.length > 0 &&
@@ -200,15 +172,6 @@ const styles = StyleSheet.create({
         flex: 1,
         paddingHorizontal: spacing.SCALE_20,
         paddingTop: spacing.SCALE_20,
-    },
-    actionContainer: {
-        flexDirection: 'row',
-        justifyContent: 'space-between',
-        alignItems: 'center',
-    },
-    actionContainerLeftSide: {
-        flexDirection: 'row',
-        gap: spacing.SCALE_16
     },
     sectionTitle: {
         ...typography.FONT_BOLD,
