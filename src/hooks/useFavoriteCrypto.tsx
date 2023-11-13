@@ -1,4 +1,5 @@
 import { useContext, useEffect, useState } from 'react';
+import { useAuth } from 'store/AuthProvider';
 import { FavoritesContext } from 'store/FavoritesProvider';
 import { InstrumentContext, InstrumentProps } from 'store/InstrumentProvider';
 
@@ -6,6 +7,7 @@ export function useFavoriteCrypto() {
     const [favoriteCrypto, setFavoriteCrypto] = useState<InstrumentProps[] | undefined>();
     const { ids, addFavorite, removeFavorite } = useContext(FavoritesContext);
     const instruments = useContext(InstrumentContext);
+    const { user } = useAuth();
 
     useEffect(() => {
         const fetchFavoriteCrypto = async () => {
@@ -18,8 +20,9 @@ export function useFavoriteCrypto() {
                 setFavoriteCrypto([]);
             }
         };
-
-        fetchFavoriteCrypto();
+        if (!user?.isAnonymous) {
+            fetchFavoriteCrypto();
+        }
     }, [ids]);
 
     const addFavoriteCrypto = (id: string) => {

@@ -8,10 +8,12 @@ import storage from '@react-native-firebase/storage';
 import IconButton from 'components/buttons/icon-button'
 import { useAuth } from 'store/AuthProvider'
 import Snackbar from 'react-native-snackbar'
+import ImageResizer from '@bam.tech/react-native-image-resizer';
 
 import Gallery from 'assets/icons/Gallery.svg'
 import DeletePhoto from 'assets/icons/DeletePhoto.svg'
 import Camera from 'assets/icons/Camera.svg'
+
 
 
 type ImagePickerButtonsProps = {
@@ -72,8 +74,20 @@ export default function ImagePickerButtons({
             mediaType: 'photo'
         }, async (response) => {
             if (response.assets && response.assets.length > 0) {
-                const { uri, fileName } = response.assets[0];
+                let { uri, fileName } = response.assets[0];
+                if (uri) {
 
+                    await ImageResizer.createResizedImage(
+                        uri,
+                        500,
+                        500,
+                        'JPEG',
+                        70,
+                    ).then((resizedImageUri) => {
+                        uri = resizedImageUri.uri;
+                    });
+
+                }
                 const storageRef = storage().ref(`usersProfilePictures/${fileName}`);
 
                 const blob = uri ? await fetch(uri).then((response) => response.blob()) : null;
@@ -117,7 +131,6 @@ export default function ImagePickerButtons({
                             }
                         }
                     )
-
                 } else {
                     console.error('Error no data in file');
                     Snackbar.show({
@@ -127,13 +140,25 @@ export default function ImagePickerButtons({
                 }
             }
         });
-    }
+    };
 
     const takePhoto = async () => {
         launchCamera({ mediaType: 'photo' }, async (response) => {
             if (response.assets && response.assets.length > 0) {
-                const { uri, fileName } = response.assets[0];
+                let { uri, fileName } = response.assets[0];
+                if (uri) {
 
+                    await ImageResizer.createResizedImage(
+                        uri,
+                        500,
+                        500,
+                        'JPEG',
+                        70,
+                    ).then((resizedImageUri) => {
+                        uri = resizedImageUri.uri;
+                    });
+
+                }
                 const storageRef = storage().ref(`usersProfilePictures/${fileName}`);
 
                 const blob = uri ? await fetch(uri).then((response) => response.blob()) : null;
@@ -176,7 +201,7 @@ export default function ImagePickerButtons({
                                 });
                             }
                         }
-                    );
+                    )
                 } else {
                     console.error('Error: no file data');
                     Snackbar.show({

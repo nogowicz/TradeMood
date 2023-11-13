@@ -1,6 +1,6 @@
 import { StyleSheet, Text, TouchableOpacity, View } from 'react-native'
-import React, { useLayoutEffect, useState } from 'react'
-import Image from 'components/custom-image';
+import React, { useEffect, useLayoutEffect, useState } from 'react'
+import CustomImage from 'components/custom-image';
 import { useTheme } from 'store/ThemeContext';
 import { constants, spacing, typography } from 'styles';
 import firestore from '@react-native-firebase/firestore';
@@ -69,14 +69,16 @@ export default function Post({
             }
         }
     }
+    useEffect(() => {
+        trashScale.value = withTiming(isTrashVisible ? 1 : 0, {
+            duration: 200,
+            easing: Easing.inOut(Easing.ease),
+        });
+    }, [isTrashVisible])
 
 
     function handleToggleTrash() {
         setIsTrashVisible(!isTrashVisible);
-        trashScale.value = withTiming(isTrashVisible ? 1 : 0, {
-            duration: 300,
-            easing: Easing.inOut(Easing.ease),
-        });
     }
 
     const animatedStyle = useAnimatedStyle(() => {
@@ -105,40 +107,42 @@ export default function Post({
                         })}
                     >
                         {photoURL ? (
-                            <Image
+                            <CustomImage
                                 url={photoURL}
                                 style={{ width: imageSize, height: imageSize, borderRadius: imageSize / 2 }}
                             />
                         ) : (
-                            <Image
+                            <CustomImage
                                 source={require('assets/profile/profile-picture.png')}
                                 style={{ width: imageSize, height: imageSize, borderRadius: imageSize / 2 }}
                             />
                         )}
-                        <Text style={[
+                        <Text testID='username' style={[
                             styles.nameText,
                             {
                                 color: theme.TERTIARY,
                             }]}>{displayName}</Text>
                     </TouchableOpacity>
-                    {(user && user.uid !== userUID) &&
+                    {(user && user.uid !== userUID && !user.isAnonymous) &&
                         <IconButton
                             onPress={() => toggleFollowUser(userUID)}
                             size={constants.ICON_SIZE.ICON}
                         >
-                            {isFollowingState ?
-                                <CheckIcon
-                                    strokeWidth={constants.STROKE_WIDTH.MEDIUM}
-                                    stroke={theme.TERTIARY}
-                                    width={constants.ICON_SIZE.ICON - 10}
-                                    height={constants.ICON_SIZE.ICON - 10}
-                                /> :
-                                <PlusIcon
-                                    strokeWidth={constants.STROKE_WIDTH.MEDIUM}
-                                    stroke={theme.TERTIARY}
-                                    width={constants.ICON_SIZE.ICON - 10}
-                                    height={constants.ICON_SIZE.ICON - 10}
-                                />}
+                            <View testID='follow'>
+                                {isFollowingState ?
+                                    <CheckIcon
+                                        strokeWidth={constants.STROKE_WIDTH.MEDIUM}
+                                        stroke={theme.TERTIARY}
+                                        width={constants.ICON_SIZE.ICON - 10}
+                                        height={constants.ICON_SIZE.ICON - 10}
+                                    /> :
+                                    <PlusIcon
+                                        strokeWidth={constants.STROKE_WIDTH.MEDIUM}
+                                        stroke={theme.TERTIARY}
+                                        width={constants.ICON_SIZE.ICON - 10}
+                                        height={constants.ICON_SIZE.ICON - 10}
+                                    />}
+                            </View>
                         </IconButton>}
                 </View>
                 {(user && userUID === user.uid) &&
@@ -147,7 +151,7 @@ export default function Post({
                         gap: spacing.SCALE_8,
                     }}>
 
-                        <Animated.View style={animatedStyle}>
+                        <Animated.View style={animatedStyle} testID='trashIcon'>
                             <IconButton
                                 onPress={() => deletePost(uid)}
                                 size={constants.ICON_SIZE.ACTIVITY_INDICATOR}
@@ -157,16 +161,18 @@ export default function Post({
                         </Animated.View>
 
 
-                        <IconButton
-                            onPress={handleToggleTrash}
-                            size={constants.ICON_SIZE.ACTIVITY_INDICATOR}
-                            isBorder={false}
-                        >
-                            <ThreeDotsIcon fill={theme.TERTIARY} width={constants.ICON_SIZE.ACTIVITY_INDICATOR / 2} height={constants.ICON_SIZE.ACTIVITY_INDICATOR / 2} />
-                        </IconButton>
+                        <View testID='threeDotsIcon'>
+                            <IconButton
+                                onPress={handleToggleTrash}
+                                size={constants.ICON_SIZE.ACTIVITY_INDICATOR}
+                                isBorder={false}
+                            >
+                                <ThreeDotsIcon fill={theme.TERTIARY} width={constants.ICON_SIZE.ACTIVITY_INDICATOR / 2} height={constants.ICON_SIZE.ACTIVITY_INDICATOR / 2} />
+                            </IconButton>
+                        </View>
                     </View>
                 }
-            </View>
+            </View >
             <Text style={[
                 styles.contentText,
                 {

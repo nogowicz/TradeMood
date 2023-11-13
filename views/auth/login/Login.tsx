@@ -145,7 +145,7 @@ export default function Login({ navigation }: LoginProps) {
                                 />
                             </Text>
                         </Animated.View>
-                        <View style={styles.mainContent}>
+                        <View testID='loginField'>
                             <Controller
                                 name='email'
                                 rules={{
@@ -174,7 +174,6 @@ export default function Login({ navigation }: LoginProps) {
                                     )
                                 }}
                             />
-
                             <Controller
                                 name='password'
                                 defaultValue=''
@@ -213,7 +212,7 @@ export default function Login({ navigation }: LoginProps) {
                     </Animated.View>
                 </View>
 
-                <Animated.View style={[{ transform: [{ translateY: translateYValue }] }]}>
+                <Animated.View testID='loginButton' style={[{ transform: [{ translateY: translateYValue }] }]}>
                     <SubmitButton
                         isChevronDisplayed
                         label={

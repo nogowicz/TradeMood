@@ -1,4 +1,4 @@
-import { Animated, Keyboard, StyleSheet, Text, View } from 'react-native'
+import { Animated, StyleSheet, Text, View } from 'react-native'
 import React, { Dispatch, SetStateAction, useLayoutEffect, useState } from 'react'
 import { useTheme } from 'store/ThemeContext'
 import { useAuth } from 'store/AuthProvider';
@@ -118,21 +118,13 @@ export default function AnimatedProfileWallBar({
 }
 
 const styles = StyleSheet.create({
-    container: {
-        alignItems: 'center',
-    },
     header: {
         position: 'absolute',
         left: 0,
         right: 0,
         paddingHorizontal: spacing.SCALE_20,
         paddingVertical: spacing.SCALE_20,
-        zIndex: 1,
-    },
-    title: {
-        color: '#ffff',
-        fontWeight: 'bold',
-        fontSize: 20,
+        zIndex: 2,
     },
     errorContainer: {
         justifyContent: 'center',

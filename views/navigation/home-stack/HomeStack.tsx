@@ -1,6 +1,13 @@
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import { SCREENS } from '../constants';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
+import { constants, spacing } from 'styles';
+import { useTheme } from 'store/ThemeContext';
+import { useEffect } from 'react';
+import { useAuth } from '../../../src/store/AuthProvider';
+import { getFCMToken } from 'helpers/pushNotificationHelper';
+import { View } from 'react-native';
+
 
 import Overview from '@views/authenticated/overview';
 import Search from '@views/authenticated/search';
@@ -18,7 +25,6 @@ import DiscussionActive from 'assets/icons/Discussion-Active.svg'
 
 import ProfileInactive from 'assets/icons/Profile.svg'
 import ProfileActive from 'assets/icons/Profile-Active.svg'
-import { spacing } from 'styles';
 import EditProfile from '@views/authenticated/sub-views/edit-profile';
 import EditEmail from '@views/authenticated/sub-views/edit-email';
 import EditPersonalInfo from '@views/authenticated/sub-views/edit-personal-info';
@@ -27,11 +33,6 @@ import EditPassword from '@views/authenticated/sub-views/edit-password';
 import AppSettings from '@views/authenticated/sub-views/app-settings';
 import AboutUs from '@views/authenticated/sub-views/about-us';
 import InstrumentDetails from '@views/authenticated/sub-views/instrument-details';;
-import { useTheme } from 'store/ThemeContext';
-import { useEffect } from 'react';
-import { useAuth } from '../../../src/store/AuthProvider';
-import { getFCMToken } from 'helpers/pushNotificationHelper';
-import { View } from 'react-native';
 import ProfileWall from '@views/authenticated/sub-views/profile-wall';
 
 export default function HomeStack() {
@@ -64,7 +65,7 @@ export default function HomeStack() {
                     component={Overview}
                     options={{
                         tabBarIcon: ({ focused }) => (
-                            focused ? <OverviewActive /> : <OverviewInactive stroke={theme.TERTIARY} strokeWidth={1.5} />
+                            focused ? <OverviewActive /> : <View testID='overview'><OverviewInactive stroke={theme.TERTIARY} strokeWidth={constants.STROKE_WIDTH.MEDIUM} /></View>
                         ),
                     }}
                 />
@@ -73,7 +74,7 @@ export default function HomeStack() {
                     component={Search}
                     options={{
                         tabBarIcon: ({ focused }) => (
-                            focused ? <SearchActive /> : <SearchInactive stroke={theme.TERTIARY} strokeWidth={1.5} />
+                            focused ? <SearchActive /> : <View testID='search'><SearchInactive stroke={theme.TERTIARY} strokeWidth={constants.STROKE_WIDTH.MEDIUM} /></View>
                         ),
                     }}
                 />
@@ -82,7 +83,7 @@ export default function HomeStack() {
                     component={Discussion}
                     options={{
                         tabBarIcon: ({ focused }) => (
-                            focused ? <DiscussionActive /> : <View testID="discussion"><DiscussionInactive stroke={theme.TERTIARY} strokeWidth={1.5} /></View>
+                            focused ? <DiscussionActive /> : <View testID="discussion"><DiscussionInactive stroke={theme.TERTIARY} strokeWidth={constants.STROKE_WIDTH.MEDIUM} /></View>
                         ),
                     }}
                 />
@@ -91,7 +92,7 @@ export default function HomeStack() {
                     component={Profile}
                     options={{
                         tabBarIcon: ({ focused }) => (
-                            focused ? <ProfileActive /> : <ProfileInactive stroke={theme.TERTIARY} strokeWidth={1.5} />
+                            focused ? <ProfileActive /> : <View testID='profile'><ProfileInactive stroke={theme.TERTIARY} strokeWidth={constants.STROKE_WIDTH.MEDIUM} /></View>
                         ),
                     }}
                 />

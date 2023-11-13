@@ -1,5 +1,6 @@
 
 import { useEffect, useState } from 'react';
+import { useAuth } from 'store/AuthProvider';
 import { useFollowing } from 'store/FollowingProvider';
 import { PostType, usePosts } from 'store/PostsProvider';
 
@@ -7,7 +8,7 @@ export function useFolloweesPosts() {
     const [followeesPosts, setFolloweesPosts] = useState<PostType[] | undefined>();
     const { ids, follow, unFollow, isFollowing } = useFollowing();
     const { posts } = usePosts();
-
+    const { user } = useAuth();
 
     const fetchFolloweesPosts = async () => {
         if (ids.length > 0) {
@@ -22,7 +23,9 @@ export function useFolloweesPosts() {
     };
 
     useEffect(() => {
-        fetchFolloweesPosts();
+        if (!user?.isAnonymous) {
+            fetchFolloweesPosts();
+        }
     }, [ids]);
 
     return {

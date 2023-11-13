@@ -141,8 +141,10 @@ export default function TextField({
                         onPress={() => setSecureTextEntry(!secureTextEntry)}
                         activeOpacity={0.7}
                     >
-                        {secureTextEntry ?
-                            <PasswordVisible strokeWidth={1.5} stroke={theme.TERTIARY} /> : <PasswordInvisible strokeWidth={1.5} stroke={theme.TERTIARY} />}
+                        <View testID='showPassword'>
+                            {secureTextEntry ?
+                                <PasswordVisible strokeWidth={constants.STROKE_WIDTH.MEDIUM} stroke={theme.TERTIARY} /> : <PasswordInvisible strokeWidth={constants.STROKE_WIDTH.MEDIUM} stroke={theme.TERTIARY} />}
+                        </View>
                     </TouchableOpacity>
                     : null
                 }
@@ -155,7 +157,9 @@ export default function TextField({
                         }}
                         activeOpacity={0.7}
                     >
-                        <Clear stroke={theme.TERTIARY} />
+                        <View testID='clear'>
+                            <Clear stroke={theme.TERTIARY} />
+                        </View>
                     </TouchableOpacity>
                     : null
                 }

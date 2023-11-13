@@ -1,6 +1,6 @@
 import { firebase } from '@react-native-firebase/auth';
 import { ReactNode, createContext, useContext, useEffect, useState, } from 'react';
-import { number } from 'yup';
+import { useAuth } from './AuthProvider';
 
 export const FollowingContext = createContext<{
     ids: string[];
@@ -26,10 +26,10 @@ type FollowingContextProviderProps = {
 function FollowingContextProvider({ children }: FollowingContextProviderProps) {
     const [followingPersonsIds, setFollowingPersonsIds] = useState<string[]>([]);
     const [followersIds, setFollowersIds] = useState<string[]>([]);
+    const { user } = useAuth();
 
     useEffect(() => {
         const user = firebase.auth().currentUser;
-        console.log("kaka")
         if (user) {
             const userRef = firebase.firestore().collection('users').doc(user.uid);
             const unsubscribe = userRef.onSnapshot((doc) => {
@@ -37,9 +37,11 @@ function FollowingContextProvider({ children }: FollowingContextProviderProps) {
                     const data = doc.data();
                     if (data) {
                         if (data.following) {
+                            console.log("FOLLOWING: ", data.following);
                             setFollowingPersonsIds(data.following);
                         }
                         if (data.followers) {
+                            console.log("FOLLOWERS: ", data.followers);
                             setFollowersIds(data.followers);
                         }
                     }
@@ -48,7 +50,7 @@ function FollowingContextProvider({ children }: FollowingContextProviderProps) {
 
             return () => unsubscribe();
         }
-    }, []);
+    }, [user]);
     function follow(userUID: string) {
         const user = firebase.auth().currentUser;
         if (user) {

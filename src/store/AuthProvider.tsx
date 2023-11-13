@@ -63,38 +63,37 @@ export function AuthProvider({ children }: AuthProviderProps) {
             login: async (email: string, password: string) => {
                 await auth().signInWithEmailAndPassword(email, password);
             },
-            register: async (email: string, password: string, firstName: string, lastName: string, imageUrl: string | null | undefined) => {
-                await auth().createUserWithEmailAndPassword(email, password)
-                    .then((userCredential) => {
-                        const user = userCredential.user;
-                        let displayName = `${firstName.trim()} ${lastName.trim()}`;
-                        let photoURL = imageUrl || null;
-                        const aboutMe = "";
+            register: async (email, password, firstName, lastName, imageUrl) => {
+                try {
+                    const userCredential = await auth().createUserWithEmailAndPassword(email, password);
+                    const user = userCredential.user;
+                    let displayName = `${firstName.trim()} ${lastName.trim()}`;
+                    let photoURL = imageUrl || "";
+                    const aboutMe = "";
 
-                        if (photoURL) {
-                            user.updateProfile({
-                                displayName: displayName,
-                                photoURL: photoURL
-                            })
-                        } else {
-                            user.updateProfile({
-                                displayName: displayName
-                            })
-                        }
+                    await user.updateProfile({
+                        displayName: displayName,
+                        photoURL: photoURL
+                    });
 
+                    await user.sendEmailVerification();
 
-                        user.sendEmailVerification();
-                        firestore().collection('users').doc(user.uid).set({
-                            email: email,
-                            displayName: displayName,
-                            photoURL: photoURL,
-                            followers: [],
-                            following: [],
-                            aboutMe: aboutMe
-                        });
+                    console.log("UID: " + user.uid + " Email: " + email + " PhotoURL: " + photoURL);
 
-                    })
+                    let docRef = await firestore().collection('users').doc(user.uid);
+                    await docRef.set({
+                        email: email,
+                        displayName: displayName,
+                        photoURL: photoURL,
+                        followers: [],
+                        following: [],
+                        aboutMe: aboutMe,
+                        favoriteCryptoIds: [],
+                    });
 
+                } catch (error) {
+                    console.error("Error in register function: ", error);
+                }
             },
             logout: async () => {
                 try {

@@ -1,5 +1,6 @@
 import { firebase } from '@react-native-firebase/auth';
 import { ReactNode, createContext, useContext, useEffect, useState } from 'react';
+import { useAuth } from './AuthProvider';
 
 export const FavoritesContext = createContext<{
     ids: string[];
@@ -17,10 +18,10 @@ type FavoritesContextProviderProps = {
 
 function FavoritesContextProvider({ children }: FavoritesContextProviderProps) {
     const [favoriteCryptoIds, setFavoriteCryptoIds] = useState<string[]>([]);
+    const { user } = useAuth();
 
     useEffect(() => {
         const fetchData = async () => {
-            console.log("Fetching favorite crypto")
             const user = firebase.auth().currentUser;
             if (user) {
                 const userRef = firebase.firestore().collection('users').doc(user.uid);
@@ -28,19 +29,17 @@ function FavoritesContextProvider({ children }: FavoritesContextProviderProps) {
                 if (doc.exists) {
                     const data = doc.data();
                     if (data && data.favoriteCryptoIds) {
+                        console.log("FAVORITE CRYPTO IDS: ", data.favoriteCryptoIds);
                         setFavoriteCryptoIds(data.favoriteCryptoIds);
                     }
-                } else {
-                    const newData = {
-                        favoriteCryptoIds: [],
-                    };
-                    await userRef.set(newData);
                 }
             }
         };
-
-        fetchData();
-    }, []);
+        if (!user?.isAnonymous) {
+            console.log("User is not anonymous")
+            fetchData();
+        }
+    }, [user]);
 
     function addFavorite(id: string) {
         const user = firebase.auth().currentUser;

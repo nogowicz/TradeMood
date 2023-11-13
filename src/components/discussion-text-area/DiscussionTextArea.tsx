@@ -24,6 +24,7 @@ export default function DiscussionTextArea({ isProfileImage = true }: Discussion
     const imageSize = 55;
     const maxInputLength = 280;
 
+
     //translations:
     const placeholderTranslation = intl.formatMessage({
         defaultMessage: 'Want to share something?',
@@ -78,6 +79,7 @@ export default function DiscussionTextArea({ isProfileImage = true }: Discussion
                     onFocus={() => setFocus(true)}
                     onBlur={() => setFocus(false)}
                     value={text}
+                    scrollEnabled
                 />
                 <View style={styles.rightContainer}>
                     <View testID="sendPost">
@@ -90,7 +92,7 @@ export default function DiscussionTextArea({ isProfileImage = true }: Discussion
                             isBorder={false}
                         >
                             <SendIcon
-                                stroke={focus ? theme.PRIMARY : theme.LIGHT_HINT}
+                                stroke={focus || text.length > 0 ? theme.PRIMARY : theme.LIGHT_HINT}
                                 strokeWidth={constants.STROKE_WIDTH.MEDIUM}
                             />
                         </IconButton>

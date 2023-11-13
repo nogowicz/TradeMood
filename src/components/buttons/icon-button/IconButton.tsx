@@ -69,5 +69,6 @@ const styles = StyleSheet.create({
         justifyContent: 'center',
         alignItems: 'center',
         padding: spacing.SCALE_8,
+        zIndex: 2
     }
 });

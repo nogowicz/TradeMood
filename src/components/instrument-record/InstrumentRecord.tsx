@@ -1,4 +1,4 @@
-import { StyleSheet, Text, View, TouchableOpacity, Image, } from 'react-native'
+import { StyleSheet, Text, View, TouchableOpacity, } from 'react-native'
 import React from 'react'
 import { constants, spacing, typography } from 'styles'
 import { FormattedMessage } from 'react-intl';
@@ -6,16 +6,17 @@ import { FormattedMessage } from 'react-intl';
 import Placeholder from 'assets/icons/crypto-placeholder.svg'
 import Arrow from 'assets/icons/Go-forward.svg';;
 import { useTheme } from 'store/ThemeContext';
+import CustomImage from 'components/custom-image';
 
 type InstrumentRecordProps = {
     crypto: string;
-    sentiment: string;
+    overallSentiment: string;
     sentimentDirection: string;
     photoUrl: string;
     onPress: () => void;
 }
 const photoSize = 50;
-export default function InstrumentRecord({ crypto, sentiment, sentimentDirection, photoUrl, onPress }: InstrumentRecordProps) {
+export default function InstrumentRecord({ crypto, overallSentiment, sentimentDirection, photoUrl, onPress }: InstrumentRecordProps) {
     const theme = useTheme();
     return (
         <TouchableOpacity
@@ -24,7 +25,7 @@ export default function InstrumentRecord({ crypto, sentiment, sentimentDirection
             onPress={onPress}
         >
             {photoUrl ?
-                <Image
+                <CustomImage
                     source={{ uri: photoUrl }}
                     style={{
                         width: photoSize,
@@ -35,25 +36,25 @@ export default function InstrumentRecord({ crypto, sentiment, sentimentDirection
             <View style={styles.middleContainer}>
                 <Text style={[styles.titleText, { color: theme.TERTIARY }]}>{crypto}</Text>
                 <Text style={[styles.titleText, { color: theme.TERTIARY },
-                sentiment === 'Positive' && { color: theme.POSITIVE },
-                sentiment === 'Neutral' && { color: theme.HINT },
-                sentiment === 'Negative' && { color: theme.NEGATIVE }
+                overallSentiment === 'Positive' && { color: theme.POSITIVE },
+                overallSentiment === 'Neutral' && { color: theme.HINT },
+                overallSentiment === 'Negative' && { color: theme.NEGATIVE }
                 ]}>
-                    {sentiment === "Positive" &&
+                    {overallSentiment === "Positive" &&
                         <FormattedMessage
                             defaultMessage='Positive'
                             id='views.home.overview.trending-now.positive'
                         />
                     }
 
-                    {sentiment === "Neutral" &&
+                    {overallSentiment === "Neutral" &&
                         <FormattedMessage
                             defaultMessage='Neutral'
                             id='views.home.overview.trending-now.neutral'
                         />
                     }
 
-                    {sentiment === "Negative" &&
+                    {overallSentiment === "Negative" &&
                         <FormattedMessage
                             defaultMessage='Negative'
                             id='views.home.overview.trending-now.negative'
@@ -61,7 +62,7 @@ export default function InstrumentRecord({ crypto, sentiment, sentimentDirection
                     }
                 </Text>
             </View>
-            <View>
+            <View testID='sentimentDirection'>
                 {sentimentDirection === 'up' &&
                     <View style={[
                         styles.arrowContainer,

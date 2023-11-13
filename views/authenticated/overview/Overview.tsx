@@ -9,16 +9,16 @@ import ProfileBar from 'components/profile-bar';
 import IconButton from 'components/buttons/icon-button';
 import { SCREENS } from '@views/navigation/constants';
 import TrendingNow from 'components/trending-now';
-import { InstrumentContext, InstrumentProps } from 'store/InstrumentProvider';
+import { InstrumentContext, InstrumentProps, getMaxSentimentPositive } from 'store/InstrumentProvider';
 import InstrumentRecord from 'components/instrument-record';
 import { useTheme } from 'store/ThemeContext';
-
-import Discussion from 'assets/icons/Discussion-Inactive.svg'
-import Search from 'assets/icons/Search.svg'
 import { useFavoriteCrypto } from 'hooks/useFavoriteCrypto';
 import { useFolloweesPosts } from 'hooks/useFolloweesPosts';
 import { PostType } from 'store/PostsProvider';
 import Post from 'components/post';
+
+import Discussion from 'assets/icons/Discussion-Inactive.svg'
+import Search from 'assets/icons/Search.svg'
 
 
 type OverviewScreenNavigationProp = NativeStackScreenProps<RootStackParamList, 'Overview'>;
@@ -35,6 +35,8 @@ export default function Overview({ navigation }: OverviewProps) {
     const { favoriteCrypto } = useFavoriteCrypto();
     const { followeesPosts } = useFolloweesPosts();
 
+
+    const trendingInstrument: InstrumentProps | undefined = getMaxSentimentPositive(instruments);
 
     return (
         <SafeAreaView style={[styles.root, { backgroundColor: theme.BACKGROUND }]}>
@@ -60,7 +62,13 @@ export default function Overview({ navigation }: OverviewProps) {
                         displayName={user?.displayName}
                         imageUrl={user?.photoURL}
                         isAnonymous={user?.isAnonymous}
-                        onPress={() => navigation.navigate(SCREENS.HOME.PROFILE_WALL.ID)}
+                        onPress={() => {
+                            if (user?.isAnonymous) {
+                                navigation.navigate(SCREENS.HOME.PROFILE.ID);
+                            } else {
+                                navigation.navigate(SCREENS.HOME.PROFILE_WALL.ID)
+                            }
+                        }}
                     />
                 </View>
                 <View style={styles.mainContainer}>
@@ -78,20 +86,20 @@ export default function Overview({ navigation }: OverviewProps) {
                     <View>
 
                         <TrendingNow
-                            name={instruments ? instruments[0].crypto : ''}
+                            name={trendingInstrument ? trendingInstrument.crypto : ''}
                             title={
                                 <FormattedMessage
                                     defaultMessage='Trending Now'
                                     id='views.home.overview.trending-now.title'
                                 />
                             }
-                            positive={instruments ? instruments[0].sentimentPositive : 0}
-                            neutral={instruments ? instruments[0].sentimentNeutral : 0}
-                            negative={instruments ? instruments[0].sentimentNegative : 0}
+                            positive={trendingInstrument ? trendingInstrument.sentimentPositive : 0}
+                            neutral={trendingInstrument ? trendingInstrument.sentimentNeutral : 0}
+                            negative={trendingInstrument ? trendingInstrument.sentimentNegative : 0}
                             trendingWidget
                             onPress={() => {
                                 if (instruments && instruments.length > 0) {
-                                    navigation.navigate(SCREENS.HOME.INSTRUMENT_DETAILS.ID, { instrument: instruments[0] } as any);
+                                    navigation.navigate(SCREENS.HOME.INSTRUMENT_DETAILS.ID, { instrument: trendingInstrument } as any);
                                 }
                             }}
 
@@ -113,7 +121,7 @@ export default function Overview({ navigation }: OverviewProps) {
                                             key={instrument.id}
                                             crypto={instrument.crypto}
                                             sentimentDirection={instrument.sentimentDirection}
-                                            sentiment={instrument.sentiment}
+                                            overallSentiment={instrument.overallSentiment}
                                             photoUrl={instrument.photoUrl}
                                             onPress={() => {
                                                 navigation.navigate(SCREENS.HOME.INSTRUMENT_DETAILS.ID, { instrument: instrument } as any);

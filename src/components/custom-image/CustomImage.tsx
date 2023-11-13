@@ -1,21 +1,33 @@
-import { StyleProp, View, ImageSourcePropType, ImageURISource, Image, ImageStyle } from 'react-native';
-import React, { useState } from 'react';
+import { StyleProp, View, ImageSourcePropType, Image, ImageStyle, Text } from 'react-native';
+import React, { useEffect, useState } from 'react';
 import SkeletonPlaceholder from 'react-native-skeleton-placeholder';
 
 type ImageProps = {
-    url?: string | null;
+    url?: string;
     source?: number | undefined | ImageSourcePropType | any;
     style: StyleProp<ImageStyle>;
     size?: number;
 };
 
 export default function CustomImage({ url, source, style, size }: ImageProps) {
-    const [isImageDownloading, setIsImageDownloading] = useState(false);
+    const [isImageDownloading, setIsImageDownloading] = useState(true);
+    const [imageSource, setImageSource] = useState<ImageSourcePropType>();
 
-    const handleImageLoad = () => {
-        setIsImageDownloading(!isImageDownloading);
+    const handleImageLoadStart = () => {
+        setIsImageDownloading(true);
     };
 
+    const handleImageLoadEnd = () => {
+        setIsImageDownloading(false);
+    };
+
+    useEffect(() => {
+        if (url) {
+            setImageSource({ uri: url });
+        } else if (source) {
+            setImageSource(source);
+        }
+    }, [url, source]);
     return (
         <>
             {(url || source) && isImageDownloading && (
@@ -23,20 +35,22 @@ export default function CustomImage({ url, source, style, size }: ImageProps) {
                     <View style={style} />
                 </SkeletonPlaceholder>
             )}
-            <Image
-                source={url ? { uri: url } : source}
-                style={[
-                    {
-                        height: size,
-                        width: size,
-                        borderRadius: size && size / 2,
-                        display: (url || source) && isImageDownloading ? 'none' : 'flex',
-                    },
-                    style,
-                ]}
-                onLoadStart={handleImageLoad}
-                onLoadEnd={handleImageLoad}
-            />
+            {imageSource && (
+                <Image
+                    source={imageSource}
+                    style={[
+                        {
+                            height: size,
+                            width: size,
+                            borderRadius: size && size / 2,
+                            display: (url || source) && isImageDownloading ? 'none' : 'flex',
+                        },
+                        style,
+                    ]}
+                    onLoadStart={handleImageLoadStart}
+                    onLoadEnd={handleImageLoadEnd}
+                />
+            )}
         </>
     );
 }

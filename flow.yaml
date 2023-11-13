@@ -1,4 +1,105 @@
 appId: com.trademood
 ---
 - launchApp
-- tapOn: 'Search'
+- tapOn:
+    text: 'Get Started'
+- swipe:
+    direction: LEFT
+    duration: 2000
+- tapOn:
+    text: 'Join'
+- tapOn:
+    text: 'Login'
+- tapOn:
+    text: 'johndoe@trademood.com'
+- inputText: 's95508@pollub.edu.pl'
+- tapOn:
+    text: '********'
+- inputText: 'Q!werty1'
+- hideKeyboard
+- tapOn:
+    id: 'showPassword'
+- tapOn:
+    id: 'loginButton'
+- tapOn:
+    id: 'discussion'
+- tapOn:
+    text: 'Want to share something?'
+- inputText: 'Holing my #ETH, patiently waiting for growth.'
+- hideKeyboard
+- tapOn:
+    id: 'sendPost'
+- tapOn:
+    id: 'threeDotsIcon'
+- tapOn:
+    id: 'trashIcon'
+- tapOn:
+    id: 'search'
+- tapOn:
+    text: 'ex. Bitcoin'
+- inputText: 'Ethereum'
+- hideKeyboard
+- tapOn:
+    id: 'sentimentDirection'
+- scroll
+- tapOn:
+    text: 'Last week'
+- tapOn:
+    text: 'Last year'
+- tapOn:
+    id: 'bookmark'
+- tapOn:
+    id: 'goBack'
+- tapOn:
+    id: 'overview'
+- tapOn:
+    id: 'search'
+- tapOn:
+    id: 'clear'
+- tapOn:
+    id: 'discussion'
+- tapOn:
+    id: 'username'
+- tapOn:
+    id: 'follow'
+- scroll
+- tapOn:
+    id: 'goBack'
+- tapOn:
+    id: 'profile'
+- tapOn:
+    text: 'App Settings'
+- tapOn:
+    id: 'language'
+- tapOn:
+    text: 'Polish'
+- tapOn:
+    text: 'Angielski'
+- swipe:
+    start: 50%, 20%
+    end: 50%, 5%
+- tapOn:
+    id: 'theme'
+- tapOn:
+    text: 'Light'
+- tapOn:
+    text: 'Dark'
+- tapOn:
+    id: 'theme'
+- tapOn:
+    id: 'goBack'
+- tapOn:
+    id: 'overview'
+- tapOn:
+    id: 'sentimentDirection'
+- tapOn:
+    id: 'bookmark'
+- tapOn:
+    id: 'goBack'
+- scroll
+- tapOn:
+    id: 'follow'
+- tapOn:
+    id: 'Profile'
+- tapOn:
+    text: 'Logout'

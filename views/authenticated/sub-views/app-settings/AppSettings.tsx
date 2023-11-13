@@ -87,7 +87,9 @@ export default function AppSettings({ navigation }: AppSettingsProps) {
                             onPress={() => navigation.goBack()}
                             size={constants.ICON_SIZE.GO_BACK}
                         >
-                            <GoBack fill={theme.TERTIARY} />
+                            <View testID='goBack'>
+                                <GoBack fill={theme.TERTIARY} />
+                            </View>
                         </IconButton>
                     </View>
                     <SmallLogo />
@@ -103,42 +105,44 @@ export default function AppSettings({ navigation }: AppSettingsProps) {
                         </Text>
                     </View>
                     <View style={[styles.optionsContainer, { backgroundColor: theme.LIGHT_HINT }]}>
-                        <SubmitButton
-                            label={
-                                <FormattedMessage
-                                    defaultMessage='Language'
-                                    id='views.home.profile.app-settings.language'
-                                />
-                            }
-                            onPress={() => handleShowLangBottomSheet()}
-                            mode='option'
-                            icon={<Language
-                                fill={theme.TERTIARY}
-                                width={constants.ICON_SIZE.ICON_MEDIUM}
-                                height={constants.ICON_SIZE.ICON_MEDIUM}
-                            />}
-                            activeOpacity={constants.ACTIVE_OPACITY.MEDIUM}
-                        />
-
-                        <SubmitButton
-                            label={
-                                <FormattedMessage
-                                    defaultMessage='Theme'
-                                    id='views.home.profile.app-settings.theme'
-                                />
-                            }
-                            onPress={() => handleShowThemeBottomSheet()}
-                            mode='option'
-                            icon={<Theme
-                                fill={theme.TERTIARY}
-                                stroke={theme.BACKGROUND}
-                                width={constants.ICON_SIZE.ICON_MEDIUM}
-                                height={constants.ICON_SIZE.ICON_MEDIUM}
+                        <View testID='language'>
+                            <SubmitButton
+                                label={
+                                    <FormattedMessage
+                                        defaultMessage='Language'
+                                        id='views.home.profile.app-settings.language'
+                                    />
+                                }
+                                onPress={() => handleShowLangBottomSheet()}
+                                mode='option'
+                                icon={<Language
+                                    fill={theme.TERTIARY}
+                                    width={constants.ICON_SIZE.ICON_MEDIUM}
+                                    height={constants.ICON_SIZE.ICON_MEDIUM}
+                                />}
+                                activeOpacity={constants.ACTIVE_OPACITY.MEDIUM}
                             />
-                            }
-                            activeOpacity={constants.ACTIVE_OPACITY.MEDIUM}
-                        />
-
+                        </View>
+                        <View testID='theme'>
+                            <SubmitButton
+                                label={
+                                    <FormattedMessage
+                                        defaultMessage='Theme'
+                                        id='views.home.profile.app-settings.theme'
+                                    />
+                                }
+                                onPress={() => handleShowThemeBottomSheet()}
+                                mode='option'
+                                icon={<Theme
+                                    fill={theme.TERTIARY}
+                                    stroke={theme.BACKGROUND}
+                                    width={constants.ICON_SIZE.ICON_MEDIUM}
+                                    height={constants.ICON_SIZE.ICON_MEDIUM}
+                                />
+                                }
+                                activeOpacity={constants.ACTIVE_OPACITY.MEDIUM}
+                            />
+                        </View>
                     </View>
                 </View>
             </View>

@@ -133,7 +133,7 @@ export default function CustomChart({ instrument }: CustomChartProps) {
         setChartDataError(false);
         const { currentTimestamp, timestamp, interval } = selectDateForChart(selected);
         try {
-            const URL = `${YAHOO_FINANCE_API}/${instrument?.stockSymbol}-USD?period1=${timestamp}&period2=${currentTimestamp}&interval=${interval}&events=history`
+            const URL = `${YAHOO_FINANCE_API}/${instrument?.cryptoSymbol}-USD?period1=${timestamp}&period2=${currentTimestamp}&interval=${interval}&events=history`
             console.log(URL);
             const response = await fetch(URL);
 
@@ -178,7 +178,7 @@ export default function CustomChart({ instrument }: CustomChartProps) {
     }
 
     useEffect(() => {
-        if (instrument?.stockSymbol) {
+        if (instrument?.cryptoSymbol) {
             fetchData();
         }
     }, [selected]);
