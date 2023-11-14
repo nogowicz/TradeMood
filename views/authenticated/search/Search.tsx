@@ -1,14 +1,14 @@
 import { StyleSheet, Text, View, SafeAreaView, ScrollView, } from 'react-native'
-import React, { useState } from 'react'
+import React, { useCallback, useState } from 'react'
 import { NativeStackScreenProps } from '@react-navigation/native-stack';
 import { RootStackParamList } from '@views/navigation/Navigation';
 import { spacing, typography } from 'styles';
 import { InstrumentProps, useInstrument } from 'store/InstrumentProvider';
 import { FormattedMessage, useIntl } from 'react-intl';
+import { useTheme } from 'store/ThemeContext';
+
 import InstrumentRecord from 'components/instrument-record';
 import TextField from 'components/text-field';
-import { SCREENS } from '@views/navigation/constants';
-import { useTheme } from 'store/ThemeContext';
 
 type SearchScreenNavigationProp = NativeStackScreenProps<RootStackParamList, 'Search'>;
 
@@ -23,31 +23,35 @@ export default function Search({ navigation }: SearchProps) {
     const [search, setSearch] = useState('');
     const [filteredInstruments, setFilteredInstruments] = useState<Array<InstrumentProps> | undefined>(instruments);
 
+    //translations:
+    const placeholderText = intl.formatMessage({
+        id: 'views.home.search.text-field.placeholder',
+        defaultMessage: 'ex. Bitcoin',
+    });
 
-    const searchFilter = (searchText: string) => {
-        setSearch(searchText);
+    const filterInstruments = useCallback((searchText: string) => {
         if (searchText) {
-            const filtered = instruments?.filter((instrument: InstrumentProps) => {
+            return instruments?.filter((instrument: InstrumentProps) => {
                 return (
                     instrument.crypto.toLowerCase().includes(searchText.toLowerCase()) ||
                     instrument.cryptoSymbol.toLowerCase().includes(searchText.toLowerCase()) ||
                     instrument.overallSentiment.toLowerCase().includes(searchText.toLowerCase())
                 );
             });
-            setFilteredInstruments(filtered);
         } else {
-            setFilteredInstruments(instruments);
+            return instruments;
         }
-    }
+    }, [instruments]);
 
+    const searchFilter = useCallback((searchText: string) => {
+        setSearch(searchText);
+        setFilteredInstruments(filterInstruments(searchText));
+    }, [filterInstruments]);
 
-
-    const placeholderText = intl.formatMessage({
-        id: 'views.home.search.text-field.placeholder',
-        defaultMessage: 'ex. Bitcoin',
-    });
-
-
+    const onClearHandle = useCallback(() => {
+        setSearch('');
+        setFilteredInstruments(instruments);
+    }, [instruments]);
 
     return (
         <SafeAreaView style={[styles.root, { backgroundColor: theme.BACKGROUND }]}>
@@ -60,19 +64,13 @@ export default function Search({ navigation }: SearchProps) {
                         />
                     </Text>
                 </View>
-                <View>
-                    <TextField
-                        onChangeText={searchFilter}
-                        value={search}
-                        placeholder={placeholderText}
-                        clear={search.length > 0}
-                        onClear={() => {
-                            setSearch('');
-                            setFilteredInstruments(instruments);
-                        }}
-                    />
-                </View>
-
+                <TextField
+                    onChangeText={searchFilter}
+                    value={search}
+                    placeholder={placeholderText}
+                    clear={search.length > 0}
+                    onClear={onClearHandle}
+                />
                 <View style={styles.listTitle}>
                     <Text style={[styles.listTitleText, { color: theme.TERTIARY }]}>
                         <FormattedMessage
@@ -83,14 +81,11 @@ export default function Search({ navigation }: SearchProps) {
                 </View>
                 <ScrollView
                     showsVerticalScrollIndicator={false}
-                    style={{ flex: 1, }}
+                    style={{ flex: 1 }}
                 >
                     <View>
                         {filteredInstruments && filteredInstruments.map((instrument: InstrumentProps) => {
-                            return (
-                                <InstrumentRecord {...instrument} key={instrument.id} />
-                            )
-
+                            return <InstrumentRecord {...instrument} key={instrument.id} />
                         })}
                     </View>
                 </ScrollView>

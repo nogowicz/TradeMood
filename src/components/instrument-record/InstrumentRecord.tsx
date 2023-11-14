@@ -10,9 +10,9 @@ import { RootStackParamList } from '@views/navigation/Navigation';
 import { NativeStackNavigationProp } from '@react-navigation/native-stack';
 
 import CustomImage from 'components/custom-image';
+import { SkeletonContent } from './SkeletonContent';
 
 import Arrow from 'assets/icons/Go-forward.svg';
-import { SkeletonContent } from './SkeletonContent';
 
 
 export default function InstrumentRecord(instrument: InstrumentProps) {
@@ -66,6 +66,7 @@ export default function InstrumentRecord(instrument: InstrumentProps) {
             onPress={onPress}
         >
             <CustomImage
+                key={photoUrl}
                 source={{ uri: photoUrl }}
                 style={{ width: spacing.SCALE_50, height: spacing.SCALE_50, borderRadius: spacing.SCALE_50 / 2 }}
             />
