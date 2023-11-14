@@ -7,10 +7,10 @@ import { useTheme } from 'store/ThemeContext';
 export function SkeletonContent() {
     const theme = useTheme();
     return (
-        <SkeletonPlaceholder>
+        <SkeletonPlaceholder highlightColor={theme.PRIMARY} backgroundColor={theme.LIGHT_HINT}>
             <View style={{
                 ...styles.container,
-                borderColor: theme.HINT
+                borderColor: theme.LIGHT_HINT
             }}>
                 <View style={styles.topContainer}>
                     <SkeletonPlaceholder.Item width={spacing.SCALE_120} height={spacing.SCALE_20} borderRadius={constants.BORDER_RADIUS.SKELETON_4} />
@@ -42,7 +42,7 @@ export function SkeletonContent() {
 
 const styles = StyleSheet.create({
     container: {
-        borderWidth: 1,
+        borderWidth: constants.STROKE_WIDTH.MEDIUM,
         borderRadius: constants.BORDER_RADIUS.BUTTON,
         padding: spacing.SCALE_12,
         marginVertical: spacing.SCALE_20,

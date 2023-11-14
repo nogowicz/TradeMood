@@ -98,13 +98,7 @@ export default function Overview({ navigation }: OverviewProps) {
                                         />
                                     </Text>}
                                 {followeesAvailable && followeesPosts.map((post: PostType) => (
-                                    <Post
-                                        createdAt={post.createdAt}
-                                        likes={post.likes}
-                                        text={post.text}
-                                        uid={post.uid}
-                                        userUID={post.userUID}
-                                        key={post.key} />
+                                    <Post {...post} key={post.uid} />
                                 ))}
                             </View>
                         </View> :

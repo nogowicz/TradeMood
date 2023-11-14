@@ -2,10 +2,12 @@ import { StyleSheet, Text, View } from 'react-native'
 import React from 'react'
 import SkeletonPlaceholder from 'react-native-skeleton-placeholder'
 import { constants, spacing, typography } from 'styles'
+import { useTheme } from 'store/ThemeContext'
 
 export default function SkeletonContent() {
+    const theme = useTheme();
     return (
-        <SkeletonPlaceholder>
+        <SkeletonPlaceholder highlightColor={theme.PRIMARY} backgroundColor={theme.LIGHT_HINT}>
             <View style={styles.container}>
                 <View style={styles.textContainer}>
                     <SkeletonPlaceholder.Item width={spacing.SCALE_100} height={spacing.SCALE_10} borderRadius={constants.BORDER_RADIUS.SKELETON_4} />

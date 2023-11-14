@@ -1,14 +1,14 @@
-import { StyleSheet, Text, View } from 'react-native'
+import { StyleSheet, View } from 'react-native'
 import React from 'react'
-import IconButton from 'components/buttons/icon-button';
 import { useTheme } from 'store/ThemeContext';
 import { constants, spacing } from 'styles';
 import { useNavigation } from '@react-navigation/native';
-import ProfileBar from 'components/profile-bar';
-import { useAuth } from 'store/AuthProvider';
 import { SCREENS } from '@views/navigation/constants';
 import { NativeStackNavigationProp } from '@react-navigation/native-stack';
 import { RootStackParamList } from '@views/navigation/Navigation';
+
+import ProfileBar from 'components/profile-bar';
+import IconButton from 'components/buttons/icon-button';
 
 import Discussion from 'assets/icons/Discussion-Inactive.svg'
 import Search from 'assets/icons/Search.svg'
