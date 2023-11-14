@@ -9,6 +9,11 @@ export const BORDER_RADIUS = {
   CIRCLE: 100,
 };
 
+export const APP = {
+  NAME: 'TradeMood',
+  VERSION: 'v1.1.5',
+};
+
 export const BOTTOM_SHEET_HEIGHT = {
   PICTURE_SELECTION: 580,
   LANGUAGE_SELECTION: 520,
@@ -37,6 +42,7 @@ export const ICON_SIZE = {
   POST_IMAGE: 40,
   GO_BACK: 42,
   BIG_ICON: 48,
+  PROFILE_IMAGE: 80,
   IMAGE_PICKER_BUTTON: 80,
   PROFILE_WALL_PHOTO: 130,
   IMAGE_PICKER_MEDIUM: 200,

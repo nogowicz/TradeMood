@@ -61,27 +61,11 @@ export default function Discussion({ navigation }: DiscussionProps) {
                     {isLoading ?
                         <ActivityIndicator text={loadingPostsTranslation} /> :
                         <FlatList
-                            style={{
-                                flex: 1
-                            }}
+                            style={{ flex: 1 }}
                             data={posts}
                             keyExtractor={(item: PostType) => (item.key || '').toString()}
-                            renderItem={({ item: post }) => {
-                                if (post) {
-                                    return (
-                                        <Post
-                                            createdAt={post.createdAt}
-                                            likes={post.likes}
-                                            text={post.text}
-                                            uid={post.uid}
-                                            userUID={post.userUID}
-                                            key={post.key} />
-                                    );
-                                } else {
-                                    return null;
-                                }
-                            }}
                             showsVerticalScrollIndicator={false}
+                            renderItem={({ item: post }) => <Post {...post} key={post.uid} />}
                             refreshControl={
                                 <RefreshControl
                                     refreshing={refreshing}
