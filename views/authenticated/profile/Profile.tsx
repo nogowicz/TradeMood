@@ -2,24 +2,11 @@ import { StyleSheet, Text, View, SafeAreaView, } from 'react-native'
 import React from 'react'
 import { NativeStackScreenProps } from '@react-navigation/native-stack';
 import { RootStackParamList } from '../../../views/navigation/Navigation';
-import { useAuth } from 'store/AuthProvider';
-import { constants, spacing, typography } from 'styles';
-import { FormattedMessage } from 'react-intl';
-import SubmitButton from 'components/buttons/submit-button';
-import { SCREENS } from '@views/navigation/constants';
-import { handleLogout } from 'utils/asyncStorage';
-import Image from 'components/custom-image';
+import { constants, spacing } from 'styles';
 import { useTheme } from 'store/ThemeContext';
 
-import ProfileIcon from 'assets/icons/Profile.svg';
-import EditProfile from 'assets/icons/Edit-profile.svg';
-import Logout from 'assets/icons/Logout.svg'
-import Settings from 'assets/icons/Settings.svg'
-import About from 'assets/icons/About.svg'
-import LogIn from 'assets/icons/Log-in.svg'
-
-
-
+import OptionsContainer from './OptionsContainer';
+import ProfileInfo from './ProfileInfo';
 
 type ProfileScreenNavigationProp = NativeStackScreenProps<RootStackParamList, 'Profile'>;
 
@@ -29,173 +16,20 @@ type ProfileProps = {
 
 
 export default function Profile({ navigation }: ProfileProps) {
-    const { user, logout } = useAuth();
     const theme = useTheme();
-    const imageSize = 80;
 
     return (
-        <SafeAreaView style={[styles.root, { backgroundColor: theme.BACKGROUND }]}>
+        <SafeAreaView style={{
+            ...styles.root,
+            backgroundColor: theme.BACKGROUND,
+        }}>
             <View style={styles.container}>
-                <View style={styles.actionBar}>
-                    {user?.photoURL ?
-                        <Image
-                            url={user?.photoURL}
-                            style={{ width: imageSize, height: imageSize, borderRadius: imageSize / 2 }}
-                        />
-                        :
-                        <Image
-                            source={require('assets/profile/profile-picture.png')}
-                            style={{ width: imageSize, height: imageSize, borderRadius: imageSize / 2 }}
-                        />
-                    }
-
-                </View>
-                <View style={styles.mainContainer}>
-                    <View style={styles.sectionTitleContainer}>
-                        <Text style={[styles.sectionTitle, { color: theme.TERTIARY }]}>
-                            <FormattedMessage
-                                defaultMessage='Hello, '
-                                id='views.home.profile.title'
-                            />
-                        </Text>
-                        <Text style={[styles.sectionTitle, { color: theme.TERTIARY }]}>
-                            {user?.isAnonymous ?
-                                <FormattedMessage
-                                    defaultMessage='Stranger'
-                                    id='views.home.welcome-text.anonymous'
-                                />
-                                :
-                                user?.displayName?.split(" ")[0]}
-                        </Text>
-                    </View>
-
-
-                    <View style={[styles.optionsContainer, { backgroundColor: theme.LIGHT_HINT }]}>
-                        {!user?.isAnonymous &&
-                            <SubmitButton
-                                label={
-                                    <FormattedMessage
-                                        defaultMessage='Your Profile'
-                                        id='views.home.profile.your-profile'
-                                    />
-                                }
-                                onPress={() => navigation.navigate(SCREENS.HOME.PROFILE_WALL.ID)}
-                                mode='option'
-                                icon={<ProfileIcon
-                                    strokeWidth={constants.STROKE_WIDTH.MEDIUM}
-                                    stroke={theme.TERTIARY}
-                                    width={constants.ICON_SIZE.ICON_MEDIUM}
-                                    height={constants.ICON_SIZE.ICON_MEDIUM}
-                                />}
-                                activeOpacity={constants.ACTIVE_OPACITY.MEDIUM}
-                            />}
-                        {!user?.isAnonymous &&
-                            <SubmitButton
-                                label={
-                                    <FormattedMessage
-                                        defaultMessage='Edit Profile'
-                                        id='views.home.profile.edit-profile'
-                                    />
-                                }
-                                onPress={() => navigation.navigate(SCREENS.HOME.EDIT_PROFILE.ID)}
-                                mode='option'
-                                icon={<EditProfile
-                                    strokeWidth={constants.STROKE_WIDTH.MEDIUM}
-                                    stroke={theme.TERTIARY}
-                                    width={constants.ICON_SIZE.ICON_MEDIUM}
-                                    height={constants.ICON_SIZE.ICON_MEDIUM}
-                                />}
-                                activeOpacity={constants.ACTIVE_OPACITY.MEDIUM}
-                            />}
-                        <SubmitButton
-                            label={
-                                <FormattedMessage
-                                    defaultMessage='App Settings'
-                                    id='views.home.profile.app-settings'
-                                />
-                            }
-                            onPress={() => navigation.navigate(SCREENS.HOME.APP_SETTINGS.ID)}
-                            mode='option'
-                            icon={<Settings
-                                stroke={theme.TERTIARY}
-                                strokeWidth={constants.STROKE_WIDTH.MEDIUM}
-                                width={constants.ICON_SIZE.ICON_MEDIUM}
-                                height={constants.ICON_SIZE.ICON_MEDIUM}
-                            />}
-                            activeOpacity={constants.ACTIVE_OPACITY.MEDIUM}
-                        />
-                        <SubmitButton
-                            label={
-                                <FormattedMessage
-                                    defaultMessage='About'
-                                    id='views.home.profile.about'
-                                />
-                            }
-                            onPress={() => navigation.navigate(SCREENS.HOME.ABOUT_US.ID)}
-                            mode='option'
-                            icon={<About
-                                strokeWidth={constants.STROKE_WIDTH.MEDIUM}
-                                stroke={theme.TERTIARY}
-                                width={constants.ICON_SIZE.ICON_MEDIUM}
-                                height={constants.ICON_SIZE.ICON_MEDIUM}
-                            />}
-                            activeOpacity={constants.ACTIVE_OPACITY.MEDIUM}
-                        />
-                        {!user?.isAnonymous &&
-                            <SubmitButton
-                                label={
-                                    <FormattedMessage
-                                        defaultMessage='Logout'
-                                        id='views.home.profile.logout'
-                                    />
-                                }
-                                onPress={() => {
-                                    logout().then(() => {
-                                        handleLogout(['instruments', 'fcmToken'])
-                                        navigation.navigate(SCREENS.AUTH.WELCOME.ID);
-
-                                    });
-                                }}
-                                mode='option'
-                                icon={<Logout
-                                    strokeWidth={constants.STROKE_WIDTH.MEDIUM}
-                                    stroke={theme.TERTIARY}
-                                    width={constants.ICON_SIZE.ICON_MEDIUM}
-                                    height={constants.ICON_SIZE.ICON_MEDIUM}
-                                />}
-                                activeOpacity={constants.ACTIVE_OPACITY.MEDIUM}
-                            />}
-
-                        {user?.isAnonymous &&
-                            <SubmitButton
-                                label={
-                                    <FormattedMessage
-                                        defaultMessage='Log in or Sign in'
-                                        id='views.home.profile.log-in-or-sign-in'
-                                    />
-                                }
-                                onPress={() => {
-                                    logout().then(() => {
-                                        handleLogout(['instruments', 'fcmToken'])
-                                        navigation.navigate(SCREENS.AUTH.WELCOME.ID);
-
-                                    });
-                                }}
-                                mode='option'
-                                icon={<LogIn
-                                    strokeWidth={constants.STROKE_WIDTH.MEDIUM}
-                                    stroke={theme.TERTIARY}
-                                    width={constants.ICON_SIZE.ICON_MEDIUM}
-                                    height={constants.ICON_SIZE.ICON_MEDIUM}
-                                />}
-                                activeOpacity={constants.ACTIVE_OPACITY.MEDIUM}
-                            />}
-                    </View>
-                </View>
+                <ProfileInfo />
+                <OptionsContainer />
             </View>
             <View style={styles.infoTextContainer}>
-                <Text style={[styles.infoText, { color: theme.HINT }]}>TradeMood</Text>
-                <Text style={[styles.infoText, { color: theme.HINT }]}>v1.1.5</Text>
+                <Text style={{ color: theme.HINT }}>{constants.APP.NAME}</Text>
+                <Text style={{ color: theme.HINT }}>{constants.APP.VERSION}</Text>
             </View>
         </SafeAreaView>
     )
@@ -210,29 +44,8 @@ const styles = StyleSheet.create({
         paddingHorizontal: spacing.SCALE_20,
         paddingTop: spacing.SCALE_20,
     },
-    actionBar: {
-        flexDirection: 'row',
-        justifyContent: 'space-between'
-    },
-    sectionTitle: {
-        ...typography.FONT_BOLD,
-        fontSize: typography.FONT_SIZE_28,
-        fontWeight: typography.FONT_WEIGHT_BOLD,
-    },
-    mainContainer: {
-        marginTop: spacing.SCALE_18,
-    },
-    sectionTitleContainer: {
-        flexDirection: 'row',
-    },
-    optionsContainer: {
-        borderRadius: constants.BORDER_RADIUS.BOTTOM_SHEET,
-        marginVertical: spacing.SCALE_40,
-    },
     infoTextContainer: {
         alignItems: 'center',
         marginVertical: spacing.SCALE_8,
     },
-    infoText: {
-    }
 })

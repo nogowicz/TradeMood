@@ -10,15 +10,15 @@ export default function Providers() {
 
   return (
     <AuthProvider>
-      <FollowingContextProvider>
-        <InstrumentProvider>
+      <InstrumentProvider>
+        <FollowingContextProvider>
           <PostsContextProvider>
             <FavoritesContextProvider>
               <Routes />
             </FavoritesContextProvider>
           </PostsContextProvider>
-        </InstrumentProvider>
-      </FollowingContextProvider>
+        </FollowingContextProvider>
+      </InstrumentProvider>
     </AuthProvider>
   );
 }

@@ -1,15 +1,13 @@
-import {
-    StyleSheet,
-    Text,
-    View,
-    TouchableOpacity,
-} from 'react-native'
-import React, { ReactNode } from 'react'
+import { StyleSheet, Text, View, TouchableOpacity, } from 'react-native'
+import React, { ReactNode, useEffect, useState } from 'react'
 import { constants, spacing, typography } from 'styles'
-import Pie from 'react-native-pie'
-import GoFroward from 'assets/icons/Go-forward.svg'
 import { FormattedMessage } from 'react-intl'
 import { useTheme } from 'store/ThemeContext'
+
+import GoForward from 'assets/icons/Go-forward.svg'
+
+import { SkeletonContent } from './SkeletonContent'
+import Pie from 'react-native-pie'
 
 type TrendingNowProps = {
     name?: string;
@@ -23,6 +21,14 @@ type TrendingNowProps = {
 
 export default function TrendingNow({ name, title, positive, neutral, negative, onPress, trendingWidget }: TrendingNowProps) {
     const theme = useTheme();
+    const [isLoading, setIsLoading] = useState(true);
+
+    useEffect(() => {
+        if (name || (title && positive && neutral && negative)) {
+            setIsLoading(false);
+        }
+    }, [name, title, positive, neutral, negative]);
+
     const data = [
         {
             percentage: positive,
@@ -36,7 +42,12 @@ export default function TrendingNow({ name, title, positive, neutral, negative, 
             percentage: neutral,
             color: theme.HINT
         },
-    ]
+    ];
+
+
+    if (isLoading) {
+        return <SkeletonContent />;
+    }
     return (
         <View style={[styles.container, { borderColor: theme.LIGHT_HINT }]}>
 
@@ -56,14 +67,14 @@ export default function TrendingNow({ name, title, positive, neutral, negative, 
                                 id='views.home.overview.trending-now.details'
                             />
                         </Text>
-                        <GoFroward width={6} style={{ color: theme.TERTIARY }} />
+                        <GoForward width={spacing.SCALE_6} style={{ color: theme.TERTIARY }} />
                     </TouchableOpacity>
                 }
             </View>
             <View style={styles.bottomContainer}>
                 <Pie
-                    radius={60}
-                    innerRadius={40}
+                    radius={spacing.SCALE_60}
+                    innerRadius={spacing.SCALE_40}
                     sections={data}
                     strokeCap='butt'
                 />

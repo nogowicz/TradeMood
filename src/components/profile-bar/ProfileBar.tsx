@@ -1,83 +1,99 @@
-import {
-    StyleSheet,
-    Text,
-    View,
-    TouchableOpacity,
-} from 'react-native'
-import React from 'react'
+import { StyleSheet, Text, View, TouchableOpacity, } from 'react-native'
+import React, { useEffect, useState } from 'react'
 import { constants, spacing, typography } from 'styles'
 import { FormattedMessage } from 'react-intl';
-import Image from 'components/custom-image';
 import { useTheme } from 'store/ThemeContext';
+import { useAuth } from 'store/AuthProvider';
+import { useNavigation } from '@react-navigation/native';
+import { NativeStackNavigationProp } from '@react-navigation/native-stack';
+import { RootStackParamList } from '@views/navigation/Navigation';
+import { SCREENS } from '@views/navigation/constants';
+import CustomImage from 'components/custom-image';
 
-type ProfileBarProps = {
-    displayName: string | null | undefined;
-    imageUrl: string | null | undefined;
-    activeOpacity?: number;
-    isAnonymous: boolean | undefined;
-    onPress: () => void;
-}
+import SkeletonContent from './SkeletonContent';
 
-export default function ProfileBar({
-    displayName,
-    imageUrl,
-    activeOpacity = 0.7,
-    isAnonymous,
-    onPress,
-}: ProfileBarProps) {
+
+export default function ProfileBar() {
     const theme = useTheme();
-    const imageSize = 40;
+    const { user } = useAuth();
+    const navigation = useNavigation<NativeStackNavigationProp<RootStackParamList>>();
+    const [isLoading, setIsLoading] = useState(true);
+
+    useEffect(() => {
+        if (user) {
+            setIsLoading(false);
+        }
+    }, [user]);
+
     const currentDate = new Date();
     const currentHour = currentDate.getHours();
+
+    const onPress = () => {
+        if (user?.isAnonymous) {
+            navigation.navigate(SCREENS.HOME.PROFILE.ID);
+        } else {
+            navigation.navigate(SCREENS.HOME.PROFILE_WALL.ID)
+        }
+    };
+
+    const greetings = {
+        morning: {
+            condition: (currentHour: number) => currentHour >= 5 && currentHour < 12,
+            defaultMessage: 'Good Morning!',
+            id: 'views.home.welcome-text.good-morning',
+        },
+        afternoon: {
+            condition: (currentHour: number) => currentHour >= 12 && currentHour < 18,
+            defaultMessage: 'Good Afternoon!',
+            id: 'views.home.welcome-text.good-afternoon',
+        },
+        evening: {
+            condition: (currentHour: number) => currentHour >= 18 && currentHour < 24,
+            defaultMessage: 'Good evening!',
+            id: 'views.home.welcome-text.good-evening',
+        },
+        night: {
+            condition: (currentHour: number) => currentHour >= 0 && currentHour < 5,
+            defaultMessage: 'Hello!',
+            id: 'views.home.welcome-text.hello',
+        },
+    };
+
+    if (isLoading) {
+        return <SkeletonContent />
+    }
+
     return (
         <TouchableOpacity
             style={[styles.container, { borderColor: theme.LIGHT_HINT }]}
-            activeOpacity={activeOpacity}
+            activeOpacity={constants.ACTIVE_OPACITY.MEDIUM}
             onPress={onPress}
         >
             <View style={styles.textContainer}>
                 <Text style={[styles.welcomeText, { color: theme.HINT }]}>
-                    {(currentHour >= 5 && currentHour < 12) &&
-                        <FormattedMessage
-                            defaultMessage='Good Morning!'
-                            id='views.home.welcome-text.good-morning'
-                        />}
-                    {(currentHour >= 12 && currentHour < 18) &&
-                        <FormattedMessage
-                            defaultMessage='Good Afternoon!'
-                            id='views.home.welcome-text.good-afternoon'
-                        />}
-                    {(currentHour >= 18 && currentHour < 24) &&
-                        <FormattedMessage
-                            defaultMessage='Good evening!'
-                            id='views.home.welcome-text.good-evening'
-                        />}
-                    {(currentHour >= 0 && currentHour < 5) &&
-                        <FormattedMessage
-                            defaultMessage='Hello!'
-                            id='views.home.welcome-text.hello'
-                        />}
+                    {Object.values(greetings).map((greeting) =>
+                        greeting.condition(currentHour) && (
+                            <FormattedMessage
+                                defaultMessage={greeting.defaultMessage}
+                                id={greeting.id}
+                                key={greeting.id}
+                            />
+                        )
+                    )}
                 </Text>
                 <Text style={[styles.displayName, { color: theme.TERTIARY }]}>
-                    {isAnonymous ?
+                    {user?.isAnonymous ?
                         <FormattedMessage
                             defaultMessage='Stranger'
                             id='views.home.welcome-text.anonymous'
-                        />
-                        :
-                        displayName}
+                        /> :
+                        user?.displayName}
                 </Text>
             </View>
             <View>
-                {imageUrl ?
-                    <Image
-                        source={{ uri: imageUrl }}
-                        style={{ width: imageSize, height: imageSize, borderRadius: imageSize / 2 }}
-                    /> :
-                    <Image
-                        source={require('assets/profile/profile-picture.png')}
-                        style={{ width: imageSize, height: imageSize, borderRadius: imageSize / 2 }}
-                    />
+                {user?.photoURL ?
+                    <CustomImage source={{ uri: user?.photoURL }} style={styles.imageStyle} /> :
+                    <CustomImage source={require('assets/profile/profile-picture.png')} style={styles.imageStyle} />
                 }
             </View>
         </TouchableOpacity>
@@ -107,5 +123,10 @@ const styles = StyleSheet.create({
     textContainer: {
         justifyContent: 'center',
         alignItems: 'flex-end',
+    },
+    imageStyle: {
+        width: spacing.SCALE_40,
+        height: spacing.SCALE_40,
+        borderRadius: spacing.SCALE_40 / 2
     }
 })

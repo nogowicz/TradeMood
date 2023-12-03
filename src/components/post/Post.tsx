@@ -1,49 +1,61 @@
 import { StyleSheet, Text, TouchableOpacity, View } from 'react-native'
 import React, { useEffect, useLayoutEffect, useState } from 'react'
-import CustomImage from 'components/custom-image';
+import { useNavigation } from '@react-navigation/native';
+import { NativeStackNavigationProp } from '@react-navigation/native-stack';
+import firestore from '@react-native-firebase/firestore';
+import Animated, { useSharedValue, withTiming, Easing, useAnimatedStyle } from 'react-native-reanimated';
+import { useIntl } from 'react-intl';
+
+import { SCREENS } from '@views/navigation/constants';
+import { RootStackParamList } from '@views/navigation/Navigation';
 import { useTheme } from 'store/ThemeContext';
 import { constants, spacing, typography } from 'styles';
-import firestore from '@react-native-firebase/firestore';
 import { useAuth } from 'store/AuthProvider';
 import { formatLongDate } from 'utils/dateFormat';
-import { useIntl } from 'react-intl';
-import Animated, { useSharedValue, withTiming, Easing, useAnimatedStyle } from 'react-native-reanimated';
-import IconButton from 'components/buttons/icon-button';
 import { PostType, usePosts } from 'store/PostsProvider';
 import { useFollowing } from 'store/FollowingProvider';
-import { useNavigation } from '@react-navigation/native';
-import { SCREENS } from '@views/navigation/constants';
-import { NativeStackNavigationProp } from '@react-navigation/native-stack';
-import { RootStackParamList } from '@views/navigation/Navigation';
+
+
+import CustomImage from 'components/custom-image';
+import IconButton from 'components/buttons/icon-button';
 
 import HeartIcon from 'assets/icons/Heart-icon.svg';
 import ThreeDotsIcon from 'assets/icons/ThreeDots-icon.svg';
 import TrashIcon from 'assets/icons/Trash-icon.svg';
 import PlusIcon from 'assets/icons/Plus-icon.svg';
 import CheckIcon from 'assets/icons/Check-icon.svg';
+import { SkeletonContent } from './SkeletonContent';
 
 
 
-export default function Post({
-    createdAt,
-    likes,
-    text,
-    uid,
-    userUID,
-}: PostType) {
-    const imageSize = 40;
+export default function Post(post: PostType) {
+    const { userUID, text, createdAt, likes, uid } = post;
     const theme = useTheme();
     const { user } = useAuth();
     const { deletePost, toggleLikePost } = usePosts();
-    const intl = useIntl();
-    const date = new Date(createdAt);
-    const [isTrashVisible, setIsTrashVisible] = useState(false);
-    const trashScale = useSharedValue(0);
-    const [photoURL, setPhotoURL] = useState();
-    const [displayName, setDisplayName] = useState();
     const { follow, unFollow, isFollowing } = useFollowing();
-    const [isFollowingState, setIsFollowingState] = useState<boolean>();
+    const intl = useIntl();
     const navigation = useNavigation<NativeStackNavigationProp<RootStackParamList>>();
+    const trashScale = useSharedValue(0);
+
+    const [isTrashVisible, setIsTrashVisible] = useState(false);
+    const [photoURL, setPhotoURL] = useState(undefined);
+    const [displayName, setDisplayName] = useState(undefined);
+    const [isFollowingState, setIsFollowingState] = useState<boolean>();
+    const [isLoading, setIsLoading] = useState(false);
+
+
+    const date = new Date(createdAt);
+    const formattedDate = formatLongDate(date, intl)
+    const isLiked = user && likes.includes(user.uid);
+    const isMyProfile = user && userUID === user.uid;
+    const isNotAnonymousAndNotMyProfile = user && user.uid !== userUID && !user.isAnonymous;
+
+    useEffect(() => {
+        if (post && displayName) {
+            setIsLoading(false);
+        }
+    }, [post, userUID]);
 
     useLayoutEffect(() => {
         setIsFollowingState(isFollowing(userUID));
@@ -60,6 +72,19 @@ export default function Post({
     }, [userUID]);
 
 
+
+    useEffect(() => {
+        trashScale.value = withTiming(isTrashVisible ? 1 : 0, {
+            duration: 200,
+            easing: Easing.inOut(Easing.ease),
+        });
+    }, [isTrashVisible])
+
+
+    const handleToggleTrash = () => {
+        setIsTrashVisible(!isTrashVisible);
+    }
+
     async function toggleFollowUser(userUID: string) {
         if (user) {
             if (isFollowing(userUID)) {
@@ -69,17 +94,12 @@ export default function Post({
             }
         }
     }
-    useEffect(() => {
-        trashScale.value = withTiming(isTrashVisible ? 1 : 0, {
-            duration: 200,
-            easing: Easing.inOut(Easing.ease),
-        });
-    }, [isTrashVisible])
 
-
-    function handleToggleTrash() {
-        setIsTrashVisible(!isTrashVisible);
-    }
+    const handleLikePress = () => {
+        if (user && !user.isAnonymous) {
+            toggleLikePost(uid, user?.uid, likes);
+        }
+    };
 
     const animatedStyle = useAnimatedStyle(() => {
         return {
@@ -87,21 +107,20 @@ export default function Post({
         };
     });
 
-
+    if (isLoading) {
+        return <SkeletonContent />
+    }
 
     return (
-        <View style={[
-            styles.container,
-            {
-                borderColor: theme.LIGHT_HINT
-            }
-        ]}>
+        <View style={{
+            ...styles.container,
+            borderColor: theme.LIGHT_HINT
+        }}>
             <View style={styles.upperContainer}>
                 <View style={styles.upperLeftContainer}>
                     <TouchableOpacity
                         style={styles.upperLeftContainer}
                         activeOpacity={constants.ACTIVE_OPACITY.MEDIUM}
-                        //@ts-ignore
                         onPress={() => navigation.navigate(SCREENS.HOME.PROFILE_WALL.ID, {
                             userUID: userUID
                         })}
@@ -109,21 +128,20 @@ export default function Post({
                         {photoURL ? (
                             <CustomImage
                                 url={photoURL}
-                                style={{ width: imageSize, height: imageSize, borderRadius: imageSize / 2 }}
+                                style={styles.imageStyle}
                             />
                         ) : (
                             <CustomImage
                                 source={require('assets/profile/profile-picture.png')}
-                                style={{ width: imageSize, height: imageSize, borderRadius: imageSize / 2 }}
+                                style={styles.imageStyle}
                             />
                         )}
-                        <Text testID='username' style={[
-                            styles.nameText,
-                            {
-                                color: theme.TERTIARY,
-                            }]}>{displayName}</Text>
+                        <Text testID='username' style={{
+                            ...styles.nameText,
+                            color: theme.TERTIARY,
+                        }}>{displayName}</Text>
                     </TouchableOpacity>
-                    {(user && user.uid !== userUID && !user.isAnonymous) &&
+                    {isNotAnonymousAndNotMyProfile &&
                         <IconButton
                             onPress={() => toggleFollowUser(userUID)}
                             size={constants.ICON_SIZE.ICON}
@@ -145,18 +163,18 @@ export default function Post({
                             </View>
                         </IconButton>}
                 </View>
-                {(user && userUID === user.uid) &&
-                    <View style={{
-                        flexDirection: 'row',
-                        gap: spacing.SCALE_8,
-                    }}>
+                {isMyProfile &&
+                    <View style={styles.myProfileOptions}>
 
                         <Animated.View style={animatedStyle} testID='trashIcon'>
                             <IconButton
                                 onPress={() => deletePost(uid)}
                                 size={constants.ICON_SIZE.ACTIVITY_INDICATOR}
                             >
-                                <TrashIcon stroke={theme.NEGATIVE} strokeWidth={constants.STROKE_WIDTH.MEDIUM} />
+                                <TrashIcon
+                                    stroke={theme.NEGATIVE}
+                                    strokeWidth={constants.STROKE_WIDTH.MEDIUM}
+                                />
                             </IconButton>
                         </Animated.View>
 
@@ -167,39 +185,39 @@ export default function Post({
                                 size={constants.ICON_SIZE.ACTIVITY_INDICATOR}
                                 isBorder={false}
                             >
-                                <ThreeDotsIcon fill={theme.TERTIARY} width={constants.ICON_SIZE.ACTIVITY_INDICATOR / 2} height={constants.ICON_SIZE.ACTIVITY_INDICATOR / 2} />
+                                <ThreeDotsIcon
+                                    fill={theme.TERTIARY}
+                                    width={constants.ICON_SIZE.ACTIVITY_INDICATOR / 2}
+                                    height={constants.ICON_SIZE.ACTIVITY_INDICATOR / 2}
+                                />
                             </IconButton>
                         </View>
                     </View>
                 }
             </View >
-            <Text style={[
-                styles.contentText,
-                {
-                    color: theme.TERTIARY,
-                }
-            ]}>{text}</Text>
+            <Text style={{
+                ...styles.contentText,
+                color: theme.TERTIARY,
+            }}>{text}</Text>
             <View style={styles.bottomContainer}>
                 <View style={styles.likesContainer}>
                     <IconButton
-                        onPress={() => {
-                            if (user && !user.isAnonymous) {
-                                toggleLikePost(uid, user?.uid, likes);
-                            }
-                        }}
-                        size={35}
+                        onPress={handleLikePress}
+                        size={constants.ICON_SIZE.ICON_MEDIUM}
                         isBorder={false}
                     >
                         <HeartIcon
                             stroke={theme.LIGHT_HINT}
-                            fill={(user && likes.includes(user.uid)) ? theme.NEGATIVE : theme.BACKGROUND}
-                            width={35}
-                            height={35}
+                            fill={isLiked ? theme.NEGATIVE : theme.BACKGROUND}
+                            width={constants.ICON_SIZE.ICON_MEDIUM}
+                            height={constants.ICON_SIZE.ICON_MEDIUM}
                         />
                     </IconButton>
-                    <Text style={{ color: theme.LIGHT_HINT, fontSize: typography.FONT_SIZE_18 }}>{likes.length}</Text>
+                    <Text style={{ color: theme.LIGHT_HINT, fontSize: typography.FONT_SIZE_18 }}>
+                        {likes.length}
+                    </Text>
                 </View>
-                <Text style={{ color: theme.HINT }}>{formatLongDate(date, intl)}</Text>
+                <Text style={{ color: theme.HINT }}>{formattedDate}</Text>
             </View>
         </View >
 
@@ -246,4 +264,13 @@ const styles = StyleSheet.create({
         alignItems: 'center',
         gap: spacing.SCALE_4,
     },
+    imageStyle: {
+        width: constants.ICON_SIZE.POST_IMAGE,
+        height: constants.ICON_SIZE.POST_IMAGE,
+        borderRadius: constants.ICON_SIZE.POST_IMAGE / 2
+    },
+    myProfileOptions: {
+        flexDirection: 'row',
+        gap: spacing.SCALE_8,
+    }
 })

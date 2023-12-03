@@ -63,7 +63,6 @@ export function InstrumentProvider({ children }: InstrumentProviderProps) {
                 });
             }
         };
-        console.log("FETCH INSTRUMENTS:")
         fetchInstruments();
     }, []);
 
@@ -107,37 +106,6 @@ export function InstrumentProvider({ children }: InstrumentProviderProps) {
             });
 
             setInstruments(list);
-
-
-            // const transactionPromises = list.map((instrument) => {
-            //     const documentRef = collectionRef.doc(instrument.crypto);
-            //     return firestore()
-            //         .runTransaction(async (transaction) => {
-            //             const snapshot = await transaction.get(documentRef);
-            //             const existingData = snapshot.data();
-            //             const newData = { ...existingData, instruments: instrument };
-            //             transaction.set(documentRef, newData);
-            //             AsyncStorage.setItem('instruments', JSON.stringify(list));
-            //         })
-            //         .catch((error) => {
-            //             console.log('Error while saving instruments', error)
-            //             Snackbar.show({
-            //                 text: fetchingDataErrorTranslation,
-            //                 duration: Snackbar.LENGTH_LONG,
-            //             });
-            //         });
-            // });
-
-            // Promise.all(transactionPromises)
-            //     .then(() => console.log('Instruments list saved to Firestore and AsyncStorage'))
-            //     .catch((error) => {
-            //         console.log('Error while saving instruments', error)
-            //         Snackbar.show({
-            //             text: fetchingDataErrorTranslation,
-            //             duration: Snackbar.LENGTH_SHORT,
-            //         });
-            //     });
-
             AsyncStorage.setItem('instruments', JSON.stringify(list));
         });
 
@@ -151,15 +119,17 @@ export function InstrumentProvider({ children }: InstrumentProviderProps) {
     );
 }
 
+
 export function useInstrument() {
     const instruments = useContext(InstrumentContext);
 
-    if (instruments === undefined) {
-        throw new Error('useInstrument must be used within an InstrumentProvider');
+    if (!instruments) {
+        console.log('useInstrument must be used within an InstrumentProvider');
     }
 
     return instruments;
 }
+
 
 export function getMaxSentimentPositive(data: InstrumentProps[] | undefined): InstrumentProps | undefined {
     if (data) {
