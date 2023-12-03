@@ -1,4 +1,4 @@
-import { Animated, StyleSheet, Text, TouchableOpacity, View, Image } from 'react-native'
+import { Animated, StyleSheet, Text, TouchableOpacity, View, } from 'react-native'
 import React from 'react'
 import IconButton from 'components/buttons/icon-button'
 import { useAuth } from 'store/AuthProvider'
@@ -11,6 +11,7 @@ import { constants, spacing, typography } from 'styles'
 import { InstrumentProps } from 'store/InstrumentProvider'
 import { NavigationProp } from '@react-navigation/native'
 import { RootStackParamList } from '@views/navigation/Navigation'
+import CustomImage from 'components/custom-image'
 
 
 type AnimatedNavigationBarProps = {
@@ -78,7 +79,7 @@ export default function AnimatedNavigationBar({ scrollY, instrument, navigation 
                     },
                 ]}
             >
-                <Image
+                <CustomImage
                     source={{ uri: instrument.photoUrl }}
                     style={styles.image}
                 />

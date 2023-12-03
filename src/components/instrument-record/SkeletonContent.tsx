@@ -8,7 +8,10 @@ export function SkeletonContent() {
   const theme = useTheme();
   return (
     <SkeletonPlaceholder highlightColor={theme.PRIMARY} backgroundColor={theme.LIGHT_HINT}>
-      <View style={styles.container}>
+      <View style={{
+        ...styles.container,
+        borderColor: theme.LIGHT_HINT
+      }}>
         <SkeletonPlaceholder.Item
           width={spacing.SCALE_50}
           height={spacing.SCALE_50}

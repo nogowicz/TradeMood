@@ -17,9 +17,6 @@ import TrendingNow from 'components/trending-now';
 import InstrumentRecord from 'components/instrument-record';
 import ProfileOverviewBar from 'components/profile-overview-bar';
 
-
-
-
 type OverviewScreenNavigationProp = NativeStackScreenProps<RootStackParamList, 'Overview'>;
 
 type OverviewProps = {
@@ -52,10 +49,7 @@ export default function Overview({ navigation }: OverviewProps) {
                         />
                     </Text>
                 </View>
-                <ScrollView
-                    showsVerticalScrollIndicator={false}
-                    style={{ flex: 1, }}
-                >
+                <ScrollView showsVerticalScrollIndicator={false}>
                     <TrendingNow
                         name={trendingInstrument ? trendingInstrument.crypto : ''}
                         positive={trendingInstrument ? trendingInstrument.sentimentPositive : 0}

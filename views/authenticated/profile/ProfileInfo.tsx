@@ -11,7 +11,7 @@ export default function ProfileInfo() {
   const { user } = useAuth();
   const theme = useTheme();
   return (
-    <View style={styles.actionBar}>
+    <View style={styles.container}>
       {user?.photoURL ?
         <CustomImage
           url={user?.photoURL}
@@ -45,7 +45,7 @@ export default function ProfileInfo() {
 }
 
 const styles = StyleSheet.create({
-  actionBar: {
+  container: {
     gap: spacing.SCALE_16
   },
   sectionTitle: {

@@ -37,10 +37,7 @@ export default function EditPicture({ navigation }: EditPictureProps) {
                     <View style={styles.actionContainer}>
                         <View style={styles.actionContainerComponent} >
                             <IconButton
-                                onPress={
-                                    () => {
-                                        navigation.goBack()
-                                    }}
+                                onPress={() => navigation.goBack()}
                                 size={constants.ICON_SIZE.GO_BACK}
                             >
                                 <GoBack fill={theme.TERTIARY} />
@@ -103,6 +100,7 @@ const styles = StyleSheet.create({
         paddingHorizontal: spacing.SCALE_18,
         paddingVertical: spacing.SCALE_18,
         justifyContent: 'space-between',
+        marginBottom: spacing.SCALE_30
     },
     actionContainer: {
         flexDirection: 'row',

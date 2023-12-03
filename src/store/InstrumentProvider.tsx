@@ -119,6 +119,7 @@ export function InstrumentProvider({ children }: InstrumentProviderProps) {
     );
 }
 
+
 export function useInstrument() {
     const instruments = useContext(InstrumentContext);
 
@@ -128,6 +129,7 @@ export function useInstrument() {
 
     return instruments;
 }
+
 
 export function getMaxSentimentPositive(data: InstrumentProps[] | undefined): InstrumentProps | undefined {
     if (data) {
