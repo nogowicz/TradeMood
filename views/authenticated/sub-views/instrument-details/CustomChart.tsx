@@ -49,8 +49,7 @@ export default function CustomChart({ instrument }: CustomChartProps) {
     const chartWidth = (Dimensions.get("window").width) - 50
     const chartHeight = 380;
 
-
-
+    console.log("lala")
     //translations:
     const chartLoadingErrorTranslation = intl.formatMessage({
         defaultMessage: "We couldn't load chart data",
