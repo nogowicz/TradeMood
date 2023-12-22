@@ -11,7 +11,7 @@ export const BORDER_RADIUS = {
 
 export const APP = {
   NAME: 'TradeMood',
-  VERSION: 'v1.1.7',
+  VERSION: 'v1.1.8',
 };
 
 export const BOTTOM_SHEET_HEIGHT = {

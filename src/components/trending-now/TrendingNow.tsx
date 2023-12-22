@@ -24,7 +24,7 @@ export default function TrendingNow({ name, title, positive, neutral, negative, 
     const [isLoading, setIsLoading] = useState(true);
 
     useEffect(() => {
-        if (name || (title && positive && neutral && negative)) {
+        if (name || (title !== undefined && positive !== undefined && neutral !== undefined && negative !== undefined)) {
             setIsLoading(false);
         }
     }, [name, title, positive, neutral, negative]);
